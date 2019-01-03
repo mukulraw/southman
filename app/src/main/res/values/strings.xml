@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bigboss</string>
+
+    <string name="open">open_navigation_drawer</string>
+
+    <string name="close">close_navigation_drawer</string>
+
+</resources>
