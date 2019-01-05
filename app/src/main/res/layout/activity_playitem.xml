@@ -613,6 +613,7 @@
                                     android:layout_gravity="center"
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
+                                    android:typeface="monospace"
                                     android:padding="10dp"
                                     android:text="1" />
                             </LinearLayout>
@@ -633,6 +634,7 @@
                                     android:layout_gravity="center"
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
+                                    android:typeface="monospace"
                                     android:padding="10dp"
                                     android:text="2" />
                             </LinearLayout>
@@ -653,6 +655,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="3" />
                             </LinearLayout>
 
@@ -672,6 +675,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="4" />
                             </LinearLayout>
 
@@ -690,6 +694,7 @@
                                     android:layout_gravity="center"
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
+                                    android:typeface="monospace"
                                     android:padding="10dp"
                                     android:text="5" />
                             </LinearLayout>
@@ -710,6 +715,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="6" />
                             </LinearLayout>
 
@@ -741,6 +747,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="7" />
                             </LinearLayout>
 
@@ -761,6 +768,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="8" />
                             </LinearLayout>
 
@@ -780,6 +788,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="9" />
                             </LinearLayout>
 
@@ -798,6 +807,7 @@
                                     android:layout_gravity="center"
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
+                                    android:typeface="monospace"
                                     android:padding="10dp"
                                     android:text="0" />
                             </LinearLayout>
@@ -820,6 +830,7 @@
                                     android:paddingStart="7dp"
                                     android:paddingTop="8dp"
                                     android:paddingEnd="7dp"
+                                    android:typeface="monospace"
                                     android:paddingBottom="8dp"
                                     android:text="Delete"
                                     android:textSize="12sp" />
@@ -843,6 +854,7 @@
                                     android:background="@drawable/whitebutton"
                                     android:gravity="center"
                                     android:padding="10dp"
+                                    android:typeface="monospace"
                                     android:text="Ok" />
 
 
@@ -895,6 +907,7 @@
                     android:drawableTop="@drawable/ic_logggg"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
+                    android:typeface="monospace"
                     android:text="Quit"
                     android:textColor="#fff" />
 

@@ -23,8 +23,6 @@ public class WristWatch extends AppCompatActivity {
 
     CircleIndicator indicator;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

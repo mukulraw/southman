@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:id="@+id/receipe"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
             android:typeface="monospace" />
 
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:id="@+id/ingredients"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
             android:typeface="monospace" />
 

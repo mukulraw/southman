@@ -58,6 +58,21 @@ public class WishList extends AppCompatActivity {
         grid.setAdapter(adapter);
 
         grid.setLayoutManager(manager);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

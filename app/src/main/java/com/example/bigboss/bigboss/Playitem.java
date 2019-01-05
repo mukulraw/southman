@@ -29,9 +29,7 @@ public class Playitem extends AppCompatActivity {
 
     Button quit;
 
-    TextView name , color  , price , size , chances,
-            proof , brand , nagtiable , totalprice , totaltext , timer ,one , two , three , four , five , six , seven , eight , nine , ten , delete , ok;
-
+    TextView name , color  , price , size , chances, proof , brand , nagtiable , totalprice , totaltext , timer ,one , two , three , four , five , six , seven , eight , nine , ten , delete , ok;
 
     List<String> list;
 

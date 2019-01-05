@@ -10,7 +10,7 @@
         android:drawableStart="@drawable/rightarrow"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="5dp"
         android:typeface="monospace"
         android:id="@+id/text"
         android:drawablePadding="10dp"

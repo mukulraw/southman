@@ -155,6 +155,8 @@ public class Play extends Fragment {
 
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
         }
 
         @Override

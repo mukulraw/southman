@@ -15,7 +15,7 @@ public class SignUp extends AppCompatActivity {
 
     ImageView back;
 
-    Button male , female;
+    Button male , female , whitemale , whitefemale;
 
     TextView login;
 
@@ -45,6 +45,35 @@ public class SignUp extends AppCompatActivity {
         mobile = findViewById(R.id.mobile);
 
         login = findViewById(R.id.login);
+
+
+
+
+        whitefemale = findViewById(R.id.whitefemale);
+        whitemale = findViewById(R.id.whitemale);
+
+
+        male.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                whitemale.setVisibility(View.VISIBLE);
+                male.setVisibility(View.GONE);
+                whitefemale.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        female.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                female.setVisibility(View.GONE);
+                whitefemale.setVisibility(View.VISIBLE);
+                male.setVisibility(View.VISIBLE);
+            }
+        });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
