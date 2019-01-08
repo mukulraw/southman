@@ -12,6 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bigboss.bigboss.TabCategoryPOJO.Datum;
+import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
+import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 public class Videos extends Fragment {
 
     TabLayout tab;
@@ -30,53 +44,84 @@ public class Videos extends Fragment {
         pager = view.findViewById(R.id.pager);
         tab = view.findViewById(R.id.tab);
 
-        tab.addTab(tab.newTab().setText("Genral"));
-        tab.addTab(tab.newTab().setText("Entertainment"));
-        tab.addTab(tab.newTab().setText("Steam"));
 
 
-        adapter = new VideoAddapter(getChildFragmentManager() , 3);
-        pager.setAdapter(adapter);
-        tab.setupWithViewPager(pager);
 
-        tab.getTabAt(0).setText("Genral");
-        tab.getTabAt(1).setText("Entertainment");
-        tab.getTabAt(2).setText("Steam");
+        Bean b = (Bean)getContext().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<TabBean> call = cr.tabbean();
+        call.enqueue(new Callback<TabBean>() {
+            @Override
+            public void onResponse(Call<TabBean> call, Response<TabBean> response) {
+
+
+                for (int i = 0; i < response.body().getData().size(); i++) {
+
+                    tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
+
+                }
+
+                adapter = new VideoAddapter(getChildFragmentManager() , response.body().getData());
+                pager.setAdapter(adapter);
+                tab.setupWithViewPager(pager);
+
+                for (int i = 0; i < response.body().getData().size(); i++) {
+
+                    tab.getTabAt(i).setText(response.body().getData().get(i).getVideocatName());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TabBean> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+
+
 
         return view;
     }
-
     public class VideoAddapter extends FragmentStatePagerAdapter {
 
-        public VideoAddapter(FragmentManager fm, int tab) {
+        List<Datum>list = new ArrayList<>();
+
+        public VideoAddapter(FragmentManager fm, List<Datum>list) {
             super(fm);
+
+            this.list = list;
         }
 
         @Override
         public Fragment getItem(int i) {
 
-            if (i == 0) {
+                Genral frag = new Genral();
 
-                return new Genral();
+                Bundle b = new Bundle();
+                b.putString("catid" , list.get(i).getId());
+                frag.setArguments(b);
 
-            } else if (i == 1) {
-                return new Entertainment();
+                return frag;
 
-
-            }else if (i == 2){
-
-                return new Steam();
-            }
-
-            return null;
         }
 
         @Override
         public int getCount() {
-            return 3;
-
-
-
+            return list.size();
 
 
 

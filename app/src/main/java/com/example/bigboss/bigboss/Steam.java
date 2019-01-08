@@ -37,9 +37,9 @@ public class Steam extends Fragment {
 
         View view = inflater.inflate(R.layout.steam , container , false);
 
-        list = new ArrayList<>();
+      //  list = new ArrayList<>();
 
-        adapter = new SteamAdapter(getContext() , list);
+        adapter = new SteamAdapter(getContext() );
 
         grid = view.findViewById(R.id.grid);
 
@@ -63,12 +63,12 @@ public class Steam extends Fragment {
 
         Context context;
 
-        List<String>list = new ArrayList<>();
+      //  List<String>list = new ArrayList<>();
 
-        public SteamAdapter(Context context , List<String>list){
+        public SteamAdapter(Context context){
 
             this.context = context;
-            this.list = list;
+            //this.list = list;
 
 
         }
@@ -86,7 +86,7 @@ public class Steam extends Fragment {
         public void onBindViewHolder(@NonNull SteamAdapter.MyViewHolder myViewHolder, int i) {
 
             //String item = list.get(i);
-            myViewHolder.play.setText("");
+            /*myViewHolder.play.setText("");
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
@@ -96,16 +96,16 @@ public class Steam extends Fragment {
             loader.displayImage("" , myViewHolder.imageView , options);
 
 
-
+*/
         }
 
-        public void setgrid(List<String>list){
+      /*  public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();
         }
 
-
+*/
 
         @Override
         public int getItemCount() {
@@ -131,8 +131,17 @@ public class Steam extends Fragment {
 
                 textView = itemView.findViewById(R.id.text);
 
-               /* Intent i = new Intent(context , Videoplayer.class);
-                context.startActivity(i);*/
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context , SteamVideoPlayer.class);
+                        context.startActivity(i);
+
+
+                    }
+                });
+
             }
         }
     }

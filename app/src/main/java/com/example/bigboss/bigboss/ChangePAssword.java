@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class ChangePAssword extends AppCompatActivity {
 
@@ -15,6 +16,8 @@ public class ChangePAssword extends AppCompatActivity {
     ImageView back;
 
     EditText np , cp;
+
+    ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class ChangePAssword extends AppCompatActivity {
         np = findViewById(R.id.np);
 
         cp = findViewById(R.id.cp);
+        bar = findViewById(R.id.progress);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

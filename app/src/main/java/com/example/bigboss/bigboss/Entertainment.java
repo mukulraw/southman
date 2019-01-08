@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -31,6 +32,8 @@ public class Entertainment extends Fragment {
 
     List<String>list;
 
+    ProgressBar bar;
+
 
     @Nullable
     @Override
@@ -38,9 +41,9 @@ public class Entertainment extends Fragment {
 
         View view = inflater.inflate(R.layout.entertainment , container , false);
 
-        list = new ArrayList<>();
+       // list = new ArrayList<>();
 
-        adapter = new EntainmentAdapeter(getContext() , list);
+        adapter = new EntainmentAdapeter(getContext());
 
         grid = view.findViewById(R.id.grid);
 
@@ -51,6 +54,8 @@ public class Entertainment extends Fragment {
         grid.setAdapter(adapter);
 
 
+        bar = view.findViewById(R.id.progress);
+
 
         return view;
     }
@@ -59,12 +64,12 @@ public class Entertainment extends Fragment {
 
         Context context;
 
-        List<String>list;
+        //List<String>list;
 
-        public EntainmentAdapeter(Context context , List<String>list){
+        public EntainmentAdapeter(Context context){
 
             this.context = context;
-            this.list = list;
+            //this.list = list;
         }
 
 
@@ -95,13 +100,13 @@ public class Entertainment extends Fragment {
 
         }
 
-        public void setgrid(List<String>list){
+       /* public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();
         }
 
-
+*/
         @Override
         public int getItemCount() {
             return 18;
@@ -125,8 +130,16 @@ public class Entertainment extends Fragment {
 
                 text = itemView.findViewById(R.id.text);
 
-               /* Intent i = new Intent(context , Videoplayer.class);
-                context.startActivity(i);*/
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        Intent i = new Intent(context , Videoplayer.class);
+                        context.startActivity(i);
+                    }
+                });
             }
         }
     }

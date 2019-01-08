@@ -40,7 +40,7 @@ public class Playitem extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +50,9 @@ public class Playitem extends AppCompatActivity {
             }
         });
 
-        list = new ArrayList<>();
+        //list = new ArrayList<>();
 
-        adapter = new PlayitemAdapter(this , list);
+        adapter = new PlayitemAdapter(this);
 
         manager = new GridLayoutManager(getApplicationContext() , 1);
 
@@ -128,12 +128,12 @@ public class Playitem extends AppCompatActivity {
 
         Context context;
 
-        List<String>list = new ArrayList<>();
+       // List<String>list = new ArrayList<>();
 
-        public PlayitemAdapter(Context context , List<String>list){
+        public PlayitemAdapter(Context context){
 
             this.context = context;
-            this.list = list;
+            //this.list = list;
         }
 
 
@@ -149,19 +149,19 @@ public class Playitem extends AppCompatActivity {
         public void onBindViewHolder(@NonNull PlayitemAdapter.MyViewHolder myViewHolder, int i) {
 
 
-            String item = list.get(i);
+          //  String item = list.get(i);
 
-            myViewHolder.textView.setText("");
+          //  myViewHolder.textView.setText("");
 
 
         }
 
-        public void setgrid(List<String>list){
+      /*  public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();;
         }
-
+*/
         @Override
         public int getItemCount() {
             return 5;

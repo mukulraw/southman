@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class Forgot extends AppCompatActivity {
 
@@ -15,6 +16,8 @@ public class Forgot extends AppCompatActivity {
     ImageView back;
 
     EditText email;
+
+    ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class Forgot extends AppCompatActivity {
 
         email = findViewById(R.id.email);
 
+        bar = findViewById(R.id.progress);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +39,7 @@ public class Forgot extends AppCompatActivity {
                 finish();
             }
         });
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

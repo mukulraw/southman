@@ -1,6 +1,8 @@
 package com.example.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -21,13 +24,10 @@ import java.util.List;
 
 public class MeansWear extends Fragment {
 
-    RecyclerView grid;
 
-    GridLayoutManager manager;
+    LinearLayout top, bottom;
 
-    MeansAdapter adapeter;
-
-    List<String> list;
+    ImageView pant , shirt;
 
     @Nullable
     @Override
@@ -35,17 +35,77 @@ public class MeansWear extends Fragment {
 
         View view = inflater.inflate(R.layout.meanswear, container, false);
 
-        list = new ArrayList<>();
+        top = view.findViewById(R.id.top);
+        bottom = view.findViewById(R.id.bottom);
 
-        adapeter = new MeansAdapter(getContext(), list);
 
-        grid = view.findViewById(R.id.grid);
+        top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        manager = new GridLayoutManager(getContext(), 3);
 
-        grid.setLayoutManager(manager);
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.topdialog);
+                dialog.setCancelable(true);
+                dialog.show();
 
-        grid.setAdapter(adapeter);
+
+                RecyclerView grid = dialog.findViewById(R.id.grid);
+                GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+                MeansAdapter adapter = new MeansAdapter(getContext());
+                grid.setLayoutManager(manager);
+                grid.setAdapter(adapter);
+
+            }
+        });
+
+
+        bottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.bottomdialog);
+                dialog.setCancelable(true);
+                dialog.show();
+
+
+                RecyclerView grid = dialog.findViewById(R.id.grid);
+                GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+                BottomAdapter adapter = new BottomAdapter(getContext());
+                grid.setLayoutManager(manager);
+                grid.setAdapter(adapter);
+
+            }
+        });
+
+
+        shirt = view.findViewById(R.id.shirt);
+        pant = view.findViewById(R.id.pant);
+        shirt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(getContext(), SingleProduct.class);
+                startActivity(i);
+
+            }
+        });
+
+
+        pant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(getContext(), SingleProduct.class);
+                startActivity(i);
+
+            }
+        });
+
 
         return view;
     }
@@ -55,13 +115,13 @@ public class MeansWear extends Fragment {
 
         Context context;
 
-        List<String> list = new ArrayList<>();
+        // List<String> list = new ArrayList<>();
 
-        public MeansAdapter(Context context, List<String> list) {
+        public MeansAdapter(Context context) {
 
             this.context = context;
 
-            this.list = list;
+            //  this.list = list;
         }
 
 
@@ -77,23 +137,23 @@ public class MeansWear extends Fragment {
         public void onBindViewHolder(@NonNull MeansAdapter.MyViewHolder myViewHolder, int i) {
 
 
-            String item = list.get(i);
+           /* String item = list.get(i);
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("" ,myViewHolder. image , options);
+            loader.displayImage("" ,myViewHolder. image , options);*/
 
         }
 
-        public void setgrid(List<String> list) {
+        /* public void setgrid(List<String> list) {
 
-            this.list = list;
-            notifyDataSetChanged();
-        }
-
+             this.list = list;
+             notifyDataSetChanged();
+         }
+ */
         @Override
         public int getItemCount() {
             return 15;
@@ -114,4 +174,6 @@ public class MeansWear extends Fragment {
             }
         }
     }
+
+
 }

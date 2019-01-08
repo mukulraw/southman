@@ -33,10 +33,9 @@ public class Play extends Fragment {
 
     ImageAddapter adapter;
 
-    TextView name , color  , price , size , proof , brand , nagtiable;
+    TextView name, color, price, size, proof, brand, nagtiable;
 
-    EditText email , phone;
-
+    EditText email, phone;
 
 
     @Nullable
@@ -46,20 +45,20 @@ public class Play extends Fragment {
         View view = inflater.inflate(R.layout.play, container, false);
 
 
-        submit = view.findViewById(R.id.submit );
+        submit = view.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                Intent i = new Intent(getContext() , Playitem.class);
+                Intent i = new Intent(getContext(), Playitem.class);
                 startActivity(i);
 
             }
         });
 
 
-        pager = (AutoScrollViewPager)view. findViewById(R.id.pager);
+        pager = (AutoScrollViewPager) view.findViewById(R.id.pager);
 
         pager.setOnPageChangeListener(new MyOnPageChangeListener());
 
@@ -68,7 +67,7 @@ public class Play extends Fragment {
         //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
 
-        indicator = view. findViewById(R.id.indicator);
+        indicator = view.findViewById(R.id.indicator);
 
         adapter = new ImageAddapter(getChildFragmentManager(), 3);
 
@@ -95,44 +94,26 @@ public class Play extends Fragment {
         phone = view.findViewById(R.id.phone);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
-    public class ImageAddapter extends FragmentStatePagerAdapter{
+    public class ImageAddapter extends FragmentStatePagerAdapter {
 
 
-        public ImageAddapter(FragmentManager fm , int tab) {
+        public ImageAddapter(FragmentManager fm, int tab) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int i) {
 
-            if (i == 0){
+            if (i == 0) {
 
                 return new Image1();
-            }else if (i == 1){
+            } else if (i == 1) {
 
                 return new Image2();
-            }else if (i == 2){
+            } else if (i == 2) {
 
                 return new Image3();
             }
@@ -177,8 +158,6 @@ public class Play extends Fragment {
         // start auto scroll when onResume
         pager.startAutoScroll();
     }
-
-
 
 
 }

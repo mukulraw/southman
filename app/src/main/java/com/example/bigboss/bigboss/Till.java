@@ -37,9 +37,9 @@ public class Till extends Fragment {
 
         View vi = inflater.inflate(R.layout.till , container ,false);
 
-        list = new ArrayList<>();
+       // list = new ArrayList<>();
 
-        adapter = new TillAddapter(getContext() , list);
+        adapter = new TillAddapter(getContext());
 
         grid = vi.findViewById(R.id.grid);
 
@@ -58,14 +58,14 @@ public class Till extends Fragment {
 
 
         Context context;
-        List<String>list = new ArrayList<>();
+       // List<String>list = new ArrayList<>();
 
 
 
-        public TillAddapter(Context context , List<String>list){
+        public TillAddapter(Context context ){
 
             this.context  = context;
-            this.list = list;
+            //this.list = list;
         }
 
         @NonNull
@@ -81,7 +81,7 @@ public class Till extends Fragment {
         public void onBindViewHolder(@NonNull TillAddapter.MyViewHolder myViewHolder, int i) {
 
 
-            String item = list.get(i);
+          /*  String item = list.get(i);
             myViewHolder.name.setText("");
 
 
@@ -91,16 +91,16 @@ public class Till extends Fragment {
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage("" ,myViewHolder. imageView , options);
-
+*/
 
 
         }
 
-       public void setgrid(List<String>list){
+    /*   public void setgrid(List<String>list){
           this.list = list;
           notifyDataSetChanged();
 
-       }
+       }*/
 
         @Override
         public int getItemCount() {

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,18 +31,19 @@ public class CollerTshirt extends AppCompatActivity {
 
     CollerAdapter adapeter;
 
-    List<String>list;
+   // List<String>list;
 
+
+    ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coller_tshirt);
 
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +54,9 @@ public class CollerTshirt extends AppCompatActivity {
         });
 
 
-        list = new ArrayList<>();
+      //  list = new ArrayList<>();
 
-        adapeter = new CollerAdapter(this , list);
+        adapeter = new CollerAdapter(this );
 
         grid = findViewById(R.id.grid);
 
@@ -64,18 +66,21 @@ public class CollerTshirt extends AppCompatActivity {
 
         grid.setAdapter(adapeter);
 
+        bar = findViewById(R.id.progress);
+
+
     }
 
     public class CollerAdapter extends RecyclerView.Adapter<CollerAdapter.MyViewHolder>{
 
         Context context;
 
-        List<String>list = new ArrayList<>();
+       // List<String>list = new ArrayList<>();
 
-        public CollerAdapter(Context context , List<String>list){
+        public CollerAdapter(Context context){
 
             this.context = context;
-            this.list = list;
+            //this.list = list;
         }
 
 
@@ -92,7 +97,7 @@ public class CollerTshirt extends AppCompatActivity {
 
 
 
-            String item = list.get(i);
+          /*  String item = list.get(i);
             myViewHolder.name.setText("");
             myViewHolder.brand.setText("");
             myViewHolder.size.setText("");
@@ -106,15 +111,15 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("" ,myViewHolder. image , options);
+            loader.displayImage("" ,myViewHolder. image , options);*/
 
         }
 
-       public void setgrid(List<String>list){
+     /*  public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();
-        }
+        }*/
 
         @Override
         public int getItemCount() {

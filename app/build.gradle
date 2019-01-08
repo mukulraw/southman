@@ -45,7 +45,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-   // implementation 'com.github.developer-shivam:Crescento:1.2.1'
+    // implementation 'com.github.developer-shivam:Crescento:1.2.1'
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
 
 
@@ -53,7 +53,6 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
-
 
 
     }

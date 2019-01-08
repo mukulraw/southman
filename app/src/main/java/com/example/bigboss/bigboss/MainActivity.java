@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open, R.string.close);
@@ -76,15 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
         search = findViewById(R.id.search);
 
-        profile = findViewById(R.id.profile);
+        //profile = findViewById(R.id.profile);
 
         order = findViewById(R.id.order);
 
         wishlist = findViewById(R.id.wish);
 
-        edit = findViewById(R.id.edit);
+        //edit = findViewById(R.id.edit);
 
-        name = findViewById(R.id.name);
+       // name = findViewById(R.id.name);
 
         setting = findViewById(R.id.setting);
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener() {
+     /*   profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
             }
-        });
+        });*/
 
 
         order.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        play = findViewById(R.id.play);
+       /* play = findViewById(R.id.play);
 
         video = findViewById(R.id.video);
 
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+*/
 
 
 

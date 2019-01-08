@@ -27,9 +27,9 @@ public class SingleProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_product);
 
-        toolbar = findViewById(R.id.grid);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,11 +56,11 @@ public class SingleProduct extends AppCompatActivity {
         order = findViewById(R.id.order);
 
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+       /* DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
         ImageLoader loader = ImageLoader.getInstance();
         loader.displayImage("" , imageView , options);
 
-
+*/
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

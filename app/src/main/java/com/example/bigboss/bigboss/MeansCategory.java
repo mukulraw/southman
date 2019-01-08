@@ -30,7 +30,7 @@ public class MeansCategory extends AppCompatActivity {
 
     MAdapter adapter;
 
-    List<String>list;
+   // List<String>list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class MeansCategory extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,13 +49,12 @@ public class MeansCategory extends AppCompatActivity {
             }
         });
 
-        toolbar.setTitle("Means Wear");
 
         grid = findViewById(R.id.grid);
 
-        list = new ArrayList<>();
+      //  list = new ArrayList<>();
 
-        adapter = new MAdapter(this , list);
+        adapter = new MAdapter(this );
 
         manager = new GridLayoutManager(getApplicationContext() , 3);
 
@@ -70,14 +69,14 @@ public class MeansCategory extends AppCompatActivity {
 
         Context context;
 
-        List<String>list = new ArrayList<>();
+        //List<String>list = new ArrayList<>();
 
 
-        public MAdapter(Context context , List<String>list){
+        public MAdapter(Context context){
 
             this.context = context;
 
-            this.list = list;
+           // this.list = list;
 
 
         }
@@ -96,27 +95,27 @@ public class MeansCategory extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MAdapter.MyViewHolder myViewHolder, int i) {
 
 
-            String item = list.get(i);
+            //String item = list.get(i);
 
-            myViewHolder.name.setText("");
+//            myViewHolder.name.setText("");
 
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
+            /*DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("" ,myViewHolder. imageView , options);
+            loader.displayImage("" ,myViewHolder. imageView , options);*/
 
         }
 
-        public void setgrid(List<String>list){
+        /*public void setgrid(List<String>list){
 
             this.list = list;
             notifyDataSetChanged();
 
         }
-
+*/
         @Override
         public int getItemCount() {
             return 18;
