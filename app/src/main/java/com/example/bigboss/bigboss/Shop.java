@@ -13,6 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bigboss.bigboss.ShoptabPOJO.Datum;
+import com.example.bigboss.bigboss.ShoptabPOJO.ShopBean;
+import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 public class Shop extends Fragment {
 
     TabLayout tab;
@@ -28,24 +42,48 @@ public class Shop extends Fragment {
         View view = inflater.inflate(R.layout.shop, container, false);
 
         pager = view.findViewById(R.id.pagerr);
+
         tab = view.findViewById(R.id.tab);
 
-        tab.addTab(tab.newTab().setText("Till Day sale"));
-        tab.addTab(tab.newTab().setText("Shop by Shop"));
-        tab.addTab(tab.newTab().setText("One Day Sale"));
-        tab.addTab(tab.newTab().setText("Mens Wear Matching"));
-        tab.addTab(tab.newTab().setText("Womens Wear Matching"));
+        Bean b = (Bean)getContext().getApplicationContext();
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        adapter = new ShopAdapter(getChildFragmentManager(), 5);
-        pager.setAdapter(adapter);
-        tab.setupWithViewPager(pager);
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        tab.getTabAt(0).setText("Till Day sale");
-        tab.getTabAt(1).setText("Shop by Shop");
-        tab.getTabAt(2).setText("One Day Sale");
-        tab.getTabAt(3).setText("Mens Wear Matching");
-        tab.getTabAt(4).setText("Womens Wear Matching");
+        Call<ShopBean> call = cr.sho();
+        call.enqueue(new Callback<ShopBean>() {
+            @Override
+            public void onResponse(Call<ShopBean> call, Response<ShopBean> response) {
+
+                for (int i = 0; i < response.body().getData().size(); i++) {
+
+                    tab.addTab(tab.newTab().setText(response.body().getData().get(i).getName()));
+
+                }
+
+                adapter = new ShopAdapter(getChildFragmentManager() , response.body().getData());
+                pager.setAdapter(adapter);
+                tab.setupWithViewPager(pager);
+
+                for (int i = 0; i < response.body().getData().size(); i++) {
+
+                    tab.getTabAt(i).setText(response.body().getData().get(i).getName());
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ShopBean> call, Throwable t) {
+
+            }
+        });
+
 
 
         return view;
@@ -54,40 +92,29 @@ public class Shop extends Fragment {
 
     public class ShopAdapter extends FragmentStatePagerAdapter {
 
-        public ShopAdapter(FragmentManager fm, int tab) {
+        List<Datum>list = new ArrayList<>();
+
+        public ShopAdapter(FragmentManager fm, List<Datum>list) {
             super(fm);
+
+            this.list = list;
         }
 
         @Override
         public Fragment getItem(int i) {
 
-            if (i == 0) {
+          Till till = new Till();
 
-                return new Till();
+          Bundle b = new Bundle();
+          b.putString("Catid" , list.get(i).getId());
+          till.setArguments(b);
 
-            } else if (i == 1) {
-                return new Shopby();
-
-
-            } else if (i == 2) {
-
-                return new Onedaysale();
-
-
-            } else if (i == 3) {
-
-                return new MeansWear();
-            } else if (i == 4) {
-
-                return new Womenwear();
-            }
-
-            return null;
+            return till;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return list.size();
         }
     }
 

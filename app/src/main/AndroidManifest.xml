@@ -8,10 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".Bean"
         android:allowBackup="true"
         android:icon="@drawable/man"
         android:label="@string/app_name"
-        android:name=".Bean"
         android:roundIcon="@drawable/man"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -42,7 +42,11 @@
         <activity android:name=".Setting" />
         <activity android:name=".EditProfile" />
         <activity android:name=".SteamVideoPlayer" />
-        <activity android:name=".tab"></activity>
+        <activity android:name=".tab" />
+        <activity android:name=".ShopMens" />
+        <activity android:name=".ShopCollershirt" />
+        <activity android:name=".ShopSingleProduct" />
+        <activity android:name=".OneMenswear"></activity>
     </application>
 
 </manifest>

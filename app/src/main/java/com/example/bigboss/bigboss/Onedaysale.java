@@ -12,7 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.bigboss.bigboss.ShopTillPOJO.Datum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Onedaysale extends Fragment {
 
@@ -23,15 +29,25 @@ public class Onedaysale extends Fragment {
 
     OnedayAdapter adapter;
 
+    String catid;
+
+    ProgressBar bar;
+
+    List<Datum>list;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View vi = inflater.inflate(R.layout.oneday , container , false);
+        View vi = inflater.inflate(R.layout.till , container , false);
+
+        catid = getArguments().getString("catid");
+
+        list = new ArrayList<>();
 
         grid = vi.findViewById(R.id.grid);
 
-        adapter = new OnedayAdapter(getContext());
+        adapter = new OnedayAdapter(getContext() , list);
 
         manager = new GridLayoutManager(getContext() , 3);
 
@@ -40,6 +56,8 @@ public class Onedaysale extends Fragment {
         grid.setLayoutManager(manager);
 
         return vi;
+
+
     }
 
 
@@ -48,21 +66,21 @@ public class Onedaysale extends Fragment {
 
 
         Context context;
-        // List<String>list = new ArrayList<>();
+         List<Datum> list = new ArrayList<>();
 
 
 
-        public OnedayAdapter(Context context ){
+        public OnedayAdapter(Context context , List<Datum>list ){
 
             this.context  = context;
-            //this.list = list;
+            this.list = list;
         }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.one_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.till_list_model , viewGroup , false);
 
             return new MyViewHolder(view);
         }
@@ -71,11 +89,11 @@ public class Onedaysale extends Fragment {
         public void onBindViewHolder(@NonNull OnedayAdapter.MyViewHolder myViewHolder, int i) {
 
 
-          /*  String item = list.get(i);
-            myViewHolder.name.setText("");
+            final Datum item = list.get(i);
+            myViewHolder.name.setText(item.getSubcatName());
 
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
+            /*DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
@@ -84,17 +102,33 @@ public class Onedaysale extends Fragment {
 */
 
 
+
+          myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Intent i = new Intent(context , MeansCategory.class);
+                    i.putExtra("id" , item.getId());
+                    context.startActivity(i);
+
+
+
+                }
+            });
+
+
         }
 
-    /*   public void setgrid(List<String>list){
+       public void setgrid(List<Datum>list){
           this.list = list;
           notifyDataSetChanged();
 
-       }*/
+       }
 
         @Override
         public int getItemCount() {
-            return 15;
+            return list.size();
         }
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -109,16 +143,12 @@ public class Onedaysale extends Fragment {
                 name = itemView.findViewById(R.id.name);
                 imageView = itemView.findViewById(R.id.tshirt);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-
-                        Intent i = new Intent(context , MeansCategory.class);
-                        context.startActivity(i);
-                    }
-                });
             }
         }
     }
+
+
+
+
 }
