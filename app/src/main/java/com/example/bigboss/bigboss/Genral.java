@@ -2,6 +2,7 @@ package com.example.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ public class Genral extends Fragment {
 
     GenralAdapter adapter;
 
-   List<Datum>list;
+    List<Datum> list;
 
     ProgressBar bar;
 
@@ -55,8 +57,6 @@ public class Genral extends Fragment {
         View view = inflater.inflate(R.layout.genral, container, false);
 
         catid = getArguments().getString("catid");
-
-
 
         list = new ArrayList<>();
 
@@ -72,15 +72,9 @@ public class Genral extends Fragment {
 
         bar = view.findViewById(R.id.progress);
 
-
-
-
-
-
-
-
-
         return view;
+
+
     }
 
     public class GenralAdapter extends RecyclerView.Adapter<GenralAdapter.MyViewHolder> {
@@ -109,7 +103,7 @@ public class Genral extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull GenralAdapter.MyViewHolder myViewHolder, int i) {
 
-            Datum item = list.get(i);
+            final Datum item = list.get(i);
 
             myViewHolder.textView.setText(item.getDescription());
 
@@ -118,6 +112,18 @@ public class Genral extends Fragment {
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(item.getThumbnail(), myViewHolder.imageView, options);
+
+            myViewHolder.play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(null, Uri.parse("ytv://"+v), getContext(), Videoplayer.class);
+                    intent.putExtra("id" , item.getId());
+                    startActivity(intent);
+
+
+                }
+            });
 
 
         }
@@ -140,22 +146,20 @@ public class Genral extends Fragment {
 
             TextView textView;
 
-            public MyViewHolder(@NonNull View itemView) {
+            Button play;
+
+            public MyViewHolder(@NonNull final View itemView) {
                 super(itemView);
 
                 textView = itemView.findViewById(R.id.text);
 
                 imageView = itemView.findViewById(R.id.image);
+                play = itemView.findViewById(R.id.play);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        Intent i = new Intent(context, Videoplayer.class);
-                        context.startActivity(i);
 
-                    }
-                });
+
+
             }
         }
     }
@@ -183,14 +187,11 @@ public class Genral extends Fragment {
             public void onResponse(Call<GenralBean> call, Response<GenralBean> response) {
 
 
-                if (Objects.equals(response.body().getStatus() , "1")){
-
+                if (Objects.equals(response.body().getStatus(), "1")) {
 
                     adapter.setgrid(response.body().getData());
 
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
 

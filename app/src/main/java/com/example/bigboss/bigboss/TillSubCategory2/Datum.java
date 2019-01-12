@@ -15,6 +15,9 @@ public class Datum {
     @SerializedName("subcat_name")
     @Expose
     private String subcatName;
+    @SerializedName("image_url")
+    @Expose
+    private String imageUrl;
     @SerializedName("status")
     @Expose
     private String status;
@@ -44,6 +47,14 @@ public class Datum {
 
     public void setSubcatName(String subcatName) {
         this.subcatName = subcatName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getStatus() {

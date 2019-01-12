@@ -4,8 +4,10 @@ import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.example.bigboss.bigboss.ShopTillPOJO.TillBean;
 import com.example.bigboss.bigboss.ShoptabPOJO.ShopBean;
 import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
+import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
+import com.example.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 
 import java.util.List;
 
@@ -32,11 +34,11 @@ public interface AllApiIneterface {
     @GET("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
     Call<ShopBean> sho();
 
+
     @Multipart
     @POST("bigboss/?rest_route=/GetShopsubCategory1/v1/get-shop-sub-category1")
     Call<TillBean> till(
             @Part("catId") String catid);
-
 
 
     @Multipart
@@ -51,5 +53,15 @@ public interface AllApiIneterface {
             @Part("productId") String catid);
 
 
+    @Multipart
+    @POST("bigboss/?rest_route=/GetProductBysubcatid/v1/get-product-by-subcat")
+    Call<ShopProductBean> shopproduct(
+            @Part("subCatId") String subcatid);
+
+
+    @Multipart
+    @POST("bigboss/?rest_route=/GetVideoByCategory/v1/video-by-category")
+    Call<VideourlBean> video(
+            @Part("catId") String cat);
 
 }

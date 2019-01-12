@@ -77,7 +77,7 @@ public class ShopSingleProduct extends AppCompatActivity {
 
                 TextView mobile = dialog.findViewById(R.id.mobile);
 
-                Button watshp = dialog.findViewById(R.id.watshp);
+                Button watshp = dialog.findViewById(R.id.whatsapp);
 
                 Button call = dialog.findViewById(R.id.call);
 

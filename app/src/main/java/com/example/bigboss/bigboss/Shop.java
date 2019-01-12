@@ -106,7 +106,9 @@ public class Shop extends Fragment {
           Till till = new Till();
 
           Bundle b = new Bundle();
+
           b.putString("Catid" , list.get(i).getId());
+
           till.setArguments(b);
 
             return till;

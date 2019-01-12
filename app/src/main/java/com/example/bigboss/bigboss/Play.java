@@ -16,12 +16,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
+import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Play extends Fragment {
 
@@ -37,6 +48,11 @@ public class Play extends Fragment {
 
     EditText email, phone;
 
+    ProgressBar bar;
+    String id;
+
+   // List<ProductInfo>list;
+
 
     @Nullable
     @Override
@@ -44,8 +60,14 @@ public class Play extends Fragment {
 
         View view = inflater.inflate(R.layout.play, container, false);
 
+        //id = getArguments().getString("id");
+
+       // list = new ArrayList<>();
 
         submit = view.findViewById(R.id.submit);
+
+        bar = view.findViewById(R.id.progress);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +91,11 @@ public class Play extends Fragment {
 
         indicator = view.findViewById(R.id.indicator);
 
-        adapter = new ImageAddapter(getChildFragmentManager(), 3);
-
+       adapter = new ImageAddapter(getChildFragmentManager(), 3);
         pager.setAdapter(adapter);
-
         indicator.setViewPager(pager);
+
+
 
         name = view.findViewById(R.id.namee);
 
@@ -94,18 +116,85 @@ public class Play extends Fragment {
         phone = view.findViewById(R.id.phone);
 
 
+
+       /* bar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getContext().getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<ShopProductBean> call = cr.shopproduct(id);
+        call.enqueue(new Callback<ShopProductBean>() {
+            @Override
+            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+
+                for (int i = 0; i < response.body().getProductInfo().size(); i++) {
+
+                    pager.setScrollDurationFactor(response.body().getThumb().get(i).get1());
+
+                }
+
+                adapter = new ImageAddapter(getChildFragmentManager() , response.body().getProductInfo());
+
+
+                name.setText(response.body().getProductInfo().get(0).getProductTitle());
+                price.setText(response.body().getProductInfo().get(0).getPrice());
+                brand.setText(response.body().getProductInfo().get(0).getBrand());
+                color.setText(response.body().getProductInfo().get(0).getColor());
+                size.setText(response.body().getProductInfo().get(0).getSize());
+                nagtiable.setText(response.body().getProductInfo().get(0).getNegotiable());
+                //proof.setText(response.body().getProductInfo().get(0).get());
+
+
+                bar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
         return view;
     }
 
     public class ImageAddapter extends FragmentStatePagerAdapter {
 
 
+       // List<ProductInfo>list = new ArrayList<>();
+
         public ImageAddapter(FragmentManager fm, int tab) {
             super(fm);
+
+            //this.list = list;
         }
 
         @Override
         public Fragment getItem(int i) {
+
+
+
 
             if (i == 0) {
 

@@ -24,7 +24,6 @@
                android:layout_marginTop="10dp"
                android:id="@+id/tshirt"
                android:layout_centerHorizontal="true"
-               android:src="@drawable/ic_tshirt"
                android:padding="10dp"/>
 
 

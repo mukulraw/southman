@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class Setting extends AppCompatActivity {
@@ -14,12 +15,15 @@ public class Setting extends AppCompatActivity {
     TextView logout;
 
     TextView change;
+
+    ImageButton back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-       // toolbar = findViewById(R.id.toolbar);
+        // toolbar = findViewById(R.id.toolbar);
       /*  setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -35,7 +39,7 @@ public class Setting extends AppCompatActivity {
         toolbar.setTitle("Setting");*/
 
         /*logout = findViewById(R.id.textView75);
-       *//* change = findViewById(R.id.textView76);
+         *//* change = findViewById(R.id.textView76);
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,5 +56,16 @@ public class Setting extends AppCompatActivity {
                 finish();
             }
         });*/
+
+        back = findViewById(R.id.imageButton4);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+
+            }
+        });
     }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 public class GenralBean {
 
-
     @SerializedName("status")
     @Expose
     private String status;

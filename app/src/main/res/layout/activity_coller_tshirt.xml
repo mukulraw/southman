@@ -38,7 +38,7 @@
                     android:textColor="#000"
                     android:textSize="18sp"
                     android:layout_centerVertical="true"
-                    android:text="Coller-T-Shirts"/>
+                    android:id="@+id/title"/>
 
 
             </RelativeLayout>

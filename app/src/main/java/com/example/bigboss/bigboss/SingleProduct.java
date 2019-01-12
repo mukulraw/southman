@@ -7,10 +7,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SingleProduct extends AppCompatActivity {
 
@@ -18,14 +27,21 @@ public class SingleProduct extends AppCompatActivity {
 
     Button order;
 
-    TextView name , brand , color , size , negitable , price;
+    TextView name, brand, color, size, negitable, price, title;
 
     ImageView imageView;
+
+    ProgressBar bar;
+
+    String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_product);
+
+        id = getIntent().getStringExtra("id");
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,6 +54,9 @@ public class SingleProduct extends AppCompatActivity {
                 finish();
             }
         });
+        title = findViewById(R.id.title);
+
+        title.setText(getIntent().getStringExtra("text"));
 
         name = findViewById(R.id.name);
 
@@ -55,12 +74,59 @@ public class SingleProduct extends AppCompatActivity {
 
         order = findViewById(R.id.order);
 
+        bar = findViewById(R.id.progress);
 
-       /* DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
-        ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage("" , imageView , options);
 
-*/
+
+
+        bar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<ShopProductBean> call = cr.shopproduct(id);
+
+        call.enqueue(new Callback<ShopProductBean>() {
+            @Override
+            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+
+                name.setText(response.body().getProductInfo().get(0).getProductTitle());
+
+                brand.setText(response.body().getProductInfo().get(0).getBrand());
+
+                color.setText(response.body().getProductInfo().get(0).getColor());
+
+                size.setText(response.body().getProductInfo().get(0).getSize());
+
+                price.setText(response.body().getProductInfo().get(0).getPrice());
+
+                negitable.setText(response.body().getProductInfo().get(0).getNegotiable());
+
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(response.body().getProductInfo().get(0).getProductImage(), imageView, options);
+
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+
+
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +143,7 @@ public class SingleProduct extends AppCompatActivity {
 
                 TextView mobile = dialog.findViewById(R.id.mobile);
 
-                Button watshp = dialog.findViewById(R.id.watshp);
+                Button watshp = dialog.findViewById(R.id.whatsapp);
 
                 Button call = dialog.findViewById(R.id.call);
 
@@ -85,7 +151,6 @@ public class SingleProduct extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        finish();
                         dialog.dismiss();
                     }
                 });
@@ -94,7 +159,7 @@ public class SingleProduct extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        finish();
+
                         dialog.dismiss();
                     }
                 });

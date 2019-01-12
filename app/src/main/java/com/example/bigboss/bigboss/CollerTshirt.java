@@ -15,11 +15,21 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
+import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
+import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class CollerTshirt extends AppCompatActivity {
 
@@ -31,15 +41,20 @@ public class CollerTshirt extends AppCompatActivity {
 
     CollerAdapter adapeter;
 
-   // List<String>list;
+    List<ProductInfo> list;
 
+    String id;
 
     ProgressBar bar;
+
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coller_tshirt);
+
+        id = getIntent().getStringExtra("id");
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,13 +69,18 @@ public class CollerTshirt extends AppCompatActivity {
         });
 
 
-      //  list = new ArrayList<>();
 
-        adapeter = new CollerAdapter(this );
+        list = new ArrayList<>();
+
+        adapeter = new CollerAdapter(this, list);
 
         grid = findViewById(R.id.grid);
 
-        manager = new GridLayoutManager(this , 1);
+        title = findViewById(R.id.title);
+
+        title.setText(getIntent().getStringExtra("text"));
+
+        manager = new GridLayoutManager(this, 1);
 
         grid.setLayoutManager(manager);
 
@@ -68,19 +88,51 @@ public class CollerTshirt extends AppCompatActivity {
 
         bar = findViewById(R.id.progress);
 
+        bar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<ShopProductBean> call = cr.shopproduct(id);
+
+        call.enqueue(new Callback<ShopProductBean>() {
+            @Override
+            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+
+
+                adapeter.setgrid(response.body().getProductInfo());
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+
 
     }
 
-    public class CollerAdapter extends RecyclerView.Adapter<CollerAdapter.MyViewHolder>{
+    public class CollerAdapter extends RecyclerView.Adapter<CollerAdapter.MyViewHolder> {
 
         Context context;
 
-       // List<String>list = new ArrayList<>();
+        List<ProductInfo> list = new ArrayList<>();
 
-        public CollerAdapter(Context context){
+        public CollerAdapter(Context context, List<ProductInfo> list) {
 
             this.context = context;
-            //this.list = list;
+            this.list = list;
         }
 
 
@@ -88,7 +140,7 @@ public class CollerTshirt extends AppCompatActivity {
         @Override
         public CollerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.coller_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.coller_list_model, viewGroup, false);
             return new MyViewHolder(view);
         }
 
@@ -96,14 +148,14 @@ public class CollerTshirt extends AppCompatActivity {
         public void onBindViewHolder(@NonNull CollerAdapter.MyViewHolder myViewHolder, int i) {
 
 
+            final ProductInfo item = list.get(i);
 
-          /*  String item = list.get(i);
-            myViewHolder.name.setText("");
-            myViewHolder.brand.setText("");
-            myViewHolder.size.setText("");
-            myViewHolder.prices.setText("");
-            myViewHolder.color.setText("");
-            myViewHolder.negtiable.setText("");
+            myViewHolder.name.setText(item.getProductTitle());
+            myViewHolder.brand.setText(item.getBrand());
+            myViewHolder.size.setText(item.getSize());
+            myViewHolder.prices.setText(item.getPrice());
+            myViewHolder.color.setText(item.getColor());
+            myViewHolder.negotiable.setText(item.getNegotiable());
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
@@ -111,27 +163,41 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("" ,myViewHolder. image , options);*/
+            loader.displayImage(item.getProductImage(), myViewHolder.image, options);
+
+
+            myViewHolder. itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(context, SingleProduct.class);
+
+                    i.putExtra("id"  , item.getId());
+
+                    i.putExtra("text"  , item.getProductTitle());
+
+                    context.startActivity(i);
+                }
+            });
 
         }
 
-     /*  public void setgrid(List<String>list){
+        public void setgrid(List<ProductInfo> list) {
 
             this.list = list;
             notifyDataSetChanged();
-        }*/
+        }
 
         @Override
         public int getItemCount() {
-            return 15;
+            return list.size();
         }
 
-        public class MyViewHolder extends RecyclerView.ViewHolder{
+        public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name , brand , size , prices , color , negtiable;
+            TextView name, brand, size, prices, color, negotiable;
 
             ImageView image;
-
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -141,22 +207,13 @@ public class CollerTshirt extends AppCompatActivity {
                 size = itemView.findViewById(R.id.size);
                 prices = itemView.findViewById(R.id.price);
                 color = itemView.findViewById(R.id.color);
-                negtiable = itemView.findViewById(R.id.nagtiable);
+                negotiable = itemView.findViewById(R.id.negotiable);
                 image = itemView.findViewById(R.id.image);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        Intent i = new Intent(context ,SingleProduct.class );
-                        context.startActivity(i);
-                    }
-                });
             }
         }
     }
-
-
 
 
 }

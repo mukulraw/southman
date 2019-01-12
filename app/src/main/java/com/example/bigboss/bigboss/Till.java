@@ -54,7 +54,7 @@ public class Till extends Fragment {
 
         View vi = inflater.inflate(R.layout.till, container, false);
 
-        catid = getArguments().getString("catid");
+        catid = getArguments().getString("Catid");
 
         list = new ArrayList<>();
 
@@ -68,8 +68,9 @@ public class Till extends Fragment {
 
         grid.setLayoutManager(manager);
 
-
         bar = vi.findViewById(R.id.progress);
+
+
 
         return vi;
 
@@ -103,15 +104,15 @@ public class Till extends Fragment {
 
 
             final Datum item = list.get(i);
+
             myViewHolder.name.setText(item.getSubcatName());
 
-
-           /* DisplayImageOptions options = new DisplayImageOptions.Builder().
+            DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.get ,myViewHolder. imageView , options);*/
+            loader.displayImage(item.getImageUrl() ,myViewHolder. imageView , options);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +122,7 @@ public class Till extends Fragment {
 
                     Intent i = new Intent(context, MeansCategory.class);
                     i.putExtra("id" , item.getId());
+                    i.putExtra("text" , item.getSubcatName());
                     context.startActivity(i);
                 }
             });

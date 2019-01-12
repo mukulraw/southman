@@ -44,9 +44,6 @@ public class Videos extends Fragment {
         pager = view.findViewById(R.id.pager);
         tab = view.findViewById(R.id.tab);
 
-
-
-
         Bean b = (Bean)getContext().getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()

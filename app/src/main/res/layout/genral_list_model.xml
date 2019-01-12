@@ -64,7 +64,7 @@
                 android:padding="5dp"
                 android:typeface="monospace"
                 android:id="@+id/text"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry.t is a long established fact. " />
+                />
 
 
         </LinearLayout>

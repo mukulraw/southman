@@ -10,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -31,20 +32,19 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_centerVertical="true"
-                        android:background="#fff"
-                        >
+                        android:background="#fff">
 
                     </android.support.v7.widget.Toolbar>
 
 
                     <TextView
+                        android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Coller-T-Shirts"
                         android:layout_centerInParent="true"
-                        android:layout_centerVertical="true"/>
-
-
+                        android:layout_centerVertical="true"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
 
 
                 </RelativeLayout>
@@ -66,13 +66,12 @@
 
 
                     <ImageView
+                        android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:id="@+id/image"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_tshirt" />
+                        android:padding="10dp" />
 
 
                     <RelativeLayout
@@ -90,12 +89,14 @@
 
 
                             <TextView
+                                android:id="@+id/name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
-                                android:id="@+id/name"
-                                android:text="Mens Blue full Shirt"
+                                android:paddingStart="2dp"
+                                android:textColor="#000"
+                                android:textSize="16sp"
                                 android:typeface="monospace" />
 
                             <LinearLayout
@@ -145,7 +146,6 @@
                                         android:id="@+id/brand"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Arrow"
                                         android:typeface="monospace" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -197,7 +197,6 @@
                                         android:id="@+id/color"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Dark Blue"
                                         android:typeface="monospace" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -249,7 +248,6 @@
                                         android:id="@+id/size"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="S ,XL"
                                         android:typeface="monospace" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -301,7 +299,6 @@
                                         android:id="@+id/price"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="500"
                                         android:typeface="monospace" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -326,7 +323,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Nagtiable"
+                                        android:text="Negotiable"
                                         android:typeface="monospace" />
 
                                 </LinearLayout>
@@ -355,7 +352,6 @@
                                         android:id="@+id/nagtiable"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"
                                         android:typeface="monospace" />
 
                                 </LinearLayout>
@@ -369,8 +365,8 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="10dp"
-                            android:padding="10dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:padding="10dp">
 
 
                             <ImageView
@@ -381,12 +377,12 @@
 
 
                             <Button
+                                android:id="@+id/order"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/button_round"
                                 android:minWidth="0dp"
                                 android:minHeight="0dp"
-                                android:id="@+id/order"
                                 android:padding="5dp"
                                 android:paddingStart="10dp"
                                 android:paddingTop="5dp"
@@ -424,88 +420,87 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="More Details"
                         android:padding="5dp"
+                        android:text="More Details"
                         android:textSize="18sp"
                         android:typeface="monospace" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:padding="5dp"
                         android:id="@+id/text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
 
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:padding="5dp"
-                        android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
+                        android:padding="5dp"
                         android:text="* Lorem Ipsum is simply dummy text. " />
-
 
 
                 </LinearLayout>
@@ -524,10 +519,6 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
-
-
-
 
 
 </android.support.v4.widget.NestedScrollView>

@@ -49,6 +49,8 @@ public class MeansCategory extends AppCompatActivity {
 
     String id;
 
+    TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,9 @@ public class MeansCategory extends AppCompatActivity {
             }
         });
 
+        title = findViewById(R.id.title);
+
+        title.setText(getIntent().getStringExtra("text"));
 
         grid = findViewById(R.id.grid);
 
@@ -110,7 +115,7 @@ public class MeansCategory extends AppCompatActivity {
                     Toast.makeText(MeansCategory.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                bar.setVisibility(View.VISIBLE);
+                bar.setVisibility(View.GONE);
             }
 
             @Override
@@ -154,17 +159,31 @@ public class MeansCategory extends AppCompatActivity {
         public void onBindViewHolder(@NonNull MAdapter.MyViewHolder myViewHolder, int i) {
 
 
-            Datum item = list.get(i);
+            final Datum item = list.get(i);
 
             myViewHolder.name.setText(item.getSubcatName());
 
 
-            /*DisplayImageOptions options = new DisplayImageOptions.Builder().
+            DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("" ,myViewHolder. imageView , options);*/
+            loader.displayImage(item.getImageUrl(), myViewHolder.imageView, options);
+
+
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(context, CollerTshirt.class);
+                    i.putExtra("id", item.getId());
+                    i.putExtra("text", item.getSubcatName());
+                    context.startActivity(i);
+
+
+                }
+            });
 
         }
 
@@ -193,16 +212,7 @@ public class MeansCategory extends AppCompatActivity {
 
                 name = itemView.findViewById(R.id.name);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        Intent i = new Intent(context, CollerTshirt.class);
-                        context.startActivity(i);
-
-
-                    }
-                });
             }
         }
     }

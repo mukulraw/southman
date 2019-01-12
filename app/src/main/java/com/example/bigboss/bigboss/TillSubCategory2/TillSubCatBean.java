@@ -41,4 +41,5 @@ public class TillSubCatBean {
     public void setData(List<Datum> data) {
         this.data = data;
     }
+
 }

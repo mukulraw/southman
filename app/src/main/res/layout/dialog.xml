@@ -36,7 +36,9 @@
                 android:id="@+id/mobile"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -62,6 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Product code"
+                        android:paddingEnd="10dp"
                         android:typeface="monospace" />
                 </LinearLayout>
 
@@ -98,42 +101,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:weightSum="2"
                 android:padding="10dp"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="match_parent"
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_round"
-                    android:drawablePadding="5dp"
-                    android:drawableStart="@drawable/call"
-                    android:paddingStart="5dp"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:textSize="12sp"
-                    android:layout_weight="1"
-                    android:id="@+id/watshp"
-                    android:text="Watshp Now" />
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/whatsapp"
+                        android:typeface="monospace"
+                        android:background="@drawable/button_round"
+                        android:layout_marginEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:textSize="12sp"
+                        android:drawableStart="@drawable/call"
+                        android:text="Whatsapp Now"
+                        />
 
 
+                </LinearLayout>
 
-                <Button
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_round"
-                    android:drawablePadding="5dp"
-                    android:layout_weight="1"
-                    android:paddingStart="5dp"
-                    android:textSize="12sp"
-                    android:drawableStart="@drawable/call"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:id="@+id/call"
-                    android:text="Call Now" />
+                    android:layout_weight="1">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_round"
+                        android:id="@+id/call"
+                        android:textSize="12sp"
+                        android:typeface="monospace"
+                        android:layout_marginStart="5dp"
+                        android:drawableStart="@drawable/call"
+                        android:paddingStart="30dp"
+                        android:paddingEnd="30dp"
+                        android:text="call"
+                        />
+
+
+
+                </LinearLayout>
+
 
 
 

@@ -7,7 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
+
+        android:usesCleartextTraffic="true"
         android:name=".Bean"
         android:allowBackup="true"
         android:icon="@drawable/man"
@@ -15,13 +18,10 @@
         android:roundIcon="@drawable/man"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
+
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".SignUp" />
         <activity android:name=".Forgot" />
         <activity android:name=".ChangePAssword" />
@@ -31,7 +31,7 @@
         <activity android:name=".CollerTshirt" />
         <activity android:name=".MeansCategory" />
         <activity android:name=".SingleProduct" />
-        <activity android:name=".Videoplayer" />
+        <activity android:name="Videoplayer" />
         <activity android:name=".WristWatch" />
         <activity android:name=".Playitem" />
         <activity android:name=".Notification" />
@@ -46,7 +46,22 @@
         <activity android:name=".ShopMens" />
         <activity android:name=".ShopCollershirt" />
         <activity android:name=".ShopSingleProduct" />
-        <activity android:name=".OneMenswear"></activity>
+        <activity android:name=".OneMenswear" />
+        <activity android:name=".Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Sliders" />
+        <activity android:name=".Youtube">
+
+
+        </activity>
+
+
+
     </application>
 
 </manifest>
