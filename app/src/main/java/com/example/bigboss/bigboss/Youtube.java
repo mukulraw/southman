@@ -18,13 +18,11 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class Youtube extends YouTubeBaseActivity {
 
-
     Button play;
 
     YouTubePlayerView youTubePlayerView;
 
     YouTubePlayer.OnInitializedListener onInitializedListener;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

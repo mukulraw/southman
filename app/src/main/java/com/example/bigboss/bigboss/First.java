@@ -19,20 +19,20 @@ public class First extends Fragment {
 
     TextView next;
 
-ViewPager pager;
+    ViewPager pager;
 
-public void setData(ViewPager pager)
-{
-    this.pager = pager;
-}
+    public void setData(ViewPager pager) {
+        this.pager = pager;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.first , container , false);
+        View view = inflater.inflate(R.layout.first, container, false);
 
         next = view.findViewById(R.id.next);
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
