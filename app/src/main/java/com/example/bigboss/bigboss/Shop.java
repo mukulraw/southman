@@ -11,11 +11,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bigboss.bigboss.ShoptabPOJO.Datum;
 import com.example.bigboss.bigboss.ShoptabPOJO.ShopBean;
 import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ public class Shop extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.shop, container, false);
 
@@ -62,7 +66,7 @@ public class Shop extends Fragment {
 
                 for (int i = 0; i < response.body().getData().size(); i++) {
 
-                    tab.addTab(tab.newTab().setText(response.body().getData().get(i).getName()));
+                    tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName())));
 
                 }
 
@@ -72,10 +76,14 @@ public class Shop extends Fragment {
 
                 for (int i = 0; i < response.body().getData().size(); i++) {
 
-                    tab.getTabAt(i).setText(response.body().getData().get(i).getName());
+                    tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
 
                 }
 
+                /*tab.getTabAt(0).setIcon(R.drawable.ic_badge);
+                tab.getTabAt(1).setIcon(R.drawable.ic_shop_store_frontal_building);
+                tab.getTabAt(2).setIcon(R.drawable.ic_wedding_suit);
+*/
             }
 
             @Override
@@ -103,21 +111,55 @@ public class Shop extends Fragment {
         @Override
         public Fragment getItem(int i) {
 
-          Till till = new Till();
+            if (list.get(i).getMainCat().equals("shop"))
+            {
+                Till till = new Till();
 
-          Bundle b = new Bundle();
+                Bundle b = new Bundle();
 
-          b.putString("Catid" , list.get(i).getId());
+                b.putString("Catid" , list.get(i).getId());
 
-          till.setArguments(b);
+                till.setArguments(b);
 
-            return till;
+                return till;
+            }
+            else
+            {
+                MeansWear till = new MeansWear();
+
+                Bundle b = new Bundle();
+
+                b.putString("Catid" , list.get(i).getId());
+
+                till.setArguments(b);
+
+                return till;
+            }
+
+
         }
 
         @Override
         public int getCount() {
             return list.size();
         }
+    }
+
+
+    View getCustomView(LayoutInflater inflater , String url , String name)
+    {
+        View view = inflater.inflate(R.layout.tabs_layout , null);
+
+        TextView tname = view.findViewById(R.id.textView3);
+        ImageView timage = view.findViewById(R.id.imageView);
+
+        tname.setText(name);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(url , timage , options);
+
+        return view;
     }
 
 

@@ -1,28 +1,21 @@
-package com.example.bigboss.bigboss.ShoptabPOJO;
+package com.example.bigboss.bigboss.locationPOJO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Datum {
-
     @SerializedName("id")
     @Expose
     private String id;
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("main_cat")
-    @Expose
-    private String mainCat;
-    @SerializedName("cat_url")
-    @Expose
-    private String catUrl;
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("created_date")
+    @SerializedName("created")
     @Expose
-    private String createdDate;
+    private String created;
 
     public String getId() {
         return id;
@@ -40,22 +33,6 @@ public class Datum {
         this.name = name;
     }
 
-    public String getMainCat() {
-        return mainCat;
-    }
-
-    public void setMainCat(String mainCat) {
-        this.mainCat = mainCat;
-    }
-
-    public String getCatUrl() {
-        return catUrl;
-    }
-
-    public void setCatUrl(String catUrl) {
-        this.catUrl = catUrl;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -64,12 +41,11 @@ public class Datum {
         this.status = status;
     }
 
-    public String getCreatedDate() {
-        return createdDate;
+    public String getCreated() {
+        return created;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
+    public void setCreated(String created) {
+        this.created = created;
     }
-
 }

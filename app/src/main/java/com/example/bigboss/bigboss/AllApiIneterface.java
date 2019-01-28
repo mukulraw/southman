@@ -8,6 +8,8 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.example.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
+import com.example.bigboss.bigboss.locationPOJO.locationBean;
+import com.example.bigboss.bigboss.matchingPOJO.matchingBean;
 
 import java.util.List;
 
@@ -33,6 +35,10 @@ public interface AllApiIneterface {
 
     @GET("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
     Call<ShopBean> sho();
+
+
+    @GET("bigboss/?rest_route=/GetLocationCategory/v1/location-list")
+    Call<locationBean> getLocations();
 
 
     @Multipart
@@ -63,5 +69,10 @@ public interface AllApiIneterface {
     @POST("bigboss/?rest_route=/GetVideoByCategory/v1/video-by-category")
     Call<VideourlBean> video(
             @Part("catId") String cat);
+
+    @Multipart
+    @POST("bigboss/?rest_route=/GetMatchingProduct/v1/matching-product")
+    Call<matchingBean> getMatchingData(
+            @Part("matchingId") String cat);
 
 }

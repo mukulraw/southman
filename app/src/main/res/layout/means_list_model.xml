@@ -23,9 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/tshirt"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_tshirt"
                 android:padding="10dp"/>
 
 
@@ -34,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/name"
+
                 android:typeface="monospace"
                 android:gravity="center"
                 android:text="Mens wear"/>
@@ -61,7 +59,7 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_tshirt"
+                android:id="@+id/tshirt"
                 />
 
 
@@ -71,6 +69,7 @@
                 android:textColor="#000"
                 android:textSize="18sp"
                 android:paddingStart="10dp"
+                android:id="@+id/name"
                 android:layout_gravity="center_vertical"
                 android:text="Top Wear"/>
 

@@ -44,9 +44,11 @@ public class Videoplayer extends YouTubeBaseActivity {
 
     ProgressBar bar;
 
-    TextView  ingr;
+    TextView ingr;
 
     Button order;
+
+    String is;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class Videoplayer extends YouTubeBaseActivity {
 
 
         id = getIntent().getStringExtra("id");
+        is = getIntent().getStringExtra("is");
+
         toolbar = findViewById(R.id.toolbar);
 
         back = findViewById(R.id.back);
@@ -68,7 +72,7 @@ public class Videoplayer extends YouTubeBaseActivity {
         });
 
         bar = findViewById(R.id.progress);
-       // rec = findViewById(R.id.receipe);
+        // rec = findViewById(R.id.receipe);
         ingr = findViewById(R.id.ingredients);
         order = findViewById(R.id.order);
 
@@ -81,7 +85,7 @@ public class Videoplayer extends YouTubeBaseActivity {
 
                 youTubePlayer.loadVideo("G0Hx6uN2AJE");
 
-              //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
+                //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
 
                 youTubePlayer.play();
             }
@@ -116,7 +120,7 @@ public class Videoplayer extends YouTubeBaseActivity {
 
                 if (Objects.equals(response.body().getStatus(), "1")) {
 
-                   // rec.setText(response.body().getData().get(0).getSmallDesc());
+                    // rec.setText(response.body().getData().get(0).getSmallDesc());
                     ingr.setText(response.body().getData().get(0).getDescription());
 
                 } else {
@@ -133,6 +137,12 @@ public class Videoplayer extends YouTubeBaseActivity {
 
             }
         });
+
+        if (is.equals("yes")) {
+            order.setVisibility(View.VISIBLE);
+        } else {
+            order.setVisibility(View.GONE);
+        }
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override

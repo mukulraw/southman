@@ -8,13 +8,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.bigboss.bigboss.TabCategoryPOJO.Datum;
 import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
 import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +42,7 @@ public class Videos extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.videos , container , false);
 
@@ -62,7 +67,9 @@ public class Videos extends Fragment {
 
                 for (int i = 0; i < response.body().getData().size(); i++) {
 
-                    tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
+                    //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
+                    //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
+                    tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName())));
 
                 }
 
@@ -72,9 +79,18 @@ public class Videos extends Fragment {
 
                 for (int i = 0; i < response.body().getData().size(); i++) {
 
-                    tab.getTabAt(i).setText(response.body().getData().get(i).getVideocatName());
+                    tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName()));
 
                 }
+
+/*
+                tab.getTabAt(0).setIcon(R.drawable.ic_film);
+                tab.getTabAt(1).setIcon(R.drawable.ic_movie_symbol_of_video_camera);
+                tab.getTabAt(2).setIcon(R.drawable.ic_boling_pot);
+                tab.getTabAt(3).setIcon(R.drawable.ic_study);
+*/
+
+
             }
 
             @Override
@@ -93,6 +109,23 @@ public class Videos extends Fragment {
 
         return view;
     }
+
+    View getCustomView(LayoutInflater inflater , String url , String name)
+    {
+        View view = inflater.inflate(R.layout.tabs_layout , null);
+
+        TextView tname = view.findViewById(R.id.textView3);
+        ImageView timage = view.findViewById(R.id.imageView);
+
+        tname.setText(name);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(url , timage , options);
+
+        return view;
+    }
+
     public class VideoAddapter extends FragmentStatePagerAdapter {
 
         List<Datum>list = new ArrayList<>();

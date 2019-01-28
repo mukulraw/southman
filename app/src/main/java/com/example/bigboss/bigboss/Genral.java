@@ -119,6 +119,7 @@ public class Genral extends Fragment {
 
                     Intent intent = new Intent(null, Uri.parse("ytv://"+v), getContext(), Videoplayer.class);
                     intent.putExtra("id" , item.getId());
+                    intent.putExtra("is" , item.getWhatsOrderNow());
                     startActivity(intent);
 
 

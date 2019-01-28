@@ -43,6 +43,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:padding="20dp"
+                            android:id="@+id/tclick"
                             android:src="@drawable/ic_tshirt" />
 
                         <TextView
@@ -81,6 +82,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:padding="20dp"
+                            android:id="@+id/bclick"
                             android:src="@drawable/ic_trouse" />
 
                         <TextView
