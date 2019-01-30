@@ -1,6 +1,7 @@
 package com.example.bigboss.bigboss;
 
 import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
+import com.example.bigboss.bigboss.SearchPojo.SearchBean;
 import com.example.bigboss.bigboss.ShopTillPOJO.TillBean;
 import com.example.bigboss.bigboss.ShoptabPOJO.ShopBean;
 import com.example.bigboss.bigboss.TabCategoryPOJO.TabBean;
@@ -74,5 +75,13 @@ public interface AllApiIneterface {
     @POST("bigboss/?rest_route=/GetMatchingProduct/v1/matching-product")
     Call<matchingBean> getMatchingData(
             @Part("matchingId") String cat);
+
+    @Multipart
+    @POST("bigboss/?rest_route=/SearchProduct/v1/get-product")
+    Call<SearchBean> search(
+            @Part("searchVal") String cat ,
+            @Part("locationId") String c
+
+    );
 
 }

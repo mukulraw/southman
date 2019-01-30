@@ -1,26 +1,28 @@
-package com.example.bigboss.bigboss.TillCategory3POJO;
+package com.example.bigboss.bigboss.SearchPojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ProductInfo {
-
+public class Datum {
 
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("location")
+    @Expose
+    private String location;
     @SerializedName("category_id")
     @Expose
-    private String categoryId;
+    private Object categoryId;
     @SerializedName("sub_category")
     @Expose
     private String subCategory;
     @SerializedName("buyer_name")
     @Expose
-    private String buyerName;
+    private Object buyerName;
     @SerializedName("phone_number")
     @Expose
-    private String phoneNumber;
+    private Object phoneNumber;
     @SerializedName("product_title")
     @Expose
     private String productTitle;
@@ -45,18 +47,18 @@ public class ProductInfo {
     @SerializedName("product_image")
     @Expose
     private String productImage;
+    @SerializedName("whatsapp_order_now")
+    @Expose
+    private String whatsappOrderNow;
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("product_detail")
+    @Expose
+    private String productDetail;
     @SerializedName("created")
     @Expose
     private String created;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("subcat_name")
-    @Expose
-    private String subcatName;
 
     public String getId() {
         return id;
@@ -66,11 +68,19 @@ public class ProductInfo {
         this.id = id;
     }
 
-    public String getCategoryId() {
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Object getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(Object categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -82,19 +92,19 @@ public class ProductInfo {
         this.subCategory = subCategory;
     }
 
-    public String getBuyerName() {
+    public Object getBuyerName() {
         return buyerName;
     }
 
-    public void setBuyerName(String buyerName) {
+    public void setBuyerName(Object buyerName) {
         this.buyerName = buyerName;
     }
 
-    public String getPhoneNumber() {
+    public Object getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(Object phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -162,12 +172,28 @@ public class ProductInfo {
         this.productImage = productImage;
     }
 
+    public String getWhatsappOrderNow() {
+        return whatsappOrderNow;
+    }
+
+    public void setWhatsappOrderNow(String whatsappOrderNow) {
+        this.whatsappOrderNow = whatsappOrderNow;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(String productDetail) {
+        this.productDetail = productDetail;
     }
 
     public String getCreated() {
@@ -178,19 +204,5 @@ public class ProductInfo {
         this.created = created;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSubcatName() {
-        return subcatName;
-    }
-
-    public void setSubcatName(String subcatName) {
-        this.subcatName = subcatName;
-    }
 }

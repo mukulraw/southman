@@ -1,6 +1,8 @@
 package com.example.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +37,8 @@ public class SingleProduct extends AppCompatActivity {
 
     String id;
 
+
+    String ph , co;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +81,6 @@ public class SingleProduct extends AppCompatActivity {
         bar = findViewById(R.id.progress);
 
 
-
-
         bar.setVisibility(View.VISIBLE);
 
         Bean b = (Bean) getApplicationContext();
@@ -109,12 +111,17 @@ public class SingleProduct extends AppCompatActivity {
 
                 negitable.setText(response.body().getProductInfo().get(0).getNegotiable());
 
+                ph = response.body().getProductInfo().get(0).getPhoneNumber();
+
+
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 
                 ImageLoader loader = ImageLoader.getInstance();
                 loader.displayImage(response.body().getProductInfo().get(0).getProductImage(), imageView, options);
 
                 bar.setVisibility(View.GONE);
+
+
 
             }
 
@@ -147,11 +154,27 @@ public class SingleProduct extends AppCompatActivity {
 
                 Button call = dialog.findViewById(R.id.call);
 
+                mobile.setText(ph);
+
                 watshp.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        dialog.dismiss();
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.setType("text/plain");
+                        sendIntent.setPackage("com.whatsapp");
+                        startActivity(Intent.createChooser(sendIntent, ""));
+                        startActivity(sendIntent);
+
+
+
+                       /* String url = "https://api.whatsapp.com/send?phone="+number;
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);*/
+
                     }
                 });
 
@@ -159,8 +182,21 @@ public class SingleProduct extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        try {
 
-                        dialog.dismiss();
+
+                            Intent i = new Intent(Intent.ACTION_CALL);
+                            i.setData(Uri.parse(ph));
+                            startActivity(i);
+
+
+                        }catch (Exception e){
+
+                            e.printStackTrace();
+                        }
+
+
+
                     }
                 });
             }
