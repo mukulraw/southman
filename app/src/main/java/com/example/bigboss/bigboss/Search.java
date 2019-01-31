@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,47 +81,84 @@ public class Search extends AppCompatActivity {
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
 
-        String ss = search.getText().toString();
 
-        bar.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getApplicationContext();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<SearchBean> call = cr.search(ss , SharePreferenceUtils.getInstance().getString("location"  ) );
 
-        call.enqueue(new Callback<SearchBean>() {
+
+        search.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
-
-                if (Objects.equals(response.body().getStatus() , "1")){
-
-                    adapter.setgrid(response.body().getData());
-
-                }else {
-
-                    Toast.makeText(Search.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-
-                bar.setVisibility(View.GONE);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onFailure(Call<SearchBean> call, Throwable t) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                bar.setVisibility(View.GONE);
+                String ss = s.toString();
+
+
+
+
+
+
+
+                bar.setVisibility(View.VISIBLE);
+
+                Bean b = (Bean) getApplicationContext();
+
+
+
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                Call<SearchBean> call = cr.search(ss , SharePreferenceUtils.getInstance().getString("location"  ) );
+
+                call.enqueue(new Callback<SearchBean>() {
+                    @Override
+                    public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+
+                        if (Objects.equals(response.body().getStatus() , "1")){
+
+                            adapter.setgrid(response.body().getData());
+
+                        }else {
+
+                            Toast.makeText(Search.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        bar.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchBean> call, Throwable t) {
+
+                        bar.setVisibility(View.GONE);
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
+
+
+
+
 
 
 

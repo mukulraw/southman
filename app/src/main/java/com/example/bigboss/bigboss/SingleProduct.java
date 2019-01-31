@@ -134,6 +134,19 @@ public class SingleProduct extends AppCompatActivity {
         });
 
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(SingleProduct.this , WristWatch.class);
+                i.putExtra("id"  , id);
+                i.putExtra("text"  , title.getText().toString());
+                startActivity(i);
+
+            }
+        });
+
+
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
