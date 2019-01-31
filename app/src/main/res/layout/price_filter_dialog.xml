@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minWidth="270dp"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:typeface="monospace"
+        android:gravity="center"
+        android:visibility="visible"
+        android:padding="10dp"/>
+
+
+    <com.appyvet.materialrangebar.RangeBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/range"
+        app:mrb_rangeBar="true"
+        app:mrb_pinMaxFont="15sp"
+        app:mrb_pinMinFont="12sp"
+        app:mrb_rangeBarPaddingBottom="20dp"
+        app:mrb_selectorBoundaryColor="@color/colorAccent"
+        app:mrb_selectorBoundarySize="2dp"
+        app:mrb_pinTextColor="#ffffff"
+        app:mrb_temporaryPins="true"
+        app:mrb_selectorSize="10dp"
+        app:mrb_tickEnd="1500"
+        app:mrb_tickInterval="10"
+        app:mrb_tickStart="50"
+        app:mrb_pinRadius="14dp"
+        app:mrb_rangeBar_rounded="true"
+        app:mrb_pinColor="#6c3f6a"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/prii"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Price: 50 - 1500"
+        />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/grid"
+        />
+
+
+</LinearLayout>

@@ -173,15 +173,26 @@ public class SingleProduct extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent sendIntent = new Intent();
+                        /*Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
                         sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
                         sendIntent.setType("text/plain");
                         sendIntent.setPackage("com.whatsapp");
                         startActivity(Intent.createChooser(sendIntent, ""));
                         startActivity(sendIntent);
+*/
 
+                        try {
 
+                            Uri uri = Uri.parse("smsto:" + ph);
+                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                            sendIntent.setPackage("com.whatsapp");
+                            startActivity(sendIntent);
+
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
 
                        /* String url = "https://api.whatsapp.com/send?phone="+number;
                         Intent i = new Intent(Intent.ACTION_VIEW);

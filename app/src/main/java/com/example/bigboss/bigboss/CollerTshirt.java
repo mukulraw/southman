@@ -1,5 +1,6 @@
 package com.example.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,10 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.appyvet.materialrangebar.RangeBar;
 import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
@@ -22,6 +27,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,6 +55,11 @@ public class CollerTshirt extends AppCompatActivity {
 
     TextView title;
 
+    TextView sort, filter;
+
+    boolean isPrice = false, isSize = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +68,12 @@ public class CollerTshirt extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
 
         toolbar = findViewById(R.id.toolbar);
+
+
+        sort = findViewById(R.id.sort);
+        filter = findViewById(R.id.filter);
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -67,7 +84,6 @@ public class CollerTshirt extends AppCompatActivity {
                 finish();
             }
         });
-
 
 
         list = new ArrayList<>();
@@ -120,6 +136,70 @@ public class CollerTshirt extends AppCompatActivity {
             }
         });
 
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final Dialog dialog = new Dialog(CollerTshirt.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.filter_dialog1);
+                dialog.show();
+
+                final TextView pri = dialog.findViewById(R.id.price);
+                TextView siz = dialog.findViewById(R.id.size);
+
+
+                pri.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Dialog dialog1 = new Dialog(CollerTshirt.this);
+                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog1.setContentView(R.layout.price_filter_dialog);
+                        dialog1.setCancelable(true);
+                        dialog1.show();
+
+                        dialog.dismiss();
+
+                        final TextView prii = dialog1.findViewById(R.id.prii);
+                        RangeBar range = dialog1.findViewById(R.id.range);
+                        RecyclerView fgrid = dialog1.findViewById(R.id.grid);
+                        GridLayoutManager fmanager = new GridLayoutManager(CollerTshirt.this , 1);
+
+                        range.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
+                            @Override
+                            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
+
+                                prii.setText("Price: " + leftPinValue + " - " + rightPinValue);
+
+                            }
+                        });
+
+
+                        List<String> flist = new ArrayList<>();
+
+                        for (int i = 0; i < list.size(); i++) {
+                            flist.add(list.get(i).getSize());
+                        }
+
+                        HashSet<String> hashSet = new HashSet<>();
+                        hashSet.addAll(flist);
+                        flist.clear();
+                        flist.addAll(hashSet);
+
+
+                        FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this , flist);
+                        fgrid.setAdapter(fadapter);
+                        fgrid.setLayoutManager(fmanager);
+
+
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -166,15 +246,15 @@ public class CollerTshirt extends AppCompatActivity {
             loader.displayImage(item.getProductImage(), myViewHolder.image, options);
 
 
-            myViewHolder. itemView.setOnClickListener(new View.OnClickListener() {
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     Intent i = new Intent(context, SingleProduct.class);
 
-                    i.putExtra("id"  , item.getId());
+                    i.putExtra("id", item.getId());
 
-                    i.putExtra("text"  , item.getProductTitle());
+                    i.putExtra("text", item.getProductTitle());
 
                     context.startActivity(i);
                 }
@@ -211,6 +291,72 @@ public class CollerTshirt extends AppCompatActivity {
                 image = itemView.findViewById(R.id.image);
 
 
+            }
+        }
+    }
+
+
+    class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
+        Context context;
+        List<String> flist = new ArrayList<>();
+
+        List<String> checked = new ArrayList<>();
+
+        public FilterAdapter(Context context, List<String> flist) {
+            this.context = context;
+            this.flist = flist;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.filter_list_model, viewGroup, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+
+            viewHolder.setIsRecyclable(false);
+
+            final String item = flist.get(i);
+
+            viewHolder.check.setText(item);
+
+
+            viewHolder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    if (isChecked) {
+                        checked.add(item);
+                    } else {
+                        checked.remove(item);
+                    }
+
+                }
+            });
+
+        }
+
+        public List<String> getChecked()
+        {
+            return checked;
+        }
+
+        @Override
+        public int getItemCount() {
+            return flist.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            CheckBox check;
+
+            public ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                check = itemView.findViewById(R.id.check);
             }
         }
     }
