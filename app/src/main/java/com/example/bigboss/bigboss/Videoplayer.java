@@ -49,6 +49,7 @@ public class Videoplayer extends YouTubeBaseActivity {
     Button order;
 
     String is;
+    String ph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class Videoplayer extends YouTubeBaseActivity {
 
         id = getIntent().getStringExtra("id");
         is = getIntent().getStringExtra("is");
+        ph = getIntent().getStringExtra("ph");
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -164,12 +166,37 @@ public class Videoplayer extends YouTubeBaseActivity {
 
                 Button call = dialog.findViewById(R.id.call);
 
+                mobile.setText(ph);
+
                 watshp.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
+                        /*Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+                        sendIntent.setType("text/plain");
+                        sendIntent.setPackage("com.whatsapp");
+                        startActivity(Intent.createChooser(sendIntent, ""));
+                        startActivity(sendIntent);
+*/
 
-                        dialog.dismiss();
+                        try {
+
+                            Uri uri = Uri.parse("smsto:" + ph);
+                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                            sendIntent.setPackage("com.whatsapp");
+                            startActivity(sendIntent);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                       /* String url = "https://api.whatsapp.com/send?phone="+number;
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);*/
+
                     }
                 });
 
@@ -177,8 +204,20 @@ public class Videoplayer extends YouTubeBaseActivity {
                     @Override
                     public void onClick(View v) {
 
+                        try {
 
-                        dialog.dismiss();
+
+                            Intent i = new Intent(Intent.ACTION_CALL);
+                            i.setData(Uri.parse(ph));
+                            startActivity(i);
+
+
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
+                        }
+
+
                     }
                 });
             }

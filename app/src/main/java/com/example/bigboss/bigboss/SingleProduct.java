@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,7 +30,7 @@ public class SingleProduct extends AppCompatActivity {
 
     Button order;
 
-    TextView name, brand, color, size, negitable, price, title;
+    TextView name, brand, color, size, negitable, price, title , details;
 
     ImageView imageView;
 
@@ -38,7 +39,7 @@ public class SingleProduct extends AppCompatActivity {
     String id;
 
 
-    String ph , co;
+    String ph, co;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
         title = findViewById(R.id.title);
+
+        details = findViewById(R.id.text);
 
         title.setText(getIntent().getStringExtra("text"));
 
@@ -93,11 +96,11 @@ public class SingleProduct extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopProductBean> call = cr.shopproduct(id , SharePreferenceUtils.getInstance().getString("location"  ));
+        Call<PlayBean> call = cr.play(id, SharePreferenceUtils.getInstance().getString("location"));
 
-        call.enqueue(new Callback<ShopProductBean>() {
+        call.enqueue(new Callback<PlayBean>() {
             @Override
-            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+            public void onResponse(Call<PlayBean> call, Response<PlayBean> response) {
 
                 name.setText(response.body().getProductInfo().get(0).getProductTitle());
 
@@ -111,7 +114,9 @@ public class SingleProduct extends AppCompatActivity {
 
                 negitable.setText(response.body().getProductInfo().get(0).getNegotiable());
 
-                ph = response.body().getProductInfo().get(0).getPhoneNumber();
+                ph = String.valueOf(response.body().getProductInfo().get(0).getPhoneNumber());
+
+                details.setText(response.body().getProductInfo().get(0).getProductDetail());
 
 
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
@@ -122,11 +127,10 @@ public class SingleProduct extends AppCompatActivity {
                 bar.setVisibility(View.GONE);
 
 
-
             }
 
             @Override
-            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+            public void onFailure(Call<PlayBean> call, Throwable t) {
 
                 bar.setVisibility(View.GONE);
 
@@ -138,9 +142,9 @@ public class SingleProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(SingleProduct.this , WristWatch.class);
-                i.putExtra("id"  , id);
-                i.putExtra("text"  , title.getText().toString());
+                Intent i = new Intent(SingleProduct.this, WristWatch.class);
+                i.putExtra("id", id);
+                i.putExtra("text", title.getText().toString());
                 startActivity(i);
 
             }
@@ -189,8 +193,7 @@ public class SingleProduct extends AppCompatActivity {
                             sendIntent.setPackage("com.whatsapp");
                             startActivity(sendIntent);
 
-                        }catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -214,11 +217,10 @@ public class SingleProduct extends AppCompatActivity {
                             startActivity(i);
 
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
                             e.printStackTrace();
                         }
-
 
 
                     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -93,11 +94,11 @@ public class WristWatch extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopProductBean> call = cr.shopproduct(id , SharePreferenceUtils.getInstance().getString("location"  ));
+        Call<PlayBean> call = cr.play(id , SharePreferenceUtils.getInstance().getString("location"  ));
 
-        call.enqueue(new Callback<ShopProductBean>() {
+        call.enqueue(new Callback<PlayBean>() {
             @Override
-            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+            public void onResponse(Call<PlayBean> call, Response<PlayBean> response) {
 
 
 
@@ -114,7 +115,7 @@ public class WristWatch extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+            public void onFailure(Call<PlayBean> call, Throwable t) {
 
                 bar.setVisibility(View.GONE);
 

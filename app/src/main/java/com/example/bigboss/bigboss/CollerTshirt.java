@@ -19,7 +19,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.appyvet.materialrangebar.RangeBar;
 import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
@@ -29,6 +31,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -50,6 +54,8 @@ public class CollerTshirt extends AppCompatActivity {
     CollerAdapter adapeter;
 
     List<ProductInfo> list;
+    List<ProductInfo> filteredList;
+    List<ProductInfo> sortedList;
 
     String id;
 
@@ -61,6 +67,7 @@ public class CollerTshirt extends AppCompatActivity {
 
     boolean isPrice = false, isSize = false;
 
+    boolean isFilter = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +96,8 @@ public class CollerTshirt extends AppCompatActivity {
 
 
         list = new ArrayList<>();
+        filteredList = new ArrayList<>();
+        sortedList = new ArrayList<>();
 
         adapeter = new CollerAdapter(this, list);
 
@@ -141,40 +150,140 @@ public class CollerTshirt extends AppCompatActivity {
             }
         });
 
-        filter.setOnClickListener(new View.OnClickListener() {
+
+        sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 final Dialog dialog = new Dialog(CollerTshirt.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.sort_dialog_layout);
                 dialog.setCancelable(true);
-                dialog.setContentView(R.layout.filter_dialog1);
                 dialog.show();
 
-                final TextView pri = dialog.findViewById(R.id.price);
-                TextView siz = dialog.findViewById(R.id.size);
 
+                final RadioGroup group = dialog.findViewById(R.id.group);
+                TextView res = dialog.findViewById(R.id.reset);
+                final TextView sor = dialog.findViewById(R.id.sort);
 
-                pri.setOnClickListener(new View.OnClickListener() {
+                res.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        Dialog dialog1 = new Dialog(CollerTshirt.this);
+                        if (isFilter)
+                        {
+                            adapeter.setgrid(filteredList);
+                        }
+                        else
+                        {
+                            adapeter.setgrid(list);
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                sor.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        int iidd = group.getCheckedRadioButtonId();
+
+                        if (iidd > -1)
+                        {
+
+                            if (iidd == R.id.l2h)
+                            {
+
+                                sortedList.clear();
+
+                                if (isFilter)
+                                {
+                                    sortedList = filteredList;
+                                }
+                                else
+                                {
+                                    sortedList = list;
+                                }
+
+
+                                Collections.sort(sortedList, new Comparator<ProductInfo>() {
+                                    @Override
+                                    public int compare(ProductInfo o1, ProductInfo o2) {
+                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                    }
+                                });
+
+                                adapeter.setgrid(sortedList);
+                                dialog.dismiss();
+
+                            }
+                            else if (iidd == R.id.h2l)
+                            {
+                                sortedList.clear();
+
+                                if (isFilter)
+                                {
+                                    sortedList = filteredList;
+                                }
+                                else
+                                {
+                                    sortedList = list;
+                                }
+
+
+                                Collections.sort(sortedList, new Comparator<ProductInfo>() {
+                                    @Override
+                                    public int compare(ProductInfo o2, ProductInfo o1) {
+                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                    }
+                                });
+
+                                adapeter.setgrid(sortedList);
+                                dialog.dismiss();
+
+                            }
+
+                        }
+                        else
+                        {
+                            Toast.makeText(CollerTshirt.this, "Please select a Sorting type", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+            }
+        });
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                        final Dialog dialog1 = new Dialog(CollerTshirt.this);
                         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog1.setContentView(R.layout.price_filter_dialog);
                         dialog1.setCancelable(true);
                         dialog1.show();
 
-                        dialog.dismiss();
 
                         final TextView prii = dialog1.findViewById(R.id.prii);
                         RangeBar range = dialog1.findViewById(R.id.range);
                         RecyclerView fgrid = dialog1.findViewById(R.id.grid);
                         GridLayoutManager fmanager = new GridLayoutManager(CollerTshirt.this , 1);
+                        TextView fil = dialog1.findViewById(R.id.filter);
+                        TextView res = dialog1.findViewById(R.id.reset);
 
-                        range.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
+                final String[] min = {"50"};
+                final String[] max = { "5000" };
+
+                range.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
                             @Override
                             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
+
+                                min[0] = leftPinValue;
+                                max[0] = rightPinValue;
 
                                 prii.setText("Price: " + leftPinValue + " - " + rightPinValue);
 
@@ -197,13 +306,53 @@ public class CollerTshirt extends AppCompatActivity {
 
 
 
-                        FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this , flist);
+                        final FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this , flist);
                         fgrid.setAdapter(fadapter);
                         fgrid.setLayoutManager(fmanager);
 
 
-                    }
-                });
+                        res.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                adapeter.setgrid(list);
+                                isFilter = false;
+                                dialog1.dismiss();
+
+                            }
+                        });
+
+
+                        fil.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                List<String> fl = fadapter.getChecked();
+
+                                filteredList.clear();
+
+                                for (int i = 0 ; i < list.size() ; i ++)
+                                {
+
+                                    for (int j = 0 ; j < fl.size() ; j++)
+                                    {
+
+                                        if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) < Float.parseFloat(max[0]))
+                                        {
+                                            filteredList.add(list.get(i));
+                                        }
+
+                                    }
+
+                                }
+
+                                adapeter.setgrid(filteredList);
+                                isFilter = true;
+                                dialog1.dismiss();
+
+                            }
+                        });
+
 
 
             }
@@ -332,6 +481,9 @@ public class CollerTshirt extends AppCompatActivity {
 
             viewHolder.check.setText(item);
 
+            viewHolder.check.setChecked(true);
+
+            checked.add(item);
 
             viewHolder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
