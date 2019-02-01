@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,14 +118,17 @@ public class CollerTshirt extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopProductBean> call = cr.shopproduct(id);
+        Call<ShopProductBean> call = cr.shopproduct(id , SharePreferenceUtils.getInstance().getString("location"  ));
 
         call.enqueue(new Callback<ShopProductBean>() {
             @Override
             public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
 
+                list.clear();
 
-                adapeter.setgrid(response.body().getProductInfo());
+                list = response.body().getProductInfo();
+
+                adapeter.setgrid(list);
                 bar.setVisibility(View.GONE);
 
             }
@@ -183,10 +188,13 @@ public class CollerTshirt extends AppCompatActivity {
                             flist.add(list.get(i).getSize());
                         }
 
+                        Log.d("flist" , TextUtils.join(",", flist));
+
                         HashSet<String> hashSet = new HashSet<>();
                         hashSet.addAll(flist);
                         flist.clear();
                         flist.addAll(hashSet);
+
 
 
                         FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this , flist);

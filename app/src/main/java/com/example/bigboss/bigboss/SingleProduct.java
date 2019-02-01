@@ -93,7 +93,7 @@ public class SingleProduct extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopProductBean> call = cr.shopproduct(id);
+        Call<ShopProductBean> call = cr.shopproduct(id , SharePreferenceUtils.getInstance().getString("location"  ));
 
         call.enqueue(new Callback<ShopProductBean>() {
             @Override
