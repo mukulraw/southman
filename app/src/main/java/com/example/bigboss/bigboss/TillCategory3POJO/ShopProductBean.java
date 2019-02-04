@@ -12,7 +12,7 @@ public class ShopProductBean {
     private List<ProductInfo> productInfo = null;
     @SerializedName("thumb")
     @Expose
-    private List<Thumb> thumb = null;
+    private List<List<String>> thumb = null;
 
     public List<ProductInfo> getProductInfo() {
         return productInfo;
@@ -22,11 +22,11 @@ public class ShopProductBean {
         this.productInfo = productInfo;
     }
 
-    public List<Thumb> getThumb() {
+    public List<List<String>> getThumb() {
         return thumb;
     }
 
-    public void setThumb(List<Thumb> thumb) {
+    public void setThumb(List<List<String>> thumb) {
         this.thumb = thumb;
     }
 

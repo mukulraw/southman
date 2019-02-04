@@ -27,7 +27,9 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/?rest_route=/GetVideoByCategory/v1/video-by-category")
     Call<GenralBean> genra(
-            @Part("catId") String catid);
+            @Part("catId") String catid,
+            @Part("locationId") String locationId
+    );
 
 
     @GET("bigboss/?rest_route=/GetVideoCategory/v1/video-category")
@@ -57,13 +59,17 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/?rest_route=/GetProductByid/v1/get-product")
     Call<PlayBean> play(
-            @Part("productId") String catid);
+            @Part("productId") String catid,
+            @Part("locationId") String locationId
+    );
 
 
     @Multipart
     @POST("bigboss/?rest_route=/GetProductBysubcatid/v1/get-product-by-subcat")
     Call<ShopProductBean> shopproduct(
-            @Part("subCatId") String subcatid);
+            @Part("subCatId") String subcatid,
+            @Part("locationId") String locationId
+    );
 
 
     @Multipart

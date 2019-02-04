@@ -14,7 +14,6 @@
             android:id="@+id/watch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/watch"
             app:zoomage_restrictBounds="false"
             app:zoomage_animateOnReset="true"
             app:zoomage_autoResetMode="UNDER"

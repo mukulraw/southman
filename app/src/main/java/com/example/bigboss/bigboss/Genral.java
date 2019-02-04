@@ -119,6 +119,7 @@ public class Genral extends Fragment {
 
                     Intent intent = new Intent(null, Uri.parse("ytv://"+v), getContext(), Videoplayer.class);
                     intent.putExtra("id" , item.getId());
+                    intent.putExtra("ph" , item.getPhoneNo());
                     intent.putExtra("is" , item.getWhatsOrderNow());
                     startActivity(intent);
 
@@ -181,7 +182,7 @@ public class Genral extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<GenralBean> call = cr.genra(catid);
+        Call<GenralBean> call = cr.genra(catid , SharePreferenceUtils.getInstance().getString("location"  ));
 
         call.enqueue(new Callback<GenralBean>() {
             @Override

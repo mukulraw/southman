@@ -1,5 +1,6 @@
 package com.example.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
@@ -12,11 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appyvet.materialrangebar.RangeBar;
 import com.example.bigboss.bigboss.ShopTillPOJO.Datum;
 import com.example.bigboss.bigboss.ShopTillPOJO.TillBean;
 import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
@@ -48,6 +51,7 @@ public class Till extends Fragment {
 
     ProgressBar bar;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +73,8 @@ public class Till extends Fragment {
         grid.setLayoutManager(manager);
 
         bar = vi.findViewById(R.id.progress);
+
+
 
 
 

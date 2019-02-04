@@ -114,6 +114,13 @@ public class Location extends AppCompatActivity {
 
                 if (position > 0) {
                     sel = lid.get(position - 1);
+                    submit.setClickable(true);
+                    submit.setEnabled(true);
+                }
+                else
+                {
+                    submit.setClickable(false);
+                    submit.setEnabled(false);
                 }
 
             }

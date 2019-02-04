@@ -8,9 +8,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
+import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class WristWatch extends AppCompatActivity {
 
@@ -23,12 +39,23 @@ public class WristWatch extends AppCompatActivity {
 
     CircleIndicator indicator;
 
+    String id , title;
+
+    TextView tool;
+    ProgressBar bar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wrist_watch);
 
+
+        id = getIntent().getStringExtra("id");
+        title = getIntent().getStringExtra("title");
+
         toolbar = findViewById(R.id.toolbar);
+        bar = findViewById(R.id.progress);
+        tool = findViewById(R.id.tool);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -41,71 +68,100 @@ public class WristWatch extends AppCompatActivity {
             }
         });
 
+        tool.setText(title);
 
         pager = (AutoScrollViewPager) findViewById(R.id.pager);
 
-        pager.setOnPageChangeListener(new MyOnPageChangeListener());
+        //pager.setOnPageChangeListener(new MyOnPageChangeListener());
 
-        pager.setInterval(2000);
+        pager.setInterval(14000);
         pager.startAutoScroll();
         //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
-
         indicator = findViewById(R.id.indicator);
 
-        adapter = new ViewAdapter(getSupportFragmentManager(), 5);
 
-        pager.setAdapter(adapter);
 
-        indicator.setViewPager(pager);
+        bar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<PlayBean> call = cr.play(id , SharePreferenceUtils.getInstance().getString("location"  ));
+
+        call.enqueue(new Callback<PlayBean>() {
+            @Override
+            public void onResponse(Call<PlayBean> call, Response<PlayBean> response) {
+
+
+
+                adapter = new ViewAdapter(getSupportFragmentManager(), response.body().getThumb().get(0));
+
+                pager.setAdapter(adapter);
+
+                indicator.setViewPager(pager);
+
+
+                bar.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<PlayBean> call, Throwable t) {
+
+                bar.setVisibility(View.GONE);
+
+            }
+        });
+
+
 
 
     }
 
     public class ViewAdapter extends FragmentStatePagerAdapter {
 
+        List<String> tlist = new ArrayList<>();
 
-        public ViewAdapter(FragmentManager fm, int list) {
+        public ViewAdapter(FragmentManager fm, List<String> tlist) {
             super(fm);
+            this.tlist = tlist;
         }
 
         @Override
         public Fragment getItem(int i) {
 
 
-            if (i == 0) {
-                return new Page1();
+            Page1 frag = new Page1();
+            Bundle b = new Bundle();
+            b.putString("url" , tlist.get(i));
 
-            } else {
-                if (i == 1) {
-                    return new page2();
+            frag.setArguments(b);
+                return frag;
 
-                } else {
-                    if (i == 2) {
-                        return new page3();
-
-                    } else if (i == 3) {
-                        return new page4();
-
-                    }
-                }
-            }
-            return null;
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return tlist.size();
         }
     }
 
 
-    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+    /*public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageSelected(int position) {
-           /* indexText.setText(new StringBuilder().append((position) % ListUtils.getSize(imageIdList) + 1).append("/")
-                    .append(ListUtils.getSize(imageIdList)));*/
+           *//* indexText.setText(new StringBuilder().append((position) % ListUtils.getSize(imageIdList) + 1).append("/")
+                    .append(ListUtils.getSize(imageIdList)));*//*
         }
 
         @Override
@@ -115,7 +171,7 @@ public class WristWatch extends AppCompatActivity {
         @Override
         public void onPageScrollStateChanged(int arg0) {
         }
-    }
+    }*/
 
     @Override
     protected void onPause() {

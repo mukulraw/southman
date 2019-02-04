@@ -9,9 +9,12 @@ public class ProductInfo {
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("location_id")
+    @Expose
+    private String locationId;
     @SerializedName("category_id")
     @Expose
-    private String categoryId;
+    private Object categoryId;
     @SerializedName("sub_category")
     @Expose
     private String subCategory;
@@ -21,9 +24,9 @@ public class ProductInfo {
     @SerializedName("phone_number")
     @Expose
     private Object phoneNumber;
-    @SerializedName("product_tile")
+    @SerializedName("product_title")
     @Expose
-    private String productTile;
+    private String productTitle;
     @SerializedName("sub_title")
     @Expose
     private String subTitle;
@@ -45,18 +48,24 @@ public class ProductInfo {
     @SerializedName("product_image")
     @Expose
     private String productImage;
+    @SerializedName("whatsapp_order_now")
+    @Expose
+    private String whatsappOrderNow;
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("product_detail")
+    @Expose
+    private String productDetail;
     @SerializedName("created")
     @Expose
     private String created;
     @SerializedName("name")
     @Expose
-    private String name;
+    private Object name;
     @SerializedName("subcat_name")
     @Expose
-    private String subcatName;
+    private Object subcatName;
 
     public String getId() {
         return id;
@@ -66,11 +75,19 @@ public class ProductInfo {
         this.id = id;
     }
 
-    public String getCategoryId() {
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public Object getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(Object categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -98,12 +115,12 @@ public class ProductInfo {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getProductTile() {
-        return productTile;
+    public String getProductTitle() {
+        return productTitle;
     }
 
-    public void setProductTile(String productTile) {
-        this.productTile = productTile;
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 
     public String getSubTitle() {
@@ -162,12 +179,28 @@ public class ProductInfo {
         this.productImage = productImage;
     }
 
+    public String getWhatsappOrderNow() {
+        return whatsappOrderNow;
+    }
+
+    public void setWhatsappOrderNow(String whatsappOrderNow) {
+        this.whatsappOrderNow = whatsappOrderNow;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getProductDetail() {
+        return productDetail;
+    }
+
+    public void setProductDetail(String productDetail) {
+        this.productDetail = productDetail;
     }
 
     public String getCreated() {
@@ -178,19 +211,19 @@ public class ProductInfo {
         this.created = created;
     }
 
-    public String getName() {
+    public Object getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Object name) {
         this.name = name;
     }
 
-    public String getSubcatName() {
+    public Object getSubcatName() {
         return subcatName;
     }
 
-    public void setSubcatName(String subcatName) {
+    public void setSubcatName(Object subcatName) {
         this.subcatName = subcatName;
     }
 

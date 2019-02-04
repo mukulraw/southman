@@ -102,7 +102,7 @@ public class MeansWear extends Fragment {
 
                         Log.d("count" , String.valueOf(response.body().getData().getTopWear().size()));
 
-                        MeansAdapter adapter = new MeansAdapter(getContext() , response.body().getData().getTopWear() , tclick , shirt , dialog , tid , ttitle);
+                        MeansAdapter adapter = new MeansAdapter(getContext() , response.body().getData().getTopWear() , tclick , shirt , dialog);
                         grid.setLayoutManager(manager);
                         grid.setAdapter(adapter);
 
@@ -152,13 +152,15 @@ public class MeansWear extends Fragment {
 
                 Call<matchingBean> call = cr.getMatchingData(catId);
 
+                Log.d("catId" , catId);
+
                 call.enqueue(new Callback<matchingBean>() {
                     @Override
                     public void onResponse(Call<matchingBean> call, Response<matchingBean> response) {
 
                         Log.d("count" , String.valueOf(response.body().getData().getTopWear().size()));
 
-                        BottomAdapter adapter = new BottomAdapter(getContext() , response.body().getData().getBottomWear() , bclick , pant , dialog , bid , btitle);
+                        BottomAdapter adapter = new BottomAdapter(getContext() , response.body().getData().getBottomWear() , bclick , pant , dialog);
                         grid.setLayoutManager(manager);
                         grid.setAdapter(adapter);
 
@@ -185,6 +187,8 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Log.d("id" , tid);
+                Log.d("text" , ttitle);
 
                 Intent i = new Intent(getContext(), SingleProduct.class);
                 i.putExtra("id"  , tid);
@@ -199,6 +203,8 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
+                Log.d("id" , bid);
+                Log.d("text" , btitle);
 
                 Intent i = new Intent(getContext(), SingleProduct.class);
                 i.putExtra("id"  , bid);
@@ -218,20 +224,18 @@ public class MeansWear extends Fragment {
         Context context;
         ImageView tclick , tview;
         Dialog dialog;
-        String tid , ttitle;
+        //String tid , ttitle;
         List<List<TopWear>> list = new ArrayList<>();
 
         // List<String> list = new ArrayList<>();
 
-        MeansAdapter(Context context, List<List<TopWear>> list, ImageView tclick, ImageView tview, Dialog dialog, String tid , String ttitle) {
+        MeansAdapter(Context context, List<List<TopWear>> list, ImageView tclick, ImageView tview, Dialog dialog) {
 
             this.context = context;
             this.list = list;
             this.tclick = tclick;
             this.tview = tview;
             this.dialog = dialog;
-            this.tid = tid;
-            this.ttitle = ttitle;
 
         }
 
@@ -247,56 +251,65 @@ public class MeansWear extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull final MeansAdapter.MyViewHolder myViewHolder, int i) {
 
-            final TopWear item = list.get(i).get(0);
 
-            final Bitmap[] lBitmap = new Bitmap[1];
+            try {
+                final TopWear item = list.get(i).get(0);
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
-                    cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                final Bitmap[] lBitmap = new Bitmap[1];
 
-            ImageLoader loader = ImageLoader.getInstance();
+                DisplayImageOptions options = new DisplayImageOptions.Builder().
+                        cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+
+                ImageLoader loader = ImageLoader.getInstance();
 
 
-            loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
+                loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
 
-                }
+                    }
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
-                }
+                    }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
-                    myViewHolder.image.setImageBitmap(loadedImage);
-                    lBitmap[0] = loadedImage;
-                }
+                        myViewHolder.image.setImageBitmap(loadedImage);
+                        lBitmap[0] = loadedImage;
+                    }
 
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
 
-                }
-            });
+                    }
+                });
 
-            myViewHolder.name.setText(item.getProductTitle());
+                myViewHolder.name.setText(item.getProductTitle());
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    tview.setImageBitmap(lBitmap[0]);
-                    tclick.setImageBitmap(lBitmap[0]);
+                        tview.setImageBitmap(lBitmap[0]);
+                        tclick.setImageBitmap(lBitmap[0]);
 
-                    tid = item.getId();
-                    ttitle = item.getProductTitle();
+                        tid = item.getId();
+                        ttitle = item.getProductTitle();
 
-                    dialog.dismiss();
+                        dialog.dismiss();
 
-                }
-            });
+                    }
+                });
+
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
 
 
 
@@ -339,15 +352,13 @@ public class MeansWear extends Fragment {
 
         // List<String> list = new ArrayList<>();
 
-        BottomAdapter(Context context, List<List<BottomWear>> list, ImageView tclick, ImageView tview, Dialog dialog, String tid , String ttitle) {
+        BottomAdapter(Context context, List<List<BottomWear>> list, ImageView tclick, ImageView tview, Dialog dialog) {
 
             this.context = context;
             this.list = list;
             this.tclick = tclick;
             this.tview = tview;
             this.dialog = dialog;
-            this.tid = tid;
-            this.ttitle = ttitle;
 
         }
 
@@ -363,56 +374,65 @@ public class MeansWear extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull final BottomAdapter.MyViewHolder myViewHolder, int i) {
 
-            final BottomWear item = list.get(i).get(0);
 
-            final Bitmap[] lBitmap = new Bitmap[1];
+            try {
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
-                    cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                final BottomWear item = list.get(i).get(0);
 
-            ImageLoader loader = ImageLoader.getInstance();
+                final Bitmap[] lBitmap = new Bitmap[1];
+
+                DisplayImageOptions options = new DisplayImageOptions.Builder().
+                        cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+
+                ImageLoader loader = ImageLoader.getInstance();
 
 
-            loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
+                loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
 
-                }
+                    }
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
-                }
+                    }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
-                    myViewHolder.image.setImageBitmap(loadedImage);
-                    lBitmap[0] = loadedImage;
-                }
+                        myViewHolder.image.setImageBitmap(loadedImage);
+                        lBitmap[0] = loadedImage;
+                    }
 
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
 
-                }
-            });
+                    }
+                });
 
-            myViewHolder.name.setText(item.getProductTitle());
+                myViewHolder.name.setText(item.getProductTitle());
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    tview.setImageBitmap(lBitmap[0]);
-                    tclick.setImageBitmap(lBitmap[0]);
+                        tview.setImageBitmap(lBitmap[0]);
+                        tclick.setImageBitmap(lBitmap[0]);
 
-                    tid = item.getId();
-                    ttitle = item.getProductTitle();
+                        bid = item.getId();
+                        btitle = item.getProductTitle();
 
-                    dialog.dismiss();
+                        dialog.dismiss();
 
-                }
-            });
+                    }
+                });
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+
 
 
 

@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jsibbold.zoomage.ZoomageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class Page1 extends Fragment {
 
     ZoomageView imageView;
+    String url;
 
     @Nullable
     @Override
@@ -22,7 +25,13 @@ public class Page1 extends Fragment {
 
         View view = inflater.inflate(R.layout.page1 , container , false);
 
+        url = getArguments().getString("url");
+
         imageView = view.findViewById(R.id.watch);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(url , imageView , options);
 
         return view;
     }
