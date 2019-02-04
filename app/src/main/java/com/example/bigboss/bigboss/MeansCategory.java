@@ -51,6 +51,8 @@ public class MeansCategory extends AppCompatActivity {
 
     TextView title;
 
+    ImageView search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +87,16 @@ public class MeansCategory extends AppCompatActivity {
         grid.setAdapter(adapter);
 
         bar = findViewById(R.id.progress);
+        search = findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(MeansCategory.this , Search.class);
+                startActivity(i);
+            }
+        });
 
         id = getIntent().getStringExtra("id");
 
@@ -110,9 +122,6 @@ public class MeansCategory extends AppCompatActivity {
 
                     adapter.setgrid(response.body().getData());
 
-                } else {
-
-                    Toast.makeText(MeansCategory.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 bar.setVisibility(View.GONE);

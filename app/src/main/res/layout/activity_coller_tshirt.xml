@@ -40,6 +40,16 @@
                     android:layout_centerVertical="true"
                     android:id="@+id/title"/>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/search"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/saerch"/>
+
+
 
             </RelativeLayout>
 

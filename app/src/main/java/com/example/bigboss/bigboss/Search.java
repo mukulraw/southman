@@ -40,12 +40,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class Search extends AppCompatActivity {
 
     Toolbar toolbar;
+
     RecyclerView grid;
+
     GridLayoutManager manager;
 
     SearchAdapter adapter;
 
-    List<Datum>list;
+    List<Datum> list;
 
     ProgressBar bar;
 
@@ -75,17 +77,11 @@ public class Search extends AppCompatActivity {
         grid = findViewById(R.id.grid);
 
         list = new ArrayList<>();
-        adapter = new SearchAdapter(this , list);
+        adapter = new SearchAdapter(this, list);
 
-        manager = new GridLayoutManager(this , 1);
+        manager = new GridLayoutManager(this, 1);
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
-
-
-
-
-
-
 
 
         search.addTextChangedListener(new TextWatcher() {
@@ -99,18 +95,9 @@ public class Search extends AppCompatActivity {
 
                 String ss = s.toString();
 
-
-
-
-
-
-
                 bar.setVisibility(View.VISIBLE);
 
                 Bean b = (Bean) getApplicationContext();
-
-
-
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(b.baseurl)
@@ -120,17 +107,17 @@ public class Search extends AppCompatActivity {
 
                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                Call<SearchBean> call = cr.search(ss , SharePreferenceUtils.getInstance().getString("location"  ) );
+                Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
 
                 call.enqueue(new Callback<SearchBean>() {
                     @Override
                     public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
 
-                        if (Objects.equals(response.body().getStatus() , "1")){
+                        if (Objects.equals(response.body().getStatus(), "1")) {
 
                             adapter.setgrid(response.body().getData());
 
-                        }else {
+                        } else {
 
                             Toast.makeText(Search.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -157,21 +144,15 @@ public class Search extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
     }
 
-    public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.My>{
+    public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.My> {
 
         Context context;
 
-        List<Datum>list = new ArrayList<>();
+        List<Datum> list = new ArrayList<>();
 
-        public SearchAdapter(Context context ,  List<Datum>list ){
+        public SearchAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -182,7 +163,7 @@ public class Search extends AppCompatActivity {
         @Override
         public SearchAdapter.My onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.search_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.search_list_model, viewGroup, false);
             return new My(view);
         }
 
@@ -211,12 +192,12 @@ public class Search extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
+                    Intent i = new Intent(context, SingleProduct.class);
 
-                    Intent i = new Intent(context , SingleProduct.class);
+                    i.putExtra("id", item.getId());
 
-                    i.putExtra("id"  , item.getId());
+                    i.putExtra("text", item.getProductTitle());
 
-                    i.putExtra("text"  , item.getProductTitle());
                     context.startActivity(i);
                 }
             });
@@ -224,7 +205,7 @@ public class Search extends AppCompatActivity {
 
         }
 
-        public void setgrid( List<Datum>list ){
+        public void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -238,9 +219,7 @@ public class Search extends AppCompatActivity {
         public class My extends RecyclerView.ViewHolder {
 
             TextView name, brand, size, prices, color, negotiable;
-
             ImageView image;
-
 
 
             public My(@NonNull View itemView) {

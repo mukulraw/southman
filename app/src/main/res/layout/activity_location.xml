@@ -57,6 +57,8 @@
             android:textColor="#fff"
             android:text="Submit"
             android:background="@drawable/pink_background"/>
+
+
     </LinearLayout>
 
     <ProgressBar

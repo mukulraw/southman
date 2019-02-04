@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     RoundedImageView roundedImageView;
 
-    Button play , video , shop;
+    Button play, video, shop;
 
     TextView location;
 
@@ -88,21 +88,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
 
 
-/*
-        tabLayout.addTab(tabLayout.newTab().setText("Play"));
-        tabLayout.addTab(tabLayout.newTab().setText("Videos"));
-        tabLayout.addTab(tabLayout.newTab().setText("Shop"));
-*/
+        ada();
 
-        adapter = new PagerAdapter(getSupportFragmentManager() , 3);
-        pager.setAdapter(adapter);
-        tabLayout.setViewPager(pager);
-
-/*
-        tabLayout.getTabAt(0).setText("Play");
-        tabLayout.getTabAt(1).setText("Videos");
-        tabLayout.getTabAt(2).setText("Shop");
-*/
 
         notification = findViewById(R.id.notification);
 
@@ -116,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         //edit = findViewById(R.id.edit);
 
-       // name = findViewById(R.id.name);
+        // name = findViewById(R.id.name);
 
         setting = findViewById(R.id.setting);
 
@@ -246,73 +233,72 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-
-       location.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-
-
-               final Dialog dialog = new Dialog(MainActivity.this);
-               dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-               dialog.setContentView(R.layout.location_layoout);
-               dialog.setCancelable(true);
-               dialog.show();
+                final Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.location_layoout);
+                dialog.setCancelable(true);
+                dialog.show();
 
 
-               final RecyclerView grid = dialog.findViewById(R.id.recyclerView);
-               ProgressBar progress = dialog.findViewById(R.id.progressBar);
+                final RecyclerView grid = dialog.findViewById(R.id.recyclerView);
+                ProgressBar progress = dialog.findViewById(R.id.progressBar);
 
-               progress = findViewById(R.id.progress);
-
-
-               Bean b = (Bean) getApplicationContext();
-
-               progress.setVisibility(View.VISIBLE);
-
-               Retrofit retrofit = new Retrofit.Builder()
-                       .baseUrl(b.baseurl)
-                       .addConverterFactory(ScalarsConverterFactory.create())
-                       .addConverterFactory(GsonConverterFactory.create())
-                       .build();
-
-               AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-               Call<locationBean> call = cr.getLocations();
-
-               final ProgressBar finalProgress = progress;
-               call.enqueue(new Callback<locationBean>() {
-                   @Override
-                   public void onResponse(Call<locationBean> call, Response<locationBean> response) {
-
-                       LocationAdapter adapter = new LocationAdapter(MainActivity.this , response.body().getData() , dialog);
-                       GridLayoutManager manager = new GridLayoutManager(MainActivity.this , 1);
-                       grid.setAdapter(adapter);
-                       grid.setLayoutManager(manager);
-
-                       finalProgress.setVisibility(View.GONE);
-
-                   }
-
-                   @Override
-                   public void onFailure(Call<locationBean> call, Throwable t) {
-                       finalProgress.setVisibility(View.GONE);
-                   }
-               });
-
-           }
-       });
+                progress = findViewById(R.id.progress);
 
 
+                Bean b = (Bean) getApplicationContext();
 
+                progress.setVisibility(View.VISIBLE);
 
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+                Call<locationBean> call = cr.getLocations();
+
+                final ProgressBar finalProgress = progress;
+                call.enqueue(new Callback<locationBean>() {
+                    @Override
+                    public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+
+                        LocationAdapter adapter = new LocationAdapter(MainActivity.this, response.body().getData(), dialog);
+                        GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
+                        grid.setAdapter(adapter);
+                        grid.setLayoutManager(manager);
+
+                        finalProgress.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<locationBean> call, Throwable t) {
+                        finalProgress.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+        });
 
 
     }
 
+
+    public void ada() {
+
+        adapter = new PagerAdapter(getSupportFragmentManager(), 3);
+        pager.setAdapter(adapter);
+        tabLayout.setViewPager(pager);
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -376,27 +362,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder>
-    {
+    class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
         Context context;
         List<Datum> list = new ArrayList<>();
         Dialog dialog;
 
-        public LocationAdapter(Context context , List<Datum> list , Dialog dialog)
-        {
+        public LocationAdapter(Context context, List<Datum> list, Dialog dialog) {
             this.context = context;
             this.list = list;
             this.dialog = dialog;
         }
 
 
-
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.location_list_model , viewGroup , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.location_list_model, viewGroup, false);
             return new ViewHolder(view);
         }
 
@@ -412,9 +395,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    SharePreferenceUtils.getInstance().saveString("location" , item.getId());
+                    SharePreferenceUtils.getInstance().saveString("location", item.getId());
                     location.setText(item.getName());
                     dialog.dismiss();
+                    ada();
 
                 }
             });
@@ -427,8 +411,7 @@ public class MainActivity extends AppCompatActivity {
             return list.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
             TextView text;
 
             public ViewHolder(@NonNull View itemView) {

@@ -80,14 +80,13 @@ public class Shop extends Fragment {
 
                 }
 
-                /*tab.getTabAt(0).setIcon(R.drawable.ic_badge);
-                tab.getTabAt(1).setIcon(R.drawable.ic_shop_store_frontal_building);
-                tab.getTabAt(2).setIcon(R.drawable.ic_wedding_suit);
-*/
+
             }
 
             @Override
             public void onFailure(Call<ShopBean> call, Throwable t) {
+
+
 
             }
         });

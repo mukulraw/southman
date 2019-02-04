@@ -60,8 +60,8 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:maxLines="4"
                 android:padding="5dp"
                 android:id="@+id/text"
                 android:typeface="monospace"

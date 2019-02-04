@@ -23,10 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.appyvet.materialrangebar.RangeBar;
 import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
-import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -54,7 +54,9 @@ public class CollerTshirt extends AppCompatActivity {
     CollerAdapter adapeter;
 
     List<ProductInfo> list;
+
     List<ProductInfo> filteredList;
+
     List<ProductInfo> sortedList;
 
     String id;
@@ -68,6 +70,8 @@ public class CollerTshirt extends AppCompatActivity {
     boolean isPrice = false, isSize = false;
 
     boolean isFilter = false;
+
+    ImageView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,18 @@ public class CollerTshirt extends AppCompatActivity {
         grid.setAdapter(adapeter);
 
         bar = findViewById(R.id.progress);
+
+        search = findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(CollerTshirt.this , Search.class);
+                startActivity(i);
+            }
+        });
+
 
         bar.setVisibility(View.VISIBLE);
 
@@ -454,7 +470,9 @@ public class CollerTshirt extends AppCompatActivity {
 
 
     class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
+
         Context context;
+
         List<String> flist = new ArrayList<>();
 
         List<String> checked = new ArrayList<>();
@@ -517,6 +535,8 @@ public class CollerTshirt extends AppCompatActivity {
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 check = itemView.findViewById(R.id.check);
+
+
             }
         }
     }

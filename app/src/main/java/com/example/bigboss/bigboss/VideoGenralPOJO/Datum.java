@@ -7,6 +7,9 @@ public class Datum {
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("product_code")
+    @Expose
+    private String productCode;
     @SerializedName("location_id")
     @Expose
     private String locationId;
@@ -44,6 +47,14 @@ public class Datum {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public String getLocationId() {

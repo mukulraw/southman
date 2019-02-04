@@ -75,9 +75,6 @@ public class Till extends Fragment {
         bar = vi.findViewById(R.id.progress);
 
 
-
-
-
         return vi;
 
 
@@ -118,7 +115,7 @@ public class Till extends Fragment {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getImageUrl() ,myViewHolder. imageView , options);
+            loader.displayImage(item.getImageUrl(), myViewHolder.imageView, options);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -127,8 +124,8 @@ public class Till extends Fragment {
 
 
                     Intent i = new Intent(context, MeansCategory.class);
-                    i.putExtra("id" , item.getId());
-                    i.putExtra("text" , item.getSubcatName());
+                    i.putExtra("id", item.getId());
+                    i.putExtra("text", item.getSubcatName());
                     context.startActivity(i);
                 }
             });
@@ -185,14 +182,20 @@ public class Till extends Fragment {
             @Override
             public void onResponse(Call<TillBean> call, Response<TillBean> response) {
 
-                if (Objects.equals(response.body().getStatus(), "1")) {
+                try {
 
-                    adapter.setgrid(response.body().getData());
 
-                } else {
+                    if (Objects.equals(response.body().getStatus(), "1")) {
 
-                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        adapter.setgrid(response.body().getData());
+
+                    }
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
                 }
+
 
                 bar.setVisibility(View.GONE);
             }

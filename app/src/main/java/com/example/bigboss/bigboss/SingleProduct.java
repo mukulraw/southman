@@ -38,6 +38,7 @@ public class SingleProduct extends AppCompatActivity {
 
     String id;
 
+    ImageView search;
 
     String ph, co;
 
@@ -81,6 +82,18 @@ public class SingleProduct extends AppCompatActivity {
 
         order = findViewById(R.id.order);
 
+        search = findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(SingleProduct.this , Search.class);
+                startActivity(i);
+            }
+        });
+
+
         bar = findViewById(R.id.progress);
 
 
@@ -115,6 +128,7 @@ public class SingleProduct extends AppCompatActivity {
                 negitable.setText(response.body().getProductInfo().get(0).getNegotiable());
 
                 ph = String.valueOf(response.body().getProductInfo().get(0).getPhoneNumber());
+               co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
                 details.setText(response.body().getProductInfo().get(0).getProductDetail());
 
@@ -173,18 +187,13 @@ public class SingleProduct extends AppCompatActivity {
 
                 mobile.setText(ph);
 
+                code.setText(co);
+
                 watshp.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        /*Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-                        sendIntent.setType("text/plain");
-                        sendIntent.setPackage("com.whatsapp");
-                        startActivity(Intent.createChooser(sendIntent, ""));
-                        startActivity(sendIntent);
-*/
+
 
                         try {
 
@@ -197,10 +206,7 @@ public class SingleProduct extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                       /* String url = "https://api.whatsapp.com/send?phone="+number;
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);*/
+
 
                     }
                 });

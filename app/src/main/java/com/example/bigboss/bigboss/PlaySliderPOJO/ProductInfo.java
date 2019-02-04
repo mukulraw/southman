@@ -5,10 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class ProductInfo {
 
-
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("product_code")
+    @Expose
+    private String productCode;
     @SerializedName("location_id")
     @Expose
     private String locationId;
@@ -73,6 +75,14 @@ public class ProductInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 
     public String getLocationId() {

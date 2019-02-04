@@ -105,7 +105,7 @@ public class Genral extends Fragment {
 
             final Datum item = list.get(i);
 
-            myViewHolder.textView.setText(item.getDescription());
+            myViewHolder.textView.setText(item.getSmallDesc());
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 
@@ -117,16 +117,35 @@ public class Genral extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(null, Uri.parse("ytv://"+v), getContext(), Videoplayer.class);
-                    intent.putExtra("id" , item.getId());
-                    intent.putExtra("ph" , item.getPhoneNo());
-                    intent.putExtra("is" , item.getWhatsOrderNow());
+                    Intent intent = new Intent(context, Videoplayer.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("ph", item.getPhoneNo());
+                    intent.putExtra("is", item.getWhatsOrderNow());
+                    intent.putExtra("videourl", item.getVideoUrl());
+                    intent.putExtra("des", item.getDescription());
+                    intent.putExtra("code", item.getProductCode());
                     startActivity(intent);
 
 
                 }
             });
 
+
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, Videoplayer.class);
+                    intent.putExtra("id", item.getId());
+                    intent.putExtra("ph", item.getPhoneNo());
+                    intent.putExtra("is", item.getWhatsOrderNow());
+                    intent.putExtra("videourl", item.getVideoUrl());
+                    intent.putExtra("des", item.getDescription());
+                    intent.putExtra("code", item.getProductCode());
+                    startActivity(intent);
+
+                }
+            });
 
         }
 
@@ -159,9 +178,6 @@ public class Genral extends Fragment {
                 play = itemView.findViewById(R.id.play);
 
 
-
-
-
             }
         }
     }
@@ -182,20 +198,25 @@ public class Genral extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<GenralBean> call = cr.genra(catid , SharePreferenceUtils.getInstance().getString("location"  ));
+        Call<GenralBean> call = cr.genra(catid, SharePreferenceUtils.getInstance().getString("location"));
 
         call.enqueue(new Callback<GenralBean>() {
             @Override
             public void onResponse(Call<GenralBean> call, Response<GenralBean> response) {
 
+                try {
 
-                if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(response.body().getStatus(), "1")) {
 
-                    adapter.setgrid(response.body().getData());
+                        adapter.setgrid(response.body().getData());
 
-                } else {
-                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
                 }
+
 
                 bar.setVisibility(View.GONE);
 

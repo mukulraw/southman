@@ -22,6 +22,8 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +51,8 @@ public class Videoplayer extends YouTubeBaseActivity {
     Button order;
 
     String is;
-    String ph;
+    String ph , co;
+    String url , des;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,10 @@ public class Videoplayer extends YouTubeBaseActivity {
         id = getIntent().getStringExtra("id");
         is = getIntent().getStringExtra("is");
         ph = getIntent().getStringExtra("ph");
+        url = getIntent().getStringExtra("videourl");
+        des = getIntent().getStringExtra("des");
+        co = getIntent().getStringExtra("code");
+
 
         toolbar = findViewById(R.id.toolbar);
 
@@ -76,6 +83,9 @@ public class Videoplayer extends YouTubeBaseActivity {
         bar = findViewById(R.id.progress);
         // rec = findViewById(R.id.receipe);
         ingr = findViewById(R.id.ingredients);
+
+        ingr.setText(des);
+
         order = findViewById(R.id.order);
 
         youTubePlayerView = findViewById(R.id.videoplayer);
@@ -85,7 +95,7 @@ public class Videoplayer extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
-                youTubePlayer.loadVideo("G0Hx6uN2AJE");
+                youTubePlayer.loadVideo(extractYoutubeVideoId("videourl"));
 
                 //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
 
@@ -100,45 +110,6 @@ public class Videoplayer extends YouTubeBaseActivity {
 
         youTubePlayerView.initialize(Youtube.PlayerConfig.API_KEY, onInitializedListener);
 
-
-        bar.setVisibility(View.VISIBLE);
-
-        Bean b = (Bean) getApplicationContext();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-        Call<VideourlBean> call = cr.video(id);
-
-        call.enqueue(new Callback<VideourlBean>() {
-            @Override
-            public void onResponse(Call<VideourlBean> call, Response<VideourlBean> response) {
-
-
-                if (Objects.equals(response.body().getStatus(), "1")) {
-
-                    // rec.setText(response.body().getData().get(0).getSmallDesc());
-                    ingr.setText(response.body().getData().get(0).getDescription());
-
-                } else {
-
-                    Toast.makeText(Videoplayer.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                bar.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onFailure(Call<VideourlBean> call, Throwable t) {
-                bar.setVisibility(View.GONE);
-
-            }
-        });
 
         if (is.equals("yes")) {
             order.setVisibility(View.VISIBLE);
@@ -167,6 +138,7 @@ public class Videoplayer extends YouTubeBaseActivity {
                 Button call = dialog.findViewById(R.id.call);
 
                 mobile.setText(ph);
+                code.setText(co);
 
                 watshp.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -188,14 +160,12 @@ public class Videoplayer extends YouTubeBaseActivity {
                             sendIntent.setPackage("com.whatsapp");
                             startActivity(sendIntent);
 
-                        } catch (Exception e) {
+                        }
+
+                        catch (Exception e) {
                             e.printStackTrace();
                         }
 
-                       /* String url = "https://api.whatsapp.com/send?phone="+number;
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
-                        startActivity(i);*/
 
                     }
                 });
@@ -205,7 +175,6 @@ public class Videoplayer extends YouTubeBaseActivity {
                     public void onClick(View v) {
 
                         try {
-
 
                             Intent i = new Intent(Intent.ACTION_CALL);
                             i.setData(Uri.parse(ph));
@@ -233,5 +202,21 @@ public class Videoplayer extends YouTubeBaseActivity {
 
         public static final String API_KEY =
                 "AIzaSyCB_Qx_NUNn1YL-jMoXZfG4j8xJDAOtlBo";
+    }
+
+
+    public static String extractYoutubeVideoId(String ytUrl) {
+
+        String vId = null;
+
+        String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(ytUrl);
+
+        if(matcher.find()){
+            vId= matcher.group();
+        }
+        return vId;
     }
 }
