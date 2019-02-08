@@ -81,7 +81,7 @@
             android:layout_height="50dp"
             app:stl_defaultTabTextColor="#000"
             app:stl_indicatorCornerRadius="35dp"
-            app:stl_indicatorColor="#E97878"
+            app:stl_indicatorColor="#EBA0A0"
             app:stl_indicatorWidth="auto"
             app:stl_dividerThickness="0dp"
             app:stl_indicatorThickness="40dp"

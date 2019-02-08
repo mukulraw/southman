@@ -3,7 +3,6 @@ package com.example.bigboss.bigboss;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,25 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
-import com.example.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Videoplayer extends YouTubeBaseActivity {
 
@@ -75,7 +63,6 @@ public class Videoplayer extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
 
-
                 finish();
             }
         });
@@ -90,12 +77,14 @@ public class Videoplayer extends YouTubeBaseActivity {
 
         youTubePlayerView = findViewById(R.id.videoplayer);
 
-        onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+        /*onInitializedListener = new YouTubePlayer.OnInitializedListener() {
 
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
-                youTubePlayer.loadVideo(extractYoutubeVideoId("videourl"));
+                youTubePlayer.loadVideo(extractYoutubeVideoId(url));
+
+                Log.d("iidd" , url);
 
                 //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
 
@@ -105,10 +94,32 @@ public class Videoplayer extends YouTubeBaseActivity {
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
 
-            }
-        };
+                Log.d("failure" , youTubeInitializationResult.toString());
 
-        youTubePlayerView.initialize(Youtube.PlayerConfig.API_KEY, onInitializedListener);
+            }
+        };*/
+
+
+
+        youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+
+                youTubePlayer.loadVideo(extractYoutubeVideoId(url));
+
+                Log.d("iidd" , url);
+
+                //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
+
+                youTubePlayer.play();
+
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
 
 
         if (is.equals("yes")) {
@@ -200,8 +211,8 @@ public class Videoplayer extends YouTubeBaseActivity {
         PlayerConfig() {
         }
 
-        public static final String API_KEY =
-                "AIzaSyCB_Qx_NUNn1YL-jMoXZfG4j8xJDAOtlBo";
+        static final String API_KEY =
+                "AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ";
     }
 
 
