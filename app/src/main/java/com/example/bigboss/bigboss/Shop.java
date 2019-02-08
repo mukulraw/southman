@@ -64,20 +64,29 @@ public class Shop extends Fragment {
             @Override
             public void onResponse(Call<ShopBean> call, Response<ShopBean> response) {
 
-                for (int i = 0; i < response.body().getData().size(); i++) {
+                try {
 
-                    tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName())));
 
-                }
+                    for (int i = 0; i < response.body().getData().size(); i++) {
 
-                adapter = new ShopAdapter(getChildFragmentManager() , response.body().getData());
-                pager.setAdapter(adapter);
-                tab.setupWithViewPager(pager);
+                        tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName())));
 
-                for (int i = 0; i < response.body().getData().size(); i++) {
+                    }
 
-                    tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
+                    adapter = new ShopAdapter(getChildFragmentManager() , response.body().getData());
+                    pager.setAdapter(adapter);
+                    tab.setupWithViewPager(pager);
 
+                    for (int i = 0; i < response.body().getData().size(); i++) {
+
+                        tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
+
+                    }
+
+
+                }catch (Exception e){
+
+                    e.printStackTrace();
                 }
 
 

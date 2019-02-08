@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,16 +16,14 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-public class Videoplayer extends YouTubeBaseActivity {
+public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener{
 
     Toolbar toolbar;
 
     YouTubePlayerView youTubePlayerView;
-
-    YouTubePlayer.OnInitializedListener onInitializedListener;
 
     ImageView back;
 
@@ -41,6 +38,8 @@ public class Videoplayer extends YouTubeBaseActivity {
     String is;
     String ph , co;
     String url , des;
+
+    YouTubePlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +76,14 @@ public class Videoplayer extends YouTubeBaseActivity {
 
         youTubePlayerView = findViewById(R.id.videoplayer);
 
-        /*onInitializedListener = new YouTubePlayer.OnInitializedListener() {
 
+
+        youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", this);
+
+
+
+
+       /* youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
@@ -88,31 +93,10 @@ public class Videoplayer extends YouTubeBaseActivity {
 
                 //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
 
-                youTubePlayer.play();
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-                Log.d("failure" , youTubeInitializationResult.toString());
-
-            }
-        };*/
+                //youTubePlayer.play();
 
 
-
-        youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
-                youTubePlayer.loadVideo(extractYoutubeVideoId(url));
-
-                Log.d("iidd" , url);
-
-                //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
-
-                youTubePlayer.play();
-
+              //  youTubePlayer.cueVideo(extractYoutubeVideoId(url));
             }
 
             @Override
@@ -120,7 +104,7 @@ public class Videoplayer extends YouTubeBaseActivity {
 
             }
         });
-
+*/
 
         if (is.equals("yes")) {
             order.setVisibility(View.VISIBLE);
@@ -206,28 +190,111 @@ public class Videoplayer extends YouTubeBaseActivity {
 
     }
 
-    public class PlayerConfig {
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
-        PlayerConfig() {
+
+        if (!b)
+        {
+
+            this.player = youTubePlayer;
+
+            try {
+
+                //youTubePlayer.loadVideo("GqbNL4XGT4U");
+                youTubePlayer.loadVideo(extractYoutubeId(url));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+                    /*youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+
+                    youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
+                        @Override
+                        public void onPlaying() {
+                            loadingPopup.setVisibility(View.GONE);
+
+
+                        }
+
+                        @Override
+                        public void onPaused() {
+
+                        }
+
+                        @Override
+                        public void onStopped() {
+
+                        }
+
+                        @Override
+                        public void onBuffering(boolean b) {
+
+                        }
+
+                        @Override
+                        public void onSeekTo(int i) {
+
+                        }
+                    });
+
+                    youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onLoading() {
+
+                        }
+
+                        @Override
+                        public void onLoaded(String s) {
+                            //loadingPopup.setVisibility(View.GONE);
+                            //loading.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoEnded() {
+
+                            youTubePlayer.release();
+
+                        }
+
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                        }
+                    });
+*/
         }
 
-        static final String API_KEY =
-                "AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ";
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
     }
 
 
-    public static String extractYoutubeVideoId(String ytUrl) {
-
-        String vId = null;
-
-        String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
-
-        Pattern compiledPattern = Pattern.compile(pattern);
-        Matcher matcher = compiledPattern.matcher(ytUrl);
-
-        if(matcher.find()){
-            vId= matcher.group();
+    public String extractYoutubeId(String url) throws MalformedURLException {
+        String query = new URL(url).getQuery();
+        String[] param = query.split("&");
+        String id = null;
+        for (String row : param) {
+            String[] param1 = row.split("=");
+            if (param1[0].equals("v")) {
+                id = param1[1];
+            }
         }
-        return vId;
+        return id;
     }
+
+
 }

@@ -53,10 +53,14 @@ public class MeansCategory extends AppCompatActivity {
 
     ImageView search;
 
+    ConnectionDetector cd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_means_category);
+
+        cd = new ConnectionDetector(MeansCategory.this);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,53 +91,62 @@ public class MeansCategory extends AppCompatActivity {
         grid.setAdapter(adapter);
 
         bar = findViewById(R.id.progress);
+
         search = findViewById(R.id.search);
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                Intent i = new Intent(MeansCategory.this , Search.class);
+                Intent i = new Intent(MeansCategory.this, Search.class);
                 startActivity(i);
             }
         });
 
         id = getIntent().getStringExtra("id");
 
-        bar.setVisibility(View.VISIBLE);
+        if (cd.isConnectingToInternet()) {
 
-        Bean b = (Bean) getApplicationContext();
+            bar.setVisibility(View.VISIBLE);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            Bean b = (Bean) getApplicationContext();
 
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        Call<TillSubCatBean> call = cr.tillcat2(id);
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        call.enqueue(new Callback<TillSubCatBean>() {
-            @Override
-            public void onResponse(Call<TillSubCatBean> call, Response<TillSubCatBean> response) {
+            Call<TillSubCatBean> call = cr.tillcat2(id);
 
-                if (Objects.equals(response.body().getStatus(), "1")) {
+            call.enqueue(new Callback<TillSubCatBean>() {
+                @Override
+                public void onResponse(Call<TillSubCatBean> call, Response<TillSubCatBean> response) {
 
-                    adapter.setgrid(response.body().getData());
+                    if (Objects.equals(response.body().getStatus(), "1")) {
 
+                        adapter.setgrid(response.body().getData());
+
+                    }
+
+                    bar.setVisibility(View.GONE);
                 }
 
-                bar.setVisibility(View.GONE);
-            }
+                @Override
+                public void onFailure(Call<TillSubCatBean> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<TillSubCatBean> call, Throwable t) {
+                    bar.setVisibility(View.GONE);
 
-                bar.setVisibility(View.GONE);
+                }
+            });
 
-            }
-        });
+
+        } else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
@@ -189,7 +202,6 @@ public class MeansCategory extends AppCompatActivity {
                     i.putExtra("id", item.getId());
                     i.putExtra("text", item.getSubcatName());
                     context.startActivity(i);
-
 
                 }
             });

@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
         roundedImageView = findViewById(R.id.imageView1);
 
+        lname = getIntent().getStringExtra("lname");
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -356,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        lname = getIntent().getStringExtra("lname");
+
 
         location.setText(lname);
 
@@ -396,6 +398,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     SharePreferenceUtils.getInstance().saveString("location", item.getId());
+                    lname = item.getName();
                     location.setText(item.getName());
                     dialog.dismiss();
                     ada();

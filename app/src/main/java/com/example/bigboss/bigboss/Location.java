@@ -61,11 +61,15 @@ public class Location extends AppCompatActivity {
 
     List<Datum> list;
 
+    ConnectionDetector cd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location);
+
+        cd = new ConnectionDetector(Location.this);
 
         listt = new ArrayList<>();
         lid = new ArrayList<>();
@@ -87,9 +91,9 @@ public class Location extends AppCompatActivity {
 
         grid = findViewById(R.id.grid);
 
-        manager = new GridLayoutManager(getApplicationContext() , 1);
+        manager = new GridLayoutManager(getApplicationContext(), 1);
 
-        adapter = new locAdapter(this , list);
+        adapter = new locAdapter(this, list);
 
         grid.setLayoutManager(manager);
 
@@ -99,36 +103,36 @@ public class Location extends AppCompatActivity {
 
         progress = findViewById(R.id.progress);
 
+        if (cd.isConnectingToInternet()){
+            Bean b = (Bean) getApplicationContext();
 
-        Bean b = (Bean) getApplicationContext();
+            progress.setVisibility(View.VISIBLE);
 
-        progress.setVisibility(View.VISIBLE);
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+            Call<locationBean> call = cr.getLocations();
 
-        Call<locationBean> call = cr.getLocations();
-
-        call.enqueue(new Callback<locationBean>() {
-            @Override
-            public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+            call.enqueue(new Callback<locationBean>() {
+                @Override
+                public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
 
-                if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(response.body().getStatus(), "1")) {
 
-                    adapter.setgrid(response.body().getData());
+                        adapter.setgrid(response.body().getData());
 
-                } else {
+                    } else {
 
-                    Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                }
-                progress.setVisibility(View.GONE);
+                    }
+                    progress.setVisibility(View.GONE);
 
 
 
@@ -156,13 +160,19 @@ public class Location extends AppCompatActivity {
 */
 
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<locationBean> call, Throwable t) {
-                progress.setVisibility(View.GONE);
-            }
-        });
+                @Override
+                public void onFailure(Call<locationBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
+
+        }else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
 
 
 
@@ -212,9 +222,9 @@ public class Location extends AppCompatActivity {
 
         Context context;
 
-        List<Datum>list = new ArrayList<>();
+        List<Datum> list = new ArrayList<>();
 
-        public locAdapter(Context context , List<Datum>list) {
+        public locAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -243,11 +253,11 @@ public class Location extends AppCompatActivity {
                 public void onClick(View v) {
 
 
-                        SharePreferenceUtils.getInstance().saveString("location", list.get(i).getId());
-                        Intent ii = new Intent(Location.this, MainActivity.class);
-                        ii.putExtra("lname", list.get(i).getName());
-                        startActivity(ii);
-                        finish();
+                    SharePreferenceUtils.getInstance().saveString("location", list.get(i).getId());
+                    Intent ii = new Intent(Location.this, MainActivity.class);
+                    ii.putExtra("lname", list.get(i).getName());
+                    startActivity(ii);
+                    finish();
 
 
                 }
@@ -257,12 +267,13 @@ public class Location extends AppCompatActivity {
         }
 
 
-        public void setgrid(List<Datum>list){
+        public void setgrid(List<Datum> list) {
 
 
             this.list = list;
             notifyDataSetChanged();
         }
+
         @Override
         public int getItemCount() {
             return list.size();

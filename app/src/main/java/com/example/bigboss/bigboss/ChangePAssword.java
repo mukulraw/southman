@@ -19,10 +19,14 @@ public class ChangePAssword extends AppCompatActivity {
 
     ProgressBar bar;
 
+    ConnectionDetector cd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+
+        cd = new ConnectionDetector(ChangePAssword.this);
 
         submit = findViewById(R.id.submit);
 

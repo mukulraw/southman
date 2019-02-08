@@ -83,8 +83,8 @@ public class Videos extends Fragment {
 
                 }
 
-/*
-                tab.getTabAt(0).setIcon(R.drawable.ic_film);
+
+              /*  tab.getTabAt(0).setIcon(R.drawable.ic_film);
                 tab.getTabAt(1).setIcon(R.drawable.ic_movie_symbol_of_video_camera);
                 tab.getTabAt(2).setIcon(R.drawable.ic_boling_pot);
                 tab.getTabAt(3).setIcon(R.drawable.ic_study);
