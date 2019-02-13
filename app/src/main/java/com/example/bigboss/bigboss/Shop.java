@@ -159,6 +159,7 @@ public class Shop extends Fragment {
         View view = inflater.inflate(R.layout.tabs_layout , null);
 
         TextView tname = view.findViewById(R.id.textView3);
+
         ImageView timage = view.findViewById(R.id.imageView);
 
         tname.setText(name);

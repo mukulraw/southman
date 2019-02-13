@@ -63,10 +63,12 @@ public class MeansWear extends Fragment {
         catId = getArguments().getString("Catid");
 
         top = view.findViewById(R.id.top);
-        bottom = view.findViewById(R.id.bottom);
-        tclick = view.findViewById(R.id.tclick);
-        bclick = view.findViewById(R.id.bclick);
 
+        bottom = view.findViewById(R.id.bottom);
+
+        tclick = view.findViewById(R.id.tclick);
+
+        bclick = view.findViewById(R.id.bclick);
 
         top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +94,6 @@ public class MeansWear extends Fragment {
                         .build();
 
                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
 
                 Call<matchingBean> call = cr.getMatchingData(catId);
 
@@ -161,7 +162,9 @@ public class MeansWear extends Fragment {
                         Log.d("count" , String.valueOf(response.body().getData().getTopWear().size()));
 
                         BottomAdapter adapter = new BottomAdapter(getContext() , response.body().getData().getBottomWear() , bclick , pant , dialog);
+
                         grid.setLayoutManager(manager);
+
                         grid.setAdapter(adapter);
 
                         progress.setVisibility(View.GONE);
@@ -170,7 +173,9 @@ public class MeansWear extends Fragment {
 
                     @Override
                     public void onFailure(Call<matchingBean> call, Throwable t) {
+
                         progress.setVisibility(View.GONE);
+
                     }
                 });
 
@@ -182,13 +187,13 @@ public class MeansWear extends Fragment {
 
 
         shirt = view.findViewById(R.id.shirt);
+
         pant = view.findViewById(R.id.pant);
+
         shirt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.d("id" , tid);
-                Log.d("text" , ttitle);
 
                 Intent i = new Intent(getContext(), SingleProduct.class);
                 i.putExtra("id"  , tid);
@@ -203,8 +208,8 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Log.d("id" , bid);
-                Log.d("text" , btitle);
+              //  Log.d("id" , bid);
+               // Log.d("text" , btitle);
 
                 Intent i = new Intent(getContext(), SingleProduct.class);
                 i.putExtra("id"  , bid);

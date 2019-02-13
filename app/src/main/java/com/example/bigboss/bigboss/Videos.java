@@ -99,14 +99,6 @@ public class Videos extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
         return view;
     }
 

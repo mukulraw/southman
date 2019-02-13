@@ -28,8 +28,8 @@
 
                 <ImageView
                     android:id="@+id/tshirt"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     />
@@ -40,9 +40,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:paddingStart="10dp"
+                    android:visibility="gone"
                     android:paddingEnd="10dp"
                     android:text="Round-T-Shirts"
                     android:textSize="12sp"

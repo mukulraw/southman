@@ -2,6 +2,7 @@ package com.example.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +56,8 @@ public class Search extends AppCompatActivity {
 
     EditText search;
 
+    LinearLayout linear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,16 +78,22 @@ public class Search extends AppCompatActivity {
 
 
         bar = findViewById(R.id.progress);
+
         search = findViewById(R.id.s);
+
+        linear = findViewById(R.id.linear);
+
         grid = findViewById(R.id.grid);
 
         list = new ArrayList<>();
+
         adapter = new SearchAdapter(this, list);
 
         manager = new GridLayoutManager(this, 1);
-        grid.setAdapter(adapter);
-        grid.setLayoutManager(manager);
 
+        grid.setAdapter(adapter);
+
+        grid.setLayoutManager(manager);
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,17 +120,38 @@ public class Search extends AppCompatActivity {
 
                 Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
 
+                Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
+
                 call.enqueue(new Callback<SearchBean>() {
                     @Override
                     public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
 
-                        if (Objects.equals(response.body().getStatus(), "1")) {
+                        try {
 
-                            adapter.setgrid(response.body().getData());
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                        } else {
+                                if (response.body().getData().size()>0){
 
-                            Toast.makeText(Search.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    linear.setVisibility(View.GONE);
+
+
+                                }else {
+
+                                    linear.setVisibility(View.VISIBLE);
+                                }
+
+                                adapter.setgrid(response.body().getData());
+                                linear.setVisibility(View.GONE);
+
+                            }
+                            else {
+
+                                linear.setVisibility(View.VISIBLE);
+                            }
+
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
                         }
 
 
@@ -130,6 +162,7 @@ public class Search extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<SearchBean> call, Throwable t) {
 
+                        linear.setVisibility(View.VISIBLE);
                         bar.setVisibility(View.GONE);
 
                     }
@@ -155,7 +188,9 @@ public class Search extends AppCompatActivity {
         public SearchAdapter(Context context, List<Datum> list) {
 
             this.context = context;
+
             this.list = list;
+
         }
 
 
@@ -176,9 +211,25 @@ public class Search extends AppCompatActivity {
             my.name.setText(item.getProductTitle());
             my.brand.setText(item.getBrand());
             my.size.setText(item.getSize());
-            my.prices.setText(item.getPrice());
+
+
+            my.prices.setText("\u20B9" +item.getPrice());
+           // my.prices.setText(item.getPrice());
             my.color.setText(item.getColor());
-            my.negotiable.setText(item.getNegotiable());
+            if (item.getNegotiable().equals("no")){
+
+                my.negotiable.setText("No");
+
+                my.negotiable.setTextColor(Color.RED);
+
+
+            }else {
+                my.negotiable.setText("Yes");
+
+                my.negotiable.setTextColor(Color.parseColor("#4CAF50"));
+
+            }
+
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().

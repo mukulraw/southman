@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,7 @@ public class Till extends Fragment {
 
     ProgressBar bar;
 
+    LinearLayout linearLayout;
 
     @Nullable
     @Override
@@ -65,6 +67,7 @@ public class Till extends Fragment {
         adapter = new TillAddapter(getContext(), list);
 
         grid = vi.findViewById(R.id.grid);
+        linearLayout = vi.findViewById(R.id.linear);
 
         manager = new GridLayoutManager(getContext(), 3);
 
@@ -74,7 +77,6 @@ public class Till extends Fragment {
 
         bar = vi.findViewById(R.id.progress);
 
-
         return vi;
 
 
@@ -82,8 +84,8 @@ public class Till extends Fragment {
 
     public class TillAddapter extends RecyclerView.Adapter<TillAddapter.MyViewHolder> {
 
-
         Context context;
+
         List<Datum> list = new ArrayList<>();
 
 
@@ -105,7 +107,6 @@ public class Till extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TillAddapter.MyViewHolder myViewHolder, int i) {
 
-
             final Datum item = list.get(i);
 
             myViewHolder.name.setText(item.getSubcatName());
@@ -117,16 +118,16 @@ public class Till extends Fragment {
 
             loader.displayImage(item.getImageUrl(), myViewHolder.imageView, options);
 
-
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
 
                     Intent i = new Intent(context, MeansCategory.class);
                     i.putExtra("id", item.getId());
                     i.putExtra("text", item.getSubcatName());
                     context.startActivity(i);
+
+
                 }
             });
 
@@ -147,7 +148,6 @@ public class Till extends Fragment {
 
             ImageView imageView;
             TextView name;
-
 
             public MyViewHolder(@NonNull final View itemView) {
                 super(itemView);
@@ -184,11 +184,25 @@ public class Till extends Fragment {
 
                 try {
 
-
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
-                        adapter.setgrid(response.body().getData());
+                        if (response.body().getData().size()>0){
 
+                           linearLayout.setVisibility(View.GONE);
+
+
+                        }else {
+
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+
+                        adapter.setgrid(response.body().getData());
+                        linearLayout.setVisibility(View.GONE);
+
+                    }
+                    else {
+
+                        linearLayout.setVisibility(View.VISIBLE);
                     }
 
                 } catch (Exception e) {
@@ -196,14 +210,16 @@ public class Till extends Fragment {
                     e.printStackTrace();
                 }
 
-
                 bar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<TillBean> call, Throwable t) {
 
+                linearLayout.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.GONE);
+
+
 
             }
         });

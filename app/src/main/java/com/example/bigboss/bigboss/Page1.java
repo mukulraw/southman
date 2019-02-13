@@ -16,7 +16,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class Page1 extends Fragment {
 
-    ZoomageView imageView;
+    ImageView imageView;
+
     String url;
 
     @Nullable

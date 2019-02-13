@@ -1,16 +1,21 @@
 package com.example.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
@@ -30,7 +35,7 @@ public class SingleProduct extends AppCompatActivity {
 
     Button order;
 
-    TextView name, brand, color, size, negitable, price, title , details;
+    TextView name, brand, color, size, negitable, price, title, details;
 
     ImageView imageView;
 
@@ -50,9 +55,13 @@ public class SingleProduct extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
 
         toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         toolbar.setNavigationIcon(R.drawable.arrowleft);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,19 +92,19 @@ public class SingleProduct extends AppCompatActivity {
         order = findViewById(R.id.order);
 
         search = findViewById(R.id.search);
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                Intent i = new Intent(SingleProduct.this , Search.class);
+                Intent i = new Intent(SingleProduct.this, Search.class);
                 startActivity(i);
             }
         });
 
 
         bar = findViewById(R.id.progress);
-
 
         bar.setVisibility(View.VISIBLE);
 
@@ -123,19 +132,39 @@ public class SingleProduct extends AppCompatActivity {
 
                 size.setText(response.body().getProductInfo().get(0).getSize());
 
-                price.setText(response.body().getProductInfo().get(0).getPrice());
+                price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
-                negitable.setText(response.body().getProductInfo().get(0).getNegotiable());
+
+                if (response.body().getProductInfo().get(0).getSubcatName().equals("no")) {
+
+                    negitable.setText("No");
+
+                    negitable.setTextColor(Color.RED);
+
+
+                } else {
+                    negitable.setText("Yes");
+
+                    negitable.setTextColor(Color.parseColor("#4CAF50"));
+
+                }
+
+                if (response.body().getProductInfo().get(0).getWhatsappOrderNow().equals("yes")) {
+                    order.setVisibility(View.VISIBLE);
+                } else {
+                    order.setVisibility(View.GONE);
+                }
 
                 ph = String.valueOf(response.body().getProductInfo().get(0).getPhoneNumber());
-               co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
+
+                co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
                 details.setText(response.body().getProductInfo().get(0).getProductDetail());
-
 
                 DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 
                 ImageLoader loader = ImageLoader.getInstance();
+
                 loader.displayImage(response.body().getProductInfo().get(0).getProductImage(), imageView, options);
 
                 bar.setVisibility(View.GONE);
@@ -195,6 +224,8 @@ public class SingleProduct extends AppCompatActivity {
 
 
 
+/*
+
                         try {
 
                             Uri uri = Uri.parse("smsto:" + ph);
@@ -205,7 +236,24 @@ public class SingleProduct extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+*/
 
+
+                        openWhatsApp();
+
+
+
+
+
+
+
+/*
+
+                        String url = "https://api.whatsapp.com/send?phone="+ph;
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+*/
 
 
                     }
@@ -215,7 +263,7 @@ public class SingleProduct extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        try {
+                       /* try {
 
 
                             Intent i = new Intent(Intent.ACTION_CALL);
@@ -226,6 +274,20 @@ public class SingleProduct extends AppCompatActivity {
                         } catch (Exception e) {
 
                             e.printStackTrace();
+                        }*/
+
+
+
+
+                        try {
+
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                            startActivity(intent);
+
+
+                        }catch (Exception e){
+
+                            e.printStackTrace();
                         }
 
 
@@ -234,5 +296,37 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void openWhatsApp() {
+        String smsNumber = "ph";
+        boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
+        if (isWhatsappInstalled) {
+
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(ph) + "@s.whatsapp.net");//phone number without "+" prefix
+
+            startActivity(sendIntent);
+        } else {
+            Uri uri = Uri.parse("market://details?id=com.whatsapp");
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            Toast.makeText(this, "WhatsApp not Installed",
+                    Toast.LENGTH_SHORT).show();
+            startActivity(goToMarket);
+        }
+    }
+
+    private boolean whatsappInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed = false;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
     }
 }

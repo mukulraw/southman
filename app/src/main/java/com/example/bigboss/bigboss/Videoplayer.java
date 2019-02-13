@@ -1,15 +1,20 @@
 package com.example.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -19,7 +24,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener{
+public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     Toolbar toolbar;
 
@@ -36,8 +41,10 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
     Button order;
 
     String is;
-    String ph , co;
-    String url , des;
+
+    String ph, co;
+
+    String url, des;
 
     YouTubePlayer player;
 
@@ -76,35 +83,11 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         youTubePlayerView = findViewById(R.id.videoplayer);
 
-
-
         youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", this);
 
 
 
 
-       /* youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
-                youTubePlayer.loadVideo(extractYoutubeVideoId(url));
-
-                Log.d("iidd" , url);
-
-                //  https://www.youtube.com/watch?v=G0Hx6uN2AJE
-
-                //youTubePlayer.play();
-
-
-              //  youTubePlayer.cueVideo(extractYoutubeVideoId(url));
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-            }
-        });
-*/
 
         if (is.equals("yes")) {
             order.setVisibility(View.VISIBLE);
@@ -139,25 +122,14 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
                     @Override
                     public void onClick(View v) {
 
-                        /*Intent sendIntent = new Intent();
-                        sendIntent.setAction(Intent.ACTION_SEND);
-                        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-                        sendIntent.setType("text/plain");
-                        sendIntent.setPackage("com.whatsapp");
-                        startActivity(Intent.createChooser(sendIntent, ""));
-                        startActivity(sendIntent);
-*/
 
                         try {
 
-                            Uri uri = Uri.parse("smsto:" + ph);
-                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                            sendIntent.setPackage("com.whatsapp");
-                            startActivity(sendIntent);
+                            openWhatsApp();
+                            dialog.dismiss();
 
-                        }
+                        } catch (Exception e) {
 
-                        catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -169,11 +141,12 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
                     @Override
                     public void onClick(View v) {
 
+
                         try {
 
-                            Intent i = new Intent(Intent.ACTION_CALL);
-                            i.setData(Uri.parse(ph));
-                            startActivity(i);
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                            startActivity(intent);
+                            dialog.dismiss();
 
 
                         } catch (Exception e) {
@@ -194,8 +167,7 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
 
 
-        if (!b)
-        {
+        if (!b) {
 
             this.player = youTubePlayer;
 
@@ -207,72 +179,6 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
                 e.printStackTrace();
             }
 
-                    /*youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
-
-                    youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
-                        @Override
-                        public void onPlaying() {
-                            loadingPopup.setVisibility(View.GONE);
-
-
-                        }
-
-                        @Override
-                        public void onPaused() {
-
-                        }
-
-                        @Override
-                        public void onStopped() {
-
-                        }
-
-                        @Override
-                        public void onBuffering(boolean b) {
-
-                        }
-
-                        @Override
-                        public void onSeekTo(int i) {
-
-                        }
-                    });
-
-                    youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                        @Override
-                        public void onLoading() {
-
-                        }
-
-                        @Override
-                        public void onLoaded(String s) {
-                            //loadingPopup.setVisibility(View.GONE);
-                            //loading.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onAdStarted() {
-
-                        }
-
-                        @Override
-                        public void onVideoStarted() {
-
-                        }
-
-                        @Override
-                        public void onVideoEnded() {
-
-                            youTubePlayer.release();
-
-                        }
-
-                        @Override
-                        public void onError(YouTubePlayer.ErrorReason errorReason) {
-
-                        }
-                    });
-*/
         }
 
     }
@@ -296,5 +202,36 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
         return id;
     }
 
+
+    private void openWhatsApp() {
+        String smsNumber = "ph";
+        boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
+        if (isWhatsappInstalled) {
+
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(ph) + "@s.whatsapp.net");//phone number without "+" prefix
+
+            startActivity(sendIntent);
+        } else {
+            Uri uri = Uri.parse("market://details?id=com.whatsapp");
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            Toast.makeText(this, "WhatsApp not Installed",
+                    Toast.LENGTH_SHORT).show();
+            startActivity(goToMarket);
+        }
+    }
+
+    private boolean whatsappInstalledOrNot(String uri) {
+        PackageManager pm = getPackageManager();
+        boolean app_installed = false;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
+    }
 
 }

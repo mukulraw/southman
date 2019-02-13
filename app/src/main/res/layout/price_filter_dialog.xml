@@ -32,6 +32,8 @@
     <com.appyvet.materialrangebar.RangeBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:id="@+id/range"
         app:mrb_rangeBar="true"
         app:mrb_pinMaxFont="15sp"

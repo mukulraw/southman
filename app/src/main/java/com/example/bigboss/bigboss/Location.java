@@ -122,7 +122,6 @@ public class Location extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
                         adapter.setgrid(response.body().getData());

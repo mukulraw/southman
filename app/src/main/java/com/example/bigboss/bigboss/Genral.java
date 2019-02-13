@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,9 @@ public class Genral extends Fragment {
 
     String catid;
 
+    LinearLayout linearLayout;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class Genral extends Fragment {
         adapter = new GenralAdapter(getContext(), list);
 
         grid = view.findViewById(R.id.grid);
+
+        linearLayout = view.findViewById(R.id.linear);
 
         manager = new GridLayoutManager(getContext(), 1);
 
@@ -211,8 +217,23 @@ public class Genral extends Fragment {
 
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
-                        adapter.setgrid(response.body().getData());
+                        if (response.body().getData().size()>0){
 
+
+                            linearLayout.setVisibility(View.GONE);
+
+                        }else {
+                            linearLayout.setVisibility(View.VISIBLE);
+                        }
+
+                        adapter.setgrid(response.body().getData());
+                        linearLayout.setVisibility(View.GONE);
+
+
+                    }
+                    else {
+
+                        linearLayout.setVisibility(View.VISIBLE);
                     }
 
                 } catch (Exception e) {
@@ -228,6 +249,7 @@ public class Genral extends Fragment {
             @Override
             public void onFailure(Call<GenralBean> call, Throwable t) {
 
+                linearLayout.setVisibility(View.VISIBLE);
 
                 bar.setVisibility(View.GONE);
 

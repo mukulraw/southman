@@ -29,9 +29,11 @@ public class Playitem extends AppCompatActivity {
 
     Button quit;
 
-    TextView name , color  , price , size , chances, proof , brand , nagtiable , totalprice , totaltext , timer ,one , two , three , four , five , six , seven , eight , nine , ten , delete , ok;
+    TextView name, color, price, size, chances, proof, brand, nagtiable, totalprice, totaltext, timer, one, two, three, four, five, six, seven, eight, nine, ten, delete, ok;
 
     List<String> list;
+
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +52,10 @@ public class Playitem extends AppCompatActivity {
             }
         });
 
-        //list = new ArrayList<>();
 
         adapter = new PlayitemAdapter(this);
 
-        manager = new GridLayoutManager(getApplicationContext() , 1);
+        manager = new GridLayoutManager(getApplicationContext(), 1);
 
         grid = findViewById(R.id.grid);
         quit = findViewById(R.id.quit);
@@ -68,11 +69,10 @@ public class Playitem extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(Playitem.this , MainActivity.class);
+                Intent i = new Intent(Playitem.this, MainActivity.class);
                 startActivity(i);
             }
         });
-
 
 
         name = findViewById(R.id.namee);
@@ -122,15 +122,51 @@ public class Playitem extends AppCompatActivity {
         chances = findViewById(R.id.chances);
 
 
+        one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+      /*  one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                totaltext.setText(totaltext.getText().toString() + ((totaltext)view).getText());
+            }
+        });*/
+
+
     }
 
-    public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder>{
+   /* public void updateDisplay(View v){
+        totaltext.setText(totaltext.getText().toString() + ((Button)v).getText());
+    }*/
+
+    public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder> {
 
         Context context;
 
-       // List<String>list = new ArrayList<>();
+        // List<String>list = new ArrayList<>();
 
-        public PlayitemAdapter(Context context){
+        public PlayitemAdapter(Context context) {
 
             this.context = context;
             //this.list = list;
@@ -141,7 +177,7 @@ public class Playitem extends AppCompatActivity {
         @Override
         public PlayitemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.playitem_list_model , viewGroup , false);
+            View view = LayoutInflater.from(context).inflate(R.layout.playitem_list_model, viewGroup, false);
             return new MyViewHolder(view);
         }
 
@@ -149,19 +185,19 @@ public class Playitem extends AppCompatActivity {
         public void onBindViewHolder(@NonNull PlayitemAdapter.MyViewHolder myViewHolder, int i) {
 
 
-          //  String item = list.get(i);
+            //  String item = list.get(i);
 
-          //  myViewHolder.textView.setText("");
+            //  myViewHolder.textView.setText("");
 
 
         }
 
-      /*  public void setgrid(List<String>list){
+        /*  public void setgrid(List<String>list){
 
-            this.list = list;
-            notifyDataSetChanged();;
-        }
-*/
+              this.list = list;
+              notifyDataSetChanged();;
+          }
+  */
         @Override
         public int getItemCount() {
             return 5;

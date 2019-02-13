@@ -577,10 +577,10 @@
                             android:layout_gravity="center"
                             android:layout_weight="0.9"
                             android:gravity="start"
+                            android:text="400"
                             android:typeface="monospace"
                             android:id="@+id/totaltext"
                             android:paddingStart="10dp"
-                            android:text="400"
                             android:textColor="#2dc12d" />
                     </LinearLayout>
 
@@ -616,6 +616,8 @@
                                     android:typeface="monospace"
                                     android:padding="10dp"
                                     android:text="1" />
+
+
                             </LinearLayout>
 
 

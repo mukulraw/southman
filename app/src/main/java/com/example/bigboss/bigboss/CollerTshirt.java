@@ -3,6 +3,7 @@ package com.example.bigboss.bigboss;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -396,10 +397,21 @@ public class CollerTshirt extends AppCompatActivity {
             myViewHolder.name.setText(item.getProductTitle());
             myViewHolder.brand.setText(item.getBrand());
             myViewHolder.size.setText(item.getSize());
-            myViewHolder.prices.setText(item.getPrice());
+            myViewHolder.prices.setText("\u20B9" + item.getPrice());
             myViewHolder.color.setText(item.getColor());
-            myViewHolder.negotiable.setText(item.getNegotiable());
+            if (item.getNegotiable().equals("no")){
 
+                myViewHolder.negotiable.setText("No");
+
+                myViewHolder.negotiable.setTextColor(Color.RED);
+
+
+            }else {
+                myViewHolder.negotiable.setText("Yes");
+
+                myViewHolder.negotiable.setTextColor(Color.parseColor("#4CAF50"));
+
+            }
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();

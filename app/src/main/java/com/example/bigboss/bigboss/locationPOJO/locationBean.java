@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class locationBean {
+
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -39,4 +41,6 @@ public class locationBean {
     public void setData(List<Datum> data) {
         this.data = data;
     }
+
+
 }

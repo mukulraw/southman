@@ -16,16 +16,16 @@ public class ProductInfo {
     private String locationId;
     @SerializedName("category_id")
     @Expose
-    private Object categoryId;
+    private String categoryId;
     @SerializedName("sub_category")
     @Expose
     private String subCategory;
     @SerializedName("buyer_name")
     @Expose
-    private Object buyerName;
+    private String buyerName;
     @SerializedName("phone_number")
     @Expose
-    private Object phoneNumber;
+    private String phoneNumber;
     @SerializedName("product_title")
     @Expose
     private String productTitle;
@@ -64,10 +64,10 @@ public class ProductInfo {
     private String created;
     @SerializedName("name")
     @Expose
-    private Object name;
+    private String name;
     @SerializedName("subcat_name")
     @Expose
-    private Object subcatName;
+    private String subcatName;
 
     public String getId() {
         return id;
@@ -93,11 +93,11 @@ public class ProductInfo {
         this.locationId = locationId;
     }
 
-    public Object getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Object categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -109,19 +109,19 @@ public class ProductInfo {
         this.subCategory = subCategory;
     }
 
-    public Object getBuyerName() {
+    public String getBuyerName() {
         return buyerName;
     }
 
-    public void setBuyerName(Object buyerName) {
+    public void setBuyerName(String buyerName) {
         this.buyerName = buyerName;
     }
 
-    public Object getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Object phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -221,19 +221,19 @@ public class ProductInfo {
         this.created = created;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Object getSubcatName() {
+    public String getSubcatName() {
         return subcatName;
     }
 
-    public void setSubcatName(Object subcatName) {
+    public void setSubcatName(String subcatName) {
         this.subcatName = subcatName;
     }
 
