@@ -57,6 +57,9 @@ public class ProductInfo {
     @SerializedName("subcat_name")
     @Expose
     private String subcatName;
+    @SerializedName("discount_price")
+    @Expose
+    private String discountPrice;
 
     public String getId() {
         return id;
@@ -192,5 +195,13 @@ public class ProductInfo {
 
     public void setSubcatName(String subcatName) {
         this.subcatName = subcatName;
+    }
+
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
     }
 }

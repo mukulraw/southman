@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -397,8 +398,22 @@ public class CollerTshirt extends AppCompatActivity {
             myViewHolder.name.setText(item.getProductTitle());
             myViewHolder.brand.setText(item.getBrand());
             myViewHolder.size.setText(item.getSize());
-            myViewHolder.prices.setText("\u20B9" + item.getPrice());
+
+            if (item.getDiscountPrice() != null)
+            {
+
+                myViewHolder.prices.setText(Html.fromHtml("<strike>\u20B9" + item.getDiscountPrice() + "</strike>  \u20B9" + item.getPrice()));
+            }
+            else
+            {
+                myViewHolder.prices.setText("\u20B9" + item.getPrice());
+            }
+
+
             myViewHolder.color.setText(item.getColor());
+
+
+
             if (item.getNegotiable().equals("no")){
 
                 myViewHolder.negotiable.setText("No");

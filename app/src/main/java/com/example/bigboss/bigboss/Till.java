@@ -176,7 +176,7 @@ public class Till extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<TillBean> call = cr.till(catid);
+        Call<TillBean> call = cr.till(catid , SharePreferenceUtils.getInstance().getString("location"));
 
         call.enqueue(new Callback<TillBean>() {
             @Override
