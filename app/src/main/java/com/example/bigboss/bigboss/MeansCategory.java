@@ -120,7 +120,7 @@ public class MeansCategory extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<TillSubCatBean> call = cr.tillcat2(id);
+            Call<TillSubCatBean> call = cr.tillcat2(id , SharePreferenceUtils.getInstance().getString("location"));
 
             call.enqueue(new Callback<TillSubCatBean>() {
                 @Override

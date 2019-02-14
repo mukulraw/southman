@@ -40,7 +40,7 @@ public class Shopby extends Fragment {
 
     List<Datum> list;
 
-    String catid;
+    String catid , location;
 
     ProgressBar bar;
 
@@ -52,6 +52,7 @@ public class Shopby extends Fragment {
 
 
         catid = getArguments().getString("catid");
+
 
 
         list = new ArrayList<>();
@@ -160,7 +161,7 @@ public class Shopby extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<TillBean> call = cr.till(catid);
+        Call<TillBean> call = cr.till(catid ,  SharePreferenceUtils.getInstance().getString("location"));
 
         call.enqueue(new Callback<TillBean>() {
             @Override

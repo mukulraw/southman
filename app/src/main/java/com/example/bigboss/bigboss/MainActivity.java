@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -266,6 +267,8 @@ public class MainActivity extends AppCompatActivity {
                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
                 Call<locationBean> call = cr.getLocations();
+
+                Log.d("location" , lname);
 
                 final ProgressBar finalProgress = progress;
                 call.enqueue(new Callback<locationBean>() {

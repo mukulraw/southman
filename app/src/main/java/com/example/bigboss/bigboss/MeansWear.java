@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bigboss.bigboss.matchingPOJO.BottomWear;
 import com.example.bigboss.bigboss.matchingPOJO.Data;
@@ -46,13 +47,13 @@ public class MeansWear extends Fragment {
 
     LinearLayout top, bottom;
 
-    ImageView pant , shirt;
+    ImageView pant, shirt;
 
     String catId;
 
-    String tid, bid , ttitle , btitle;
+    String tid, bid, ttitle, btitle;
 
-    ImageView tclick , bclick;
+    ImageView tclick, bclick;
 
     @Nullable
     @Override
@@ -85,7 +86,7 @@ public class MeansWear extends Fragment {
                 final ProgressBar progress = dialog.findViewById(R.id.progress);
                 final GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
 
-                Bean b = (Bean)getContext().getApplicationContext();
+                Bean b = (Bean) getContext().getApplicationContext();
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(b.baseurl)
@@ -101,9 +102,9 @@ public class MeansWear extends Fragment {
                     @Override
                     public void onResponse(Call<matchingBean> call, Response<matchingBean> response) {
 
-                        Log.d("count" , String.valueOf(response.body().getData().getTopWear().size()));
+                        Log.d("count", String.valueOf(response.body().getData().getTopWear().size()));
 
-                        MeansAdapter adapter = new MeansAdapter(getContext() , response.body().getData().getTopWear() , tclick , shirt , dialog);
+                        MeansAdapter adapter = new MeansAdapter(getContext(), response.body().getData().getTopWear(), tclick, shirt, dialog);
                         grid.setLayoutManager(manager);
                         grid.setAdapter(adapter);
 
@@ -116,7 +117,6 @@ public class MeansWear extends Fragment {
                         progress.setVisibility(View.GONE);
                     }
                 });
-
 
 
             }
@@ -140,7 +140,7 @@ public class MeansWear extends Fragment {
 
                 progress.setVisibility(View.VISIBLE);
 
-                Bean b = (Bean)getContext().getApplicationContext();
+                Bean b = (Bean) getContext().getApplicationContext();
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(b.baseurl)
@@ -153,15 +153,15 @@ public class MeansWear extends Fragment {
 
                 Call<matchingBean> call = cr.getMatchingData(catId);
 
-                Log.d("catId" , catId);
+                Log.d("catId", catId);
 
                 call.enqueue(new Callback<matchingBean>() {
                     @Override
                     public void onResponse(Call<matchingBean> call, Response<matchingBean> response) {
 
-                        Log.d("count" , String.valueOf(response.body().getData().getTopWear().size()));
+                        Log.d("count", String.valueOf(response.body().getData().getTopWear().size()));
 
-                        BottomAdapter adapter = new BottomAdapter(getContext() , response.body().getData().getBottomWear() , bclick , pant , dialog);
+                        BottomAdapter adapter = new BottomAdapter(getContext(), response.body().getData().getBottomWear(), bclick, pant, dialog);
 
                         grid.setLayoutManager(manager);
 
@@ -180,8 +180,6 @@ public class MeansWear extends Fragment {
                 });
 
 
-
-
             }
         });
 
@@ -194,11 +192,17 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if (tid.length() > 0) {
 
-                Intent i = new Intent(getContext(), SingleProduct.class);
-                i.putExtra("id"  , tid);
-                i.putExtra("text"  , ttitle);
-                startActivity(i);
+                    Intent i = new Intent(getContext(), SingleProduct.class);
+                    i.putExtra("id", tid);
+                    i.putExtra("text", ttitle);
+                    startActivity(i);
+
+                } else {
+                    Toast.makeText(getContext(), "Please choose the Top Wear", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -208,13 +212,20 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
-              //  Log.d("id" , bid);
-               // Log.d("text" , btitle);
+                //  Log.d("id" , bid);
+                // Log.d("text" , btitle);
 
-                Intent i = new Intent(getContext(), SingleProduct.class);
-                i.putExtra("id"  , bid);
-                i.putExtra("text"  , btitle);
-                startActivity(i);
+                if (bid.length() > 0) {
+
+                    Intent i = new Intent(getContext(), SingleProduct.class);
+                    i.putExtra("id", bid);
+                    i.putExtra("text", btitle);
+                    startActivity(i);
+
+                } else {
+                    Toast.makeText(getContext(), "Please choose the Bottom Wear", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
@@ -227,7 +238,7 @@ public class MeansWear extends Fragment {
     public class MeansAdapter extends RecyclerView.Adapter<MeansAdapter.MyViewHolder> {
 
         Context context;
-        ImageView tclick , tview;
+        ImageView tclick, tview;
         Dialog dialog;
         //String tid , ttitle;
         List<List<TopWear>> list = new ArrayList<>();
@@ -310,12 +321,9 @@ public class MeansWear extends Fragment {
                 });
 
 
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
 
 
         }
@@ -350,9 +358,9 @@ public class MeansWear extends Fragment {
     public class BottomAdapter extends RecyclerView.Adapter<BottomAdapter.MyViewHolder> {
 
         Context context;
-        ImageView tclick , tview;
+        ImageView tclick, tview;
         Dialog dialog;
-        String tid , ttitle;
+        String tid, ttitle;
         List<List<BottomWear>> list = new ArrayList<>();
 
         // List<String> list = new ArrayList<>();
@@ -432,13 +440,9 @@ public class MeansWear extends Fragment {
 
                     }
                 });
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
 
 
         }

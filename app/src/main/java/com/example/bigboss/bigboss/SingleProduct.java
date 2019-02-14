@@ -22,6 +22,7 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -242,8 +243,22 @@ public class SingleProduct extends AppCompatActivity {
                         openWhatsApp();
 
 
-
-
+                       // String formattedNumber = Util.formatPhone(ph);
+                       /* try{
+                            Intent sendIntent =new Intent("android.intent.action.MAIN");
+                            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.setType("text/plain");
+                            sendIntent.putExtra(Intent.EXTRA_TEXT,"dstfdsg");
+                            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators("917503381028") +"@s.whatsapp.net");
+                            sendIntent.setPackage("com.whatsapp");
+                            SingleProduct.this.startActivity(sendIntent);
+                        }
+                        catch(Exception e)
+                        {
+                            Toast.makeText(SingleProduct.this,"Error/n"+ e.toString(),Toast.LENGTH_SHORT).show();
+                        }
+*/
 
 
 
@@ -307,6 +322,7 @@ public class SingleProduct extends AppCompatActivity {
             Intent sendIntent = new Intent("android.intent.action.MAIN");
             sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
             sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(ph) + "@s.whatsapp.net");//phone number without "+" prefix
+           // sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(ph) + "Product code : " + co);//phone number without "+" prefix
 
             startActivity(sendIntent);
         } else {

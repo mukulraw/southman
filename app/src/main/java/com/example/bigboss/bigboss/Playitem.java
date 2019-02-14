@@ -58,6 +58,7 @@ public class Playitem extends AppCompatActivity {
         manager = new GridLayoutManager(getApplicationContext(), 1);
 
         grid = findViewById(R.id.grid);
+
         quit = findViewById(R.id.quit);
 
         grid.setAdapter(adapter);
@@ -71,6 +72,7 @@ public class Playitem extends AppCompatActivity {
 
                 Intent i = new Intent(Playitem.this, MainActivity.class);
                 startActivity(i);
+
             }
         });
 
@@ -120,7 +122,6 @@ public class Playitem extends AppCompatActivity {
         ok = findViewById(R.id.ok);
 
         chances = findViewById(R.id.chances);
-
 
         one.setOnClickListener(new View.OnClickListener() {
             @Override

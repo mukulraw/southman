@@ -36,8 +36,15 @@ public interface AllApiIneterface {
     Call<TabBean> tabbean();
 
 
-    @GET("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
+   /* @GET("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
     Call<ShopBean> sho();
+*/
+
+
+    @Multipart
+    @POST("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
+    Call<ShopBean> sho(
+            @Part("locationId") String catssid);
 
 
     @GET("bigboss/?rest_route=/GetLocationCategory/v1/location-list")
@@ -47,14 +54,14 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/?rest_route=/GetShopsubCategory1/v1/get-shop-sub-category1")
     Call<TillBean> till(
-            @Part("catId") String catid);
-
+            @Part("catId") String catid ,
+            @Part("locationId") String catssid);
 
     @Multipart
     @POST("bigboss/?rest_route=/GetShopsubCategory2/v1/get-shop-sub-category2")
     Call<TillSubCatBean> tillcat2(
-            @Part("subCatId") String catid);
-
+            @Part("subCatId") String catid ,
+            @Part("locationId") String ctid );
 
     @Multipart
     @POST("bigboss/?rest_route=/GetProductByid/v1/get-product")

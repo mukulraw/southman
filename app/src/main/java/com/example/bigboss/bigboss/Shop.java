@@ -59,7 +59,7 @@ public class Shop extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopBean> call = cr.sho();
+        Call<ShopBean> call = cr.sho( SharePreferenceUtils.getInstance().getString("location"));
         call.enqueue(new Callback<ShopBean>() {
             @Override
             public void onResponse(Call<ShopBean> call, Response<ShopBean> response) {
@@ -126,6 +126,7 @@ public class Shop extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString("Catid" , list.get(i).getId());
+
 
                 till.setArguments(b);
 
