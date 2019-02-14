@@ -192,7 +192,7 @@ public class MeansWear extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (tid.length() > 0) {
+                if (tid != null) {
 
                     Intent i = new Intent(getContext(), SingleProduct.class);
                     i.putExtra("id", tid);
@@ -215,7 +215,7 @@ public class MeansWear extends Fragment {
                 //  Log.d("id" , bid);
                 // Log.d("text" , btitle);
 
-                if (bid.length() > 0) {
+                if (bid != null) {
 
                     Intent i = new Intent(getContext(), SingleProduct.class);
                     i.putExtra("id", bid);

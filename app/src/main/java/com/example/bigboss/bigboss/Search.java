@@ -215,7 +215,6 @@ public class Search extends AppCompatActivity {
 
             if (item.getDiscountPrice() != null)
             {
-
                 my.prices.setText(Html.fromHtml("\u20B9" + item.getDiscountPrice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
             }
             else

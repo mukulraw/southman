@@ -144,7 +144,7 @@ public class SingleProduct extends AppCompatActivity {
                     price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
                 }
 
-                price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
+                //price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
 
                 if (response.body().getProductInfo().get(0).getNegotiable().equals("no")) {
