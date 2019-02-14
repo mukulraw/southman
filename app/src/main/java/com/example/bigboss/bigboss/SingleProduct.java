@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -133,10 +134,20 @@ public class SingleProduct extends AppCompatActivity {
 
                 size.setText(response.body().getProductInfo().get(0).getSize());
 
+                if (response.body().getProductInfo().get(0).getDiscountPrice() != null)
+                {
+
+                    price.setText(Html.fromHtml("\u20B9" + response.body().getProductInfo().get(0).getDiscountPrice() + "  <strike>\u20B9" + response.body().getProductInfo().get(0).getPrice() + "</strike>"));
+                }
+                else
+                {
+                    price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
+                }
+
                 price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
 
-                if (response.body().getProductInfo().get(0).getSubcatName().equals("no")) {
+                if (response.body().getProductInfo().get(0).getNegotiable().equals("no")) {
 
                     negitable.setText("No");
 

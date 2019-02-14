@@ -402,7 +402,7 @@ public class CollerTshirt extends AppCompatActivity {
             if (item.getDiscountPrice() != null)
             {
 
-                myViewHolder.prices.setText(Html.fromHtml("<strike>\u20B9" + item.getDiscountPrice() + "</strike>  \u20B9" + item.getPrice()));
+                myViewHolder.prices.setText(Html.fromHtml("\u20B9" + item.getDiscountPrice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
             }
             else
             {

@@ -58,7 +58,9 @@ public class Datum {
     private String productDetail;
     @SerializedName("created")
     @Expose
-    private String created;
+    private String created;@SerializedName("discount_price")
+    @Expose
+    private String discountPrice;
 
     public String getId() {
         return id;
@@ -204,5 +206,11 @@ public class Datum {
         this.created = created;
     }
 
+    public void setDiscountPrice(String discountPrice) {
+        this.discountPrice = discountPrice;
+    }
 
+    public String getDiscountPrice() {
+        return discountPrice;
+    }
 }

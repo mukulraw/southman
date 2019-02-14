@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -212,8 +213,15 @@ public class Search extends AppCompatActivity {
             my.brand.setText(item.getBrand());
             my.size.setText(item.getSize());
 
+            if (item.getDiscountPrice() != null)
+            {
 
-            my.prices.setText("\u20B9" +item.getPrice());
+                my.prices.setText(Html.fromHtml("\u20B9" + item.getDiscountPrice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
+            }
+            else
+            {
+                my.prices.setText("\u20B9" + item.getPrice());
+            }
            // my.prices.setText(item.getPrice());
             my.color.setText(item.getColor());
             if (item.getNegotiable().equals("no")){
