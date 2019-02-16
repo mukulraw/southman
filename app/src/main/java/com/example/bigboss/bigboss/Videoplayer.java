@@ -53,18 +53,22 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_videoplayer);
 
-
         id = getIntent().getStringExtra("id");
-        is = getIntent().getStringExtra("is");
-        ph = getIntent().getStringExtra("ph");
-        url = getIntent().getStringExtra("videourl");
-        des = getIntent().getStringExtra("des");
-        co = getIntent().getStringExtra("code");
 
+        is = getIntent().getStringExtra("is");
+
+        ph = getIntent().getStringExtra("ph");
+
+        url = getIntent().getStringExtra("videourl");
+
+        des = getIntent().getStringExtra("des");
+
+        co = getIntent().getStringExtra("code");
 
         toolbar = findViewById(R.id.toolbar);
 
         back = findViewById(R.id.back);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +78,7 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
         });
 
         bar = findViewById(R.id.progress);
-        // rec = findViewById(R.id.receipe);
+
         ingr = findViewById(R.id.ingredients);
 
         ingr.setText(des);
@@ -85,13 +89,11 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", this);
 
-
-
-
-
         if (is.equals("yes")) {
+
             order.setVisibility(View.VISIBLE);
         } else {
+
             order.setVisibility(View.GONE);
         }
 

@@ -183,7 +183,7 @@ public class MeansCategory extends AppCompatActivity {
 
             final Datum item = list.get(i);
 
-            myViewHolder.name.setText(item.getSubcatName());
+          //  myViewHolder.name.setText(item.getSubcatName());
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
@@ -224,14 +224,14 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageView imageView;
 
-            TextView name;
+           // TextView name;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 imageView = itemView.findViewById(R.id.tshirt);
 
-                name = itemView.findViewById(R.id.name);
+                //name = itemView.findViewById(R.id.name);
 
 
             }

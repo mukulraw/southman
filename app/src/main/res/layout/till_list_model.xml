@@ -8,37 +8,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-       android:layout_margin="5dp"
+        android:layout_margin="5dp"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
 
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="120dp"
-           android:background="#fff">
-
-
            <ImageView
-               android:layout_width="100dp"
-               android:layout_height="100dp"
-               android:layout_marginTop="10dp"
-               android:id="@+id/tshirt"
-               android:layout_centerHorizontal="true"
-               android:padding="10dp"/>
-
-
-           <TextView
                android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_alignParentBottom="true"
-               android:layout_marginBottom="10dp"
-               android:id="@+id/name"
-               android:visibility="gone"
-               android:gravity="center"
+               android:layout_height="120dp"
+               android:id="@+id/tshirt"
                />
 
 
-       </RelativeLayout>
 
     </LinearLayout>
 

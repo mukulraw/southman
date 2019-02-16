@@ -40,7 +40,6 @@ public interface AllApiIneterface {
     Call<ShopBean> sho();
 */
 
-
     @Multipart
     @POST("bigboss/?rest_route=/GetShopCategory/v1/get-shop-category")
     Call<ShopBean> sho(
@@ -57,11 +56,13 @@ public interface AllApiIneterface {
             @Part("catId") String catid ,
             @Part("locationId") String catssid);
 
+
     @Multipart
     @POST("bigboss/?rest_route=/GetShopsubCategory2/v1/get-shop-sub-category2")
     Call<TillSubCatBean> tillcat2(
             @Part("subCatId") String catid ,
             @Part("locationId") String ctid );
+
 
     @Multipart
     @POST("bigboss/?rest_route=/GetProductByid/v1/get-product")
@@ -84,10 +85,12 @@ public interface AllApiIneterface {
     Call<VideourlBean> video(
             @Part("catId") String cat);
 
+
     @Multipart
     @POST("bigboss/?rest_route=/GetMatchingProduct/v1/matching-product")
     Call<matchingBean> getMatchingData(
             @Part("matchingId") String cat);
+
 
     @Multipart
     @POST("bigboss/?rest_route=/SearchProduct/v1/get-product")
@@ -96,5 +99,6 @@ public interface AllApiIneterface {
             @Part("locationId") String c
 
     );
+
 
 }

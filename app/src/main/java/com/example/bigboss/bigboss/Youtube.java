@@ -30,25 +30,8 @@ public class Youtube extends YouTubeBaseActivity {
         setContentView(R.layout.activity_youtube);
 
         youTubePlayerView = findViewById(R.id.videoplayer);
+
         play = findViewById(R.id.play);
-
-        /*youTubePlayerView.initialize("https://www.youtube.com/watch?v=7lWeQs8Firo", new YouTubePlayer.OnInitializedListener() {
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-
-                youTubePlayer.loadVideo("https://www.youtube.com/watch?v=7lWeQs8Firo");
-
-                youTubePlayer.play();
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult
-                    youTubeInitializationResult) {
-
-            }
-        });
-*/
-
 
         onInitializedListener = new YouTubePlayer.OnInitializedListener() {
 
@@ -71,31 +54,11 @@ public class Youtube extends YouTubeBaseActivity {
             @Override
             public void onClick(View v) {
 
-
                 youTubePlayerView.initialize(PlayerConfig.API_KEY, onInitializedListener);
+
             }
         });
 
-
-
-
-
-
-       /* YouTubePlayerView youtubePlayerView = findViewById(R.id.youtube_player_view);
-        getLifecycle().addObserver(youtubePlayerView);
-
-        youtubePlayerView.initialize(new YouTubePlayerInitListener() {
-            @Override
-            public void onInitSuccess(@NonNull final YouTubePlayer initializedYouTubePlayer) {
-                initializedYouTubePlayer.addListener(new AbstractYouTubePlayerListener() {
-                    @Override
-                    public void onReady() {
-                        String videoId = "https://www.youtube.com/watch?v=7lWeQs8Firo";
-                        initializedYouTubePlayer.loadVideo(videoId, 0);
-                    }
-                });
-            }
-        }, true);*/
     }
 
     public class PlayerConfig {

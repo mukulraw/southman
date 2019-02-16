@@ -13,9 +13,11 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +61,8 @@ public class Search extends AppCompatActivity {
 
     LinearLayout linear;
 
+
+    ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +71,18 @@ public class Search extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+
+        bar = findViewById(R.id.progress);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 finish();
             }
         });
-
-
-        bar = findViewById(R.id.progress);
 
         search = findViewById(R.id.s);
 
@@ -96,6 +100,86 @@ public class Search extends AppCompatActivity {
 
         grid.setLayoutManager(manager);
 
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    String ss = search.getText().toString();
+
+                    bar.setVisibility(View.VISIBLE);
+
+                    Bean b = (Bean) getApplicationContext();
+
+                    final Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                    Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
+
+                    Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
+
+                    call.enqueue(new Callback<SearchBean>() {
+                        @Override
+                        public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+
+                            try {
+
+                                if (Objects.equals(response.body().getStatus(), "1")) {
+
+                                    if (response.body().getData().size()>0){
+
+                                        adapter.setgrid(response.body().getData());
+
+                                        Log.d("response" , "response");
+                                        linear.setVisibility(View.GONE);
+
+
+                                    }else {
+
+                                        linear.setVisibility(View.VISIBLE);
+                                    }
+
+
+                                    linear.setVisibility(View.GONE);
+
+                                }
+                                else {
+
+                                    linear.setVisibility(View.VISIBLE);
+                                }
+
+                            } catch (Exception e) {
+
+                                e.printStackTrace();
+                            }
+
+
+                            bar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<SearchBean> call, Throwable t) {
+
+                            Log.d("failure" , t.toString());
+                            adapter.setgrid(new ArrayList<Datum>());
+                            linear.setVisibility(View.VISIBLE);
+                            bar.setVisibility(View.GONE);
+
+                        }
+                    });
+
+                    return true;
+                }
+                return false;
+            }
+        });
+
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,7 +195,7 @@ public class Search extends AppCompatActivity {
 
                 Bean b = (Bean) getApplicationContext();
 
-                Retrofit retrofit = new Retrofit.Builder()
+                final Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(b.baseurl)
                         .addConverterFactory(ScalarsConverterFactory.create())
                         .addConverterFactory(GsonConverterFactory.create())
@@ -133,6 +217,8 @@ public class Search extends AppCompatActivity {
 
                                 if (response.body().getData().size()>0){
 
+                                    adapter.setgrid(response.body().getData());
+
                                     linear.setVisibility(View.GONE);
 
 
@@ -141,7 +227,7 @@ public class Search extends AppCompatActivity {
                                     linear.setVisibility(View.VISIBLE);
                                 }
 
-                                adapter.setgrid(response.body().getData());
+
                                 linear.setVisibility(View.GONE);
 
                             }
@@ -163,6 +249,7 @@ public class Search extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<SearchBean> call, Throwable t) {
 
+                        adapter.setgrid(new ArrayList<Datum>());
                         linear.setVisibility(View.VISIBLE);
                         bar.setVisibility(View.GONE);
 

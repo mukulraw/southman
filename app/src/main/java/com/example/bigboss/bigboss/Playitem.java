@@ -136,6 +136,133 @@ public class Playitem extends AppCompatActivity {
             }
         });
 
+        two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+
+        four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+
+        five.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        six.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        seven.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        eight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        nine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
+
+        ten.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                count++;
+
+                totaltext.setText("" + count);
+
+
+            }
+        });
+
 
 
 

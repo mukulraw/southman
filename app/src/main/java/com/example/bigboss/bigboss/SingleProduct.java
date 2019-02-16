@@ -37,7 +37,7 @@ public class SingleProduct extends AppCompatActivity {
 
     Button order;
 
-    TextView name, brand, color, size, negitable, price, title, details;
+    TextView name, brand, color, size, negitable, price, title, details , cod;
 
     ImageView imageView;
 
@@ -94,6 +94,7 @@ public class SingleProduct extends AppCompatActivity {
         order = findViewById(R.id.order);
 
         search = findViewById(R.id.search);
+        cod = findViewById(R.id.code);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +134,7 @@ public class SingleProduct extends AppCompatActivity {
                 color.setText(response.body().getProductInfo().get(0).getColor());
 
                 size.setText(response.body().getProductInfo().get(0).getSize());
+                cod.setText(response.body().getProductInfo().get(0).getProductCode());
 
                 if (response.body().getProductInfo().get(0).getDiscountPrice() != null)
                 {
@@ -309,9 +311,10 @@ public class SingleProduct extends AppCompatActivity {
 
                             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
                             startActivity(intent);
+                            dialog.dismiss();
 
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
                             e.printStackTrace();
                         }

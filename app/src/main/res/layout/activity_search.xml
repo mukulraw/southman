@@ -7,86 +7,96 @@
     tools:context="com.example.bigboss.bigboss.Search">
 
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linear"
-        android:visibility="gone"
-        android:layout_centerInParent="true">
-
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/man"
-            android:visibility="visible"
-            android:layout_gravity="center"
-            android:id="@+id/man"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:typeface="monospace"
-            android:padding="10dp"
-            android:layout_gravity="center"
-            android:textColor="#000"
-            android:text="No data found"/>
-
-
-    </LinearLayout>
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-
-        <android.support.v7.widget.Toolbar
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toolbar">
+            android:layout_height="wrap_content">
 
-            <EditText
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.Toolbar>
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/saerch"
-                android:background="@drawable/dcdcd"
-                android:layout_marginTop="10dp"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="5dp"
-                android:paddingStart="10dp"
-                android:hint="tap to enter"
-                android:paddingTop="5dp"
+                android:src="@drawable/arrowleft" />
+
+            <EditText
                 android:id="@+id/s"
-                android:paddingBottom="5dp"
-                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:maxLines="1"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/dcdcd"
+                android:drawableEnd="@drawable/saerch"
                 android:drawablePadding="5dp"
-                />
+                android:hint="tap to enter"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
+                android:padding="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp" />
 
 
-        </android.support.v7.widget.Toolbar>
-
+        </RelativeLayout>
 
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/grid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/grid">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <ImageView
+                android:id="@+id/man"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:src="@drawable/man"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="No data found"
+                android:textColor="#000"
+                android:typeface="monospace" />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <ProgressBar
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:id="@+id/progress"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

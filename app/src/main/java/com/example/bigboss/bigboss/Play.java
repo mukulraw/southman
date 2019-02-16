@@ -49,9 +49,10 @@ public class Play extends Fragment {
     EditText email, phone;
 
     ProgressBar bar;
+
     String id;
 
-   // List<ProductInfo>list;
+    // List<ProductInfo>list;
 
 
     @Nullable
@@ -62,7 +63,7 @@ public class Play extends Fragment {
 
         //id = getArguments().getString("id");
 
-       // list = new ArrayList<>();
+        // list = new ArrayList<>();
 
         submit = view.findViewById(R.id.submit);
 
@@ -79,23 +80,22 @@ public class Play extends Fragment {
             }
         });
 
-
         pager = (AutoScrollViewPager) view.findViewById(R.id.pager);
 
         pager.setOnPageChangeListener(new MyOnPageChangeListener());
 
         pager.setInterval(2000);
+
         pager.startAutoScroll();
         //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
-
         indicator = view.findViewById(R.id.indicator);
 
-       adapter = new ImageAddapter(getChildFragmentManager(), 3);
+        adapter = new ImageAddapter(getChildFragmentManager(), 3);
+
         pager.setAdapter(adapter);
+
         indicator.setViewPager(pager);
-
-
 
         name = view.findViewById(R.id.namee);
 
@@ -114,8 +114,6 @@ public class Play extends Fragment {
         email = view.findViewById(R.id.email);
 
         phone = view.findViewById(R.id.phone);
-
-
 
        /* bar.setVisibility(View.VISIBLE);
 
@@ -169,20 +167,13 @@ public class Play extends Fragment {
 */
 
 
-
-
-
-
-
-
-
         return view;
     }
 
     public class ImageAddapter extends FragmentStatePagerAdapter {
 
 
-       // List<ProductInfo>list = new ArrayList<>();
+        // List<ProductInfo>list = new ArrayList<>();
 
         public ImageAddapter(FragmentManager fm, int tab) {
             super(fm);
@@ -192,8 +183,6 @@ public class Play extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-
-
 
 
             if (i == 0) {

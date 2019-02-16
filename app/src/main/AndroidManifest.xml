@@ -20,41 +20,73 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SignUp" />
-        <activity android:name=".Forgot" />
-        <activity android:name=".ChangePAssword" />
-        <activity android:name=".Login" />
-        <activity android:name=".signupLogin" />
-        <activity android:name=".Location" />
-        <activity android:name=".CollerTshirt" />
-        <activity android:name=".MeansCategory" />
-        <activity android:name=".SingleProduct" />
-        <activity android:name="Videoplayer" />
-        <activity android:name=".WristWatch" />
-        <activity android:name=".Playitem" />
-        <activity android:name=".Notification" />
-        <activity android:name=".Search" />
-        <activity android:name=".MyProfile" />
-        <activity android:name=".MyOrder" />
-        <activity android:name=".WishList" />
-        <activity android:name=".Setting" />
-        <activity android:name=".EditProfile" />
-        <activity android:name=".SteamVideoPlayer" />
-        <activity android:name=".tab" />
-        <activity android:name=".ShopMens" />
-        <activity android:name=".ShopCollershirt" />
-        <activity android:name=".ShopSingleProduct" />
-        <activity android:name=".OneMenswear" />
-        <activity android:name=".Splash">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".SignUp"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Forgot"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ChangePAssword"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".signupLogin"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Location"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CollerTshirt"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MeansCategory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SingleProduct"
+            android:screenOrientation="portrait"/>
+        <activity android:name="Videoplayer"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".WristWatch"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Playitem"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Notification"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Search"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MyProfile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MyOrder"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".WishList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Setting"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EditProfile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SteamVideoPlayer"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".tab"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ShopMens"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ShopCollershirt"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ShopSingleProduct"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OneMenswear"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Sliders" />
-        <activity android:name=".Youtube">
+        <activity android:name=".Sliders"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Youtube"
+            android:screenOrientation="portrait">
 
 
         </activity>

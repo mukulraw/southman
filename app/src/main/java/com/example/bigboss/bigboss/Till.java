@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class Till extends Fragment {
         grid = vi.findViewById(R.id.grid);
         linearLayout = vi.findViewById(R.id.linear);
 
-        manager = new GridLayoutManager(getContext(), 3);
+        manager = new GridLayoutManager(getContext() , 3);
 
         grid.setAdapter(adapter);
 
@@ -109,7 +110,7 @@ public class Till extends Fragment {
 
             final Datum item = list.get(i);
 
-            myViewHolder.name.setText(item.getSubcatName());
+           // myViewHolder.name.setText(item.getSubcatName());
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
@@ -147,12 +148,12 @@ public class Till extends Fragment {
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             ImageView imageView;
-            TextView name;
+
 
             public MyViewHolder(@NonNull final View itemView) {
                 super(itemView);
 
-                name = itemView.findViewById(R.id.name);
+               // name = itemView.findViewById(R.id.name);
                 imageView = itemView.findViewById(R.id.tshirt);
 
 
