@@ -10,10 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class Image1 extends Fragment {
 
 
     ImageView image;
+    String url;
 
     @Nullable
     @Override
@@ -21,7 +25,14 @@ public class Image1 extends Fragment {
 
         View view = inflater.inflate(R.layout.image1 , container , false);
 
+        url = getArguments().getString("url");
+
         image = view.findViewById(R.id.image);
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(url , image , options);
+
         return view;
     }
 }

@@ -368,6 +368,7 @@
                                 android:layout_marginEnd="5dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
+                                android:visibility="gone"
                                 android:weightSum="2.5">
 
 
@@ -516,10 +517,11 @@
                                             android:src="@drawable/profil" />
 
                                         <EditText
-                                            android:id="@+id/name"
+                                            android:id="@+id/email"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:hint="tap to enter name"
+                                            android:inputType="textPersonName"
                                             android:textSize="12sp"
                                             android:paddingStart="8dp" />
 

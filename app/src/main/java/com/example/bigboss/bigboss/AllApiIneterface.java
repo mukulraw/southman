@@ -9,8 +9,11 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.example.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.example.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
+import com.example.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.example.bigboss.bigboss.locationPOJO.locationBean;
 import com.example.bigboss.bigboss.matchingPOJO.matchingBean;
+import com.example.bigboss.bigboss.playDataPOJO.playDataBean;
+import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
 import java.util.List;
 
@@ -100,5 +103,30 @@ public interface AllApiIneterface {
 
     );
 
+    @Multipart
+    @POST("bigboss/api/registerPlay.php")
+    Call<registerPlayBean> registerPlay(
+            @Part("playId") String playId,
+            @Part("name") String name,
+            @Part("phone") String phone
+    );
+
+    @Multipart
+    @POST("bigboss/api/playBid.php")
+    Call<registerPlayBean> playBid(
+            @Part("playId") String playId,
+            @Part("userId") String userId,
+            @Part("bid") String bid
+    );
+
+    @Multipart
+    @POST("bigboss/api/getPlayData.php")
+    Call<playDataBean> getPlayData(
+            @Part("playId") String playId
+
+    );
+
+    @GET("bigboss/api/getPlay.php")
+    Call<getPlayBean> getPlay();
 
 }

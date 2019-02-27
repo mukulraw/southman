@@ -18,9 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
+import com.example.bigboss.bigboss.getPlayPOJO.getPlayBean;
+import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,10 @@ public class Play extends Fragment {
 
     String id;
 
+    String playId;
+
+    String imm;
+
     // List<ProductInfo>list;
 
 
@@ -69,16 +76,7 @@ public class Play extends Fragment {
 
         bar = view.findViewById(R.id.progress);
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                Intent i = new Intent(getContext(), Playitem.class);
-                startActivity(i);
-
-            }
-        });
 
         pager = (AutoScrollViewPager) view.findViewById(R.id.pager);
 
@@ -91,11 +89,9 @@ public class Play extends Fragment {
 
         indicator = view.findViewById(R.id.indicator);
 
-        adapter = new ImageAddapter(getChildFragmentManager(), 3);
 
-        pager.setAdapter(adapter);
 
-        indicator.setViewPager(pager);
+
 
         name = view.findViewById(R.id.namee);
 
@@ -115,7 +111,7 @@ public class Play extends Fragment {
 
         phone = view.findViewById(R.id.phone);
 
-       /* bar.setVisibility(View.VISIBLE);
+        bar.setVisibility(View.VISIBLE);
 
         Bean b = (Bean) getContext().getApplicationContext();
 
@@ -127,26 +123,27 @@ public class Play extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<ShopProductBean> call = cr.shopproduct(id);
-        call.enqueue(new Callback<ShopProductBean>() {
+        Call<getPlayBean> call = cr.getPlay();
+        call.enqueue(new Callback<getPlayBean>() {
             @Override
-            public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
+            public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
 
-                for (int i = 0; i < response.body().getProductInfo().size(); i++) {
+                playId = response.body().getData().get(0).getId();
 
-                    pager.setScrollDurationFactor(response.body().getThumb().get(i).get1());
+                imm = response.body().getData().get(0).getData().getImage().get(0);
 
-                }
+                adapter = new ImageAddapter(getChildFragmentManager() , response.body().getData().get(0).getData().getImage());
 
-                adapter = new ImageAddapter(getChildFragmentManager() , response.body().getProductInfo());
+                pager.setAdapter(adapter);
 
+                indicator.setViewPager(pager);
 
-                name.setText(response.body().getProductInfo().get(0).getProductTitle());
-                price.setText(response.body().getProductInfo().get(0).getPrice());
-                brand.setText(response.body().getProductInfo().get(0).getBrand());
-                color.setText(response.body().getProductInfo().get(0).getColor());
-                size.setText(response.body().getProductInfo().get(0).getSize());
-                nagtiable.setText(response.body().getProductInfo().get(0).getNegotiable());
+                name.setText(response.body().getData().get(0).getData().getName());
+                price.setText(response.body().getData().get(0).getData().getPrice());
+                brand.setText(response.body().getData().get(0).getData().getBrand());
+                color.setText(response.body().getData().get(0).getData().getColor());
+                size.setText(response.body().getData().get(0).getData().getSize());
+                nagtiable.setText(response.body().getData().get(0).getData().getNegotiable());
                 //proof.setText(response.body().getProductInfo().get(0).get());
 
 
@@ -154,7 +151,7 @@ public class Play extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ShopProductBean> call, Throwable t) {
+            public void onFailure(Call<getPlayBean> call, Throwable t) {
 
                 bar.setVisibility(View.GONE);
 
@@ -163,8 +160,91 @@ public class Play extends Fragment {
 
 
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-*/
+
+                String e = email.getText().toString();
+                String p = phone.getText().toString();
+
+                if (e.length() > 0)
+                {
+                    if (p.length() == 10)
+                    {
+
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getContext().getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        Call<registerPlayBean> call = cr.registerPlay(playId , e , p);
+
+                        call.enqueue(new Callback<registerPlayBean>() {
+                            @Override
+                            public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+
+                                if (response.body().getStatus().equals("1"))
+                                {
+
+                                    Intent i = new Intent(getContext(), Playitem.class);
+
+                                    i.putExtra("userid" , response.body().getData().getUserId());
+                                    i.putExtra("name" , response.body().getData().getName());
+                                    i.putExtra("phone" , response.body().getData().getPhone());
+                                    i.putExtra("playId" , response.body().getData().getPlayId());
+                                    i.putExtra("image" , imm);
+                                    i.putExtra("title" , name.getText().toString());
+                                    i.putExtra("price" , price.getText().toString());
+                                    i.putExtra("brand" , brand.getText().toString());
+                                    i.putExtra("color" , color.getText().toString());
+                                    i.putExtra("size" , size.getText().toString());
+                                    i.putExtra("negotiable" , nagtiable.getText().toString());
+
+                                    startActivity(i);
+
+                                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                                bar.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<registerPlayBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Invalid Phone", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Invalid Name", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+            }
+        });
+
 
 
         return view;
@@ -174,9 +254,11 @@ public class Play extends Fragment {
 
 
         // List<ProductInfo>list = new ArrayList<>();
+        List<String> im = new ArrayList<>();
 
-        public ImageAddapter(FragmentManager fm, int tab) {
+        public ImageAddapter(FragmentManager fm , List<String> im) {
             super(fm);
+            this.im = im;
 
             //this.list = list;
         }
@@ -185,22 +267,18 @@ public class Play extends Fragment {
         public Fragment getItem(int i) {
 
 
-            if (i == 0) {
+            String url = im.get(i);
 
-                return new Image1();
-            } else if (i == 1) {
-
-                return new Image2();
-            } else if (i == 2) {
-
-                return new Image3();
-            }
-            return null;
+            Image1 frag = new Image1();
+            Bundle b = new Bundle();
+            b.putString("url" , url);
+            frag.setArguments(b);
+            return frag;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return im.size();
         }
     }
 

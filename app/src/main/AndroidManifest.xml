@@ -48,6 +48,7 @@
         <activity android:name=".WristWatch"
             android:screenOrientation="portrait"/>
         <activity android:name=".Playitem"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".Notification"
             android:screenOrientation="portrait"/>
