@@ -108,7 +108,10 @@ public interface AllApiIneterface {
     Call<registerPlayBean> registerPlay(
             @Part("playId") String playId,
             @Part("name") String name,
-            @Part("phone") String phone
+            @Part("phone") String phone,
+            @Part("deviceId") String deviceId,
+            @Part("ipaddress") String ipaddress,
+            @Part("token") String token
     );
 
     @Multipart

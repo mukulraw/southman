@@ -3,6 +3,7 @@ package com.example.bigboss.bigboss;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,10 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
@@ -186,8 +191,15 @@ public class Play extends Fragment {
 
                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+                        String android_id = Settings.Secure.getString(getActivity().getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
 
-                        Call<registerPlayBean> call = cr.registerPlay(playId , e , p);
+                        Log.d("Android","Android ID : "+android_id);
+                        Log.d("Android","Android ID : "+getLocalIpAddress());
+                        Log.d("Android","Android ID : " + SharePreferenceUtils.getInstance().getString("token"));
+
+
+                        Call<registerPlayBean> call = cr.registerPlay(playId , e , p , android_id , getLocalIpAddress()  , SharePreferenceUtils.getInstance().getString("token"));
 
                         call.enqueue(new Callback<registerPlayBean>() {
                             @Override
@@ -315,5 +327,22 @@ public class Play extends Fragment {
         pager.startAutoScroll();
     }
 
+    public String getLocalIpAddress(){
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+                 en.hasMoreElements();) {
+                NetworkInterface intf = en.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            Log.e("IP Address", ex.toString());
+        }
+        return null;
+    }
 
 }
