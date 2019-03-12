@@ -13,6 +13,12 @@ public class Datum {
     @SerializedName("time")
     @Expose
     private String time;
+    @SerializedName("diff")
+    @Expose
+    private String diff;
+    @SerializedName("video")
+    @Expose
+    private String video;
     @SerializedName("data")
     @Expose
     private Data data;
@@ -41,6 +47,22 @@ public class Datum {
         this.time = time;
     }
 
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
+    }
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
     public Data getData() {
         return data;
     }
@@ -48,5 +70,4 @@ public class Datum {
     public void setData(Data data) {
         this.data = data;
     }
-
 }

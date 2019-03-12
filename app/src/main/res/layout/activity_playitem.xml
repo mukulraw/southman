@@ -490,7 +490,6 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Gagan will own it for Rs. "
                                     android:typeface="monospace"
                                     android:id="@+id/bname"
                                     android:textSize="12dp"/>
@@ -499,7 +498,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="300"
+
                                     android:id="@+id/bprice"
                                     android:textColor="#2dc12d"
                                     android:typeface="monospace" />

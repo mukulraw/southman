@@ -105,5 +105,4 @@ public class Data {
     public void setImage(List<String> image) {
         this.image = image;
     }
-
 }

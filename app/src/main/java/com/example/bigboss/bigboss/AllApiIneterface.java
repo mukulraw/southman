@@ -126,10 +126,16 @@ public interface AllApiIneterface {
     @POST("bigboss/api/getPlayData.php")
     Call<playDataBean> getPlayData(
             @Part("playId") String playId
-
     );
 
     @GET("bigboss/api/getPlay.php")
     Call<getPlayBean> getPlay();
+
+    @Multipart
+    @POST("bigboss/api/endPlay.php")
+    Call<registerPlayBean> endPlay(
+            @Part("playId") String playId,
+            @Part("wid") String wid
+    );
 
 }

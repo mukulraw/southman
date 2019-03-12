@@ -1,7 +1,10 @@
 package com.example.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Button;
@@ -32,6 +36,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +72,10 @@ public class Playitem extends AppCompatActivity {
     String userId, playId;
 
     List<User> list;
+
+    int chanc = 3;
+
+    String wid , wname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,8 +119,9 @@ public class Playitem extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(Playitem.this, MainActivity.class);
-                startActivity(i);
+                //Intent i = new Intent(Playitem.this, MainActivity.class);
+                //startActivity(i);
+                finish();
 
             }
         });
@@ -165,6 +175,9 @@ public class Playitem extends AppCompatActivity {
         chances = findViewById(R.id.chances);
 
 
+        chances.setText("You have " + String.valueOf(chanc) + " chances left");
+
+
         String im = getIntent().getStringExtra("image");
 
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
@@ -175,13 +188,12 @@ public class Playitem extends AppCompatActivity {
         name.setText(getIntent().getStringExtra("title"));
         price.setText(getIntent().getStringExtra("price"));
 
-        current = Float.parseFloat(getIntent().getStringExtra("price"));
+        current = 0;
 
         brand.setText(getIntent().getStringExtra("brand"));
         color.setText(getIntent().getStringExtra("color"));
         size.setText(getIntent().getStringExtra("size"));
         nagtiable.setText(getIntent().getStringExtra("negotiable"));
-
 
 
         totaltext.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -201,8 +213,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "1";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -217,8 +228,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "2";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -235,8 +245,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "3";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -250,12 +259,10 @@ public class Playitem extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
                 try {
                     String value = "4";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -272,8 +279,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "5";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -287,8 +293,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "6";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -303,8 +308,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "7";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -319,8 +323,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "8";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -334,8 +337,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "9";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -350,8 +352,7 @@ public class Playitem extends AppCompatActivity {
                 try {
                     String value = "0";
                     ic.commitText(value, 1);
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -373,8 +374,7 @@ public class Playitem extends AppCompatActivity {
                         // delete the selection
                         ic.commitText("", 1);
                     }
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -387,54 +387,64 @@ public class Playitem extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (chanc > 0) {
+                    String tt = totaltext.getText().toString();
 
-                String tt = totaltext.getText().toString();
+                    String pp = price.getText().toString();
 
-                if (tt.length() > 0)
-                {
-                    float ttt = Float.parseFloat(tt);
+                    if (tt.length() > 0) {
+                        float ttt = Float.parseFloat(tt);
 
-                    if (ttt > current)
-                    {
-
-
-                        Bean b = (Bean) getApplicationContext();
-
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(b.baseurl)
-                                .addConverterFactory(ScalarsConverterFactory.create())
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .build();
-
-                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                        Call<registerPlayBean> call = cr.playBid(playId , userId , tt);
+                        if (ttt > current && ttt < Float.parseFloat(pp)) {
 
 
-                        call.enqueue(new Callback<registerPlayBean>() {
-                            @Override
-                            public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+                            Bean b = (Bean) getApplicationContext();
 
-                                Toast.makeText(Playitem.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
 
-                            }
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                            @Override
-                            public void onFailure(Call<registerPlayBean> call, Throwable t) {
+                            Call<registerPlayBean> call = cr.playBid(playId, userId, tt);
 
-                            }
-                        });
 
+                            call.enqueue(new Callback<registerPlayBean>() {
+                                @Override
+                                public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+
+                                    if (response.body().getStatus().equals("1")) {
+
+                                        chanc = Integer.parseInt(response.body().getMessage());
+                                        Toast.makeText(Playitem.this, "Bid placed successfully", Toast.LENGTH_SHORT).show();
+
+                                        chances.setText("You have " + String.valueOf(chanc) + " chances left");
+
+                                    } else {
+                                        Toast.makeText(Playitem.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<registerPlayBean> call, Throwable t) {
+
+                                }
+                            });
+
+
+                        } else {
+                            Toast.makeText(Playitem.this, "The bid amount must be between " + String.valueOf(current) + " and " + price.getText().toString(), Toast.LENGTH_SHORT).show();
+                        }
 
                     }
-                    else
-                    {
-                        Toast.makeText(Playitem.this, "The bid amount must be greater than " + String.valueOf(current), Toast.LENGTH_SHORT).show();
-                    }
 
+                } else {
+                    Toast.makeText(Playitem.this, "You don't have any chances left", Toast.LENGTH_SHORT).show();
                 }
-
-
 
 
             }
@@ -443,11 +453,9 @@ public class Playitem extends AppCompatActivity {
 
         setRepeat();
 
-
+        resetTimer();
 
     }
-
-
 
 
     void setRepeat() {
@@ -477,10 +485,23 @@ public class Playitem extends AppCompatActivity {
 
                         try {
 
-                            bname.setText(response.body().getBids().get(0).getName() + " will own it for Rs. ");
-                            totalprice.setText(response.body().getBids().get(0).getBid());
+                            if (Float.parseFloat(response.body().getBids().get(0).getBid()) != current) {
 
-                            current = Float.parseFloat(response.body().getBids().get(0).getBid());
+
+                                bname.setText(response.body().getBids().get(0).getName() + " will own it for Rs. ");
+                                totalprice.setText(response.body().getBids().get(0).getBid());
+
+                                wname = response.body().getBids().get(0).getName();
+
+                                current = Float.parseFloat(response.body().getBids().get(0).getBid());
+
+                                wid = response.body().getBids().get(0).getUserId();
+                                //reset timer
+
+                                resetTimer();
+
+                            }
+
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -534,6 +555,9 @@ public class Playitem extends AppCompatActivity {
 
             myViewHolder.textView.setText(item.getName() + " joined to play");
 
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(item.getImage(), myViewHolder.image, options);
 
         }
 
@@ -552,14 +576,136 @@ public class Playitem extends AppCompatActivity {
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView textView;
+            CircleImageView image;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 textView = itemView.findViewById(R.id.text);
+                image = itemView.findViewById(R.id.image);
 
 
             }
         }
     }
+
+    CountDownTimer timer2;
+
+
+    void resetTimer() {
+
+        try {
+            timer2.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        timer2 = new CountDownTimer(25000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                timer.setText(getDurationString(Integer.parseInt(String.valueOf(millisUntilFinished / 1000))));
+
+            }
+
+            @Override
+            public void onFinish() {
+
+
+                ok.setClickable(false);
+                ok.setEnabled(false);
+
+
+                endPlay();
+
+                //submitTest();
+                //finish();
+                Toast.makeText(Playitem.this, "Play finished", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+
+        timer2.start();
+
+    }
+
+    private String getDurationString(int seconds) {
+
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return twoDigitString(hours) + " : " + twoDigitString(minutes) + " : " + twoDigitString(seconds);
+    }
+
+    private String twoDigitString(int number) {
+
+        if (number == 0) {
+            return "00";
+        }
+
+        if (number / 10 == 0) {
+            return "0" + number;
+        }
+
+        return String.valueOf(number);
+    }
+
+
+    void endPlay()
+    {
+
+
+        Bean b = (Bean) getApplicationContext();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+        Call<registerPlayBean> call = cr.endPlay(playId , wid);
+        call.enqueue(new Callback<registerPlayBean>() {
+            @Override
+            public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+
+
+                Dialog dialog = new Dialog(Playitem.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.end_play_dialog);
+                dialog.show();
+
+                TextView cong = dialog.findViewById(R.id.textView20);
+
+                cong.setText("Congratulations " + wname);
+                // show dialog
+
+                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+
+                        dialog.dismiss();
+                        finish();
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<registerPlayBean> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+
 }
