@@ -128,8 +128,11 @@ public interface AllApiIneterface {
             @Part("playId") String playId
     );
 
-    @GET("bigboss/api/getPlay.php")
-    Call<getPlayBean> getPlay();
+    @Multipart
+    @POST("bigboss/api/getPlay.php")
+    Call<getPlayBean> getPlay(
+            @Part("locationId") String c
+    );
 
     @Multipart
     @POST("bigboss/api/endPlay.php")

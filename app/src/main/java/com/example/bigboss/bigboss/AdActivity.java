@@ -1,9 +1,13 @@
 package com.example.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -20,7 +24,9 @@ public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.On
     YouTubePlayer player;
 
     String url , diff;
-    TextView timerr;
+    TextView timerr , nnn;
+
+Button quit;
 
     String userId , playId , name , phone , image , title , price , brand , color , size , negotiable;
 
@@ -44,11 +50,50 @@ public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.On
         negotiable = getIntent().getStringExtra("negotiable");
 
         youTubePlayerView = findViewById(R.id.youTubePlayerView);
+        quit = findViewById(R.id.button);
+        nnn = findViewById(R.id.textView21);
         timerr = findViewById(R.id.textView18);
 
         youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", this);
 
+        nnn.setText(name);
+
         startImageTimer();
+
+
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(AdActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.quit_dialog_layout);
+                dialog.show();
+
+                Button ookk = dialog.findViewById(R.id.button2);
+                Button canc = dialog.findViewById(R.id.button4);
+
+                canc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                ookk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        finish();
+
+                    }
+                });
+
+
+            }
+        });
 
     }
 
@@ -148,4 +193,40 @@ public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.On
         return String.valueOf(number);
     }
 
+    @Override
+    public void onBackPressed() {
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(AdActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.quit_dialog_layout);
+                dialog.show();
+
+                Button ookk = dialog.findViewById(R.id.button2);
+                Button canc = dialog.findViewById(R.id.button4);
+
+                canc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                ookk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        finish();
+
+                    }
+                });
+
+
+            }
+        });
+    }
 }

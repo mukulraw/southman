@@ -49,24 +49,41 @@
                 android:textSize="16sp"
                 android:typeface="monospace" />
 
-            <ImageView
-                android:id="@+id/search"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/saerch" />
+                android:layout_centerVertical="true">
 
 
-            <ImageView
-                android:id="@+id/notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="45dp"
-                android:src="@drawable/notification" />
+                <ImageView
+                    android:id="@+id/reward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_trophy" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/notification" />
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/saerch" />
+
+
+            </LinearLayout>
 
 
         </RelativeLayout>

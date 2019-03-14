@@ -39,17 +39,35 @@
                     android:layout_centerInParent="true"
                     android:textColor="#000"
                     android:textSize="18sp"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:id="@+id/title"/>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/home"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_home_black_24dp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"
                     android:id="@+id/search"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/saerch"/>
+                </LinearLayout>
 
 
 

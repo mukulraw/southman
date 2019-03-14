@@ -73,7 +73,7 @@ public class CollerTshirt extends AppCompatActivity {
 
     boolean isFilter = false;
 
-    ImageView search;
+    ImageView search, home;
 
     ConnectionDetector cd;
 
@@ -126,6 +126,7 @@ public class CollerTshirt extends AppCompatActivity {
         bar = findViewById(R.id.progress);
 
         search = findViewById(R.id.search);
+        home = findViewById(R.id.home);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +134,15 @@ public class CollerTshirt extends AppCompatActivity {
 
                 Intent i = new Intent(CollerTshirt.this, Search.class);
                 startActivity(i);
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CollerTshirt.this, MainActivity.class);
+                startActivity(i);
+                finishAffinity();
             }
         });
 

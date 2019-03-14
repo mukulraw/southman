@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     PagerAdapter adapter;
 
-    ImageView search, notification;
+    ImageView search, notification, reward;
 
     TextView profile, order, wishlist, setting, logout, name, edit;
 
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         notification = findViewById(R.id.notification);
+        reward = findViewById(R.id.reward);
 
         search = findViewById(R.id.search);
 
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         roundedImageView = findViewById(R.id.imageView1);
 
-        lname = getIntent().getStringExtra("lname");
+        lname = SharePreferenceUtils.getInstance().getString("lname");
 
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +295,49 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+                Log.d("pageaa" , String.valueOf(i));
+
+
+                if (i == 2)
+                {
+
+                    search.setVisibility(View.VISIBLE);
+                    notification.setVisibility(View.GONE);
+                    reward.setVisibility(View.GONE);
+
+                }
+                else if (i == 1)
+                {
+                    search.setVisibility(View.GONE);
+                    notification.setVisibility(View.GONE);
+                    reward.setVisibility(View.GONE);
+                }
+                else
+                {
+                    notification.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.GONE);
+                    reward.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+
     }
 
 
@@ -401,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     SharePreferenceUtils.getInstance().saveString("location", item.getId());
+                    SharePreferenceUtils.getInstance().saveString("lname", item.getName());
                     lname = item.getName();
                     location.setText(item.getName());
                     dialog.dismiss();

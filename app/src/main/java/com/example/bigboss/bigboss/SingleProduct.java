@@ -45,7 +45,7 @@ public class SingleProduct extends AppCompatActivity {
 
     String id;
 
-    ImageView search;
+    ImageView search , home;
 
     String ph, co;
 
@@ -94,6 +94,7 @@ public class SingleProduct extends AppCompatActivity {
         order = findViewById(R.id.order);
 
         search = findViewById(R.id.search);
+        home = findViewById(R.id.home);
         cod = findViewById(R.id.code);
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +104,17 @@ public class SingleProduct extends AppCompatActivity {
 
                 Intent i = new Intent(SingleProduct.this, Search.class);
                 startActivity(i);
+            }
+        });
+
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(SingleProduct.this, MainActivity.class);
+                startActivity(i);
+                finishAffinity();
             }
         });
 

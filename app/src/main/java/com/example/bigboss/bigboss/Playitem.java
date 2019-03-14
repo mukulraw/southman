@@ -75,7 +75,7 @@ public class Playitem extends AppCompatActivity {
 
     int chanc = 3;
 
-    String wid , wname;
+    String wid , wname = "bigboss. No one played, this product is yours";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,9 +119,39 @@ public class Playitem extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                //Intent i = new Intent(Playitem.this, MainActivity.class);
-                //startActivity(i);
-                finish();
+                quit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        final Dialog dialog = new Dialog(Playitem.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.quit_dialog_layout);
+                        dialog.show();
+
+                        Button ookk = dialog.findViewById(R.id.button2);
+                        Button canc = dialog.findViewById(R.id.button4);
+
+                        canc.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        ookk.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                finish();
+
+                            }
+                        });
+
+
+                    }
+                });
 
             }
         });
@@ -422,6 +452,8 @@ public class Playitem extends AppCompatActivity {
 
                                         chances.setText("You have " + String.valueOf(chanc) + " chances left");
 
+                                        totaltext.setText("");
+
                                     } else {
                                         Toast.makeText(Playitem.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
@@ -690,7 +722,6 @@ public class Playitem extends AppCompatActivity {
                     @Override
                     public void onCancel(DialogInterface dialog) {
 
-                        dialog.dismiss();
                         finish();
 
                     }
@@ -707,5 +738,42 @@ public class Playitem extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                final Dialog dialog = new Dialog(Playitem.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.quit_dialog_layout);
+                dialog.show();
+
+                Button ookk = dialog.findViewById(R.id.button2);
+                Button canc = dialog.findViewById(R.id.button4);
+
+                canc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                ookk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        finish();
+
+                    }
+                });
+
+
+            }
+        });
+
+    }
 }

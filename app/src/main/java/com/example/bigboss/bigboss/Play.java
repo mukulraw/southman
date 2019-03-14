@@ -82,6 +82,7 @@ public class Play extends Fragment {
 
     // List<ProductInfo>list;
 
+    String tttt;
 
     @Nullable
     @Override
@@ -280,7 +281,7 @@ public class Play extends Fragment {
                                     i.putExtra("size", size.getText().toString());
                                     i.putExtra("negotiable", nagtiable.getText().toString());
                                     i.putExtra("url", video);
-                                    i.putExtra("diff", diff);
+                                    i.putExtra("diff", tttt);
 
                                     startActivity(i);
 
@@ -418,6 +419,8 @@ public class Play extends Fragment {
 
                 textTimer.setText("Time till registration " + getDurationString(Integer.parseInt(String.valueOf(millisUntilFinished / 1000))));
 
+                tttt = String.valueOf(millisUntilFinished/1000);
+
             }
 
             @Override
@@ -498,7 +501,7 @@ public class Play extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<getPlayBean> call = cr.getPlay();
+        Call<getPlayBean> call = cr.getPlay(SharePreferenceUtils.getInstance().getString("location"));
         call.enqueue(new Callback<getPlayBean>() {
             @Override
             public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
@@ -538,6 +541,7 @@ public class Play extends Fragment {
                         size.setText(response.body().getData().get(0).getData().getSize());
                         nagtiable.setText(response.body().getData().get(0).getData().getNegotiable());
                         //proof.setText(response.body().getProductInfo().get(0).get());
+
 
 
                         regLayout.setVisibility(View.VISIBLE);
