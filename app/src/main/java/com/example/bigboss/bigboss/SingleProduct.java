@@ -6,12 +6,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -23,6 +31,10 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,13 +49,23 @@ public class SingleProduct extends AppCompatActivity {
 
     Button order;
 
-    TextView name, brand, color, size, negitable, price, title, details , cod;
+    TextView name;
+    TextView brand;
+    TextView color;
+    TextView size;
+    TextView negitable;
+    TextView price;
+    static TextView title;
+    TextView details;
+    TextView cod;
 
-    ImageView imageView;
+    ViewPager imageView;
+
+    CircleIndicator indicator;
 
     ProgressBar bar;
 
-    String id;
+    static String id;
 
     ImageView search , home;
 
@@ -64,6 +86,7 @@ public class SingleProduct extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +95,8 @@ public class SingleProduct extends AppCompatActivity {
             }
         });
         title = findViewById(R.id.title);
+
+        indicator = findViewById(R.id.indicator);
 
         details = findViewById(R.id.text);
 
@@ -187,11 +212,15 @@ public class SingleProduct extends AppCompatActivity {
 
                 details.setText(response.body().getProductInfo().get(0).getProductDetail());
 
-                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 
-                ImageLoader loader = ImageLoader.getInstance();
 
-                loader.displayImage(response.body().getProductInfo().get(0).getProductImage(), imageView, options);
+                ViewAdapter adapter = new ViewAdapter(getSupportFragmentManager(), response.body().getThumb().get(0));
+
+                imageView.setAdapter(adapter);
+
+                indicator.setViewPager(imageView);
+
+
 
                 bar.setVisibility(View.GONE);
 
@@ -267,6 +296,7 @@ public class SingleProduct extends AppCompatActivity {
 
                         openWhatsApp();
 
+                        dialog.dismiss();
 
                        // String formattedNumber = Util.formatPhone(ph);
                        /* try{
@@ -341,6 +371,14 @@ public class SingleProduct extends AppCompatActivity {
 
 
     private void openWhatsApp() {
+
+
+
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=91" + ph + "&text=Product Code : " + co));
+        startActivity(browserIntent);
+
+/*
+
         String smsNumber = "ph";
         boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
         if (isWhatsappInstalled) {
@@ -357,7 +395,7 @@ public class SingleProduct extends AppCompatActivity {
             Toast.makeText(this, "WhatsApp not Installed",
                     Toast.LENGTH_SHORT).show();
             startActivity(goToMarket);
-        }
+        }*/
     }
 
     private boolean whatsappInstalledOrNot(String uri) {
@@ -371,4 +409,69 @@ public class SingleProduct extends AppCompatActivity {
         }
         return app_installed;
     }
+
+    public class ViewAdapter extends FragmentStatePagerAdapter {
+
+        List<String> tlist = new ArrayList<>();
+
+        public ViewAdapter(FragmentManager fm, List<String> tlist) {
+            super(fm);
+            this.tlist = tlist;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+
+            Page2 frag = new Page2();
+            Bundle b = new Bundle();
+            b.putString("url" , tlist.get(i));
+
+            frag.setArguments(b);
+            return frag;
+
+        }
+
+        @Override
+        public int getCount() {
+            return tlist.size();
+        }
+    }
+
+    public static class Page2 extends Fragment {
+
+        ImageView imageView;
+
+        String url;
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+            View view = inflater.inflate(R.layout.page1 , container , false);
+
+            url = getArguments().getString("url");
+
+            imageView = view.findViewById(R.id.watch);
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(url , imageView , options);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(getContext(), WristWatch.class);
+                    i.putExtra("id", id);
+                    i.putExtra("text", title.getText().toString());
+                    startActivity(i);
+
+                }
+            });
+
+            return view;
+        }
+    }
+
 }
