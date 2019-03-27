@@ -563,6 +563,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="tap to enter name"
                                     android:inputType="textPersonName"
+                                    android:ems="12"
                                     android:paddingStart="8dp"
                                     android:textSize="12sp" />
 

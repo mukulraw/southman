@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import me.relex.circleindicator.CircleIndicator;
+
 import com.example.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -34,7 +36,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.relex.circleindicator.CircleIndicator;
 import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;

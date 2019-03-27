@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tablayout);
 
 
-        ada();
+
 
 
         notification = findViewById(R.id.notification);
@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         logout = findViewById(R.id.logout);
 
         roundedImageView = findViewById(R.id.imageView1);
+
+        ada();
 
         lname = SharePreferenceUtils.getInstance().getString("lname");
 
@@ -342,6 +344,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void ada() {
+
+        notification.setVisibility(View.VISIBLE);
+        search.setVisibility(View.GONE);
+        reward.setVisibility(View.VISIBLE);
 
         adapter = new PagerAdapter(getSupportFragmentManager(), 3);
         pager.setAdapter(adapter);
