@@ -37,6 +37,7 @@ import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -491,10 +492,10 @@ public class Play extends Fragment {
 
         bar.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getContext().getApplicationContext();
+        //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
+                .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
