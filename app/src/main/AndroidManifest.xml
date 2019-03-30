@@ -18,9 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AdActivity"
-            android:screenOrientation="portrait"
-            ></activity>
+        <activity android:name=".Perks"></activity>
+        <activity android:name=".Winners" />
+        <activity
+            android:name=".AdActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"

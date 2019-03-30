@@ -16,7 +16,9 @@ public class Bid {
     @SerializedName("name")
     @Expose
     private String name;
-
+    @SerializedName("image")
+    @Expose
+    private String image;
     public String getBid() {
         return bid;
     }
@@ -49,4 +51,11 @@ public class Bid {
         this.name = name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

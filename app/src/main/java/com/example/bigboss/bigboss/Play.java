@@ -1,9 +1,18 @@
 package com.example.bigboss.bigboss;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +41,7 @@ import com.example.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.example.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -41,12 +51,17 @@ import java.util.Objects;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
+import static android.app.Activity.RESULT_OK;
 
 public class Play extends Fragment {
 
@@ -84,6 +99,8 @@ public class Play extends Fragment {
     // List<ProductInfo>list;
 
     String tttt;
+
+    Uri uri;
 
     @Nullable
     @Override
@@ -241,6 +258,23 @@ public class Play extends Fragment {
 
                         bar.setVisibility(View.VISIBLE);
 
+
+                        MultipartBody.Part body = null;
+
+                        try {
+
+                            String ypath = getPath(getActivity(), uri);
+                            File f1 = new File(ypath);
+
+                            RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                            body = MultipartBody.Part.createFormData("image", f1.getName(), reqFile1);
+
+
+                        }catch (Exception e1)
+                        {
+                            e1.printStackTrace();
+                        }
+
                         Bean b = (Bean) getContext().getApplicationContext();
 
                         Retrofit retrofit = new Retrofit.Builder()
@@ -259,7 +293,7 @@ public class Play extends Fragment {
                         Log.d("Android", "Android ID : " + SharePreferenceUtils.getInstance().getString("token"));
 
 
-                        Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token"));
+                        Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token") , body);
 
                         call.enqueue(new Callback<registerPlayBean>() {
                             @Override
@@ -317,6 +351,28 @@ public class Play extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                final CharSequence[] items = {"Take Photo from Camera",
+                        "Choose from Gallery",
+                        "Cancel"};
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                builder.setTitle("Add Photo!");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (items[item].equals("Take Photo from Camera")) {
+                            Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                            startActivityForResult(getpic, 1);
+                        } else if (items[item].equals("Choose from Gallery")) {
+                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, 2);
+                        } else if (items[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
 
 
             }
@@ -420,7 +476,7 @@ public class Play extends Fragment {
 
                 textTimer.setText("Time till registration " + getDurationString(Integer.parseInt(String.valueOf(millisUntilFinished / 1000))));
 
-                tttt = String.valueOf(millisUntilFinished/1000);
+                tttt = String.valueOf(millisUntilFinished / 1000);
 
             }
 
@@ -485,8 +541,7 @@ public class Play extends Fragment {
         return String.valueOf(number);
     }
 
-    void reload()
-    {
+    void reload() {
         regLayout.setVisibility(View.INVISIBLE);
         imgLayout.setVisibility(View.INVISIBLE);
 
@@ -544,7 +599,6 @@ public class Play extends Fragment {
                         //proof.setText(response.body().getProductInfo().get(0).get());
 
 
-
                         regLayout.setVisibility(View.VISIBLE);
                         imgLayout.setVisibility(View.INVISIBLE);
                         //textTimer.setText("Time till registration ");
@@ -580,5 +634,144 @@ public class Play extends Fragment {
 
 
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2 && resultCode == RESULT_OK && null != data) {
+            uri = data.getData();
+
+            String[] filePath = { MediaStore.Images.Media.DATA };
+            Cursor cursor = getActivity().getContentResolver().query(uri, filePath, null, null, null);
+            cursor.moveToFirst();
+            String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+
+            // Do something with the bitmap
+
+
+            // At the end remember to close the cursor or you will end with the RuntimeException!
+            cursor.close();
+
+            image.setImageBitmap(bitmap);
+        }
+        else if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            image.setImageBitmap(photo);
+        }
+
+
+
+    }
+
+    private static String getPath(final Context context, final Uri uri) {
+        final boolean isKitKatOrAbove = true;
+
+        // DocumentProvider
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                if ("primary".equalsIgnoreCase(type)) {
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                }
+
+                // TODO handle non-primary volumes
+            }
+            // DownloadsProvider
+            else if (isDownloadsDocument(uri)) {
+
+                final String id = DocumentsContract.getDocumentId(uri);
+                final Uri contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+
+                return getDataColumn(context, contentUri, null, null);
+            }
+            // MediaProvider
+            else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+
+                Uri contentUri = null;
+                if ("image".equals(type)) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+
+                final String selection = "_id=?";
+                final String[] selectionArgs = new String[]{
+                        split[1]
+                };
+
+                return getDataColumn(context, contentUri, selection, selectionArgs);
+            }
+        }
+        // MediaStore (and general)
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            return getDataColumn(context, uri, null, null);
+        }
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
+    }
+
+    private static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    private static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri The Uri to check.
+     * @return Whether the Uri authority is MediaProvider.
+     */
+    private static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    private static String getDataColumn(Context context, Uri uri, String selection,
+                                        String[] selectionArgs) {
+
+        Cursor cursor = null;
+        final String column = "_data";
+        final String[] projection = {
+                column
+        };
+
+        try {
+            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                    null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(column);
+                return cursor.getString(column_index);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
 
 }

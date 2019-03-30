@@ -1,7 +1,11 @@
 package com.example.bigboss.bigboss;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -13,6 +17,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         SharePreferenceUtils.getInstance().saveString("token" , s);
 
         Log.d("toekn" , s);
+
+
 
         super.onNewToken(s);
     }

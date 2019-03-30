@@ -14,9 +14,11 @@ import com.example.bigboss.bigboss.locationPOJO.locationBean;
 import com.example.bigboss.bigboss.matchingPOJO.matchingBean;
 import com.example.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
+import com.example.bigboss.bigboss.winnersPOJO.winnersBean;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -111,7 +113,8 @@ public interface AllApiIneterface {
             @Part("phone") String phone,
             @Part("deviceId") String deviceId,
             @Part("ipaddress") String ipaddress,
-            @Part("token") String token
+            @Part("token") String token,
+            @Part MultipartBody.Part file1
     );
 
     @Multipart
@@ -139,6 +142,16 @@ public interface AllApiIneterface {
     Call<registerPlayBean> endPlay(
             @Part("playId") String playId,
             @Part("wid") String wid
+    );
+
+
+    @GET("bigboss/api/getWinners.php")
+    Call<winnersBean> getWiners();
+
+    @Multipart
+    @POST("bigboss/api/getPerks.php")
+    Call<winnersBean> getPerks(
+            @Part("phone") String phone
     );
 
 }

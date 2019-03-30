@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.bigboss.bigboss.playDataPOJO.User;
 import com.example.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.example.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -62,12 +63,14 @@ public class Playitem extends AppCompatActivity {
 
     Handler handler;
 
+    ImageView image;
+
     float current = 0;
 
     int count = 0;
 
     TextView bname;
-    ImageView image;
+    ImageView uimage;
 
     String userId, playId;
 
@@ -75,7 +78,7 @@ public class Playitem extends AppCompatActivity {
 
     int chanc = 3;
 
-    String wid , wname = "bigboss. No one played, this product is yours";
+    String wid , wimage , wname = "bigboss. No one played, this product is yours";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,7 @@ public class Playitem extends AppCompatActivity {
         playId = getIntent().getStringExtra("playId");
 
         toolbar = findViewById(R.id.toolbar);
+        uimage = findViewById(R.id.image);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -524,11 +528,16 @@ public class Playitem extends AppCompatActivity {
                                 totalprice.setText(response.body().getBids().get(0).getBid());
 
                                 wname = response.body().getBids().get(0).getName();
+                                wimage = response.body().getBids().get(0).getImage();
 
                                 current = Float.parseFloat(response.body().getBids().get(0).getBid());
 
                                 wid = response.body().getBids().get(0).getUserId();
                                 //reset timer
+
+                                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                                ImageLoader loader = ImageLoader.getInstance();
+                                loader.displayImage(response.body().getBids().get(0).getImage() , uimage , options);
 
                                 resetTimer();
 
@@ -714,9 +723,14 @@ public class Playitem extends AppCompatActivity {
                 dialog.show();
 
                 TextView cong = dialog.findViewById(R.id.textView20);
+                CircularImageView iimm = dialog.findViewById(R.id.imageView4);
 
                 cong.setText("Congratulations " + wname);
                 // show dialog
+
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(wimage , iimm , options);
 
                 dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override

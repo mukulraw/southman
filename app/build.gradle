@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     //implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:9.0.1'
     implementation 'com.jsibbold:zoomage:1.1.0'
+    implementation 'com.github.cooltechworks:ScratchView:v1.1'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'

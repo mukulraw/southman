@@ -1,22 +1,44 @@
 package com.example.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.bigboss.bigboss.playDataPOJO.User;
+import com.example.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.OnInitializedListener {
 
@@ -26,7 +48,15 @@ public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.On
     String url , diff;
     TextView timerr , nnn;
 
+    GridLayoutManager manager;
+
 Button quit;
+
+    RecyclerView grid;
+
+    List<User> list;
+
+    PlayitemAdapter adapter;
 
     String userId , playId , name , phone , image , title , price , brand , color , size , negotiable;
 
@@ -34,6 +64,9 @@ Button quit;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ad2);
+
+        list = new ArrayList<>();
+
 
         url = getIntent().getStringExtra("url");
         diff = getIntent().getStringExtra("diff");
@@ -53,6 +86,17 @@ Button quit;
         quit = findViewById(R.id.button);
         nnn = findViewById(R.id.textView21);
         timerr = findViewById(R.id.textView18);
+
+        adapter = new PlayitemAdapter(this, list);
+
+        manager = new GridLayoutManager(getApplicationContext(), 1);
+
+        grid = findViewById(R.id.grid);
+
+        grid.setAdapter(adapter);
+
+        grid.setLayoutManager(manager);
+
 
         youTubePlayerView.initialize("AIzaSyBJuWOg3svNvIVR4qt0q1GDsETF6SrUExQ", this);
 
@@ -94,6 +138,8 @@ Button quit;
 
             }
         });
+
+        setRepeat();
 
     }
 
@@ -229,4 +275,113 @@ Button quit;
             }
         });
     }
+
+    public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder> {
+
+        Context context;
+
+        List<User> list = new ArrayList<>();
+        // List<String>list = new ArrayList<>();
+
+        public PlayitemAdapter(Context context, List<User> list) {
+
+            this.context = context;
+            this.list = list;
+        }
+
+
+        @NonNull
+        @Override
+        public PlayitemAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+            View view = LayoutInflater.from(context).inflate(R.layout.playitem_list_model, viewGroup, false);
+            return new MyViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull PlayitemAdapter.MyViewHolder myViewHolder, int i) {
+
+            User item = list.get(i);
+
+            myViewHolder.textView.setText(item.getName() + " joined to play");
+
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+            ImageLoader loader = ImageLoader.getInstance();
+            loader.displayImage(item.getImage(), myViewHolder.image, options);
+
+        }
+
+        public void setgrid(List<User> list) {
+
+            this.list = list;
+            notifyDataSetChanged();
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+
+            TextView textView;
+            CircleImageView image;
+
+            public MyViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                textView = itemView.findViewById(R.id.text);
+                image = itemView.findViewById(R.id.image);
+
+
+            }
+        }
+    }
+
+    void setRepeat() {
+        final Handler handler = new Handler();
+// Define the code block to be executed
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+
+                Bean b = (Bean) getApplicationContext();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                Call<playDataBean> call = cr.getPlayData(playId);
+
+                call.enqueue(new Callback<playDataBean>() {
+                    @Override
+                    public void onResponse(Call<playDataBean> call, Response<playDataBean> response) {
+
+                        adapter.setgrid(response.body().getUsers());
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<playDataBean> call, Throwable t) {
+
+                    }
+                });
+
+                // Do something here on the main thread
+                Log.d("Handlers", "Called on main thread");
+                // Repeat this the same runnable code block again another 2 seconds
+                // 'this' is referencing the Runnable object
+                handler.postDelayed(this, 1000);
+            }
+        };
+// Start the initial runnable task by posting through the handler
+        handler.post(runnableCode);
+    }
+
+
 }

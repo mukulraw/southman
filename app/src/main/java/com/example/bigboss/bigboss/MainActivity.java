@@ -236,6 +236,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
 */
+       reward.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+               Intent intent = new Intent(MainActivity.this , Winners.class);
+               startActivity(intent);
+           }
+       });
+
+        perks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this , Perks.class);
+                startActivity(intent);
+            }
+        });
 
 
         location.setOnClickListener(new View.OnClickListener() {
