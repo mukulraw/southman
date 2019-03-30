@@ -286,7 +286,7 @@ public class Search extends AppCompatActivity {
         @Override
         public SearchAdapter.My onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.search_list_model, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.coller_list_model, viewGroup, false);
             return new My(view);
         }
 

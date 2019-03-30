@@ -77,8 +77,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_trophy" />
-                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\trophy.svg" />
+                            <entry key="outputName" value="ic_request" />
+                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\request.svg" />
                           </map>
                         </option>
                       </PersistentState>

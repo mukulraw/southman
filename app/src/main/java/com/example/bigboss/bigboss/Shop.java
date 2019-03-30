@@ -126,6 +126,7 @@ public class Shop extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString("Catid" , list.get(i).getId());
+                b.putString("catname" , list.get(i).getName().toLowerCase());
 
 
                 till.setArguments(b);

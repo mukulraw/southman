@@ -46,7 +46,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    DrawerLayout drawer;
+    //DrawerLayout drawer;
 
     Toolbar toolbar;
 
@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
     PagerAdapter adapter;
 
-    ImageView search, notification, reward;
+    ImageView search, notification, reward, perks, request;
 
-    TextView profile, order, wishlist, setting, logout, name, edit;
+    //TextView profile, order, wishlist, setting, logout, name, edit;
 
     RoundedImageView roundedImageView;
 
@@ -73,44 +73,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawer = findViewById(R.id.drawer);
+        //drawer = findViewById(R.id.drawer);
         location = findViewById(R.id.location);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open, R.string.close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
+*/
         pager = findViewById(R.id.pager);
         tabLayout = findViewById(R.id.tablayout);
 
 
-
-
-
         notification = findViewById(R.id.notification);
         reward = findViewById(R.id.reward);
+        perks = findViewById(R.id.perks);
+        request = findViewById(R.id.request);
 
         search = findViewById(R.id.search);
 
         //profile = findViewById(R.id.profile);
 
-        order = findViewById(R.id.order);
+        /*order = findViewById(R.id.order);
 
         wishlist = findViewById(R.id.wish);
-
+*/
         //edit = findViewById(R.id.edit);
 
         // name = findViewById(R.id.name);
 
-        setting = findViewById(R.id.setting);
+  /*      setting = findViewById(R.id.setting);
 
         logout = findViewById(R.id.logout);
-
+*/
         roundedImageView = findViewById(R.id.imageView1);
 
         ada();
@@ -150,27 +149,27 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
-        order.setOnClickListener(new View.OnClickListener() {
+  /*      order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 Intent i = new Intent(MainActivity.this, MyOrder.class);
                 startActivity(i);
-                drawer.closeDrawer(GravityCompat.START);
+                //drawer.closeDrawer(GravityCompat.START);
 
             }
         });
+*/
 
-
-        wishlist.setOnClickListener(new View.OnClickListener() {
+  /*      wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 Intent i = new Intent(MainActivity.this, WishList.class);
                 startActivity(i);
-                drawer.closeDrawer(GravityCompat.START);
+                //drawer.closeDrawer(GravityCompat.START);
 
             }
         });
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, Setting.class);
                 startActivity(i);
-                drawer.closeDrawer(GravityCompat.START);
+                //drawer.closeDrawer(GravityCompat.START);
 
             }
         });
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+*/
 
        /* play = findViewById(R.id.play);
 
@@ -271,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Call<locationBean> call = cr.getLocations();
 
-                Log.d("location" , lname);
+                Log.d("location", lname);
 
                 final ProgressBar finalProgress = progress;
                 call.enqueue(new Callback<locationBean>() {
@@ -306,28 +305,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int i) {
 
-                Log.d("pageaa" , String.valueOf(i));
+                Log.d("pageaa", String.valueOf(i));
 
 
-                if (i == 2)
-                {
+                if (i == 2) {
 
                     search.setVisibility(View.VISIBLE);
-                    notification.setVisibility(View.GONE);
+                    request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
 
-                }
-                else if (i == 1)
-                {
+                } else if (i == 1) {
                     search.setVisibility(View.GONE);
-                    notification.setVisibility(View.GONE);
+                    request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
-                }
-                else
-                {
+                } else {
                     notification.setVisibility(View.VISIBLE);
                     search.setVisibility(View.GONE);
                     reward.setVisibility(View.VISIBLE);
+                    request.setVisibility(View.VISIBLE);
                 }
 
 
@@ -348,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
         notification.setVisibility(View.VISIBLE);
         search.setVisibility(View.GONE);
         reward.setVisibility(View.VISIBLE);
+        request.setVisibility(View.VISIBLE);
 
         adapter = new PagerAdapter(getSupportFragmentManager(), 3);
         pager.setAdapter(adapter);
@@ -355,18 +351,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-
-            drawer.closeDrawer(GravityCompat.START);
-
-        } else {
-            super.onBackPressed();
-        }
-
-    }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -410,7 +394,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
 
 
         location.setText(lname);

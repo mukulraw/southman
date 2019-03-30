@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,10 @@ public class MeansCategory extends AppCompatActivity {
 
     ConnectionDetector cd;
 
+    String catName;
+
+    LinearLayout linear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,8 @@ public class MeansCategory extends AppCompatActivity {
         cd = new ConnectionDetector(MeansCategory.this);
 
         toolbar = findViewById(R.id.toolbar);
+        linear = findViewById(R.id.linear);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -77,6 +84,7 @@ public class MeansCategory extends AppCompatActivity {
         title = findViewById(R.id.title);
 
         title.setText(getIntent().getStringExtra("text"));
+        catName = getIntent().getStringExtra("catname");
 
         grid = findViewById(R.id.grid);
 
@@ -139,7 +147,11 @@ public class MeansCategory extends AppCompatActivity {
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
                         adapter.setgrid(response.body().getData());
-
+                        linear.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        linear.setVisibility(View.VISIBLE);
                     }
 
                     bar.setVisibility(View.GONE);
@@ -211,6 +223,7 @@ public class MeansCategory extends AppCompatActivity {
                     Intent i = new Intent(context, CollerTshirt.class);
                     i.putExtra("id", item.getId());
                     i.putExtra("text", item.getSubcatName());
+                    i.putExtra("catname", catName);
                     context.startActivity(i);
 
                 }

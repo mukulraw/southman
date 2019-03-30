@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,8 @@ public class Till extends Fragment {
 
     LinearLayout linearLayout;
 
+    String catName;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +65,9 @@ public class Till extends Fragment {
         View vi = inflater.inflate(R.layout.till, container, false);
 
         catid = getArguments().getString("Catid");
+        catName = getArguments().getString("catname");
+
+        //Log.d("catname " , catName);
 
         list = new ArrayList<>();
 
@@ -126,6 +132,7 @@ public class Till extends Fragment {
                     Intent i = new Intent(context, MeansCategory.class);
                     i.putExtra("id", item.getId());
                     i.putExtra("text", item.getSubcatName());
+                    i.putExtra("catname", catName);
                     context.startActivity(i);
 
 

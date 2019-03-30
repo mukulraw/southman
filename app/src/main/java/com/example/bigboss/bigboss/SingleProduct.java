@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,14 +73,21 @@ public class SingleProduct extends AppCompatActivity {
 
     String ph, co;
 
+    String catName;
+
+    LinearLayout negotitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_product);
 
         id = getIntent().getStringExtra("id");
+        catName = getIntent().getStringExtra("catname");
+
 
         toolbar = findViewById(R.id.toolbar);
+        negotitle = findViewById(R.id.negotitle);
 
         setSupportActionBar(toolbar);
 
@@ -174,9 +182,8 @@ public class SingleProduct extends AppCompatActivity {
                 size.setText(response.body().getProductInfo().get(0).getSize());
                 cod.setText(response.body().getProductInfo().get(0).getProductCode());
 
-                if (response.body().getProductInfo().get(0).getDiscountPrice() != null)
+                if (response.body().getProductInfo().get(0).getDiscountPrice() != null && !catName.equals("shop by shop"))
                 {
-
                     price.setText(Html.fromHtml("\u20B9" + response.body().getProductInfo().get(0).getDiscountPrice() + "  <strike>\u20B9" + response.body().getProductInfo().get(0).getPrice() + "</strike>"));
                 }
                 else
@@ -199,6 +206,15 @@ public class SingleProduct extends AppCompatActivity {
 
                     negitable.setTextColor(Color.parseColor("#4CAF50"));
 
+                }
+
+                if (catName.equals("shop by shop"))
+                {
+                    negotitle.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    negotitle.setVisibility(View.GONE);
                 }
 
                 if (response.body().getProductInfo().get(0).getWhatsappOrderNow().equals("yes")) {

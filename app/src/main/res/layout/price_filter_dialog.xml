@@ -59,7 +59,7 @@
         android:id="@+id/prii"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:text="Price: 50 - 1500"
+        android:text="Price: 50 - 5000"
         />
 
     <TextView

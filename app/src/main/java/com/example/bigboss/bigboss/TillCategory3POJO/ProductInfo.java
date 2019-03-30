@@ -60,6 +60,9 @@ public class ProductInfo {
     @SerializedName("discount_price")
     @Expose
     private String discountPrice;
+    @SerializedName("product_code")
+    @Expose
+    private String productCode;
 
     public String getId() {
         return id;
@@ -203,5 +206,13 @@ public class ProductInfo {
 
     public void setDiscountPrice(String discountPrice) {
         this.discountPrice = discountPrice;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
     }
 }
