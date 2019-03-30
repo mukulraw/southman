@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e7e6e6"
-    tools:context="com.example.bigboss.bigboss.ShopSingleProduct">
+    tools:context="com.sc.bigboss.bigboss.ShopSingleProduct">
 
     <RelativeLayout
         android:layout_width="match_parent"
