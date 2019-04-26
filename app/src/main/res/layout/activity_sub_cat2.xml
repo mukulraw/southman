@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sc.bigboss.bigboss.CollerTshirt">
+    tools:context=".SubCat2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -26,20 +25,23 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
-                    >
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="#fff">
 
                 </android.support.v7.widget.Toolbar>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:textColor="#000"
-                    android:visibility="gone"
                     android:textSize="18sp"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:id="@+id/title"/>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -68,23 +70,23 @@
 
 
 
+
             </RelativeLayout>
 
 
         </android.support.v7.widget.CardView>
 
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="60dp"
-            android:clipToPadding="false">
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,55 +116,17 @@
 
             </LinearLayout>
 
-
         </RelativeLayout>
+
 
     </LinearLayout>
 
-
     <ProgressBar
-        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:id="@+id/bottom"
-        android:background="#ffffff"
-        android:weightSum="2">
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SORT"
-            android:id="@+id/sort"
-            android:typeface="monospace"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:padding="10dp"/>
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="FILTER"
-            android:id="@+id/filter"
-            android:typeface="monospace"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:padding="10dp"/>
-
-
-    </LinearLayout>
-
+        android:id="@+id/progress"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

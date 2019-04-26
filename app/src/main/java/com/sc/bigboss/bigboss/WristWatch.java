@@ -35,7 +35,7 @@ public class WristWatch extends AppCompatActivity {
 
     CircleIndicator indicator;
 
-    String id , title;
+    String id , title , base;
 
     TextView tool;
     ProgressBar bar;
@@ -81,6 +81,8 @@ public class WristWatch extends AppCompatActivity {
         bar.setVisibility(View.VISIBLE);
 
         Bean b = (Bean) getApplicationContext();
+
+        base = b.baseurl;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)
@@ -138,7 +140,7 @@ public class WristWatch extends AppCompatActivity {
 
             Page1 frag = new Page1();
             Bundle b = new Bundle();
-            b.putString("url" , tlist.get(i));
+            b.putString("url" , base + "bigboss/admin2/upload/products/" + tlist.get(i));
 
             frag.setArguments(b);
                 return frag;

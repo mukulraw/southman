@@ -8,20 +8,22 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sc.bigboss.bigboss.TillSubCategory2.Datum;
-import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sc.bigboss.bigboss.prodList2POJO.Datum;
+import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MeansCategory extends AppCompatActivity {
+public class ProductList2 extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -60,12 +62,13 @@ public class MeansCategory extends AppCompatActivity {
 
     LinearLayout linear;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_means_category);
+        setContentView(R.layout.activity_product_list2);
 
-        cd = new ConnectionDetector(MeansCategory.this);
+        cd = new ConnectionDetector(ProductList2.this);
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
@@ -94,7 +97,7 @@ public class MeansCategory extends AppCompatActivity {
 
         adapter = new MAdapter(this, list);
 
-        manager = new GridLayoutManager(getApplicationContext(), 3);
+        manager = new GridLayoutManager(getApplicationContext(), 1);
 
         grid.setLayoutManager(manager);
 
@@ -110,7 +113,7 @@ public class MeansCategory extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(MeansCategory.this, Search.class);
+                Intent i = new Intent(ProductList2.this, Search.class);
                 startActivity(i);
             }
         });
@@ -118,7 +121,7 @@ public class MeansCategory extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MeansCategory.this, MainActivity.class);
+                Intent i = new Intent(ProductList2.this, MainActivity.class);
                 startActivity(i);
                 finishAffinity();
             }
@@ -142,11 +145,11 @@ public class MeansCategory extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<TillSubCatBean> call = cr.tillcat2(id , SharePreferenceUtils.getInstance().getString("location"));
+            Call<prodList2Bean> call = cr.getProd2(id , SharePreferenceUtils.getInstance().getString("location"));
 
-            call.enqueue(new Callback<TillSubCatBean>() {
+            call.enqueue(new Callback<prodList2Bean>() {
                 @Override
-                public void onResponse(Call<TillSubCatBean> call, Response<TillSubCatBean> response) {
+                public void onResponse(Call<prodList2Bean> call, Response<prodList2Bean> response) {
 
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
@@ -162,7 +165,7 @@ public class MeansCategory extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<TillSubCatBean> call, Throwable t) {
+                public void onFailure(Call<prodList2Bean> call, Throwable t) {
 
                     bar.setVisibility(View.GONE);
 
@@ -174,9 +177,7 @@ public class MeansCategory extends AppCompatActivity {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-
     }
-
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
@@ -198,7 +199,7 @@ public class MeansCategory extends AppCompatActivity {
         @Override
         public MAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.category_list_model, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.prod_list_model2, viewGroup, false);
 
             return new MyViewHolder(view);
         }
@@ -209,43 +210,32 @@ public class MeansCategory extends AppCompatActivity {
 
             final Datum item = list.get(i);
 
-          //  myViewHolder.name.setText(item.getSubcatName());
+            //  myViewHolder.name.setText(item.getSubcatName());
 
+            myViewHolder.textView.setText(Html.fromHtml(item.getSubTitle()).toString().trim());
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.imageView, options);
+
+            myViewHolder.sku.setText(item.getSku());
 
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
+            myViewHolder.upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-
-                    if (catName.equals("vouchers store") || catName.equals("redeem store"))
-                    {
-                        Intent i = new Intent(context, SubCat2.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        context.startActivity(i);
-                    }
-                    else
-                    {
-                        Intent i = new Intent(context, CollerTshirt.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        context.startActivity(i);
-                    }
 
 
 
                 }
             });
+
+
+
 
         }
 
@@ -265,12 +255,19 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageView imageView;
 
-           // TextView name;
+            TextView textView , sku;
+
+            Button play , upload;
+
+            // TextView name;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
-
-                imageView = itemView.findViewById(R.id.tshirt);
+                textView = itemView.findViewById(R.id.text);
+                sku = itemView.findViewById(R.id.sku);
+                upload = itemView.findViewById(R.id.upload);
+                imageView = itemView.findViewById(R.id.image);
+                play = itemView.findViewById(R.id.play);
 
                 //name = itemView.findViewById(R.id.name);
 
@@ -278,6 +275,5 @@ public class MeansCategory extends AppCompatActivity {
             }
         }
     }
-
 
 }

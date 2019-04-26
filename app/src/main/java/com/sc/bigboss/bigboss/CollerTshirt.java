@@ -40,6 +40,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,9 +82,9 @@ public class CollerTshirt extends AppCompatActivity {
 
     ConnectionDetector cd;
 
-    String catName;
+    String catName , base;
 
-    LinearLayout linear;
+    LinearLayout linear , bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class CollerTshirt extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
+        bottom = findViewById(R.id.bottom);
 
 
         sort = findViewById(R.id.sort);
@@ -106,7 +108,7 @@ public class CollerTshirt extends AppCompatActivity {
 
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,6 +164,8 @@ public class CollerTshirt extends AppCompatActivity {
 
             Bean b = (Bean) getApplicationContext();
 
+            base = b.baseurl;
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(b.baseurl)
                     .addConverterFactory(ScalarsConverterFactory.create())
@@ -176,14 +180,17 @@ public class CollerTshirt extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
 
+                    assert response.body() != null;
                     if (response.body().getProductInfo().size() > 0)
                     {
                         list.clear();
 
                         list = response.body().getProductInfo();
 
-                        if (catName.equals("one day sale"))
+                        if (catName.equals("food & drinks"))
                         {
+                            bottom.setVisibility(View.GONE);
+
                             grid.setLayoutManager(manager);
 
                             grid.setAdapter(adapeter2);
@@ -191,6 +198,18 @@ public class CollerTshirt extends AppCompatActivity {
                         }
                         else
                         {
+                            Log.d("ssii" , String.valueOf(list.size()));
+
+                            if (list.size() > 0)
+                            {
+                                bottom.setVisibility(View.VISIBLE);
+                            }
+                            else
+                            {
+                                bottom.setVisibility(View.GONE);
+                            }
+
+
                             grid.setLayoutManager(manager);
 
                             grid.setAdapter(adapeter);
@@ -202,6 +221,7 @@ public class CollerTshirt extends AppCompatActivity {
                     }else
                     {
                         linear.setVisibility(View.VISIBLE);
+                        bottom.setVisibility(View.GONE);
 
                     }
 
@@ -215,6 +235,7 @@ public class CollerTshirt extends AppCompatActivity {
                 public void onFailure(Call<ShopProductBean> call, Throwable t) {
 
                     bar.setVisibility(View.GONE);
+                    bottom.setVisibility(View.GONE);
 
                 }
             });
@@ -562,7 +583,7 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getProductImage(), myViewHolder.image, options);
+            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -645,7 +666,7 @@ public class CollerTshirt extends AppCompatActivity {
             final ProductInfo item = list.get(i);
 
             myViewHolder.name.setText(item.getProductTitle());
-            myViewHolder.brand.setText(item.getSubTitle());
+            myViewHolder.brand.setText(Html.fromHtml(item.getSubTitle()));
 
 
 
@@ -657,7 +678,7 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getProductImage(), myViewHolder.image, options);
+            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
 
 
             myViewHolder.order.setOnClickListener(new View.OnClickListener() {

@@ -18,10 +18,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sc.bigboss.bigboss.TillSubCategory2.Datum;
-import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sc.bigboss.bigboss.subCat3POJO.Datum;
+import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class MeansCategory extends AppCompatActivity {
+public class SubCat2 extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -60,12 +60,13 @@ public class MeansCategory extends AppCompatActivity {
 
     LinearLayout linear;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_means_category);
+        setContentView(R.layout.activity_sub_cat2);
 
-        cd = new ConnectionDetector(MeansCategory.this);
+        cd = new ConnectionDetector(SubCat2.this);
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
@@ -110,7 +111,7 @@ public class MeansCategory extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(MeansCategory.this, Search.class);
+                Intent i = new Intent(SubCat2.this, Search.class);
                 startActivity(i);
             }
         });
@@ -118,7 +119,7 @@ public class MeansCategory extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MeansCategory.this, MainActivity.class);
+                Intent i = new Intent(SubCat2.this, MainActivity.class);
                 startActivity(i);
                 finishAffinity();
             }
@@ -142,11 +143,11 @@ public class MeansCategory extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<TillSubCatBean> call = cr.tillcat2(id , SharePreferenceUtils.getInstance().getString("location"));
+            Call<subCat3Bean> call = cr.subCat3(id);
 
-            call.enqueue(new Callback<TillSubCatBean>() {
+            call.enqueue(new Callback<subCat3Bean>() {
                 @Override
-                public void onResponse(Call<TillSubCatBean> call, Response<TillSubCatBean> response) {
+                public void onResponse(Call<subCat3Bean> call, Response<subCat3Bean> response) {
 
                     if (Objects.equals(response.body().getStatus(), "1")) {
 
@@ -162,7 +163,7 @@ public class MeansCategory extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<TillSubCatBean> call, Throwable t) {
+                public void onFailure(Call<subCat3Bean> call, Throwable t) {
 
                     bar.setVisibility(View.GONE);
 
@@ -176,7 +177,6 @@ public class MeansCategory extends AppCompatActivity {
 
 
     }
-
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
@@ -209,7 +209,7 @@ public class MeansCategory extends AppCompatActivity {
 
             final Datum item = list.get(i);
 
-          //  myViewHolder.name.setText(item.getSubcatName());
+            //  myViewHolder.name.setText(item.getSubcatName());
 
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
@@ -217,7 +217,7 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "bigboss/admin2/upload/sub_cat1/" + item.getImageUrl(), myViewHolder.imageView, options);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -225,24 +225,12 @@ public class MeansCategory extends AppCompatActivity {
                 public void onClick(View v) {
 
 
-                    if (catName.equals("vouchers store") || catName.equals("redeem store"))
-                    {
-                        Intent i = new Intent(context, SubCat2.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        context.startActivity(i);
-                    }
-                    else
-                    {
-                        Intent i = new Intent(context, CollerTshirt.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        context.startActivity(i);
-                    }
 
-
+                    Intent i = new Intent(context, ProductList2.class);
+                    i.putExtra("id", item.getId());
+                    i.putExtra("text", item.getSubcatName());
+                    i.putExtra("catname", catName);
+                    context.startActivity(i);
 
                 }
             });
@@ -265,7 +253,7 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageView imageView;
 
-           // TextView name;
+            // TextView name;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -278,6 +266,5 @@ public class MeansCategory extends AppCompatActivity {
             }
         }
     }
-
 
 }

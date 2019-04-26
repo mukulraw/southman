@@ -47,7 +47,7 @@ public class Till extends Fragment {
 
     LinearLayout linearLayout;
 
-    String catName;
+    String catName , base;
 
     @Nullable
     @Override
@@ -114,7 +114,7 @@ public class Till extends Fragment {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "bigboss/admin2/upload/cat/" + item.getImageUrl(), myViewHolder.imageView, options);
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,7 +165,9 @@ public class Till extends Fragment {
 
         bar.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
+
+        base = b.baseurl;
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)

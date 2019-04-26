@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,12 +52,18 @@ public class Genral extends Fragment {
 
     LinearLayout linearLayout;
 
+    String base;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.genral, container, false);
+
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
+
+        base = b.baseurl;
 
         catid = getArguments().getString("catid");
 
@@ -109,13 +116,15 @@ public class Genral extends Fragment {
 
             final Datum item = list.get(i);
 
-            myViewHolder.textView.setText(item.getSmallDesc());
+            myViewHolder.textView.setText(Html.fromHtml(item.getSmallDesc()).toString().trim());
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getThumbnail(), myViewHolder.imageView, options);
+
+
+            loader.displayImage(base + "bigboss/admin2/upload/videos/" + item.getThumbnail(), myViewHolder.imageView, options);
 
             myViewHolder.play.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,7 +203,7 @@ public class Genral extends Fragment {
 
         bar.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)

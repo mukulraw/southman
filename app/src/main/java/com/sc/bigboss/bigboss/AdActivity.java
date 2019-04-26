@@ -180,8 +180,10 @@ Button quit;
         return id;
     }
 
+    CountDownTimer timer;
+
     void startImageTimer() {
-        CountDownTimer timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
+        timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -273,6 +275,14 @@ Button quit;
 
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        timer.cancel();
+
     }
 
     public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder> {

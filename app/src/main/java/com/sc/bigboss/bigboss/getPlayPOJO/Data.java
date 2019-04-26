@@ -30,6 +30,9 @@ public class Data {
     @SerializedName("details")
     @Expose
     private String details;
+    @SerializedName("sku")
+    @Expose
+    private String sku;
     @SerializedName("image")
     @Expose
     private List<String> image = null;
@@ -104,5 +107,13 @@ public class Data {
 
     public void setImage(List<String> image) {
         this.image = image;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 }

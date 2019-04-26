@@ -18,10 +18,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +37,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
@@ -79,7 +85,7 @@ public class Play extends Fragment {
 
     String playId;
 
-    String imm;
+    String imm , base;
 
     ConstraintLayout regLayout;
     View imgLayout;
@@ -88,7 +94,7 @@ public class Play extends Fragment {
 
     ImageView image;
 
-    String video, diff;
+    String video, diff , sku;
 
     // List<ProductInfo>list;
 
@@ -287,7 +293,7 @@ public class Play extends Fragment {
                         Log.d("Android", "Android ID : " + SharePreferenceUtils.getInstance().getString("token"));
 
 
-                        Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token") , body);
+                        Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token") , sku , body);
 
                         call.enqueue(new Callback<registerPlayBean>() {
                             @Override
@@ -397,7 +403,7 @@ public class Play extends Fragment {
 
             Image1 frag = new Image1();
             Bundle b = new Bundle();
-            b.putString("url", url);
+            b.putString("url", base + "bigboss/admin2/upload/products/" + url);
             frag.setArguments(b);
             return frag;
         }
@@ -543,6 +549,8 @@ public class Play extends Fragment {
 
         //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
+        base = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -578,6 +586,8 @@ public class Play extends Fragment {
                     } else if (status.equals("register")) {
                         imm = response.body().getData().get(0).getData().getImage().get(0);
 
+                        sku = response.body().getData().get(0).getData().getSku();
+
                         adapter = new ImageAddapter(getChildFragmentManager(), response.body().getData().get(0).getData().getImage());
 
                         pager.setAdapter(adapter);
@@ -590,8 +600,14 @@ public class Play extends Fragment {
                         color.setText(response.body().getData().get(0).getData().getColor());
                         size.setText(response.body().getData().get(0).getData().getSize());
                         nagtiable.setText(response.body().getData().get(0).getData().getNegotiable());
-                        //proof.setText(response.body().getProductInfo().get(0).get());
 
+
+                        String det = response.body().getData().get(0).getData().getDetails();
+
+
+                        proof.setText(Html.fromHtml(det.trim()).toString().trim());
+
+                        Log.d("dddddd" , String.valueOf(Html.fromHtml(det)));
 
                         regLayout.setVisibility(View.VISIBLE);
                         imgLayout.setVisibility(View.INVISIBLE);
@@ -629,6 +645,23 @@ public class Play extends Fragment {
 
     }
 
+    private static void handleP(SpannableStringBuilder text) {
+        int len = text.length();
+
+        if (len >= 1 && text.charAt(len - 1) == '\n') {
+            if (len >= 2 && text.charAt(len - 2) == '\n') {
+                return;
+            }
+            text.append("\n");
+            return;
+        }
+
+        if (len != 0) {
+
+            text.append("\n\n");
+
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -765,6 +798,173 @@ public class Play extends Fragment {
                 cursor.close();
         }
         return null;
+    }
+
+    public static class MyCustomDialogFragment extends DialogFragment {
+
+
+        ViewPager pager;
+        TextView desc;
+        ProgressBar bar;
+        String base;
+
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View v = inflater.inflate(R.layout.play_dialog, container, false);
+
+            pager = v.findViewById(R.id.viewPager);
+            desc = v.findViewById(R.id.details);
+            bar = v.findViewById(R.id.progressBar4);
+
+            // Do all the stuff to initialize your custom view
+
+
+            bar.setVisibility(View.VISIBLE);
+
+            //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
+
+            base = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            Call<getPlayBean> call = cr.getPlay(SharePreferenceUtils.getInstance().getString("location"));
+            call.enqueue(new Callback<getPlayBean>() {
+                @Override
+                public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
+
+
+                    if (response.body().getStatus().equals("1")) {
+                        //playId = response.body().getData().get(0).getId();
+
+
+                        String status = response.body().getData().get(0).getStatus();
+
+                        if (status.equals("soon")) {
+
+
+                        } else if (status.equals("register")) {
+                            //imm = response.body().getData().get(0).getData().getImage().get(0);
+
+                            //sku = response.body().getData().get(0).getData().getSku();
+
+                            ImageAddapter adapter = new ImageAddapter(getChildFragmentManager(), response.body().getData().get(0).getData().getImage());
+
+                            pager.setAdapter(adapter);
+
+                            //indicator.setViewPager(pager);
+
+
+
+                            String det = response.body().getData().get(0).getData().getDetails();
+
+
+                            desc.setText(Html.fromHtml(det.trim()).toString().trim());
+
+                            Log.d("dddddd" , String.valueOf(Html.fromHtml(det)));
+
+                            //textTimer.setText("Time till registration ");
+
+
+                        } else {
+
+                        }
+
+
+                    } else {
+
+
+
+                    }
+
+
+                    bar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onFailure(Call<getPlayBean> call, Throwable t) {
+
+                    bar.setVisibility(View.GONE);
+
+                }
+            });
+
+
+            return v;
+        }
+
+
+        public class ImageAddapter extends FragmentStatePagerAdapter {
+
+
+            // List<ProductInfo>list = new ArrayList<>();
+            List<String> im = new ArrayList<>();
+
+            ImageAddapter(FragmentManager fm, List<String> im) {
+                super(fm);
+                this.im = im;
+
+                //this.list = list;
+            }
+
+            @Override
+            public Fragment getItem(int i) {
+
+
+                String url = im.get(i);
+
+                Image1 frag = new Image1();
+                Bundle b = new Bundle();
+                b.putString("url", base + "bigboss/admin2/upload/products/" + url);
+                frag.setArguments(b);
+                return frag;
+            }
+
+            @Override
+            public int getCount() {
+                return im.size();
+            }
+        }
+
+
+        public static class Image1 extends Fragment {
+
+
+            ImageView image;
+            String url;
+
+            @Nullable
+            @Override
+            public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+                View view = inflater.inflate(R.layout.image1 , container , false);
+
+                assert getArguments() != null;
+                url = getArguments().getString("url");
+
+                image = view.findViewById(R.id.image);
+
+                DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
+                ImageLoader loader = ImageLoader.getInstance();
+                loader.displayImage(url , image , options);
+
+
+
+                return view;
+            }
+        }
+
     }
 
 

@@ -68,7 +68,7 @@ public class SingleProduct extends AppCompatActivity {
 
     String ph, co;
 
-    String catName;
+    String catName , base;
 
     LinearLayout negotitle;
 
@@ -154,6 +154,8 @@ public class SingleProduct extends AppCompatActivity {
 
         Bean b = (Bean) getApplicationContext();
 
+        base = b.baseurl;
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
@@ -222,7 +224,7 @@ public class SingleProduct extends AppCompatActivity {
 
                 co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
-                details.setText(response.body().getProductInfo().get(0).getProductDetail());
+                details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
 
 
 
@@ -437,7 +439,7 @@ public class SingleProduct extends AppCompatActivity {
 
             Page2 frag = new Page2();
             Bundle b = new Bundle();
-            b.putString("url" , tlist.get(i));
+            b.putString("url" , base + "bigboss/admin2/upload/products/" + tlist.get(i));
 
             frag.setArguments(b);
             return frag;

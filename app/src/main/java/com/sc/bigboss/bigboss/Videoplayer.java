@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.telephony.PhoneNumberUtils;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,7 +81,7 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         ingr = findViewById(R.id.ingredients);
 
-        ingr.setText(des);
+        ingr.setText(Html.fromHtml(des).toString().trim());
 
         order = findViewById(R.id.order);
 
@@ -205,22 +206,8 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
 
     private void openWhatsApp() {
-        String smsNumber = "ph";
-        boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
-        if (isWhatsappInstalled) {
-
-            Intent sendIntent = new Intent("android.intent.action.MAIN");
-            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
-            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(ph) + "@s.whatsapp.net");//phone number without "+" prefix
-
-            startActivity(sendIntent);
-        } else {
-            Uri uri = Uri.parse("market://details?id=com.whatsapp");
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            Toast.makeText(this, "WhatsApp not Installed",
-                    Toast.LENGTH_SHORT).show();
-            startActivity(goToMarket);
-        }
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=91" + ph + "&text=Product Code : " + co));
+        startActivity(browserIntent);
     }
 
     private boolean whatsappInstalledOrNot(String uri) {

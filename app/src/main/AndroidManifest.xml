@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name="com.sc.bigboss.bigboss.Bean"
+        android:name=".Bean"
         android:allowBackup="true"
         android:icon="@drawable/man"
         android:label="@string/app_name"
@@ -18,93 +18,95 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.sc.bigboss.bigboss.Perks"></activity>
-        <activity android:name="com.sc.bigboss.bigboss.Winners" />
+        <activity android:name=".ProductList2"></activity>
+        <activity android:name=".SubCat2" />
+        <activity android:name=".Perks" />
+        <activity android:name=".Winners" />
         <activity
-            android:name="com.sc.bigboss.bigboss.AdActivity"
+            android:name=".AdActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.MainActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.sc.bigboss.bigboss.SignUp"
+            android:name=".SignUp"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Forgot"
+            android:name=".Forgot"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.ChangePAssword"
+            android:name=".ChangePAssword"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Login"
+            android:name=".Login"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.signupLogin"
+            android:name=".signupLogin"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Location"
+            android:name=".Location"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.CollerTshirt"
+            android:name=".CollerTshirt"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.MeansCategory"
+            android:name=".MeansCategory"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.SingleProduct"
+            android:name=".SingleProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Videoplayer"
+            android:name=".Videoplayer"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.WristWatch"
+            android:name=".WristWatch"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Playitem"
+            android:name=".Playitem"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Notification"
+            android:name=".Notification"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Search"
+            android:name=".Search"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.MyProfile"
+            android:name=".MyProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.MyOrder"
+            android:name=".MyOrder"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.WishList"
+            android:name=".WishList"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Setting"
+            android:name=".Setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.EditProfile"
+            android:name=".EditProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.SteamVideoPlayer"
+            android:name=".SteamVideoPlayer"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.tab"
+            android:name=".tab"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.ShopMens"
+            android:name=".ShopMens"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.ShopCollershirt"
+            android:name=".ShopCollershirt"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.ShopSingleProduct"
+            android:name=".ShopSingleProduct"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.OneMenswear"
+            android:name=".OneMenswear"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Splash"
+            android:name=".Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -113,13 +115,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.sc.bigboss.bigboss.Sliders"
+            android:name=".Sliders"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.sc.bigboss.bigboss.Youtube"
+            android:name=".Youtube"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.sc.bigboss.bigboss.MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

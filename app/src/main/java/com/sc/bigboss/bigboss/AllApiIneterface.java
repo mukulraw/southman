@@ -13,7 +13,9 @@ import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
+import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
+import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
 import okhttp3.MultipartBody;
@@ -65,6 +67,17 @@ public interface AllApiIneterface {
             @Part("subCatId") String catid ,
             @Part("locationId") String ctid );
 
+    @Multipart
+    @POST("bigboss/api/getSubCat3.php")
+    Call<subCat3Bean> subCat3(
+            @Part("subcat1_id") String catid);
+
+    @Multipart
+    @POST("bigboss/api/getProd2.php")
+    Call<prodList2Bean> getProd2(
+            @Part("sub_category2") String catid,
+            @Part("locationId") String location
+    );
 
     @Multipart
     @POST("bigboss/?rest_route=/GetProductByid/v1/get-product")
@@ -111,6 +124,7 @@ public interface AllApiIneterface {
             @Part("deviceId") String deviceId,
             @Part("ipaddress") String ipaddress,
             @Part("token") String token,
+            @Part("sku") String sku,
             @Part MultipartBody.Part file1
     );
 
