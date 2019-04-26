@@ -1,14 +1,24 @@
 package com.sc.bigboss.bigboss;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.PhoneNumberUtils;
 import android.text.Html;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +35,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.prodList2POJO.Datum;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +74,11 @@ public class ProductList2 extends AppCompatActivity {
     String catName , base;
 
     LinearLayout linear;
+
+    Uri uri;
+    File file;
+
+    String ph , co;
 
 
     @Override
@@ -224,10 +242,40 @@ public class ProductList2 extends AppCompatActivity {
             myViewHolder.sku.setText(item.getSku());
 
 
+            ph = item.getPhoneNumber();
+            co = item.getSku();
 
             myViewHolder.upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+
+                    final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+                    File newdir = new File(dir);
+                    try {
+                        newdir.mkdirs();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                    String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+                    file = new File(fil);
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
+
+                    Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                    getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivityForResult(getpic, 1);
 
 
 
@@ -276,4 +324,37 @@ public class ProductList2 extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            try {
+                PackageInfo info = getPackageManager().getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            Intent sendIntent = new Intent("android.intent.action.SEND");
+            //File f=new File("path to the file");
+            //Uri uri = Uri.fromFile(file);
+            sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+            sendIntent.setType("image");
+            sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators("917503381028")+"@s.whatsapp.net");
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"sample text you want to send along with the image");
+            startActivity(sendIntent);
+
+
+            /*Intent intent = new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:" + "" + ph + "?body=" + "Product Code : " + co));
+            intent.setPackage("com.whatsapp");
+            //intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=91" + ph + "&text=Product Code : " + co));
+            intent.setType("image/jpeg");
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(intent);
+*/
+            /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=91" + ph + "&text=Product Code : " + co));
+            startActivity(browserIntent);
+*/
+        }
+    }
 }
