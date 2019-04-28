@@ -22,10 +22,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,9 +45,11 @@ import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -93,6 +97,8 @@ public class Play extends Fragment {
     LinearLayout changeImage;
 
     ImageView image;
+
+    File f1;
 
     String video, diff , sku;
 
@@ -263,9 +269,6 @@ public class Play extends Fragment {
 
                         try {
 
-                            String ypath = getPath(getActivity(), uri);
-                            File f1 = new File(ypath);
-
                             RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
                             body = MultipartBody.Part.createFormData("image", f1.getName(), reqFile1);
 
@@ -314,7 +317,7 @@ public class Play extends Fragment {
                                     i.putExtra("brand", brand.getText().toString());
                                     i.putExtra("color", color.getText().toString());
                                     i.putExtra("size", size.getText().toString());
-                                    i.putExtra("negotiable", nagtiable.getText().toString());
+                                    i.putExtra("negotiable", proof.getText().toString());
                                     i.putExtra("url", video);
                                     i.putExtra("diff", tttt);
 
@@ -361,8 +364,30 @@ public class Play extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
                         if (items[item].equals("Take Photo from Camera")) {
+                            final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+                            File newdir = new File(dir);
+                            try {
+                                newdir.mkdirs();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                            String file = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+                            f1 = new File(file);
+                            try {
+                                f1.createNewFile();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", f1);
+
                             Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                            getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                             startActivityForResult(getpic, 1);
                         } else if (items[item].equals("Choose from Gallery")) {
                             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -670,6 +695,9 @@ public class Play extends Fragment {
         if (requestCode == 2 && resultCode == RESULT_OK && null != data) {
             uri = data.getData();
 
+            String ypath = getPath(getContext(), uri);
+            f1 = new File(ypath);
+
             String[] filePath = { MediaStore.Images.Media.DATA };
             Cursor cursor = getActivity().getContentResolver().query(uri, filePath, null, null, null);
             cursor.moveToFirst();
@@ -687,9 +715,9 @@ public class Play extends Fragment {
 
             image.setImageBitmap(bitmap);
         }
-        else if (requestCode == 1 && resultCode == RESULT_OK && null != data) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            image.setImageBitmap(photo);
+        else if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            image.setImageURI(uri);
         }
 
 

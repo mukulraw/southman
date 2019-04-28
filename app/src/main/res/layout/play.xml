@@ -516,7 +516,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="tap to change"
+                        android:text="Upload your profile pic"
                         android:gravity="center"
                         />
 
@@ -608,6 +608,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="tap to enter mobile no."
                                     android:inputType="phone"
+                                    android:maxLength="10"
                                     android:paddingStart="8dp"
                                     android:textSize="12sp" />
 

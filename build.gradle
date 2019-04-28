@@ -23,6 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://github.com/500px/greedo-layout-for-android/raw/master/releases/' }
         maven { url "https://jitpack.io" }
         maven {
             url 'https://maven.google.com'
@@ -32,4 +33,8 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    supportLibVersion = '28.0.0'
 }
