@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:minWidth="270dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scratch below"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:typeface="monospace"
+        />
+
+    <com.cooltechworks.views.ScratchTextView
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/scratch"
+        android:background="#ffffff"
+        android:textSize="34sp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Share to redeem"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/green_back_round"
+        android:textColor="#ffffff"
+        android:minWidth="0dp"
+        android:visibility="gone"
+        android:paddingStart="20dp"
+        android:id="@+id/share"
+        android:paddingEnd="20dp"
+        />
+
+</LinearLayout>

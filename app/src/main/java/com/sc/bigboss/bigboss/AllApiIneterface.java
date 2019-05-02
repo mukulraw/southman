@@ -9,12 +9,14 @@ import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
+import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
@@ -161,8 +163,27 @@ public interface AllApiIneterface {
 
     @Multipart
     @POST("bigboss/api/getPerks.php")
-    Call<winnersBean> getPerks(
-            @Part("phone") String phone
+    Call<getPerksBean> getPerks(
+            @Part("deviceId") String phone
+    );
+
+
+    @Multipart
+    @POST("bigboss/api/getCash.php")
+    Call<scratchCardBean> getScratchCards(
+            @Part("id") String id
+    );
+
+    @Multipart
+    @POST("bigboss/api/getRedeem.php")
+    Call<scratchCardBean> getRedeemed(
+            @Part("id") String id
+    );
+
+    @Multipart
+    @POST("bigboss/api/redeem.php")
+    Call<scratchCardBean> redeem(
+            @Part("id") String id
     );
 
 }

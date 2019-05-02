@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".History"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -29,7 +30,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ProductList2"/>
+        <activity android:name=".ProductList2" />
         <activity android:name=".SubCat2" />
         <activity android:name=".Perks" />
         <activity android:name=".Winners" />

@@ -27,60 +27,118 @@
         </android.support.v7.widget.CardView>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter your phone number to get the code"
-            android:textColor="#000000"
-            android:typeface="monospace"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="tap to enter"
-            android:typeface="monospace"
-            android:inputType="phone"
-            android:layout_marginTop="8dp"
-            android:id="@+id/phone"
-            android:padding="10dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            />
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SUBMIT"
-            android:id="@+id/submit"
-            android:typeface="monospace"
-            android:padding="10dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            />
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your perks"
+                    android:textColor="#000000"
+                    android:padding="5dp"
+                    android:typeface="monospace"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:id="@+id/perks"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"
+                    android:typeface="monospace"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your cash rewards"
+                    android:textColor="#000000"
+                    android:padding="5dp"
+                    android:typeface="monospace"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:id="@+id/cash"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24sp"
+                    android:typeface="monospace"
+                    />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
 
+            android:padding="5dp"
+            >
 
-            <com.cooltechworks.views.ScratchTextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="60dp"
-                android:textSize="44sp"
-                android:layout_centerInParent="true"
+                android:text="Your scratch cards"
                 android:textColor="#000000"
-                android:textStyle="bold"
-                android:id="@+id/scratch"
+                android:typeface="monospace"
+                android:layout_centerVertical="true"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redeem History"
+                android:textColor="#000000"
+                android:padding="10dp"
+                android:id="@+id/history"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:typeface="monospace"
                 />
 
 
         </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/grid"
+            />
+
 
     </LinearLayout>
 
