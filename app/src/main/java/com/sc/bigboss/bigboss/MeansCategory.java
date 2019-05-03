@@ -96,6 +96,15 @@ public class MeansCategory extends AppCompatActivity {
 
         manager = new GridLayoutManager(getApplicationContext(), 3);
 
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+
+                return Integer.parseInt(adapter.getSpace(i));
+
+            }
+        });
+
         grid.setLayoutManager(manager);
 
         grid.setAdapter(adapter);
@@ -193,6 +202,10 @@ public class MeansCategory extends AppCompatActivity {
 
         }
 
+        public String getSpace(int position)
+        {
+            return list.get(position).getSpace();
+        }
 
         @NonNull
         @Override

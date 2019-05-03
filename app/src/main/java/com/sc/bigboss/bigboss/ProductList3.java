@@ -58,7 +58,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class ProductList2 extends AppCompatActivity {
+public class ProductList3 extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -95,12 +95,13 @@ public class ProductList2 extends AppCompatActivity {
 
     String pho = "" , tex = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_list2);
+        setContentView(R.layout.activity_product_list3);
 
-        cd = new ConnectionDetector(ProductList2.this);
+        cd = new ConnectionDetector(ProductList3.this);
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
@@ -146,7 +147,7 @@ public class ProductList2 extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(ProductList2.this, Search.class);
+                Intent i = new Intent(ProductList3.this, Search.class);
                 startActivity(i);
             }
         });
@@ -154,7 +155,7 @@ public class ProductList2 extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProductList2.this, MainActivity.class);
+                Intent i = new Intent(ProductList3.this, MainActivity.class);
                 startActivity(i);
                 finishAffinity();
             }
@@ -211,7 +212,6 @@ public class ProductList2 extends AppCompatActivity {
         }
 
     }
-
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
         Context context;
@@ -232,7 +232,7 @@ public class ProductList2 extends AppCompatActivity {
         @Override
         public MAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.prod_list_model2, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.prod_list_model3, viewGroup, false);
 
             return new MyViewHolder(view);
         }
@@ -283,7 +283,7 @@ public class ProductList2 extends AppCompatActivity {
                         Dialog dialog1 = new Dialog(context);
                         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog1.setCancelable(false);
-                        dialog1.setContentView(R.layout.share_dialog2);
+                        dialog1.setContentView(R.layout.share_dialog3);
                         dialog1.show();
 
 
@@ -298,7 +298,7 @@ public class ProductList2 extends AppCompatActivity {
 
 
                         device.setText("Device - " + android_id);
-                        code.setText("Code - " + item.getSku() + " | Max Perks - " + String.valueOf(ppp));
+                        code.setText("Code - " + item.getSku() + " | Max Cash Rewards - " + String.valueOf(ppp));
 
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -313,7 +313,7 @@ public class ProductList2 extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
-                                Instacapture.INSTANCE.capture(ProductList2.this , new SimpleScreenCapturingListener() {
+                                Instacapture.INSTANCE.capture(ProductList3.this , new SimpleScreenCapturingListener() {
                                     @Override
                                     public void onCaptureComplete(Bitmap bitmap) {
                                         //Your code here..
@@ -331,7 +331,7 @@ public class ProductList2 extends AppCompatActivity {
                                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                        Call<scratchCardBean> call2 = cr.buyPerks(android_id , String.valueOf(finalPpp) , "perks");
+                                        Call<scratchCardBean> call2 = cr.buyCash(android_id , String.valueOf(finalPpp) , "cash");
 
                                         call2.enqueue(new Callback<scratchCardBean>() {
                                             @Override
@@ -377,7 +377,7 @@ public class ProductList2 extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(context, "Sorry, you don't have enough perks to buy this voucher", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Sorry, you don't have enough cash rewards to redeem this", Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -418,7 +418,7 @@ public class ProductList2 extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
+                    uri = FileProvider.getUriForFile(ProductList3.this, BuildConfig.APPLICATION_ID + ".provider", file);
 
                     Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -542,8 +542,8 @@ public class ProductList2 extends AppCompatActivity {
             public void onResponse(Call<getPerksBean> call, Response<getPerksBean> response) {
 
                 if (response.body().getStatus().equals("1")) {
-                    perks.setText("Perks remaining : " + response.body().getData().get(0).getPerks());
-                    p = response.body().getData().get(0).getPerks();
+                    perks.setText("Cash reward remaining : " + response.body().getData().get(0).getCashRewards());
+                    p = response.body().getData().get(0).getCashRewards();
 
                 }
                 bar.setVisibility(View.GONE);
@@ -567,4 +567,5 @@ public class ProductList2 extends AppCompatActivity {
         loadPerks();
 
     }
+
 }

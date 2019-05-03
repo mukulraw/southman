@@ -18,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".History"></activity>
+        <activity android:name=".WristWatch2"></activity>
+        <activity android:name=".SingleProduct2" />
+        <activity android:name=".ProductList3" />
+        <activity android:name=".History" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

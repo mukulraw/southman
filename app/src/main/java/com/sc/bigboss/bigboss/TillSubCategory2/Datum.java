@@ -24,6 +24,10 @@ public class Datum {
     @SerializedName("created")
     @Expose
     private String created;
+    @SerializedName("space")
+    @Expose
+    private String space;
+
 
     public String getId() {
         return id;
@@ -71,5 +75,13 @@ public class Datum {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public String getSpace() {
+        return space;
+    }
+
+    public void setSpace(String space) {
+        this.space = space;
     }
 }

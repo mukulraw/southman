@@ -50,7 +50,7 @@
                     android:paddingTop="5dp"
                     android:paddingEnd="10dp"
                     android:paddingBottom="5dp"
-                    android:text="BUY"
+                    android:text="REDEEM"
                     android:textSize="12sp"
                     android:textColor="#fff" />
 
@@ -62,52 +62,52 @@
                 android:orientation="vertical"
                 >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:typeface="monospace"
-                android:layout_marginTop="5dp"
-                android:paddingTop="10dp"
-                android:lines="3"
-                android:paddingBottom="10dp"
-                android:id="@+id/text"
-                />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:typeface="monospace"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="10dp"
+                    android:lines="3"
+                    android:paddingBottom="10dp"
+                    android:id="@+id/text"
+                    />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sku"
-                    android:paddingStart="5dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:paddingBottom="10dp"
-                    />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sku"
+                        android:paddingStart="5dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingBottom="10dp"
+                        />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginStart="10dp"
-                    android:id="@+id/upload"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/green_back_round"
-                    android:minWidth="0dp"
-                    android:minHeight="0dp"
-                    android:paddingStart="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="5dp"
-                    android:text="UPLOAD BILL"
-                    android:textSize="12sp"
-                    android:textColor="#fff" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/upload"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/green_back_round"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="UPLOAD BILL"
+                        android:textSize="12sp"
+                        android:textColor="#fff" />
                 </RelativeLayout>
 
                 <TextView
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/blue"
-                    android:text="*Please upload bill on same day to convert the perks into cash rewards"
+                    android:text="*Click on redeem and upload bill to get redeemed"
                     android:textSize="10sp"
                     />
 

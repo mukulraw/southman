@@ -131,6 +131,19 @@ public class Shop extends Fragment {
 
                 return till;
             }
+            else if (list.get(i).getName().toLowerCase().equals("mens wear matching"))
+            {
+                MeansWear till = new MeansWear();
+
+                Bundle b = new Bundle();
+
+                b.putString("Catid" , list.get(i).getId());
+                b.putString("type" , "men");
+
+                till.setArguments(b);
+
+                return till;
+            }
             else
             {
                 MeansWear till = new MeansWear();
@@ -138,6 +151,7 @@ public class Shop extends Fragment {
                 Bundle b = new Bundle();
 
                 b.putString("Catid" , list.get(i).getId());
+                b.putString("type" , "women");
 
                 till.setArguments(b);
 

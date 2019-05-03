@@ -70,23 +70,14 @@ public class Playitem extends AppCompatActivity {
 
     Handler handler;
 
-    ImageAddapter adapter2;
-
-    String base;
-
-    //ImageView image;
-
-    AutoScrollViewPager pager;
-
-    CircleIndicator indicator;
-
+    ImageView image;
 
     float current = 0;
 
     int count = 0;
 
     TextView bname;
-    ImageView uimage;
+    CircleImageView uimage;
 
     String userId, playId;
 
@@ -119,17 +110,6 @@ public class Playitem extends AppCompatActivity {
             }
         });
 
-        pager = findViewById(R.id.pager);
-
-        pager.addOnPageChangeListener(new MyOnPageChangeListener());
-
-        pager.setInterval(2000);
-
-        pager.startAutoScroll();
-        //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
-
-        indicator = findViewById(R.id.indicator);
-
 
         adapter = new PlayitemAdapter(this, list);
 
@@ -137,7 +117,7 @@ public class Playitem extends AppCompatActivity {
 
         grid = findViewById(R.id.grid);
 
-
+        image = findViewById(R.id.watch);
 
         quit = findViewById(R.id.quit);
 
@@ -241,6 +221,9 @@ public class Playitem extends AppCompatActivity {
 
         String im = getIntent().getStringExtra("image");
 
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
+        ImageLoader loader = ImageLoader.getInstance();
+        loader.displayImage(im, image, options);
 
 
         name.setText(getIntent().getStringExtra("title"));
@@ -514,82 +497,6 @@ public class Playitem extends AppCompatActivity {
         setRepeat();
 
         resetTimer();
-
-
-
-        //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
-
-        base = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-        Call<getPlayBean> call = cr.getPlay(SharePreferenceUtils.getInstance().getString("location"));
-        call.enqueue(new Callback<getPlayBean>() {
-            @Override
-            public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
-
-
-                if (response.body().getStatus().equals("1")) {
-                    playId = response.body().getData().get(0).getId();
-
-
-
-
-
-                    String status = response.body().getData().get(0).getStatus();
-
-
-                    if (status.equals("soon")) {
-
-
-
-                    } else if (status.equals("register")) {
-
-
-
-                        //String det = response.body().getData().get(0).getData().getDetails();
-
-
-                        //proof.setText(Html.fromHtml(det.trim()).toString().trim());
-
-
-                    } else {
-
-
-
-                    }
-
-
-                } else {
-
-                    adapter2 = new ImageAddapter(getSupportFragmentManager(), response.body().getData().get(0).getData().getImage());
-
-                    pager.setAdapter(adapter2);
-
-                    indicator.setViewPager(pager);
-
-
-                }
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<getPlayBean> call, Throwable t) {
-
-
-
-            }
-        });
-
-
 
     }
 
@@ -890,56 +797,4 @@ public class Playitem extends AppCompatActivity {
         });
 
     }
-
-    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        @Override
-        public void onPageSelected(int position) {
-           /* indexText.setText(new StringBuilder().append((position) % ListUtils.getSize(imageIdList) + 1).append("/")
-                    .append(ListUtils.getSize(imageIdList)));*/
-        }
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-        }
-    }
-
-    public class ImageAddapter extends FragmentStatePagerAdapter {
-
-
-        // List<ProductInfo>list = new ArrayList<>();
-        List<String> im = new ArrayList<>();
-
-        public ImageAddapter(FragmentManager fm, List<String> im) {
-            super(fm);
-            this.im = im;
-
-            //this.list = list;
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-
-            String url = im.get(i);
-
-            Image1 frag = new Image1();
-            Bundle b = new Bundle();
-            b.putString("url", base + "bigboss/admin2/upload/products/" + url);
-            frag.setArguments(b);
-            return frag;
-        }
-
-        @Override
-        public int getCount() {
-            return im.size();
-        }
-    }
-
 }

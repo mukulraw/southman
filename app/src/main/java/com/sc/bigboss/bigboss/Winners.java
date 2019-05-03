@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -137,7 +138,7 @@ public class Winners extends AppCompatActivity {
             holder.title.setText(item.getPid());
             holder.date.setText(item.getTime());
             holder.name.setText(item.getUsername());
-            holder.price.setText("\u20B9" + item.getPrice());
+            holder.price.setText(Html.fromHtml("\u20B9" + item.getWprice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
             ImageLoader loader = ImageLoader.getInstance();

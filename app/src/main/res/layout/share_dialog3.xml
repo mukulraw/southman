@@ -45,7 +45,7 @@
             android:padding="10dp"
             android:textColor="@color/blue"
             android:textSize="16sp"
-            android:text="If you click on proceed and exit from whatsapp without sending the message. Then your scratch card won't get redeemed and you will not get another chance to redeem that card."
+            android:text="If you click on proceed and exit from whatsapp without sending the message. Then your cash rewards will still get deducted which will be non refundable."
             />
 
 

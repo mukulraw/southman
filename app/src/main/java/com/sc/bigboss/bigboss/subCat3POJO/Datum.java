@@ -13,6 +13,9 @@ public class Datum {
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
+    @SerializedName("space")
+    @Expose
+    private String space;
 
     public String getId() {
         return id;
@@ -36,5 +39,13 @@ public class Datum {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getSpace() {
+        return space;
+    }
+
+    public void setSpace(String space) {
+        this.space = space;
     }
 }

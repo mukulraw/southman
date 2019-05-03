@@ -97,6 +97,15 @@ public class SubCat2 extends AppCompatActivity {
 
         manager = new GridLayoutManager(getApplicationContext(), 3);
 
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
+
+                return Integer.parseInt(adapter.getSpace(i));
+
+            }
+        });
+
         grid.setLayoutManager(manager);
 
         grid.setAdapter(adapter);
@@ -193,6 +202,10 @@ public class SubCat2 extends AppCompatActivity {
 
         }
 
+        public String getSpace(int position)
+        {
+            return list.get(position).getSpace();
+        }
 
         @NonNull
         @Override
@@ -225,12 +238,25 @@ public class SubCat2 extends AppCompatActivity {
                 public void onClick(View v) {
 
 
+                    if (catName.equals("redeem store"))
+                    {
+                        Intent i = new Intent(context, ProductList3.class);
+                        i.putExtra("id", item.getId());
+                        i.putExtra("text", item.getSubcatName());
+                        i.putExtra("catname", catName);
+                        context.startActivity(i);
+                    }
+                    else
+                    {
+                        Intent i = new Intent(context, ProductList2.class);
+                        i.putExtra("id", item.getId());
+                        i.putExtra("text", item.getSubcatName());
+                        i.putExtra("catname", catName);
+                        context.startActivity(i);
+                    }
 
-                    Intent i = new Intent(context, ProductList2.class);
-                    i.putExtra("id", item.getId());
-                    i.putExtra("text", item.getSubcatName());
-                    i.putExtra("catname", catName);
-                    context.startActivity(i);
+
+
 
                 }
             });

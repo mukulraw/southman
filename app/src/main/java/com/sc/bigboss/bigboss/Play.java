@@ -311,7 +311,7 @@ public class Play extends Fragment {
                                     i.putExtra("name", response.body().getData().getName());
                                     i.putExtra("phone", response.body().getData().getPhone());
                                     i.putExtra("playId", response.body().getData().getPlayId());
-                                    i.putExtra("image", imm);
+                                    i.putExtra("image", base + "bigboss/admin2/upload/products/" + imm);
                                     i.putExtra("title", name.getText().toString());
                                     i.putExtra("price", price.getText().toString());
                                     i.putExtra("brand", brand.getText().toString());

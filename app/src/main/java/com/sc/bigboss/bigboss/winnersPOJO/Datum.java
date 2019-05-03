@@ -28,6 +28,9 @@ public class Datum {
     @SerializedName("userimage")
     @Expose
     private String userimage;
+    @SerializedName("wprice")
+    @Expose
+    private String wprice;
 
     public String getId() {
         return id;
@@ -91,5 +94,13 @@ public class Datum {
 
     public void setUserimage(String userimage) {
         this.userimage = userimage;
+    }
+
+    public String getWprice() {
+        return wprice;
+    }
+
+    public void setWprice(String wprice) {
+        this.wprice = wprice;
     }
 }

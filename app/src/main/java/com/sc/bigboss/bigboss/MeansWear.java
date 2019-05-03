@@ -20,13 +20,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sc.bigboss.bigboss.matchingPOJO.BottomWear;
-import com.sc.bigboss.bigboss.matchingPOJO.TopWear;
-import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.sc.bigboss.bigboss.matchPOJO.Datum;
+import com.sc.bigboss.bigboss.matchPOJO.matchBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +44,7 @@ public class MeansWear extends Fragment {
 
     ImageView pant, shirt;
 
-    String catId;
+    String catId , base , type;
 
     String tid, bid, ttitle, btitle;
 
@@ -58,6 +57,7 @@ public class MeansWear extends Fragment {
         View view = inflater.inflate(R.layout.meanswear, container, false);
 
         catId = getArguments().getString("Catid");
+        type = getArguments().getString("type");
 
         top = view.findViewById(R.id.top);
 
@@ -66,6 +66,10 @@ public class MeansWear extends Fragment {
         tclick = view.findViewById(R.id.tclick);
 
         bclick = view.findViewById(R.id.bclick);
+
+        Bean b = (Bean) getContext().getApplicationContext();
+
+        base = b.baseurl;
 
         top.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,15 +96,14 @@ public class MeansWear extends Fragment {
 
                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                Call<matchingBean> call = cr.getMatchingData(catId);
+                Call<matchBean> call = cr.getMatch(type , "top" , SharePreferenceUtils.getInstance().getString("location"));
 
-                call.enqueue(new Callback<matchingBean>() {
+                call.enqueue(new Callback<matchBean>() {
                     @Override
-                    public void onResponse(Call<matchingBean> call, Response<matchingBean> response) {
+                    public void onResponse(Call<matchBean> call, Response<matchBean> response) {
 
-                        Log.d("count", String.valueOf(response.body().getData().getTopWear().size()));
 
-                        MeansAdapter adapter = new MeansAdapter(getContext(), response.body().getData().getTopWear(), tclick, shirt, dialog);
+                        MeansAdapter adapter = new MeansAdapter(getContext(), response.body().getData(), tclick, shirt, dialog);
                         grid.setLayoutManager(manager);
                         grid.setAdapter(adapter);
 
@@ -109,7 +112,7 @@ public class MeansWear extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<matchingBean> call, Throwable t) {
+                    public void onFailure(Call<matchBean> call, Throwable t) {
                         progress.setVisibility(View.GONE);
                     }
                 });
@@ -147,17 +150,17 @@ public class MeansWear extends Fragment {
                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                Call<matchingBean> call = cr.getMatchingData(catId);
+                Call<matchBean> call = cr.getMatch(type , "bottom" , SharePreferenceUtils.getInstance().getString("location"));
 
                 Log.d("catId", catId);
 
-                call.enqueue(new Callback<matchingBean>() {
+                call.enqueue(new Callback<matchBean>() {
                     @Override
-                    public void onResponse(Call<matchingBean> call, Response<matchingBean> response) {
+                    public void onResponse(Call<matchBean> call, Response<matchBean> response) {
 
-                        Log.d("count", String.valueOf(response.body().getData().getTopWear().size()));
+                        Log.d("count", String.valueOf(response.body().getData()));
 
-                        BottomAdapter adapter = new BottomAdapter(getContext(), response.body().getData().getBottomWear(), bclick, pant, dialog);
+                        BottomAdapter adapter = new BottomAdapter(getContext(), response.body().getData(), bclick, pant, dialog);
 
                         grid.setLayoutManager(manager);
 
@@ -168,7 +171,7 @@ public class MeansWear extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<matchingBean> call, Throwable t) {
+                    public void onFailure(Call<matchBean> call, Throwable t) {
 
                         progress.setVisibility(View.GONE);
 
@@ -190,7 +193,7 @@ public class MeansWear extends Fragment {
 
                 if (tid != null) {
 
-                    Intent i = new Intent(getContext(), SingleProduct.class);
+                    Intent i = new Intent(getContext(), SingleProduct2.class);
                     i.putExtra("id", tid);
                     i.putExtra("text", ttitle);
                     startActivity(i);
@@ -213,7 +216,7 @@ public class MeansWear extends Fragment {
 
                 if (bid != null) {
 
-                    Intent i = new Intent(getContext(), SingleProduct.class);
+                    Intent i = new Intent(getContext(), SingleProduct2.class);
                     i.putExtra("id", bid);
                     i.putExtra("text", btitle);
                     startActivity(i);
@@ -237,11 +240,11 @@ public class MeansWear extends Fragment {
         ImageView tclick, tview;
         Dialog dialog;
         //String tid , ttitle;
-        List<List<TopWear>> list = new ArrayList<>();
+        List<Datum> list = new ArrayList<>();
 
         // List<String> list = new ArrayList<>();
 
-        MeansAdapter(Context context, List<List<TopWear>> list, ImageView tclick, ImageView tview, Dialog dialog) {
+        MeansAdapter(Context context, List<Datum> list, ImageView tclick, ImageView tview, Dialog dialog) {
 
             this.context = context;
             this.list = list;
@@ -265,7 +268,7 @@ public class MeansWear extends Fragment {
 
 
             try {
-                final TopWear item = list.get(i).get(0);
+                final Datum item = list.get(i);
 
                 final Bitmap[] lBitmap = new Bitmap[1];
 
@@ -275,7 +278,7 @@ public class MeansWear extends Fragment {
                 ImageLoader loader = ImageLoader.getInstance();
 
 
-                loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
+                loader.loadImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
@@ -308,7 +311,7 @@ public class MeansWear extends Fragment {
                         tview.setImageBitmap(lBitmap[0]);
                         tclick.setImageBitmap(lBitmap[0]);
 
-                        tid = item.getId();
+                        tid = item.getPid();
                         ttitle = item.getProductTitle();
 
                         dialog.dismiss();
@@ -357,11 +360,11 @@ public class MeansWear extends Fragment {
         ImageView tclick, tview;
         Dialog dialog;
         String tid, ttitle;
-        List<List<BottomWear>> list = new ArrayList<>();
+        List<Datum> list = new ArrayList<>();
 
         // List<String> list = new ArrayList<>();
 
-        BottomAdapter(Context context, List<List<BottomWear>> list, ImageView tclick, ImageView tview, Dialog dialog) {
+        BottomAdapter(Context context, List<Datum> list, ImageView tclick, ImageView tview, Dialog dialog) {
 
             this.context = context;
             this.list = list;
@@ -386,7 +389,7 @@ public class MeansWear extends Fragment {
 
             try {
 
-                final BottomWear item = list.get(i).get(0);
+                final Datum item = list.get(i);
 
                 final Bitmap[] lBitmap = new Bitmap[1];
 
@@ -396,7 +399,7 @@ public class MeansWear extends Fragment {
                 ImageLoader loader = ImageLoader.getInstance();
 
 
-                loader.loadImage(item.getProductImage(), options, new ImageLoadingListener() {
+                loader.loadImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
@@ -429,7 +432,7 @@ public class MeansWear extends Fragment {
                         tview.setImageBitmap(lBitmap[0]);
                         tclick.setImageBitmap(lBitmap[0]);
 
-                        bid = item.getId();
+                        bid = item.getPid();
                         btitle = item.getProductTitle();
 
                         dialog.dismiss();

@@ -12,6 +12,8 @@ import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
+import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
+import com.sc.bigboss.bigboss.matchPOJO.matchBean;
 import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
@@ -183,6 +185,36 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/redeem.php")
     Call<scratchCardBean> redeem(
+            @Part("id") String id
+    );
+
+    @Multipart
+    @POST("bigboss/api/buyPerks.php")
+    Call<scratchCardBean> buyPerks(
+            @Part("deviceId") String id,
+            @Part("value") String value,
+            @Part("type") String type
+    );
+
+    @Multipart
+    @POST("bigboss/api/buyCash.php")
+    Call<scratchCardBean> buyCash(
+            @Part("deviceId") String id,
+            @Part("value") String value,
+            @Part("type") String type
+    );
+
+    @Multipart
+    @POST("bigboss/api/getMatchingProd.php")
+    Call<matchBean> getMatch(
+            @Part("type") String type,
+            @Part("wear") String wear,
+            @Part("locationId") String locationId
+    );
+
+    @Multipart
+    @POST("bigboss/api/getMatchingProdByCat.php")
+    Call<matchByIdBean> getMatchById(
             @Part("id") String id
     );
 
