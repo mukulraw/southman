@@ -18,6 +18,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +55,7 @@ public class SingleProduct extends AppCompatActivity {
     TextView negitable;
     TextView price;
     static TextView title;
-    TextView details;
+    WebView details;
     TextView cod;
 
     ViewPager imageView;
@@ -103,6 +105,11 @@ public class SingleProduct extends AppCompatActivity {
         indicator = findViewById(R.id.indicator);
 
         details = findViewById(R.id.text);
+
+        details.setVerticalScrollBarEnabled(false);
+        details.setHorizontalScrollBarEnabled(false);
+
+details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
 
         title.setText(getIntent().getStringExtra("text"));
 
@@ -179,14 +186,14 @@ public class SingleProduct extends AppCompatActivity {
                 size.setText(response.body().getProductInfo().get(0).getSize());
                 cod.setText(response.body().getProductInfo().get(0).getProductCode());
 
-                if (response.body().getProductInfo().get(0).getDiscountPrice() != null && !catName.equals("shop by shop"))
-                {
+/*                if (response.body().getProductInfo().get(0).getDiscountPrice() != null && !catName.equals("shop by shop"))
+                {*/
                     price.setText(Html.fromHtml("\u20B9" + response.body().getProductInfo().get(0).getDiscountPrice() + "  <strike>\u20B9" + response.body().getProductInfo().get(0).getPrice() + "</strike>"));
-                }
+               /* }
                 else
                 {
                     price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
-                }
+                }*/
 
                 //price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
@@ -205,14 +212,9 @@ public class SingleProduct extends AppCompatActivity {
 
                 }
 
-                if (catName.equals("shop by shop"))
-                {
-                    negotitle.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+
                     negotitle.setVisibility(View.GONE);
-                }
+
 
                 if (response.body().getProductInfo().get(0).getWhatsappOrderNow().equals("yes")) {
                     order.setVisibility(View.VISIBLE);
@@ -224,7 +226,9 @@ public class SingleProduct extends AppCompatActivity {
 
                 co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
-                details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
+                details.loadData(response.body().getProductInfo().get(0).getProductDetail() , "text/html", "UTF-8");
+
+                //details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
 
 
 

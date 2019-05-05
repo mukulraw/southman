@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/i1"
+            android:src="@drawable/lll1"
             android:scaleType="centerCrop"
             android:padding="30dp"
             android:id="@+id/lalla"/>

@@ -174,6 +174,10 @@ public class CollerTshirt extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+            Log.d("asdasdasd" , id);
+            Log.d("asdlosad" , SharePreferenceUtils.getInstance().getString("location"));
+
+
             Call<ShopProductBean> call = cr.shopproduct(id, SharePreferenceUtils.getInstance().getString("location"));
 
             call.enqueue(new Callback<ShopProductBean>() {

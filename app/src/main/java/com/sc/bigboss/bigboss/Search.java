@@ -58,6 +58,7 @@ public class Search extends AppCompatActivity {
 
     LinearLayout linear;
 
+    String base;
 
     ImageView back;
     @Override
@@ -188,70 +189,79 @@ public class Search extends AppCompatActivity {
 
                 String ss = s.toString();
 
-                bar.setVisibility(View.VISIBLE);
+                if (ss.length() > 0)
+                {
+                    bar.setVisibility(View.VISIBLE);
 
-                Bean b = (Bean) getApplicationContext();
+                    Bean b = (Bean) getApplicationContext();
 
-                final Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(b.baseurl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+                    final Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
+                    Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
 
-                Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
+                    Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
 
-                call.enqueue(new Callback<SearchBean>() {
-                    @Override
-                    public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                    call.enqueue(new Callback<SearchBean>() {
+                        @Override
+                        public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
 
-                        try {
+                            try {
 
-                            if (Objects.equals(response.body().getStatus(), "1")) {
+                                if (Objects.equals(response.body().getStatus(), "1")) {
 
-                                if (response.body().getData().size()>0){
+                                    if (response.body().getData().size()>0){
 
-                                    adapter.setgrid(response.body().getData());
+                                        adapter.setgrid(response.body().getData());
+
+                                        linear.setVisibility(View.GONE);
+
+
+                                    }else {
+
+                                        linear.setVisibility(View.VISIBLE);
+                                    }
+
 
                                     linear.setVisibility(View.GONE);
 
-
-                                }else {
+                                }
+                                else {
 
                                     linear.setVisibility(View.VISIBLE);
                                 }
 
+                            } catch (Exception e) {
 
-                                linear.setVisibility(View.GONE);
-
-                            }
-                            else {
-
-                                linear.setVisibility(View.VISIBLE);
+                                e.printStackTrace();
                             }
 
-                        } catch (Exception e) {
 
-                            e.printStackTrace();
+                            bar.setVisibility(View.GONE);
+
                         }
 
+                        @Override
+                        public void onFailure(Call<SearchBean> call, Throwable t) {
 
-                        bar.setVisibility(View.GONE);
+                            adapter.setgrid(new ArrayList<Datum>());
+                            linear.setVisibility(View.VISIBLE);
+                            bar.setVisibility(View.GONE);
 
-                    }
+                        }
+                    });
+                }
+                else
+                {
+                    adapter.setgrid(new ArrayList<Datum>());
+                }
 
-                    @Override
-                    public void onFailure(Call<SearchBean> call, Throwable t) {
 
-                        adapter.setgrid(new ArrayList<Datum>());
-                        linear.setVisibility(View.VISIBLE);
-                        bar.setVisibility(View.GONE);
-
-                    }
-                });
 
             }
 
@@ -328,7 +338,7 @@ public class Search extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(item.getProductImage(), my.image, options);
+            loader.displayImage("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/bigboss/admin2/upload/products/" + item.getProductImage(), my.image, options);
 
             my.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

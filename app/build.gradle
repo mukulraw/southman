@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 
 android {
 
+    signingConfigs {
+        config {
+            storeFile file('D:\\mukul\\StudioProjects\\Bigboss\\bigboss.jks')
+            storePassword 'bigboss@123'
+            keyAlias = 'bigboss'
+            keyPassword 'bigboss@123'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.sc.bigboss.bigboss"
@@ -11,6 +19,7 @@ android {
         versionCode 2
         versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
