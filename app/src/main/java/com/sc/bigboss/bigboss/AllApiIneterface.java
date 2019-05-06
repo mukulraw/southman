@@ -22,6 +22,8 @@ import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -74,7 +76,9 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/getSubCat3.php")
     Call<subCat3Bean> subCat3(
-            @Part("subcat1_id") String catid);
+            @Part("subcat1_id") String catid,
+            @Part("locationId") String location
+    );
 
     @Multipart
     @POST("bigboss/api/getProd2.php")
@@ -95,7 +99,8 @@ public interface AllApiIneterface {
     @POST("bigboss/?rest_route=/GetProductBysubcatid/v1/get-product-by-subcat")
     Call<ShopProductBean> shopproduct(
             @Part("subCatId") String subcatid,
-            @Part("locationId") String locationId
+            @Part("locationId") String locationId,
+            @Part("type") String type
     );
 
 
@@ -185,7 +190,9 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/redeem.php")
     Call<scratchCardBean> redeem(
-            @Part("id") String id
+            @Part("id") String id,
+            @Part("deviceId") String device,
+            @Part("value") String value
     );
 
     @Multipart
@@ -218,4 +225,6 @@ public interface AllApiIneterface {
             @Part("id") String id
     );
 
+    @GET("bigboss/api/getNotification.php")
+    Call<List<notiBean>> getNoti();
 }

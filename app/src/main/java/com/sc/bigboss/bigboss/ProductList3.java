@@ -96,6 +96,9 @@ public class ProductList3 extends AppCompatActivity {
     String pho = "" , tex = "";
 
 
+    ImageView notification, perks2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,9 @@ public class ProductList3 extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
         perks = findViewById(R.id.perks);
+
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -123,11 +129,35 @@ public class ProductList3 extends AppCompatActivity {
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
 
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(ProductList3.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ProductList3.this , Perks.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         Log.d("catname" , catName);
 
         grid = findViewById(R.id.grid);
 
         list = new ArrayList<>();
+
+
 
         adapter = new MAdapter(this, list);
 
@@ -270,13 +300,19 @@ public class ProductList3 extends AppCompatActivity {
                     {
                         float ppp = 0;
 
+                        String m = "";
                         if (total <= pp)
                         {
                             ppp = total;
+                            m = "Congratulations! Dear User, It's free for you. It can be claimed after uploading the bill. Thank you!";
                         }
                         else
                         {
                             ppp = pp;
+
+                            float mmmm = total - pp;
+
+                            m = "Dear User, Please pay Rs. " + String.valueOf(mmmm) + " and bill is redeemed on uploading the bill. Thank you!";
                         }
 
 
@@ -286,6 +322,10 @@ public class ProductList3 extends AppCompatActivity {
                         dialog1.setContentView(R.layout.share_dialog3);
                         dialog1.show();
 
+
+                        TextView mess = dialog1.findViewById(R.id.mess);
+
+                        mess.setText(m);
 
                         TextView device = dialog1.findViewById(R.id.device);
                         TextView code = dialog1.findViewById(R.id.code);

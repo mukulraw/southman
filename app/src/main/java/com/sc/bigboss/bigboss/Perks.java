@@ -285,7 +285,7 @@ public class Perks extends AppCompatActivity {
                                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                            Call<scratchCardBean> call2 = cr.redeem(item.getId());
+                                            Call<scratchCardBean> call2 = cr.redeem(item.getId() , android_id , item.getCashValue());
 
                                             call2.enqueue(new Callback<scratchCardBean>() {
                                                 @Override

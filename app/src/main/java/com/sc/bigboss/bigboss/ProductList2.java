@@ -95,6 +95,9 @@ public class ProductList2 extends AppCompatActivity {
 
     String pho = "" , tex = "";
 
+    ImageView notification, perks2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +109,10 @@ public class ProductList2 extends AppCompatActivity {
         linear = findViewById(R.id.linear);
         perks = findViewById(R.id.perks);
 
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
@@ -114,6 +121,25 @@ public class ProductList2 extends AppCompatActivity {
             public void onClick(View v) {
 
                 finish();
+            }
+        });
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(ProductList2.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ProductList2.this , Perks.class);
+                startActivity(intent);
             }
         });
 
@@ -266,7 +292,7 @@ public class ProductList2 extends AppCompatActivity {
                     float total = Float.parseFloat(item.getPrice());
 
 
-                    if (pp > 0)
+                    if (pp >= total)
                     {
                         float ppp = 0;
 

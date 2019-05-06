@@ -82,47 +82,28 @@ public class History extends AppCompatActivity {
 
         Log.d("asdsad", android_id);
 
-        Call<getPerksBean> call = cr.getPerks(android_id);
-        call.enqueue(new Callback<getPerksBean>() {
+
+        progress.setVisibility(View.VISIBLE);
+
+        Call<scratchCardBean> call1 = cr.getRedeemed(android_id);
+
+        call1.enqueue(new Callback<scratchCardBean>() {
             @Override
-            public void onResponse(Call<getPerksBean> call, Response<getPerksBean> response) {
+            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
 
-                if (response.body().getStatus().equals("1")) {
-
-                    progress.setVisibility(View.VISIBLE);
-
-                    Call<scratchCardBean> call1 = cr.getRedeemed(response.body().getData().get(0).getId());
-
-                    call1.enqueue(new Callback<scratchCardBean>() {
-                        @Override
-                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
-
-                            adapter = new CardAdapter(History.this , response1.body().getData());
-                            manager = new GridLayoutManager(History.this , 2);
-                            grid.setAdapter(adapter);
-                            grid.setLayoutManager(manager);
-
-                            progress.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                            progress.setVisibility(View.GONE);
-                        }
-                    });
-
-
-                }
+                adapter = new CardAdapter(History.this, response1.body().getData());
+                manager = new GridLayoutManager(History.this, 1);
+                grid.setAdapter(adapter);
+                grid.setLayoutManager(manager);
 
                 progress.setVisibility(View.GONE);
             }
 
             @Override
-            public void onFailure(Call<getPerksBean> call, Throwable t) {
+            public void onFailure(Call<scratchCardBean> call, Throwable t) {
                 progress.setVisibility(View.GONE);
             }
         });
-
 
 
     }
@@ -132,14 +113,12 @@ public class History extends AppCompatActivity {
         List<Datum> list = new ArrayList<>();
         Context context;
 
-        public CardAdapter(Context context , List<Datum> list)
-        {
+        public CardAdapter(Context context, List<Datum> list) {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Datum> list)
-        {
+        public void setData(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
         }
@@ -147,8 +126,8 @@ public class History extends AppCompatActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.history_list_item , viewGroup , false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.history_list_item, viewGroup, false);
             return new ViewHolder(view);
         }
 
@@ -157,8 +136,20 @@ public class History extends AppCompatActivity {
 
             Datum item = list.get(i);
 
-            holder.code.setText(item.getCashValue());
+            holder.code.setText("Value - " + item.getCashValue());
             holder.date.setText(item.getCreated());
+
+            switch (item.getText()) {
+                case "perks":
+                    holder.type.setText("VOUCHER STORE");
+                    break;
+                case "cash":
+                    holder.type.setText("REDEEM STORE");
+                    break;
+                case "scratch":
+                    holder.type.setText("SCRATCH CARD");
+                    break;
+            }
 
         }
 
@@ -169,18 +160,18 @@ public class History extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView code , date;
+            TextView code, date, type;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 code = itemView.findViewById(R.id.code);
                 date = itemView.findViewById(R.id.date);
+                type = itemView.findViewById(R.id.type);
 
             }
         }
     }
-
 
 
 }

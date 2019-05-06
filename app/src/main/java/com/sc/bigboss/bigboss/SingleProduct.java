@@ -74,6 +74,10 @@ public class SingleProduct extends AppCompatActivity {
 
     LinearLayout negotitle;
 
+
+    ImageView notification, perks2;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +96,28 @@ public class SingleProduct extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
+
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(SingleProduct.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SingleProduct.this , Perks.class);
+                startActivity(intent);
+            }
+        });
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

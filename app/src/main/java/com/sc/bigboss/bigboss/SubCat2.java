@@ -60,6 +60,9 @@ public class SubCat2 extends AppCompatActivity {
 
     LinearLayout linear;
 
+    ImageView notification, perks2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,30 @@ public class SubCat2 extends AppCompatActivity {
         });
 
         title = findViewById(R.id.title);
+
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
+
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(SubCat2.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SubCat2.this , Perks.class);
+                startActivity(intent);
+            }
+        });
+
 
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
@@ -152,7 +179,7 @@ public class SubCat2 extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<subCat3Bean> call = cr.subCat3(id);
+            Call<subCat3Bean> call = cr.subCat3(id , SharePreferenceUtils.getInstance().getString("location"));
 
             call.enqueue(new Callback<subCat3Bean>() {
                 @Override

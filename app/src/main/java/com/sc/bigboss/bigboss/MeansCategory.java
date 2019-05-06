@@ -60,6 +60,9 @@ public class MeansCategory extends AppCompatActivity {
 
     LinearLayout linear;
 
+
+    ImageView notification, perks2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,29 @@ public class MeansCategory extends AppCompatActivity {
         });
 
         title = findViewById(R.id.title);
+
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
+
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(MeansCategory.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MeansCategory.this , Perks.class);
+                startActivity(intent);
+            }
+        });
 
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");

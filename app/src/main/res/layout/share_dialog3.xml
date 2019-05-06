@@ -26,6 +26,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:id="@+id/mess"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp"
             android:id="@+id/device"
             android:text="Device - adasdha8dasud897"

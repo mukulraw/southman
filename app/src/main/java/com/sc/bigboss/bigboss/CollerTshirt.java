@@ -86,6 +86,8 @@ public class CollerTshirt extends AppCompatActivity {
 
     LinearLayout linear , bottom;
 
+    ImageView notification, perks2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +108,28 @@ public class CollerTshirt extends AppCompatActivity {
         sort = findViewById(R.id.sort);
         filter = findViewById(R.id.filter);
 
+        notification = findViewById(R.id.notification);
+        perks2 = findViewById(R.id.perks2);
+
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent i = new Intent(CollerTshirt.this, Notification.class);
+                startActivity(i);
+            }
+        });
+
+        perks2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(CollerTshirt.this , Perks.class);
+                startActivity(intent);
+            }
+        });
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -177,8 +201,18 @@ public class CollerTshirt extends AppCompatActivity {
             Log.d("asdasdasd" , id);
             Log.d("asdlosad" , SharePreferenceUtils.getInstance().getString("location"));
 
+            String f = "";
 
-            Call<ShopProductBean> call = cr.shopproduct(id, SharePreferenceUtils.getInstance().getString("location"));
+            if (catName.equals("food & drinks"))
+            {
+                f = "food";
+            }
+            else
+            {
+                f = "asd";
+            }
+
+            Call<ShopProductBean> call = cr.shopproduct(id, SharePreferenceUtils.getInstance().getString("location") , f);
 
             call.enqueue(new Callback<ShopProductBean>() {
                 @Override
