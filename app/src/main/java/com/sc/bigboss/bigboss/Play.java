@@ -493,9 +493,10 @@ public class Play extends Fragment {
         return null;
     }
 
+    CountDownTimer timer;
 
     void startTextTimer() {
-        CountDownTimer timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
+        timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -521,7 +522,7 @@ public class Play extends Fragment {
     }
 
     void startImageTimer() {
-        CountDownTimer timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
+        timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -826,6 +827,14 @@ public class Play extends Fragment {
                 cursor.close();
         }
         return null;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        
+        timer.cancel();
+
     }
 
     public static class MyCustomDialogFragment extends DialogFragment {
