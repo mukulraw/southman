@@ -2,6 +2,7 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.locationPOJO.Datum;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,56 +116,58 @@ public class Location extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<locationBean> call = cr.getLocations();
+            String android_id = Settings.Secure.getString(getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
 
-            call.enqueue(new Callback<locationBean>() {
+
+
+            Call<scratchCardBean> call1 = cr.register(android_id);
+
+            call1.enqueue(new Callback<scratchCardBean>() {
                 @Override
-                public void onResponse(Call<locationBean> call, Response<locationBean> response) {
-
-                    if (Objects.equals(response.body().getStatus(), "1")) {
-
-                        adapter.setgrid(response.body().getData());
-
-                    } else {
-
-                        Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                    progress.setVisibility(View.GONE);
+                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
 
+                    Call<locationBean> call = cr.getLocations();
 
-                /*if (response.body().getStatus().equals("1")) {
+                    call.enqueue(new Callback<locationBean>() {
+                        @Override
+                        public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                    list.clear();
-                    lid.clear();
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                    list.add("Choose Location");
+                                adapter.setgrid(response.body().getData());
 
-                    for (int i = 0; i < response.body().getData().size(); i++) {
-                        list.add(response.body().getData().get(i).getName());
-                        lid.add(response.body().getData().get(i).getId());
-                    }
+                            } else {
 
+                                Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                    ArrayAdapter dataAdapter = new ArrayAdapter(Location.this, android.R.layout.simple_spinner_item, list);
-
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                    spinner.setAdapter(dataAdapter);
+                            }
+                            progress.setVisibility(View.GONE);
 
 
-                }
-*/
 
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<locationBean> call, Throwable t) {
+                            progress.setVisibility(View.GONE);
+                        }
+                    });
 
                 }
 
                 @Override
-                public void onFailure(Call<locationBean> call, Throwable t) {
-                    progress.setVisibility(View.GONE);
+                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+
+
                 }
             });
+
+
+
 
 
         }else {

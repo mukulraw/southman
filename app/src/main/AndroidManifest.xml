@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WristWatch2"></activity>
+        <activity android:name=".Register"></activity>
+        <activity android:name=".WristWatch2" />
         <activity android:name=".SingleProduct2" />
         <activity android:name=".ProductList3" />
         <activity android:name=".History" />

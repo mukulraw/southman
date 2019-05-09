@@ -212,6 +212,12 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("bigboss/api/register.php")
+    Call<scratchCardBean> register(
+            @Part("deviceId") String id
+    );
+
+    @Multipart
     @POST("bigboss/api/getMatchingProd.php")
     Call<matchBean> getMatch(
             @Part("type") String type,
