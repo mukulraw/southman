@@ -832,8 +832,14 @@ public class Play extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        
-        timer.cancel();
+
+        try {
+            timer.cancel();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 
