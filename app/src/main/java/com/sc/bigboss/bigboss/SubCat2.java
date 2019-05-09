@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.subCat3POJO.Datum;
@@ -252,12 +253,17 @@ public class SubCat2 extends AppCompatActivity {
             //  myViewHolder.name.setText(item.getSubcatName());
 
 
+/*
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/sub_cat1/" + item.getImageUrl(), myViewHolder.imageView, options);
+*/
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/sub_cat1/" + item.getImageUrl()).into(myViewHolder.imageView);
+
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +277,7 @@ public class SubCat2 extends AppCompatActivity {
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
+                        i.putExtra("phone", item.getPhone());
                         context.startActivity(i);
                     }
                     else
@@ -279,6 +286,7 @@ public class SubCat2 extends AppCompatActivity {
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
+                        i.putExtra("phone", item.getPhone());
                         context.startActivity(i);
                     }
 

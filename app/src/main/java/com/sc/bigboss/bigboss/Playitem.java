@@ -85,7 +85,7 @@ public class Playitem extends AppCompatActivity {
 
     int chanc = 3;
 
-    String wid , wimage , wname = "bigboss. No one played, this product is yours";
+    String wid , wimage , wname = "South Man. No one played, this product is yours";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

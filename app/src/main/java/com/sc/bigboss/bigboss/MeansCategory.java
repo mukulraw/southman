@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.TillSubCategory2.Datum;
 import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -250,6 +251,7 @@ public class MeansCategory extends AppCompatActivity {
 
           //  myViewHolder.name.setText(item.getSubcatName());
 
+/*
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
@@ -257,6 +259,10 @@ public class MeansCategory extends AppCompatActivity {
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+*/
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl()).into(myViewHolder.imageView);
+
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {

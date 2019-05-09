@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,12 @@ import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.PlaySliderPOJO.PlayBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +59,7 @@ public class SingleProduct extends AppCompatActivity {
     TextView negitable;
     TextView price;
     static TextView title;
-    WebView details;
+    HtmlTextView details;
     TextView cod;
 
     ViewPager imageView;
@@ -132,10 +136,14 @@ public class SingleProduct extends AppCompatActivity {
 
         details = findViewById(R.id.text);
 
+/*
         details.setVerticalScrollBarEnabled(false);
         details.setHorizontalScrollBarEnabled(false);
 
+*/
+/*
 details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+*/
 
         title.setText(getIntent().getStringExtra("text"));
 
@@ -224,19 +232,6 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
                 //price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
 
-                if (response.body().getProductInfo().get(0).getNegotiable().equals("no")) {
-
-                    negitable.setText("No");
-
-                    negitable.setTextColor(Color.RED);
-
-
-                } else {
-                    negitable.setText("Yes");
-
-                    negitable.setTextColor(Color.parseColor("#4CAF50"));
-
-                }
 
 
                     negotitle.setVisibility(View.GONE);
@@ -252,8 +247,9 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
                 co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
-                details.loadData(response.body().getProductInfo().get(0).getProductDetail() , "text/html", "UTF-8");
+                Log.d("ddddd" , response.body().getProductInfo().get(0).getProductDetail());
 
+                details.setHtml(response.body().getProductInfo().get(0).getProductDetail());
                 //details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
 
 
@@ -498,9 +494,11 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
             imageView = view.findViewById(R.id.watch);
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
-            ImageLoader loader = ImageLoader.getInstance();
-            loader.displayImage(url , imageView , options);
+
+            Glide.with(getActivity()).load(url).into(imageView);
+
+
+
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

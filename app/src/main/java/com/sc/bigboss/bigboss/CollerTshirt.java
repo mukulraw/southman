@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 
 import com.appyvet.materialrangebar.RangeBar;
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -589,6 +590,7 @@ public class CollerTshirt extends AppCompatActivity {
 
 
 
+/*
             if (item.getNegotiable().equals("no")){
 
                 myViewHolder.negotiable.setText("No");
@@ -602,26 +604,30 @@ public class CollerTshirt extends AppCompatActivity {
                 myViewHolder.negotiable.setTextColor(Color.parseColor("#4CAF50"));
 
             }
+*/
 
 
-            if (catName.equals("shop by shop"))
+            /*if (catName.equals("shop by shop"))
             {
                 myViewHolder.negititle.setVisibility(View.VISIBLE);
                 myViewHolder.negotiable.setVisibility(View.VISIBLE);
             }
             else
-            {
+            {*/
                 myViewHolder.negititle.setVisibility(View.GONE);
                 myViewHolder.negotiable.setVisibility(View.GONE);
-            }
+            /*}*/
 
 
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
+            /*DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
+*/
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -710,6 +716,7 @@ public class CollerTshirt extends AppCompatActivity {
 
             myViewHolder.color.setText(item.getProductCode());
 
+/*
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
@@ -717,6 +724,10 @@ public class CollerTshirt extends AppCompatActivity {
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
+*/
+
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
             myViewHolder.order.setOnClickListener(new View.OnClickListener() {
@@ -751,7 +762,7 @@ public class CollerTshirt extends AppCompatActivity {
                         public void onClick(View v) {
 
 
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=91" + ph + "&text=Product Code : " + co));
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + ph + "&text=Product Code : " + co));
                             startActivity(browserIntent);
                             dialog.dismiss();
 

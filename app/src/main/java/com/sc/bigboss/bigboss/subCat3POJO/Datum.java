@@ -16,6 +16,9 @@ public class Datum {
     @SerializedName("space")
     @Expose
     private String space;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
 
     public String getId() {
         return id;
@@ -47,5 +50,13 @@ public class Datum {
 
     public void setSpace(String space) {
         this.space = space;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

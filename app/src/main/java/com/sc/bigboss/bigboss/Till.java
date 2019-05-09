@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
 import com.google.android.flexbox.AlignSelf;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
@@ -190,12 +191,17 @@ public class Till extends Fragment {
 
             // myViewHolder.name.setText(item.getSubcatName());
 
+/*
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+*/
+
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/cat/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
             ViewGroup.LayoutParams lp = myViewHolder.imageView.getLayoutParams();

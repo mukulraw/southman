@@ -34,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
@@ -97,6 +98,10 @@ public class ProductList2 extends AppCompatActivity {
 
     ImageView notification, perks2;
 
+    String phone;
+
+    Button upload;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,7 @@ public class ProductList2 extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
         perks = findViewById(R.id.perks);
+        upload = findViewById(R.id.upload);
 
         notification = findViewById(R.id.notification);
         perks2 = findViewById(R.id.perks2);
@@ -147,6 +153,7 @@ public class ProductList2 extends AppCompatActivity {
 
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
+        phone = getIntent().getStringExtra("phone");
 
         Log.d("catname" , catName);
 
@@ -236,6 +243,44 @@ public class ProductList2 extends AppCompatActivity {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                pho = phone;
+                tex = "";
+
+                final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+                File newdir = new File(dir);
+                try {
+                    newdir.mkdirs();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+                file = new File(fil);
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
+
+                Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivityForResult(getpic, 1);
+
+            }
+        });
+
+
     }
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
@@ -273,12 +318,17 @@ public class ProductList2 extends AppCompatActivity {
 
             myViewHolder.textView.setText(Html.fromHtml(item.getSubTitle()).toString().trim());
 
+/*
             DisplayImageOptions options = new DisplayImageOptions.Builder().
                     cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
 
             ImageLoader loader = ImageLoader.getInstance();
 
             loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.imageView, options);
+*/
+
+            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.imageView);
+
 
             myViewHolder.sku.setText(item.getSku());
 
@@ -514,8 +564,8 @@ public class ProductList2 extends AppCompatActivity {
             sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
             sendIntent.setType("image");
             sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
-            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(pho)+"@s.whatsapp.net");
-            sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
+            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(phone)+"@s.whatsapp.net");
+            //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
             startActivity(sendIntent);
 
 
