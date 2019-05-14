@@ -424,6 +424,23 @@ public class ProductList3 extends AppCompatActivity {
 
                                                 if (response.body().getStatus().equals("1"))
                                                 {
+
+
+
+                                                    Intent sendIntent = new Intent("android.intent.action.MAIN");
+                                                    //File f=new File("path to the file");
+                                                    //Uri uri = Uri.fromFile(file);
+                                                    //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+                                                    sendIntent.setType("image");
+                                                    sendIntent.setAction(Intent.ACTION_SEND);
+                                                    sendIntent.setPackage("com.whatsapp");
+                                                    sendIntent.putExtra(Intent.EXTRA_STREAM,getImageUri(context , bitmap));
+                                                    sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
+                                                    //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
+                                                    startActivity(sendIntent);
+
+/*
+
                                                     Intent sendIntent = new Intent("android.intent.action.SEND");
                                                     //File f=new File("path to the file");
                                                     //Uri uri = Uri.fromFile(file);
@@ -434,6 +451,7 @@ public class ProductList3 extends AppCompatActivity {
                                                     sendIntent.putExtra(Intent.EXTRA_TEXT,"");
                                                     startActivity(sendIntent);
 
+*/
 
 
                                                     dialog1.dismiss();
@@ -567,6 +585,20 @@ public class ProductList3 extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+            //File f=new File("path to the file");
+            //Uri uri = Uri.fromFile(file);
+            //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+            sendIntent.setType("image");
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.setPackage("com.whatsapp");
+            sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(phone)+"@s.whatsapp.net");
+            //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
+            startActivity(sendIntent);
+
+
+/*
             Intent sendIntent = new Intent("android.intent.action.SEND");
             //File f=new File("path to the file");
             //Uri uri = Uri.fromFile(file);
@@ -576,6 +608,7 @@ public class ProductList3 extends AppCompatActivity {
             sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(pho)+"@s.whatsapp.net");
             //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
             startActivity(sendIntent);
+*/
 
 
             /*Intent intent = new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:" + "" + ph + "?body=" + "Product Code : " + co));

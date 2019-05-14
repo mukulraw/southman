@@ -81,7 +81,10 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         ingr = findViewById(R.id.ingredients);
 
-        ingr.setText(Html.fromHtml(des).toString().trim());
+        des = des.replace("\n" , "");
+        des = des.replace("\t" , "");
+
+        ingr.setText(Html.fromHtml(des));
 
         order = findViewById(R.id.order);
 

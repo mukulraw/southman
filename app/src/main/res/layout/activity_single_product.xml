@@ -552,7 +552,7 @@
                         android:textSize="18sp"
                         android:typeface="monospace" />
 
-                    <org.sufficientlysecure.htmltextview.HtmlTextView
+                    <TextView
                         android:id="@+id/text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -561,7 +561,6 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center_vertical"
                         android:padding="5dp"
-
                         android:typeface="monospace" />
 
 

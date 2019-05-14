@@ -116,7 +116,16 @@ public class Genral extends Fragment {
 
             final Datum item = list.get(i);
 
-            myViewHolder.textView.setText(Html.fromHtml(item.getSmallDesc()).toString().trim());
+            String de = item.getSmallDesc();
+
+            de = de.replace("\t" , "");
+            de = de.replace("\n" , "");
+            //de = de.replace("<p>" , "");
+            //de = de.replace("</p>" , "");
+
+            Log.d("Asdasd" , de);
+
+            myViewHolder.textView.setText(Html.fromHtml(de));
 
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).resetViewBeforeLoading(false).build();
 

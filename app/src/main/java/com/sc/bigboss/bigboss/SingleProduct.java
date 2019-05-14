@@ -59,7 +59,7 @@ public class SingleProduct extends AppCompatActivity {
     TextView negitable;
     TextView price;
     static TextView title;
-    HtmlTextView details;
+    TextView details;
     TextView cod;
 
     ViewPager imageView;
@@ -249,7 +249,12 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
                 Log.d("ddddd" , response.body().getProductInfo().get(0).getProductDetail());
 
-                details.setHtml(response.body().getProductInfo().get(0).getProductDetail());
+                String de = response.body().getProductInfo().get(0).getProductDetail();
+
+                de = de.replace("\t" , "");
+                de = de.replace("\n" , "");
+
+                details.setText(Html.fromHtml(de));
                 //details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
 
 

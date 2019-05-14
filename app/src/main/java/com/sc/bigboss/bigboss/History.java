@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.Datum;
@@ -64,6 +65,15 @@ public class History extends AppCompatActivity {
 
         toolbar.setTitle("History");
 
+
+
+        adapter = new CardAdapter(History.this, list);
+        manager = new GridLayoutManager(History.this, 1);
+        grid.setAdapter(adapter);
+        grid.setLayoutManager(manager);
+
+
+
         progress.setVisibility(View.VISIBLE);
 
         Bean b = (Bean) getApplicationContext();
@@ -91,10 +101,9 @@ public class History extends AppCompatActivity {
             @Override
             public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
 
-                adapter = new CardAdapter(History.this, response1.body().getData());
-                manager = new GridLayoutManager(History.this, 1);
-                grid.setAdapter(adapter);
-                grid.setLayoutManager(manager);
+                Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                adapter.setData(response1.body().getData());
 
                 progress.setVisibility(View.GONE);
             }
@@ -102,6 +111,7 @@ public class History extends AppCompatActivity {
             @Override
             public void onFailure(Call<scratchCardBean> call, Throwable t) {
                 progress.setVisibility(View.GONE);
+                Toast.makeText(History.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
