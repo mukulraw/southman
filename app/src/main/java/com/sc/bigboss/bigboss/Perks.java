@@ -1,6 +1,7 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.app.SharedElementCallback;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cooltechworks.views.ScratchTextView;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
@@ -285,7 +287,7 @@ public class Perks extends AppCompatActivity {
                                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                            Call<scratchCardBean> call2 = cr.redeem(item.getId() , android_id , item.getCashValue());
+                                            Call<scratchCardBean> call2 = cr.redeem(item.getId() , SharePreferenceUtils.getInstance().getString("userid") , item.getCashValue() , item.getText());
 
                                             call2.enqueue(new Callback<scratchCardBean>() {
                                                 @Override
@@ -293,7 +295,31 @@ public class Perks extends AppCompatActivity {
 
                                                     if (response.body().getStatus().equals("1"))
                                                     {
-                                                        Intent sendIntent = new Intent("android.intent.action.SEND");
+
+                                                        progress.setVisibility(View.VISIBLE);
+
+                                                        Call<scratchCardBean> call1 = cr.getScratchCards(SharePreferenceUtils.getInstance().getString("userid"));
+
+                                                        call1.enqueue(new Callback<scratchCardBean>() {
+                                                            @Override
+                                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+
+                                                                adapter = new CardAdapter(Perks.this , response1.body().getData());
+                                                                manager = new GridLayoutManager(Perks.this , 2);
+                                                                grid.setAdapter(adapter);
+                                                                grid.setLayoutManager(manager);
+
+                                                                progress.setVisibility(View.GONE);
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                                                progress.setVisibility(View.GONE);
+                                                            }
+                                                        });
+
+                                                        /*Intent sendIntent = new Intent("android.intent.action.SEND");
                                                         //File f=new File("path to the file");
                                                         //Uri uri = Uri.fromFile(file);
                                                         sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
@@ -302,8 +328,10 @@ public class Perks extends AppCompatActivity {
                                                         sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhone())+"@s.whatsapp.net");
                                                         sendIntent.putExtra(Intent.EXTRA_TEXT,"");
                                                         startActivity(sendIntent);
+*/
 
 
+                                                        Toast.makeText(Perks.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                                                         dialog1.dismiss();
 

@@ -57,7 +57,7 @@ public class SubCat2 extends AppCompatActivity {
 
     ConnectionDetector cd;
 
-    String catName , base;
+    String catName , base , client;
 
     LinearLayout linear;
 
@@ -114,6 +114,7 @@ public class SubCat2 extends AppCompatActivity {
 
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
+        client = getIntent().getStringExtra("client");
 
         Log.d("catname" , catName);
 
@@ -278,6 +279,7 @@ public class SubCat2 extends AppCompatActivity {
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
                         i.putExtra("phone", item.getPhone());
+                        i.putExtra("client", client);
                         context.startActivity(i);
                     }
                     else
@@ -287,6 +289,7 @@ public class SubCat2 extends AppCompatActivity {
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
                         i.putExtra("phone", item.getPhone());
+                        i.putExtra("client", client);
                         context.startActivity(i);
                     }
 

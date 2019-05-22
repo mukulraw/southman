@@ -54,7 +54,7 @@
             android:padding="10dp"
             android:textColor="@android:color/holo_blue_dark"
             android:textSize="16sp"
-            android:text="If you click on proceed and exit from whatsapp without sending the message. Then your perks will still get deducted which will be non refundable."
+            android:text="If you click on proceed. Then your perks will get deducted which will be non refundable."
             />
 
 

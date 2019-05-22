@@ -137,6 +137,16 @@ public interface AllApiIneterface {
             @Part MultipartBody.Part file1
     );
 
+
+    @Multipart
+    @POST("bigboss/api/uploadBill.php")
+    Call<scratchCardBean> uploadBill(
+            @Part("clientId") String client,
+            @Part("userId") String userid,
+            @Part MultipartBody.Part file1
+    );
+
+
     @Multipart
     @POST("bigboss/api/playBid.php")
     Call<registerPlayBean> playBid(
@@ -192,29 +202,37 @@ public interface AllApiIneterface {
     Call<scratchCardBean> redeem(
             @Part("id") String id,
             @Part("deviceId") String device,
-            @Part("value") String value
+            @Part("value") String value,
+            @Part("code") String code
     );
 
     @Multipart
     @POST("bigboss/api/buyPerks.php")
     Call<scratchCardBean> buyPerks(
             @Part("deviceId") String id,
+            @Part("client") String client,
             @Part("value") String value,
-            @Part("type") String type
+            @Part("type") String type,
+            @Part("code") String code,
+            @Part("price") String price
     );
 
     @Multipart
     @POST("bigboss/api/buyCash.php")
     Call<scratchCardBean> buyCash(
             @Part("deviceId") String id,
+            @Part("client") String client,
             @Part("value") String value,
-            @Part("type") String type
+            @Part("type") String type,
+            @Part("code") String code,
+            @Part("price") String price
     );
 
     @Multipart
     @POST("bigboss/api/register.php")
     Call<scratchCardBean> register(
-            @Part("deviceId") String id
+            @Part("deviceId") String id,
+            @Part("name") String name
     );
 
     @Multipart

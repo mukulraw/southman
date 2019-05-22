@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -12,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -121,50 +124,129 @@ public class Location extends AppCompatActivity {
 
 
 
-            Call<scratchCardBean> call1 = cr.register(android_id);
-
-            call1.enqueue(new Callback<scratchCardBean>() {
-                @Override
-                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+            String userid = SharePreferenceUtils.getInstance().getString("userid");
 
 
-                    Call<locationBean> call = cr.getLocations();
+            if (userid.length() > 0)
+            {
 
-                    call.enqueue(new Callback<locationBean>() {
-                        @Override
-                        public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+                Call<locationBean> call = cr.getLocations();
 
-                            if (Objects.equals(response.body().getStatus(), "1")) {
+                call.enqueue(new Callback<locationBean>() {
+                    @Override
+                    public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                                adapter.setgrid(response.body().getData());
+                        if (Objects.equals(response.body().getStatus(), "1")) {
 
-                            } else {
+                            adapter.setgrid(response.body().getData());
 
-                                Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
 
-                            }
-                            progress.setVisibility(View.GONE);
-
-
-
+                            Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
+                        progress.setVisibility(View.GONE);
 
-                        @Override
-                        public void onFailure(Call<locationBean> call, Throwable t) {
-                            progress.setVisibility(View.GONE);
+
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<locationBean> call, Throwable t) {
+                        progress.setVisibility(View.GONE);
+                    }
+                });
+
+            }
+            else
+            {
+
+
+                Dialog dialog = new Dialog(Location.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.register_dialog);
+                dialog.show();
+
+                EditText name = dialog.findViewById(R.id.name);
+                Button submit = dialog.findViewById(R.id.submit);
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String n = name.getText().toString();
+
+                        if (n.length() > 0)
+                        {
+
+                            Call<scratchCardBean> call1 = cr.register(android_id , n);
+
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+
+                                    dialog.dismiss();
+
+                                    SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
+
+
+                                    Call<locationBean> call = cr.getLocations();
+
+                                    call.enqueue(new Callback<locationBean>() {
+                                        @Override
+                                        public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+
+                                            if (Objects.equals(response.body().getStatus(), "1")) {
+
+                                                adapter.setgrid(response.body().getData());
+
+                                            } else {
+
+                                                Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            }
+                                            progress.setVisibility(View.GONE);
+
+
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<locationBean> call, Throwable t) {
+                                            progress.setVisibility(View.GONE);
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+
+
+                                }
+                            });
+
                         }
-                    });
+                        else
+                        {
+                            Toast.makeText(Location.this, "Invalid name", Toast.LENGTH_SHORT).show();
+                        }
 
-                }
-
-                @Override
-                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                    }
+                });
 
 
 
-                }
-            });
+            }
+
+
+
+
 
 
 

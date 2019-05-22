@@ -53,11 +53,11 @@ public class MeansCategory extends AppCompatActivity {
 
     TextView title;
 
-    ImageView search , home;
+    ImageView search, home;
 
     ConnectionDetector cd;
 
-    String catName , base;
+    String catName, base;
 
     LinearLayout linear;
 
@@ -105,7 +105,7 @@ public class MeansCategory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MeansCategory.this , Perks.class);
+                Intent intent = new Intent(MeansCategory.this, Perks.class);
                 startActivity(intent);
             }
         });
@@ -113,7 +113,8 @@ public class MeansCategory extends AppCompatActivity {
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
 
-        Log.d("catname" , catName);
+        Log.d("catname", catName);
+
 
         grid = findViewById(R.id.grid);
 
@@ -140,6 +141,14 @@ public class MeansCategory extends AppCompatActivity {
 
         search = findViewById(R.id.search);
         home = findViewById(R.id.home);
+
+
+        if (catName.equals("till day sale")) {
+            search.setVisibility(View.VISIBLE);
+        } else {
+            search.setVisibility(View.GONE);
+        }
+
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +187,7 @@ public class MeansCategory extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<TillSubCatBean> call = cr.tillcat2(id , SharePreferenceUtils.getInstance().getString("location"));
+            Call<TillSubCatBean> call = cr.tillcat2(id, SharePreferenceUtils.getInstance().getString("location"));
 
             call.enqueue(new Callback<TillSubCatBean>() {
                 @Override
@@ -188,9 +197,7 @@ public class MeansCategory extends AppCompatActivity {
 
                         adapter.setgrid(response.body().getData());
                         linear.setVisibility(View.GONE);
-                    }
-                    else
-                    {
+                    } else {
                         linear.setVisibility(View.VISIBLE);
                     }
 
@@ -229,8 +236,7 @@ public class MeansCategory extends AppCompatActivity {
 
         }
 
-        public String getSpace(int position)
-        {
+        public String getSpace(int position) {
             return list.get(position).getSpace();
         }
 
@@ -249,7 +255,7 @@ public class MeansCategory extends AppCompatActivity {
 
             final Datum item = list.get(i);
 
-          //  myViewHolder.name.setText(item.getSubcatName());
+            //  myViewHolder.name.setText(item.getSubcatName());
 
 /*
 
@@ -264,29 +270,25 @@ public class MeansCategory extends AppCompatActivity {
             Glide.with(context).load(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
-
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
 
-                    if (catName.equals("vouchers store") || catName.equals("redeem store"))
-                    {
+                    if (catName.equals("vouchers store") || catName.equals("redeem store")) {
                         Intent i = new Intent(context, SubCat2.class);
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
+                        i.putExtra("client", item.getClient_id());
                         context.startActivity(i);
-                    }
-                    else
-                    {
+                    } else {
                         Intent i = new Intent(context, CollerTshirt.class);
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
                         context.startActivity(i);
                     }
-
 
 
                 }
@@ -310,7 +312,7 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageView imageView;
 
-           // TextView name;
+            // TextView name;
 
             public MyViewHolder(@NonNull View itemView) {
                 super(itemView);

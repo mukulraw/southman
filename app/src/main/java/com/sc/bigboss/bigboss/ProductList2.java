@@ -2,6 +2,7 @@ package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -52,6 +53,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,7 +86,7 @@ public class ProductList2 extends AppCompatActivity {
 
     ConnectionDetector cd;
 
-    String catName , base;
+    String catName , base , client;
 
     LinearLayout linear;
 
@@ -153,6 +158,7 @@ public class ProductList2 extends AppCompatActivity {
 
         title.setText(getIntent().getStringExtra("text"));
         catName = getIntent().getStringExtra("catname");
+        client = getIntent().getStringExtra("client");
         phone = getIntent().getStringExtra("phone");
 
         Log.d("catname" , catName);
@@ -407,7 +413,7 @@ public class ProductList2 extends AppCompatActivity {
                                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                        Call<scratchCardBean> call2 = cr.buyPerks(android_id , String.valueOf(finalPpp) , "perks");
+                                        Call<scratchCardBean> call2 = cr.buyPerks(SharePreferenceUtils.getInstance().getString("userid") , client , String.valueOf(finalPpp) , "perks" , item.getSku() , item.getPrice());
 
                                         call2.enqueue(new Callback<scratchCardBean>() {
                                             @Override
@@ -416,7 +422,11 @@ public class ProductList2 extends AppCompatActivity {
                                                 if (response.body().getStatus().equals("1"))
                                                 {
 
+                                                    Toast.makeText(ProductList2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
+                                                    loadPerks();
+
+/*
                                                     Intent sendIntent = new Intent("android.intent.action.MAIN");
                                                     //File f=new File("path to the file");
                                                     //Uri uri = Uri.fromFile(file);
@@ -428,6 +438,7 @@ public class ProductList2 extends AppCompatActivity {
                                                     sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
                                                     //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
                                                     startActivity(sendIntent);
+*/
 
 
 
@@ -576,17 +587,77 @@ public class ProductList2 extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Intent sendIntent = new Intent("android.intent.action.MAIN");
-            //File f=new File("path to the file");
-            //Uri uri = Uri.fromFile(file);
-            //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
-            sendIntent.setType("image");
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.setPackage("com.whatsapp");
-            sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
-            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(phone)+"@s.whatsapp.net");
-            //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
-            startActivity(sendIntent);
+            File file2 = null;
+
+            try {
+                file2 = new Compressor(ProductList2.this).compressToFile(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            MultipartBody.Part body = null;
+
+            try {
+
+                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
+                body = MultipartBody.Part.createFormData("bill", file2.getName(), reqFile1);
+
+
+            }catch (Exception e1)
+            {
+                e1.printStackTrace();
+            }
+
+
+            Bean b = (Bean) getApplicationContext();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+            bar.setVisibility(View.VISIBLE);
+
+            Call<scratchCardBean> call = cr.uploadBill(client , SharePreferenceUtils.getInstance().getString("userid") , body);
+
+            call.enqueue(new Callback<scratchCardBean>() {
+                @Override
+                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                    if (response.body().getStatus().equals("1"))
+                    {
+                        Toast.makeText(ProductList2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    bar.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                    bar.setVisibility(View.GONE);
+                }
+            });
+
+
+            /*Intent sendIntent = new Intent("android.intent.action.MAIN");
+                //File f=new File("path to the file");
+                //Uri uri = Uri.fromFile(file);
+                //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+                sendIntent.setType("image");
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.setPackage("com.whatsapp");
+                sendIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(phone)+"@s.whatsapp.net");
+                //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
+                startActivity(sendIntent);
+
+*/
 
 
             /*Intent intent = new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:" + "" + ph + "?body=" + "Product Code : " + co));

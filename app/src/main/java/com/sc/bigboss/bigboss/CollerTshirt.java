@@ -164,6 +164,15 @@ public class CollerTshirt extends AppCompatActivity {
 
         search = findViewById(R.id.search);
         home = findViewById(R.id.home);
+
+
+        if (catName.equals("till day sale")) {
+            search.setVisibility(View.VISIBLE);
+        } else {
+            search.setVisibility(View.GONE);
+        }
+
+
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

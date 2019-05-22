@@ -52,9 +52,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:textColor="@color/blue"
+            android:textColor="@android:color/holo_blue_dark"
             android:textSize="16sp"
-            android:text="If you click on proceed and exit from whatsapp without sending the message. Then your cash rewards will still get deducted which will be non refundable."
+            android:text="If you click on proceed. Then your cash rewards will get deducted which will be non refundable."
             />
 
 
