@@ -13,7 +13,7 @@ public class Datum {
     private String deviceId;
     @SerializedName("client")
     @Expose
-    private Object client;
+    private String client;
     @SerializedName("cash_value")
     @Expose
     private String cashValue;
@@ -50,11 +50,11 @@ public class Datum {
         this.deviceId = deviceId;
     }
 
-    public Object getClient() {
+    public String getClient() {
         return client;
     }
 
-    public void setClient(Object client) {
+    public void setClient(String client) {
         this.client = client;
     }
 

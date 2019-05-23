@@ -21,11 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Register"></activity>
-        <activity android:name=".WristWatch2" />
-        <activity android:name=".SingleProduct2" />
-        <activity android:name=".ProductList3" />
-        <activity android:name=".History" />
+        <activity android:name=".Register"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".WristWatch2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SingleProduct2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ProductList3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".History"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -37,10 +43,14 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".ProductList2" />
-        <activity android:name=".SubCat2" />
-        <activity android:name=".Perks" />
-        <activity android:name=".Winners" />
+        <activity android:name=".ProductList2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SubCat2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Perks"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Winners"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AdActivity"
             android:screenOrientation="portrait" />

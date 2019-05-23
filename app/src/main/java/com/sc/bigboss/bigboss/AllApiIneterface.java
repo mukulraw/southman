@@ -203,7 +203,8 @@ public interface AllApiIneterface {
             @Part("id") String id,
             @Part("deviceId") String device,
             @Part("value") String value,
-            @Part("code") String code
+            @Part("code") String code,
+            @Part("client") String client
     );
 
     @Multipart
