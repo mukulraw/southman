@@ -20,17 +20,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.locationPOJO.Datum;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -130,6 +134,73 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.request_dialog);
+                dialog.show();
+
+
+                EditText name = dialog.findViewById(R.id.name);
+                Button submit = dialog.findViewById(R.id.submit);
+
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String n = name.getText().toString();
+
+                        if (n.length() > 0)
+                        {
+                            Bean b = (Bean) getApplicationContext();
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid") , n);
+
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+
+                                    Toast.makeText(MainActivity.this, response2.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    dialog.dismiss();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+                                }
+                            });
+
+                        }
+                        else
+                        {
+                            Toast.makeText(MainActivity.this, "Invalid field", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
+            }
+        });
+
 
      /*   profile.setOnClickListener(new View.OnClickListener() {
             @Override

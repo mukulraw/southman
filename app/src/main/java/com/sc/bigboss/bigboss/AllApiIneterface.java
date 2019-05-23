@@ -236,6 +236,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("bigboss/api/request.php")
+    Call<scratchCardBean> request(
+            @Part("deviceId") String id,
+            @Part("text") String name
+    );
+
+    @Multipart
     @POST("bigboss/api/getMatchingProd.php")
     Call<matchBean> getMatch(
             @Part("type") String type,

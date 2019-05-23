@@ -65,6 +65,7 @@ public class History extends AppCompatActivity {
 
         toolbar.setTitle("History");
 
+        list = new ArrayList<>();
 
 
         adapter = new CardAdapter(History.this, list);
@@ -90,18 +91,19 @@ public class History extends AppCompatActivity {
         String android_id = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        Log.d("asdsad", android_id);
+        Log.d("asdsad", SharePreferenceUtils.getInstance().getString("userid"));
+
 
 
         progress.setVisibility(View.VISIBLE);
 
-        Call<scratchCardBean> call1 = cr.getRedeemed(android_id);
+        Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"));
 
         call1.enqueue(new Callback<scratchCardBean>() {
             @Override
             public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
 
-                Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
                 adapter.setData(response1.body().getData());
 
@@ -146,18 +148,45 @@ public class History extends AppCompatActivity {
 
             Datum item = list.get(i);
 
-            holder.code.setText("Value - " + item.getCashValue());
+            holder.code.setText("Item - " + item.getCode());
             holder.date.setText(item.getCreated());
+
+            holder.status.setText(item.getStatus());
 
             switch (item.getText()) {
                 case "perks":
-                    holder.type.setText("VOUCHER STORE");
+                    holder.type.setText("VOUCHER STORE - " + item.getId());
+
+                    holder.price.setText("Price - " + item.getPrice());
+
+                    float pr = Float.parseFloat(item.getPrice());
+                    float pa = Float.parseFloat(item.getCashValue());
+
+                    holder.paid.setText("Paid - " + String.valueOf(pr - pa));
+
+                    holder.paid.setVisibility(View.VISIBLE);
+                    holder.price.setVisibility(View.VISIBLE);
+
                     break;
                 case "cash":
-                    holder.type.setText("REDEEM STORE");
+                    holder.type.setText("REDEEM STORE - " + item.getId());
+
+                    holder.price.setText("Price - " + item.getPrice());
+
+                    float pr1 = Float.parseFloat(item.getPrice());
+                    float pa1 = Float.parseFloat(item.getCashValue());
+
+                    holder.paid.setText("Paid - " + String.valueOf(pr1 - pa1));
+
+                    holder.paid.setVisibility(View.VISIBLE);
+                    holder.price.setVisibility(View.VISIBLE);
+
                     break;
                 case "scratch":
-                    holder.type.setText("SCRATCH CARD");
+                    holder.type.setText("SCRATCH CARD - " + item.getId());
+                    holder.paid.setVisibility(View.GONE);
+                    holder.price.setVisibility(View.GONE);
+
                     break;
             }
 
@@ -170,7 +199,7 @@ public class History extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView code, date, type;
+            TextView code, date, type , status , price , paid;
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -178,6 +207,9 @@ public class History extends AppCompatActivity {
                 code = itemView.findViewById(R.id.code);
                 date = itemView.findViewById(R.id.date);
                 type = itemView.findViewById(R.id.type);
+                status = itemView.findViewById(R.id.status);
+                price = itemView.findViewById(R.id.price);
+                paid = itemView.findViewById(R.id.paid);
 
             }
         }

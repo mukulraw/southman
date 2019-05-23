@@ -11,21 +11,28 @@ public class Datum {
     @SerializedName("deviceId")
     @Expose
     private String deviceId;
+    @SerializedName("client")
+    @Expose
+    private Object client;
     @SerializedName("cash_value")
     @Expose
     private String cashValue;
+    @SerializedName("code")
+    @Expose
+    private String code;
     @SerializedName("text")
     @Expose
     private String text;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("created")
-    @Expose
-    private String created;
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("created")
+    @Expose
+    private String created;
+    @SerializedName("price")
+    @Expose
+    private String price;
+
 
     public String getId() {
         return id;
@@ -43,12 +50,28 @@ public class Datum {
         this.deviceId = deviceId;
     }
 
+    public Object getClient() {
+        return client;
+    }
+
+    public void setClient(Object client) {
+        this.client = client;
+    }
+
     public String getCashValue() {
         return cashValue;
     }
 
     public void setCashValue(String cashValue) {
         this.cashValue = cashValue;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getText() {
@@ -59,12 +82,12 @@ public class Datum {
         this.text = text;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCreated() {
@@ -75,13 +98,12 @@ public class Datum {
         this.created = created;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPrice() {
+        return price;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPrice(String price) {
+        this.price = price;
     }
-
 }
 
