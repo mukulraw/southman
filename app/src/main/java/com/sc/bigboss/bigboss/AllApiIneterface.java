@@ -233,7 +233,8 @@ public interface AllApiIneterface {
     @POST("bigboss/api/register.php")
     Call<scratchCardBean> register(
             @Part("deviceId") String id,
-            @Part("name") String name
+            @Part("name") String name,
+            @Part("token") String token
     );
 
     @Multipart
@@ -256,7 +257,10 @@ public interface AllApiIneterface {
     Call<matchByIdBean> getMatchById(
             @Part("id") String id
     );
-
-    @GET("bigboss/api/getNotification.php")
-    Call<List<notiBean>> getNoti();
+    
+    @Multipart
+    @POST("bigboss/api/getNotification.php")
+    Call<List<notiBean>> getNoti(
+            @Part("id") String id
+    );
 }

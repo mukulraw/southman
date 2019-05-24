@@ -1,6 +1,7 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -182,7 +183,7 @@ public class Location extends AppCompatActivity {
                         if (n.length() > 0)
                         {
 
-                            Call<scratchCardBean> call1 = cr.register(android_id , n);
+                            Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token"));
 
                             call1.enqueue(new Callback<scratchCardBean>() {
                                 @Override
