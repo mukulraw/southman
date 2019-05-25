@@ -244,6 +244,11 @@ public class Perks extends AppCompatActivity {
                             dialog1.show();
 
 
+                            TextView nnn = dialog1.findViewById(R.id.name);
+
+                            nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
+
+
                             TextView device = dialog1.findViewById(R.id.device);
                             TextView code = dialog1.findViewById(R.id.code);
                             TextView cancel = dialog1.findViewById(R.id.cancel);

@@ -370,6 +370,10 @@ public class ProductList2 extends AppCompatActivity {
 
 
                         TextView device = dialog1.findViewById(R.id.device);
+                        TextView nnn = dialog1.findViewById(R.id.name);
+
+                        nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
+
                         TextView code = dialog1.findViewById(R.id.code);
                         TextView cancel = dialog1.findViewById(R.id.cancel);
                         TextView proceed = dialog1.findViewById(R.id.proceed);
@@ -377,6 +381,9 @@ public class ProductList2 extends AppCompatActivity {
 
                         String android_id = Settings.Secure.getString(getContentResolver(),
                                 Settings.Secure.ANDROID_ID);
+
+
+
 
 
                         device.setText("Device - " + android_id);

@@ -171,6 +171,7 @@ public class Location extends AppCompatActivity {
                 dialog.show();
 
                 EditText name = dialog.findViewById(R.id.name);
+                EditText phone = dialog.findViewById(R.id.phone);
                 Button submit = dialog.findViewById(R.id.submit);
 
 
@@ -179,58 +180,70 @@ public class Location extends AppCompatActivity {
                     public void onClick(View v) {
 
                         String n = name.getText().toString();
+                        String p = phone.getText().toString();
 
                         if (n.length() > 0)
                         {
 
-                            Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token"));
+                            if (p.length() == 10)
+                            {
+                                Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token") , p);
 
-                            call1.enqueue(new Callback<scratchCardBean>() {
-                                @Override
-                                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+                                call1.enqueue(new Callback<scratchCardBean>() {
+                                    @Override
+                                    public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
-                                    dialog.dismiss();
+                                        dialog.dismiss();
 
-                                    SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
+                                        SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
+                                        SharePreferenceUtils.getInstance().saveString("name" , n);
 
 
-                                    Call<locationBean> call = cr.getLocations();
+                                        Call<locationBean> call = cr.getLocations();
 
-                                    call.enqueue(new Callback<locationBean>() {
-                                        @Override
-                                        public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+                                        call.enqueue(new Callback<locationBean>() {
+                                            @Override
+                                            public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                                            if (Objects.equals(response.body().getStatus(), "1")) {
+                                                if (Objects.equals(response.body().getStatus(), "1")) {
 
-                                                adapter.setgrid(response.body().getData());
+                                                    adapter.setgrid(response.body().getData());
 
-                                            } else {
+                                                } else {
 
-                                                Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                }
+                                                progress.setVisibility(View.GONE);
+
+
+
 
                                             }
-                                            progress.setVisibility(View.GONE);
+
+                                            @Override
+                                            public void onFailure(Call<locationBean> call, Throwable t) {
+                                                progress.setVisibility(View.GONE);
+                                            }
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
 
 
 
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<locationBean> call, Throwable t) {
-                                            progress.setVisibility(View.GONE);
-                                        }
-                                    });
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(Location.this, "Invalid phone", Toast.LENGTH_SHORT).show();
+                            }
 
 
 
-                                }
-                            });
 
                         }
                         else

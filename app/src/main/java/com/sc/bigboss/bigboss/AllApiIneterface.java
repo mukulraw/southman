@@ -234,14 +234,16 @@ public interface AllApiIneterface {
     Call<scratchCardBean> register(
             @Part("deviceId") String id,
             @Part("name") String name,
-            @Part("token") String token
+            @Part("token") String token,
+            @Part("phone") String phone
     );
 
     @Multipart
     @POST("bigboss/api/request.php")
     Call<scratchCardBean> request(
             @Part("deviceId") String id,
-            @Part("text") String name
+            @Part("text") String name,
+            @Part("phone") String phone
     );
 
     @Multipart

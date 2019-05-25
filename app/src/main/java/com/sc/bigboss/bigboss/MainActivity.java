@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 EditText name = dialog.findViewById(R.id.name);
+                EditText phone = dialog.findViewById(R.id.phone);
                 Button submit = dialog.findViewById(R.id.submit);
 
 
@@ -157,41 +158,53 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         String n = name.getText().toString();
+                        String p = phone.getText().toString();
 
                         if (n.length() > 0)
                         {
-                            Bean b = (Bean) getApplicationContext();
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(b.baseurl)
-                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                    .addConverterFactory(GsonConverterFactory.create())
-                                    .build();
 
-                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                            if (p.length() == 10)
+                            {
+                                Bean b = (Bean) getApplicationContext();
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(b.baseurl)
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+
+                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                            Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid") , n);
+                                Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid") , n , p);
 
-                            call1.enqueue(new Callback<scratchCardBean>() {
-                                @Override
-                                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+                                call1.enqueue(new Callback<scratchCardBean>() {
+                                    @Override
+                                    public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
-                                    Toast.makeText(MainActivity.this, response2.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, response2.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                    dialog.dismiss();
+                                        dialog.dismiss();
 
-                                }
+                                    }
 
-                                @Override
-                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(MainActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
 
                         }
                         else
                         {
-                            Toast.makeText(MainActivity.this, "Invalid field", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Invalid details", Toast.LENGTH_SHORT).show();
                         }
 
                     }

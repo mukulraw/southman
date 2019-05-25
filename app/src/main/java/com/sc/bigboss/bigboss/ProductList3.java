@@ -380,6 +380,12 @@ public class ProductList3 extends AppCompatActivity {
 
                         TextView device = dialog1.findViewById(R.id.device);
                         TextView code = dialog1.findViewById(R.id.code);
+
+                        TextView nnn = dialog1.findViewById(R.id.name);
+
+                        nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
+
+
                         TextView cancel = dialog1.findViewById(R.id.cancel);
                         TextView proceed = dialog1.findViewById(R.id.proceed);
                         ProgressBar bar = dialog1.findViewById(R.id.progress);
