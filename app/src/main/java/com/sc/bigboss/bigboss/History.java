@@ -192,8 +192,10 @@ public class History extends AppCompatActivity {
 
                     holder.type.setTextColor(Color.parseColor("#F9A825"));
 
+                    holder.price.setText("Benefits - " + item.getCashValue() + " credits");
+
                     holder.paid.setVisibility(View.GONE);
-                    holder.price.setVisibility(View.GONE);
+                    //holder.price.setVisibility(View.GONE);
 
                     break;
             }

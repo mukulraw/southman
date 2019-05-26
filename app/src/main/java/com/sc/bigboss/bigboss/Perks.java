@@ -200,6 +200,8 @@ public class Perks extends AppCompatActivity {
 
             Datum item = list.get(i);
 
+            holder.text.setText(item.getText());
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -236,93 +238,122 @@ public class Perks extends AppCompatActivity {
                         public void onClick(View v) {
 
 
-                            Dialog dialog1 = new Dialog(context);
-                            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog1.setCancelable(false);
-                            dialog1.setContentView(R.layout.share_dialog);
+
+
+
+                            Dialog dialog2 = new Dialog(context);
+                            dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog2.setCancelable(true);
+                            dialog2.setContentView(R.layout.amount_dialog);
+                            dialog2.show();
                             dialog.dismiss();
-                            dialog1.show();
 
 
-                            TextView nnn = dialog1.findViewById(R.id.name);
+                            EditText am = dialog2.findViewById(R.id.name);
+                            Button sub = dialog2.findViewById(R.id.submit);
 
-                            nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
-
-
-                            TextView device = dialog1.findViewById(R.id.device);
-                            TextView code = dialog1.findViewById(R.id.code);
-                            TextView cancel = dialog1.findViewById(R.id.cancel);
-                            TextView proceed = dialog1.findViewById(R.id.proceed);
-                            ProgressBar bar = dialog1.findViewById(R.id.progress);
-
-                            String android_id = Settings.Secure.getString(getContentResolver(),
-                                    Settings.Secure.ANDROID_ID);
-
-
-                            device.setText("Device - " + android_id);
-                            code.setText("Code - " + item.getText());
-
-                            cancel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog1.dismiss();
-                                }
-                            });
-
-
-                            proceed.setOnClickListener(new View.OnClickListener() {
+                            sub.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
 
-                                    Instacapture.INSTANCE.capture(Perks.this , new SimpleScreenCapturingListener() {
-                                        @Override
-                                        public void onCaptureComplete(Bitmap bitmap) {
-                                            //Your code here..
+                                    String a = am.getText().toString();
 
-                                            bar.setVisibility(View.VISIBLE);
+                                    if (a.length() > 0)
+                                    {
 
-                                            Bean b = (Bean) getApplicationContext();
+                                        float p = Float.parseFloat(item.getCashValue());
+                                        float aa = Float.parseFloat(a);
 
-                                            Retrofit retrofit = new Retrofit.Builder()
-                                                    .baseUrl(b.baseurl)
-                                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                                    .addConverterFactory(GsonConverterFactory.create())
-                                                    .build();
+                                        if (aa <= p)
+                                        {
 
-                                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                            Dialog dialog1 = new Dialog(context);
+                                            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                            dialog1.setCancelable(false);
+                                            dialog1.setContentView(R.layout.share_dialog);
+                                            dialog2.dismiss();
+                                            dialog1.show();
 
 
-                                            Call<scratchCardBean> call2 = cr.redeem(item.getId() , SharePreferenceUtils.getInstance().getString("userid") , item.getCashValue() , item.getText() , item.getClient());
+                                            TextView nnn = dialog1.findViewById(R.id.name);
 
-                                            call2.enqueue(new Callback<scratchCardBean>() {
+                                            nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
+
+
+                                            TextView device = dialog1.findViewById(R.id.device);
+                                            TextView code = dialog1.findViewById(R.id.code);
+                                            TextView cancel = dialog1.findViewById(R.id.cancel);
+                                            TextView proceed = dialog1.findViewById(R.id.proceed);
+                                            ProgressBar bar = dialog1.findViewById(R.id.progress);
+
+                                            String android_id = Settings.Secure.getString(getContentResolver(),
+                                                    Settings.Secure.ANDROID_ID);
+
+
+                                            device.setText("Device - " + android_id);
+                                            code.setText("Code - " + item.getText());
+
+                                            cancel.setOnClickListener(new View.OnClickListener() {
                                                 @Override
-                                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                                    if (response.body().getStatus().equals("1"))
-                                                    {
-
-                                                        progress.setVisibility(View.VISIBLE);
-
-                                                        Call<scratchCardBean> call1 = cr.getScratchCards(SharePreferenceUtils.getInstance().getString("userid"));
-
-                                                        call1.enqueue(new Callback<scratchCardBean>() {
-                                                            @Override
-                                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+                                                public void onClick(View v) {
+                                                    dialog1.dismiss();
+                                                }
+                                            });
 
 
-                                                                adapter = new CardAdapter(Perks.this , response1.body().getData());
-                                                                manager = new GridLayoutManager(Perks.this , 2);
-                                                                grid.setAdapter(adapter);
-                                                                grid.setLayoutManager(manager);
+                                            proceed.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
-                                                                progress.setVisibility(View.GONE);
-                                                            }
+                                                    Instacapture.INSTANCE.capture(Perks.this , new SimpleScreenCapturingListener() {
+                                                        @Override
+                                                        public void onCaptureComplete(Bitmap bitmap) {
+                                                            //Your code here..
 
-                                                            @Override
-                                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                                                progress.setVisibility(View.GONE);
-                                                            }
-                                                        });
+                                                            bar.setVisibility(View.VISIBLE);
+
+                                                            Bean b = (Bean) getApplicationContext();
+
+                                                            Retrofit retrofit = new Retrofit.Builder()
+                                                                    .baseUrl(b.baseurl)
+                                                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                                                    .addConverterFactory(GsonConverterFactory.create())
+                                                                    .build();
+
+                                                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                                            Call<scratchCardBean> call2 = cr.redeem(item.getId() , SharePreferenceUtils.getInstance().getString("userid") , String.valueOf(aa), item.getText() , item.getClient());
+
+                                                            call2.enqueue(new Callback<scratchCardBean>() {
+                                                                @Override
+                                                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                                                    if (response.body().getStatus().equals("1"))
+                                                                    {
+
+                                                                        progress.setVisibility(View.VISIBLE);
+
+                                                                        Call<scratchCardBean> call1 = cr.getScratchCards(SharePreferenceUtils.getInstance().getString("userid"));
+
+                                                                        call1.enqueue(new Callback<scratchCardBean>() {
+                                                                            @Override
+                                                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+
+                                                                                adapter = new CardAdapter(Perks.this , response1.body().getData());
+                                                                                manager = new GridLayoutManager(Perks.this , 2);
+                                                                                grid.setAdapter(adapter);
+                                                                                grid.setLayoutManager(manager);
+
+                                                                                progress.setVisibility(View.GONE);
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                                                                progress.setVisibility(View.GONE);
+                                                                            }
+                                                                        });
 
                                                         /*Intent sendIntent = new Intent("android.intent.action.SEND");
                                                         //File f=new File("path to the file");
@@ -336,30 +367,55 @@ public class Perks extends AppCompatActivity {
 */
 
 
-                                                        Toast.makeText(Perks.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(Perks.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                        dialog1.dismiss();
+                                                                        dialog1.dismiss();
 
-                                                    }
+                                                                    }
 
-                                                    bar.setVisibility(View.GONE);
+                                                                    bar.setVisibility(View.GONE);
 
-                                                }
+                                                                }
 
-                                                @Override
-                                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                                    bar.setVisibility(View.GONE);
+                                                                @Override
+                                                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                                                    bar.setVisibility(View.GONE);
+                                                                }
+                                                            });
+
+
+
+
+                                                        }
+                                                    });
+
                                                 }
                                             });
 
-
-
-
                                         }
-                                    });
+                                        else
+                                        {
+                                            Toast.makeText(Perks.this, "Amount must be smaller than " + String.valueOf(p), Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(context, "Invalid amount", Toast.LENGTH_SHORT).show();
+                                    }
+
+
+
+
 
                                 }
                             });
+
+
+
+
+
+
 
 
 
@@ -379,8 +435,10 @@ public class Perks extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
+            TextView text;
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
+                text = itemView.findViewById(R.id.text);
             }
         }
     }
