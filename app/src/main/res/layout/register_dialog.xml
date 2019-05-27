@@ -50,6 +50,7 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:id="@+id/phone"
+        android:maxLength="10"
         android:background="@drawable/background_color"
         android:hint="tap to enter"
         android:inputType="phone"

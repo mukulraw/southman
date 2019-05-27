@@ -25,6 +25,7 @@
         android:id="@+id/scratch"
         android:background="#ffffff"
         android:textSize="34sp"
+        android:padding="10dp"
         android:gravity="center"
         android:layout_marginBottom="20dp"
         />

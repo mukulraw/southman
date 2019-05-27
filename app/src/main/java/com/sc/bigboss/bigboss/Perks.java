@@ -217,7 +217,7 @@ public class Perks extends AppCompatActivity {
                     ScratchTextView scratch = dialog.findViewById(R.id.scratch);
                     Button share = dialog.findViewById(R.id.share);
 
-                    scratch.setText(item.getCashValue());
+                    scratch.setText("You got " + item.getCashValue() + " credits");
 
                     scratch.setRevealListener(new ScratchTextView.IRevealListener() {
                         @Override
@@ -264,7 +264,7 @@ public class Perks extends AppCompatActivity {
                                         float p = Float.parseFloat(item.getCashValue());
                                         float aa = Float.parseFloat(a);
 
-                                        if (aa <= p)
+                                        if (aa <= p && aa > 0)
                                         {
 
                                             Dialog dialog1 = new Dialog(context);
