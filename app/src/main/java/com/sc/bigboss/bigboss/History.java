@@ -652,12 +652,12 @@ public class History extends AppCompatActivity {
 
                         holder.type.setTextColor(Color.parseColor("#689F38"));
 
-                        holder.price.setText("Price - " + item.getPrice() + " Rs.");
+                        holder.price.setText("Price - Rs." + item.getPrice());
 
                         float pr1 = Float.parseFloat(item.getPrice());
                         float pa1 = Float.parseFloat(item.getCashValue());
 
-                        holder.paid.setText("Balance pay - " + String.valueOf(pr1 - pa1) + " Rs.");
+                        holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
 
                         holder.paid.setVisibility(View.VISIBLE);
                         holder.price.setVisibility(View.VISIBLE);
@@ -953,7 +953,7 @@ public class History extends AppCompatActivity {
 
                         holder.type.setTextColor(Color.parseColor("#F9A825"));
 
-                        holder.price.setText("Discount - " + item.getCashValue() + " Rs.");
+                        holder.price.setText("Discount - Rs." + item.getCashValue());
 
                         holder.paid.setVisibility(View.GONE);
                         //holder.price.setVisibility(View.GONE);
