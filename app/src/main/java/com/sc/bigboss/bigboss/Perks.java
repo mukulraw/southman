@@ -217,7 +217,7 @@ public class Perks extends AppCompatActivity {
                     ScratchTextView scratch = dialog.findViewById(R.id.scratch);
                     Button share = dialog.findViewById(R.id.share);
 
-                    scratch.setText("You got " + item.getCashValue() + " credits");
+                    scratch.setText("You have got " + item.getCashValue() + " Rs.");
 
                     scratch.setRevealListener(new ScratchTextView.IRevealListener() {
                         @Override
