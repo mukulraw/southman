@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,6 +21,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +33,10 @@ import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.Datum;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -88,6 +96,8 @@ public class History extends AppCompatActivity {
         tabs.getTabAt(1).setText("REDEEM");
         tabs.getTabAt(2).setText("SCRATCH");
 
+        grid.setOffscreenPageLimit(2);
+
     }
 
 
@@ -99,16 +109,11 @@ public class History extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int i) {
-            if (i == 0)
-            {
+            if (i == 0) {
                 return new voucer();
-            }
-            else if (i == 1)
-            {
+            } else if (i == 1) {
                 return new redeem();
-            }
-            else
-            {
+            } else {
                 return new scratch();
             }
         }
@@ -127,6 +132,8 @@ public class History extends AppCompatActivity {
         GridLayoutManager manager;
         List<Datum> list;
         CardAdapter adapter;
+        TextView date;
+        LinearLayout linear;
 
         @Nullable
         @Override
@@ -134,10 +141,24 @@ public class History extends AppCompatActivity {
             View view = inflater.inflate(R.layout.rh_layout, container, false);
 
             grid = view.findViewById(R.id.grid);
-
+            date = view.findViewById(R.id.date);
             progress = view.findViewById(R.id.progress);
 
+            linear = view.findViewById(R.id.linear);
             list = new ArrayList<>();
+
+
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+
+            Log.d("dddd" , formattedDate);
+
+            date.setText("Date - " + formattedDate + " (click to change)");
+
+
+
+
 
 
             adapter = new CardAdapter(getActivity(), list);
@@ -145,6 +166,99 @@ public class History extends AppCompatActivity {
             grid.setAdapter(adapter);
             grid.setLayoutManager(manager);
 
+
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Dialog dialog = new Dialog(getActivity());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.date_dialog);
+                    dialog.show();
+
+
+                    DatePicker picker = dialog.findViewById(R.id.date);
+                    Button ok = dialog.findViewById(R.id.ok);
+
+                    long now = System.currentTimeMillis() - 1000;
+                    picker.setMaxDate(now);
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            int year = picker.getYear();
+                            int month = picker.getMonth();
+                            int day = picker.getDayOfMonth();
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, month, day);
+
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            String strDate = format.format(calendar.getTime());
+
+                            dialog.dismiss();
+
+                            date.setText("Date - " + strDate + " (click to change)");
+
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getActivity().getApplicationContext();
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), strDate);
+
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                                    //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                                    if (response1.body().getStatus().equals("1"))
+                                    {
+                                        linear.setVisibility(View.GONE);
+                                    }
+                                    else
+
+                                    {
+                                        linear.setVisibility(View.VISIBLE);
+                                    }
+
+                                    adapter.setData(response1.body().getData());
+
+                                    progress.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    progress.setVisibility(View.GONE);
+                                    Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                        }
+                    });
+
+
+
+                }
+            });
 
             progress.setVisibility(View.VISIBLE);
 
@@ -161,13 +275,23 @@ public class History extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
 
-            Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"));
+            Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
             call1.enqueue(new Callback<scratchCardBean>() {
                 @Override
                 public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                    if (response1.body().getStatus().equals("1"))
+                    {
+                        linear.setVisibility(View.GONE);
+                    }
+                    else
+
+                    {
+                        linear.setVisibility(View.VISIBLE);
+                    }
 
                     adapter.setData(response1.body().getData());
 
@@ -300,23 +424,128 @@ public class History extends AppCompatActivity {
         GridLayoutManager manager;
         List<Datum> list;
         CardAdapter adapter;
+        TextView date;
+        LinearLayout linear;
 
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.rh_layout, container, false);
 
+            linear = view.findViewById(R.id.linear);
             grid = view.findViewById(R.id.grid);
-
+            date = view.findViewById(R.id.date);
             progress = view.findViewById(R.id.progress);
 
             list = new ArrayList<>();
+
+
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+
+            Log.d("dddd" , formattedDate);
+
+            date.setText("Date - " + formattedDate + " (click to change)");
+
 
 
             adapter = new CardAdapter(getActivity(), list);
             manager = new GridLayoutManager(getActivity(), 1);
             grid.setAdapter(adapter);
             grid.setLayoutManager(manager);
+
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Dialog dialog = new Dialog(getActivity());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.date_dialog);
+                    dialog.show();
+
+
+                    DatePicker picker = dialog.findViewById(R.id.date);
+                    Button ok = dialog.findViewById(R.id.ok);
+
+                    long now = System.currentTimeMillis() - 1000;
+                    picker.setMaxDate(now);
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            int year = picker.getYear();
+                            int month = picker.getMonth();
+                            int day = picker.getDayOfMonth();
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, month, day);
+
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            String strDate = format.format(calendar.getTime());
+
+                            dialog.dismiss();
+
+                            date.setText("Date - " + strDate + " (click to change)");
+
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getActivity().getApplicationContext();
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"), strDate);
+
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                                    //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                                    if (response1.body().getStatus().equals("1"))
+                                    {
+                                        linear.setVisibility(View.GONE);
+                                    }
+                                    else
+
+                                    {
+                                        linear.setVisibility(View.VISIBLE);
+                                    }
+                                    adapter.setData(response1.body().getData());
+
+                                    progress.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    progress.setVisibility(View.GONE);
+                                    Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                        }
+                    });
+
+
+
+                }
+            });
 
 
             progress.setVisibility(View.VISIBLE);
@@ -334,7 +563,7 @@ public class History extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
 
-            Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"));
+            Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
             call1.enqueue(new Callback<scratchCardBean>() {
                 @Override
@@ -342,6 +571,15 @@ public class History extends AppCompatActivity {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
+                    if (response1.body().getStatus().equals("1"))
+                    {
+                        linear.setVisibility(View.GONE);
+                    }
+                    else
+
+                    {
+                        linear.setVisibility(View.VISIBLE);
+                    }
                     adapter.setData(response1.body().getData());
 
                     progress.setVisibility(View.GONE);
@@ -473,17 +711,29 @@ public class History extends AppCompatActivity {
         GridLayoutManager manager;
         List<Datum> list;
         CardAdapter adapter;
+        TextView date;
+        LinearLayout linear;
 
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.rh_layout, container, false);
 
+            linear = view.findViewById(R.id.linear);
             grid = view.findViewById(R.id.grid);
-
+            date = view.findViewById(R.id.date);
             progress = view.findViewById(R.id.progress);
 
             list = new ArrayList<>();
+
+
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+
+            Log.d("dddd" , formattedDate);
+
+            date.setText("Date - " + formattedDate + " (click to change)");
 
 
             adapter = new CardAdapter(getActivity(), list);
@@ -491,6 +741,97 @@ public class History extends AppCompatActivity {
             grid.setAdapter(adapter);
             grid.setLayoutManager(manager);
 
+            date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Dialog dialog = new Dialog(getActivity());
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.date_dialog);
+                    dialog.show();
+
+
+                    DatePicker picker = dialog.findViewById(R.id.date);
+                    Button ok = dialog.findViewById(R.id.ok);
+
+                    long now = System.currentTimeMillis() - 1000;
+                    picker.setMaxDate(now);
+
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            int year = picker.getYear();
+                            int month = picker.getMonth();
+                            int day = picker.getDayOfMonth();
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, month, day);
+
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            String strDate = format.format(calendar.getTime());
+
+                            dialog.dismiss();
+
+                            date.setText("Date - " + strDate + " (click to change)");
+
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getActivity().getApplicationContext();
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Call<scratchCardBean> call1 = cr.getRedeemed3(SharePreferenceUtils.getInstance().getString("userid"), strDate);
+
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                                    //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                                    if (response1.body().getStatus().equals("1"))
+                                    {
+                                        linear.setVisibility(View.GONE);
+                                    }
+                                    else
+
+                                    {
+                                        linear.setVisibility(View.VISIBLE);
+                                    }
+                                    adapter.setData(response1.body().getData());
+
+                                    progress.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    progress.setVisibility(View.GONE);
+                                    Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
+                        }
+                    });
+
+
+
+                }
+            });
 
             progress.setVisibility(View.VISIBLE);
 
@@ -507,7 +848,7 @@ public class History extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
 
-            Call<scratchCardBean> call1 = cr.getRedeemed3(SharePreferenceUtils.getInstance().getString("userid"));
+            Call<scratchCardBean> call1 = cr.getRedeemed3(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
             call1.enqueue(new Callback<scratchCardBean>() {
                 @Override
@@ -515,6 +856,15 @@ public class History extends AppCompatActivity {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
+                    if (response1.body().getStatus().equals("1"))
+                    {
+                        linear.setVisibility(View.GONE);
+                    }
+                    else
+
+                    {
+                        linear.setVisibility(View.VISIBLE);
+                    }
                     adapter.setData(response1.body().getData());
 
                     progress.setVisibility(View.GONE);

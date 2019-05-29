@@ -194,19 +194,22 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/getRedeem.php")
     Call<scratchCardBean> getRedeemed(
-            @Part("id") String id
+            @Part("id") String id,
+            @Part("date") String date
     );
 
     @Multipart
     @POST("bigboss/api/getRedeem2.php")
     Call<scratchCardBean> getRedeemed2(
-            @Part("id") String id
+            @Part("id") String id,
+            @Part("date") String date
     );
 
     @Multipart
     @POST("bigboss/api/getRedeem3.php")
     Call<scratchCardBean> getRedeemed3(
-            @Part("id") String id
+            @Part("id") String id,
+            @Part("date") String date
     );
 
     @Multipart
