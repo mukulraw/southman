@@ -39,6 +39,8 @@ public class Notification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
 
+        SharePreferenceUtils.getInstance().saveInt("count" , 0);
+
         list = new ArrayList<>();
 
         toolbar = findViewById(R.id.toolbar);

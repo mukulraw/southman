@@ -67,13 +67,33 @@
                             android:src="@drawable/ic_gift" />
 
 
-                        <ImageView
-                            android:id="@+id/notification"
+                        <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
-                            android:src="@drawable/notification" />
+                            >
+
+                            <ImageView
+                                android:id="@+id/notification"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/notification" />
+
+                            <TextView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:background="@drawable/circle"
+                                android:layout_marginBottom="10dp"
+                                android:text="0"
+                                android:id="@+id/count"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:textColor="#ffffff"
+                                android:layout_alignParentTop="true"
+                                />
+
+                        </RelativeLayout>
 
                         <ImageView
                             android:layout_width="wrap_content"

@@ -415,7 +415,7 @@ public class ProductList3 extends AppCompatActivity {
                                     public void onCaptureComplete(Bitmap bitmap) {
                                         //Your code here..
 
-                                        bar.setVisibility(View.VISIBLE);
+                                        /*bar.setVisibility(View.VISIBLE);
 
                                         Bean b = (Bean) getApplicationContext();
 
@@ -443,7 +443,7 @@ public class ProductList3 extends AppCompatActivity {
 
 
 
-                                                    /*Intent sendIntent = new Intent("android.intent.action.MAIN");
+                                                    *//*Intent sendIntent = new Intent("android.intent.action.MAIN");
                                                     //File f=new File("path to the file");
                                                     //Uri uri = Uri.fromFile(file);
                                                     //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
@@ -454,8 +454,8 @@ public class ProductList3 extends AppCompatActivity {
                                                     sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
                                                     //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
                                                     startActivity(sendIntent);
-*/
-/*
+*//*
+*//*
 
                                                     Intent sendIntent = new Intent("android.intent.action.SEND");
                                                     //File f=new File("path to the file");
@@ -467,7 +467,7 @@ public class ProductList3 extends AppCompatActivity {
                                                     sendIntent.putExtra(Intent.EXTRA_TEXT,"");
                                                     startActivity(sendIntent);
 
-*/
+*//*
 
 
                                                     dialog1.dismiss();
@@ -482,7 +482,7 @@ public class ProductList3 extends AppCompatActivity {
                                             public void onFailure(Call<scratchCardBean> call, Throwable t) {
                                                 bar.setVisibility(View.GONE);
                                             }
-                                        });
+                                        });*/
 
 
 

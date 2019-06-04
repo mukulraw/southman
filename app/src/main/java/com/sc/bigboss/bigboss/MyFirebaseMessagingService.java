@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -34,6 +35,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        int c = SharePreferenceUtils.getInstance().getInteger("count");
+
+        c++;
+
+        SharePreferenceUtils.getInstance().saveInt("count" , c);
 
         Log.d("asdasd" , remoteMessage.getData().toString());
 
@@ -45,6 +51,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+        Intent registrationComplete = new Intent("count");
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
+
 
         super.onMessageReceived(remoteMessage);
     }

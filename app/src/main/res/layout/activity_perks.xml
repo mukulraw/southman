@@ -99,11 +99,29 @@
         </LinearLayout>
 
 
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="10dp"
+            android:text="transfer cash rewards"
+            android:id="@+id/transfer"
+            android:background="@drawable/green_back_round"
+            android:textColor="#ffffff"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            />
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-
+            android:layout_marginTop="5dp"
             android:padding="5dp"
             >
 

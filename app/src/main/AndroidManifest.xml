@@ -47,6 +47,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".SubCat2"
             android:screenOrientation="portrait"/>
+        <activity android:name=".SubCat3"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Perks"
             android:screenOrientation="portrait"/>
         <activity android:name=".Winners"

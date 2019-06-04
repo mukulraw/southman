@@ -1,13 +1,16 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
 
     String lname;
 
+    TextView count;
+
+
+    BroadcastReceiver singleReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         //drawer = findViewById(R.id.drawer);
         location = findViewById(R.id.location);
+
+        count = findViewById(R.id.count);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -124,6 +134,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        singleReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals("count"))
+                {
+                    count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+                }
+
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
+                new IntentFilter("count"));
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (i == 2) {
 
-                    search.setVisibility(View.VISIBLE);
+                    search.setVisibility(View.GONE);
                     request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
 
@@ -491,6 +516,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
 
         location.setText(lname);
 
@@ -557,4 +583,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
+
+    }
 }

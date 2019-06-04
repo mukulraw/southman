@@ -1,11 +1,14 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -552,7 +555,28 @@ public class CollerTshirt extends AppCompatActivity {
             }
         });
 
+        count = findViewById(R.id.count);
+
+        singleReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals("count")) {
+                    count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+                }
+
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
+                new IntentFilter("count"));
+
+
     }
+
+    BroadcastReceiver singleReceiver;
+    TextView count;
+
 
     public class CollerAdapter extends RecyclerView.Adapter<CollerAdapter.MyViewHolder> {
 
@@ -919,5 +943,12 @@ public class CollerTshirt extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
+
+    }
 
 }

@@ -1,8 +1,11 @@
 package com.sc.bigboss.bigboss;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -216,9 +219,28 @@ public class MeansCategory extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+        count = findViewById(R.id.count);
+
+        singleReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals("count")) {
+                    count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+                }
+
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
+                new IntentFilter("count"));
 
 
     }
+
+    BroadcastReceiver singleReceiver;
+    TextView count;
+
 
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
@@ -275,14 +297,24 @@ public class MeansCategory extends AppCompatActivity {
                 public void onClick(View v) {
 
 
-                    if (catName.equals("vouchers store") || catName.equals("redeem store")) {
+                    if (catName.equals("vouchers store")) {
                         Intent i = new Intent(context, SubCat2.class);
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
                         i.putExtra("client", item.getClient_id());
                         context.startActivity(i);
-                    } else {
+                    }else if (catName.equals("redeem store"))
+                    {
+                        Intent i = new Intent(context, SubCat3.class);
+                        i.putExtra("id", item.getId());
+                        i.putExtra("text", item.getSubcatName());
+                        i.putExtra("catname", catName);
+                        i.putExtra("client", item.getClient_id());
+                        i.putExtra("banner", base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl());
+                        context.startActivity(i);
+                    }
+                    else {
                         Intent i = new Intent(context, CollerTshirt.class);
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());
@@ -326,5 +358,12 @@ public class MeansCategory extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
+
+    }
 
 }

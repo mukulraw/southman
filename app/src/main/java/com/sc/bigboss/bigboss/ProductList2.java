@@ -1,10 +1,12 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,6 +17,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -286,8 +289,29 @@ public class ProductList2 extends AppCompatActivity {
             }
         });
 
+        count = findViewById(R.id.count);
+
+        singleReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                if (intent.getAction().equals("count")) {
+                    count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+                }
+
+            }
+        };
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
+                new IntentFilter("count"));
+
+
 
     }
+
+    BroadcastReceiver singleReceiver;
+    TextView count;
+
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
@@ -739,6 +763,14 @@ public class ProductList2 extends AppCompatActivity {
         super.onResume();
 
         loadPerks();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
 
     }
 }

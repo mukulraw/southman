@@ -20,6 +20,7 @@ import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
+import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
 import java.util.List;
@@ -188,7 +189,8 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/getCash.php")
     Call<scratchCardBean> getScratchCards(
-            @Part("id") String id
+            @Part("id") String id,
+            @Part("client") String client
     );
 
     @Multipart
@@ -212,15 +214,7 @@ public interface AllApiIneterface {
             @Part("date") String date
     );
 
-    @Multipart
-    @POST("bigboss/api/redeem.php")
-    Call<scratchCardBean> redeem(
-            @Part("id") String id,
-            @Part("deviceId") String device,
-            @Part("value") String value,
-            @Part("code") String code,
-            @Part("client") String client
-    );
+
 
     @Multipart
     @POST("bigboss/api/buyPerks.php")
@@ -240,9 +234,26 @@ public interface AllApiIneterface {
             @Part("client") String client,
             @Part("value") String value,
             @Part("type") String type,
-            @Part("code") String code,
-            @Part("price") String price
+            @Part("table") String table,
+            @Part("cash") String cash,
+            @Part("scratch") String scratch,
+            @Part MultipartBody.Part file1
     );
+
+
+    @Multipart
+    @POST("bigboss/api/redeem.php")
+    Call<scratchCardBean> redeem(
+            @Part("id") String id,
+            @Part("deviceId") String device,
+            @Part("value") String value,
+            @Part("client") String client,
+            @Part("type") String type,
+            @Part("table") String table,
+            @Part("cash") String cash,
+            @Part MultipartBody.Part file1
+    );
+
 
     @Multipart
     @POST("bigboss/api/register.php")
@@ -280,4 +291,22 @@ public interface AllApiIneterface {
     Call<List<notiBean>> getNoti(
             @Part("id") String id
     );
+
+    @GET("bigboss/api/getUsers.php")
+    Call<usersBean> getUsers();
+
+    @Multipart
+    @POST("bigboss/api/transfer_amount.php")
+    Call<usersBean> transfer(
+            @Part("id") String id,
+            @Part("tid") String tid,
+            @Part("amount") String amount
+    );
+
+    @Multipart
+    @POST("bigboss/api/getTables.php")
+    Call<tablebean> getTables(
+            @Part("client") String client
+    );
+
 }

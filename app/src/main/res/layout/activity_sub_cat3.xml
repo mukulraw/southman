@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sc.bigboss.bigboss.CollerTshirt">
+    android:background="#f5f5f5"
+    tools:context=".SubCat2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -26,20 +26,23 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff"
-                    >
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:background="#fff">
 
                 </android.support.v7.widget.Toolbar>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:textColor="#000"
-                    android:visibility="gone"
                     android:textSize="18sp"
+                    android:visibility="gone"
                     android:layout_centerVertical="true"
                     android:id="@+id/title"/>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -98,10 +101,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/search"
+                        android:visibility="gone"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="5dp"
                         android:src="@drawable/saerch"/>
                 </LinearLayout>
+
 
 
 
@@ -111,17 +116,35 @@
         </android.support.v7.widget.CardView>
 
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:id="@+id/banner"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your scratch cards"
+            android:padding="10dp"
+            android:textColor="#000000"
+            />
+
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="60dp"
-            android:clipToPadding="false">
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:paddingBottom="40dp"
+                android:clipToPadding="false"
+                android:layout_height="match_parent"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,6 +162,7 @@
                     android:visibility="visible"
                     android:layout_gravity="center"
                     android:id="@+id/man"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,60 +170,75 @@
                     android:padding="10dp"
                     android:layout_gravity="center"
                     android:textColor="#000"
-                    android:text="No data found"/>
+                    android:text="No scratch card found"/>
 
 
             </LinearLayout>
 
-
         </RelativeLayout>
 
+
     </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="3dp"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Cash reward remaining : 0"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:id="@+id/perks"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
+            android:id="@+id/upload"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/green_back_round"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:text="REDEEM"
+            android:textSize="12sp"
+            android:textColor="#fff" />
+
+
+    </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 
 
     <ProgressBar
-        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:id="@+id/bottom"
-        android:background="#ffffff"
-        android:weightSum="2">
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SORT"
-            android:id="@+id/sort"
-            android:typeface="monospace"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:padding="10dp"/>
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="FILTER"
-            android:id="@+id/filter"
-            android:typeface="monospace"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:padding="10dp"/>
-
-
-    </LinearLayout>
-
+        android:id="@+id/progress"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>
