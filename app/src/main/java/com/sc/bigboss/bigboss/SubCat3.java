@@ -670,6 +670,9 @@ public class SubCat3 extends AppCompatActivity {
 
         loadPerks();
 
+        count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+
+
     }
 
     class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -1137,5 +1140,7 @@ public class SubCat3 extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
 
     }
+
+
 
 }

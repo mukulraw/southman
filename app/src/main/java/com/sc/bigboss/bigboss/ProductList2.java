@@ -761,6 +761,7 @@ public class ProductList2 extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
 
         loadPerks();
 

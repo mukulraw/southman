@@ -554,4 +554,10 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+
+    }
 }
