@@ -29,10 +29,73 @@
 
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your user ID"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="10dp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:id="@+id/name"
+            android:text="asdasdasdsadasdasd"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your phone number"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="18dp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:id="@+id/phone"
+            android:text="1231231232"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="update profile"
+            android:background="@drawable/background_color"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:id="@+id/update"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="40dp"
             android:weightSum="2"
             >
 
@@ -47,7 +110,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="My perks"
-                    android:textColor="#000000"
                     android:padding="5dp"
                     android:typeface="monospace"
                     />
@@ -76,7 +138,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="My cash rewards"
-                    android:textColor="#000000"
                     android:padding="5dp"
                     android:typeface="monospace"
                     />
@@ -100,22 +161,6 @@
 
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:text="transfer cash rewards"
-            android:id="@+id/transfer"
-            android:background="@drawable/green_back_round"
-            android:textColor="#ffffff"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            />
 
 
         <RelativeLayout
@@ -125,37 +170,41 @@
             android:padding="5dp"
             >
 
-            <TextView
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My scratch cards"
-                android:textColor="#000000"
-                android:typeface="monospace"
-                android:layout_centerVertical="true"
-                />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Click here for redeem history"
-                android:textColor="@android:color/holo_blue_dark"
-                android:padding="10dp"
-                android:id="@+id/history"
-                android:layout_centerVertical="true"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:text="transfer cash rewards"
                 android:layout_alignParentEnd="true"
-                android:typeface="monospace"
+                android:id="@+id/transfer"
+                android:background="@drawable/green_back_round"
+                android:textColor="#ffffff"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 />
 
 
         </RelativeLayout>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/grid"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="monospace"
+            android:text="Click here for redeem history"
+            android:textColor="@android:color/holo_blue_dark"
+            android:padding="10dp"
+            android:id="@+id/history"
+            android:layout_centerVertical="true"
             />
+
+
 
 
     </LinearLayout>

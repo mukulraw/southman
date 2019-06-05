@@ -15,6 +15,7 @@ import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
 import com.sc.bigboss.bigboss.matchPOJO.matchBean;
 import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
+import com.sc.bigboss.bigboss.pendingOrderPOJO.pendingOrderBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
@@ -262,6 +263,30 @@ public interface AllApiIneterface {
             @Part("name") String name,
             @Part("token") String token,
             @Part("phone") String phone
+    );
+
+    @Multipart
+    @POST("bigboss/api/updateOrder.php")
+    Call<scratchCardBean> updateOrder(
+            @Part("id") String id,
+            @Part("cash") String cash,
+            @Part("scratch") String scratch
+    );
+
+    @Multipart
+    @POST("bigboss/api/updateOrder2.php")
+    Call<scratchCardBean> updateOrder2(
+            @Part("id") String id,
+            @Part("cash") String cash,
+            @Part("scratch") String scratch,
+            @Part("sid") String sid
+    );
+
+    @Multipart
+    @POST("bigboss/api/getPending.php")
+    Call<pendingOrderBean> getPending(
+            @Part("id") String id,
+            @Part("client") String client
     );
 
     @Multipart

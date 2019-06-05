@@ -1,10 +1,9 @@
-package com.sc.bigboss.bigboss.scratchCardPOJO;
+package com.sc.bigboss.bigboss.pendingOrderPOJO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
-
+public class Data {
     @SerializedName("id")
     @Expose
     private String id;
@@ -160,4 +159,3 @@ public class Datum {
         this.created = created;
     }
 }
-

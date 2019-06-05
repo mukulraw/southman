@@ -197,6 +197,7 @@ public class Location extends AppCompatActivity {
 
                                         SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
                                         SharePreferenceUtils.getInstance().saveString("name" , n);
+                                        SharePreferenceUtils.getInstance().saveString("phone" , p);
 
 
                                         Call<locationBean> call = cr.getLocations();
