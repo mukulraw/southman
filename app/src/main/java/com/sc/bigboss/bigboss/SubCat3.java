@@ -1495,6 +1495,7 @@ public class SubCat3 extends AppCompatActivity {
                                                             if (response.body().getStatus().equals("1"))
                                                             {
 
+                                                                dialog2.dismiss();
                                                                 dialog.dismiss();
 
                                                                 Dialog dialog1 = new Dialog(SubCat3.this);

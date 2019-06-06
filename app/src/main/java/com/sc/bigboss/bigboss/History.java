@@ -1,7 +1,10 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.Settings;
@@ -11,6 +14,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -97,8 +101,10 @@ public class History extends AppCompatActivity {
 
         //grid.setOffscreenPageLimit(1);
 
+
     }
 
+    BroadcastReceiver singleReceiver;
 
     class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -149,13 +155,9 @@ public class History extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = df.format(c);
 
-            Log.d("dddd" , formattedDate);
+            Log.d("dddd", formattedDate);
 
             date.setText("Date - " + formattedDate + " (click to change)");
-
-
-
-
 
 
             adapter = new CardAdapter(getActivity(), list);
@@ -201,7 +203,6 @@ public class History extends AppCompatActivity {
                             date.setText("Date - " + strDate + " (click to change)");
 
 
-
                             progress.setVisibility(View.VISIBLE);
 
                             Bean b = (Bean) getActivity().getApplicationContext();
@@ -225,13 +226,9 @@ public class History extends AppCompatActivity {
 
                                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
-                                    if (response1.body().getStatus().equals("1"))
-                                    {
+                                    if (response1.body().getStatus().equals("1")) {
                                         linear.setVisibility(View.GONE);
-                                    }
-                                    else
-
-                                    {
+                                    } else {
                                         linear.setVisibility(View.VISIBLE);
                                     }
 
@@ -248,10 +245,8 @@ public class History extends AppCompatActivity {
                             });
 
 
-
                         }
                     });
-
 
 
                 }
@@ -280,13 +275,9 @@ public class History extends AppCompatActivity {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
-                    if (response1.body().getStatus().equals("1"))
-                    {
+                    if (response1.body().getStatus().equals("1")) {
                         linear.setVisibility(View.GONE);
-                    }
-                    else
-
-                    {
+                    } else {
                         linear.setVisibility(View.VISIBLE);
                     }
 
@@ -302,10 +293,64 @@ public class History extends AppCompatActivity {
                 }
             });
 
+            singleReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    if (intent.getAction().equals("count")) {
+                        progress.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getActivity().getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        progress.setVisibility(View.VISIBLE);
+
+                        Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+
+                        call1.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                                //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                                if (response1.body().getStatus().equals("1")) {
+                                    linear.setVisibility(View.GONE);
+                                } else {
+                                    linear.setVisibility(View.VISIBLE);
+                                }
+
+                                adapter.setData(response1.body().getData());
+
+                                progress.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            };
+
+            LocalBroadcastManager.getInstance(getActivity()).registerReceiver(singleReceiver,
+                    new IntentFilter("count"));
 
             return view;
         }
 
+
+        BroadcastReceiver singleReceiver;
 
         class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
@@ -411,6 +456,13 @@ public class History extends AppCompatActivity {
             }
         }
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+
+            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(singleReceiver);
+
+        }
 
 
     }
@@ -442,10 +494,9 @@ public class History extends AppCompatActivity {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = df.format(c);
 
-            Log.d("dddd" , formattedDate);
+            Log.d("dddd", formattedDate);
 
             date.setText("Date - " + formattedDate + " (click to change)");
-
 
 
             adapter = new CardAdapter(getActivity(), list);
@@ -490,7 +541,6 @@ public class History extends AppCompatActivity {
                             date.setText("Date - " + strDate + " (click to change)");
 
 
-
                             progress.setVisibility(View.VISIBLE);
 
                             Bean b = (Bean) getActivity().getApplicationContext();
@@ -514,13 +564,9 @@ public class History extends AppCompatActivity {
 
                                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
-                                    if (response1.body().getStatus().equals("1"))
-                                    {
+                                    if (response1.body().getStatus().equals("1")) {
                                         linear.setVisibility(View.GONE);
-                                    }
-                                    else
-
-                                    {
+                                    } else {
                                         linear.setVisibility(View.VISIBLE);
                                     }
                                     adapter.setData(response1.body().getData());
@@ -536,10 +582,8 @@ public class History extends AppCompatActivity {
                             });
 
 
-
                         }
                     });
-
 
 
                 }
@@ -569,13 +613,9 @@ public class History extends AppCompatActivity {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
-                    if (response1.body().getStatus().equals("1"))
-                    {
+                    if (response1.body().getStatus().equals("1")) {
                         linear.setVisibility(View.GONE);
-                    }
-                    else
-
-                    {
+                    } else {
                         linear.setVisibility(View.VISIBLE);
                     }
                     adapter.setData(response1.body().getData());
@@ -590,9 +630,63 @@ public class History extends AppCompatActivity {
                 }
             });
 
+            singleReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    if (intent.getAction().equals("count")) {
+                        progress.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getActivity().getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        progress.setVisibility(View.VISIBLE);
+
+                        Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+
+                        call1.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                                //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                                if (response1.body().getStatus().equals("1")) {
+                                    linear.setVisibility(View.GONE);
+                                } else {
+                                    linear.setVisibility(View.VISIBLE);
+                                }
+                                adapter.setData(response1.body().getData());
+
+                                progress.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            };
+
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(singleReceiver,
+                    new IntentFilter("count"));
 
             return view;
         }
+
+
+        BroadcastReceiver singleReceiver;
 
 
         class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -658,15 +752,12 @@ public class History extends AppCompatActivity {
 
                         //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
 
-                        if (item.getStatus().equals("pending"))
-                        {
+                        if (item.getStatus().equals("pending")) {
 
                             holder.bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
                             holder.balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
 
-                        }
-                        else
-                        {
+                        } else {
 
                             float c = Float.parseFloat(item.getCashRewards());
                             float s = Float.parseFloat(item.getScratchAmount());
@@ -674,7 +765,6 @@ public class History extends AppCompatActivity {
 
                             holder.bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item.getBillAmount()));
                             holder.balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
 
 
                         }
@@ -695,15 +785,12 @@ public class History extends AppCompatActivity {
 
                         //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
 
-                        if (item.getStatus().equals("pending"))
-                        {
+                        if (item.getBillAmount().equals("")) {
 
                             holder.bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
                             holder.balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
 
-                        }
-                        else
-                        {
+                        } else {
 
                             float c = Float.parseFloat(item.getCashRewards());
                             float s = Float.parseFloat(item.getScratchAmount());
@@ -711,7 +798,6 @@ public class History extends AppCompatActivity {
 
                             holder.bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item.getBillAmount()));
                             holder.balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
 
 
                         }
@@ -730,7 +816,7 @@ public class History extends AppCompatActivity {
 
             class ViewHolder extends RecyclerView.ViewHolder {
 
-                TextView code, date, type, status, price, paid , bill , balance;
+                TextView code, date, type, status, price, paid, bill, balance;
 
                 public ViewHolder(@NonNull View itemView) {
                     super(itemView);
@@ -749,12 +835,15 @@ public class History extends AppCompatActivity {
             }
         }
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(singleReceiver);
+
+        }
 
     }
-
-
-
-
 
 
 }

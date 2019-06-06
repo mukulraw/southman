@@ -64,6 +64,7 @@
                 android:typeface="monospace"
                 android:layout_marginTop="10dp"
                 android:paddingTop="10dp"
+                android:maxLength="115"
                 android:paddingBottom="10dp"
                 android:id="@+id/text"
                 />
