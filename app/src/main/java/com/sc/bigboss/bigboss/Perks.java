@@ -275,7 +275,7 @@ Button update;
                         float aa = Float.parseFloat(a);
                         float cc = Float.parseFloat(c);
 
-                        if (aa > 0 && aa < cc)
+                        if (aa > 0 && aa <= cc)
                         {
 
 

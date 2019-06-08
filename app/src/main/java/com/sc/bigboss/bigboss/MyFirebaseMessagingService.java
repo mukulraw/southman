@@ -82,6 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
                 .setSmallIcon(R.drawable.ddddd)
                 .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
                 .setContentText(message);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

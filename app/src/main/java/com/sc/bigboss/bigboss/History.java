@@ -590,45 +590,7 @@ public class History extends AppCompatActivity {
             });
 
 
-            progress.setVisibility(View.VISIBLE);
 
-            Bean b = (Bean) getActivity().getApplicationContext();
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(b.baseurl)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-
-            progress.setVisibility(View.VISIBLE);
-
-            Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
-
-            call1.enqueue(new Callback<scratchCardBean>() {
-                @Override
-                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
-
-                    //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
-
-                    if (response1.body().getStatus().equals("1")) {
-                        linear.setVisibility(View.GONE);
-                    } else {
-                        linear.setVisibility(View.VISIBLE);
-                    }
-                    adapter.setData(response1.body().getData());
-
-                    progress.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                    progress.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
 
             singleReceiver = new BroadcastReceiver() {
                 @Override
@@ -685,6 +647,56 @@ public class History extends AppCompatActivity {
             return view;
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+
+
+            progress.setVisibility(View.VISIBLE);
+
+            Bean b = (Bean) getActivity().getApplicationContext();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+            progress.setVisibility(View.VISIBLE);
+
+            Call<scratchCardBean> call1 = cr.getRedeemed2(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+
+            call1.enqueue(new Callback<scratchCardBean>() {
+                @Override
+                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+
+                    //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
+
+                    if (response1.body().getStatus().equals("1")) {
+                        linear.setVisibility(View.GONE);
+                    } else {
+                        linear.setVisibility(View.VISIBLE);
+                    }
+                    adapter.setData(response1.body().getData());
+
+                    progress.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
         BroadcastReceiver singleReceiver;
 
@@ -721,6 +733,97 @@ public class History extends AppCompatActivity {
                 holder.date.setText(item.getCreated());
 
                 holder.status.setText(item.getStatus());
+
+
+                if (item.getGenerate().equals("no"))
+                {
+
+                    if (item.getStatus().equals("cancelled") || item.getStatus().equals("completed"))
+                    {
+                        holder.text.setVisibility(View.GONE);
+                        holder.generate.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        holder.text.setVisibility(View.VISIBLE);
+                        holder.generate.setVisibility(View.VISIBLE);
+                    }
+
+                }
+                else
+                {
+                    holder.text.setVisibility(View.GONE);
+                    holder.generate.setVisibility(View.GONE);
+                }
+
+
+                holder.generate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+
+                        final Dialog dialog = new Dialog(context);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.generate_dialog);
+                        dialog.show();
+
+                        Button ookk = dialog.findViewById(R.id.button2);
+                        Button canc = dialog.findViewById(R.id.button4);
+
+                        canc.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        ookk.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                progress.setVisibility(View.VISIBLE);
+
+                                Bean b = (Bean) getActivity().getApplicationContext();
+
+                                Retrofit retrofit = new Retrofit.Builder()
+                                        .baseUrl(b.baseurl)
+                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                        .addConverterFactory(GsonConverterFactory.create())
+                                        .build();
+
+                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                Call<scratchCardBean> call = cr.generateBill(item.getId());
+
+                                call.enqueue(new Callback<scratchCardBean>() {
+                                    @Override
+                                    public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                        dialog.dismiss();
+
+                                        Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        onResume();
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+                        });
+
+
+
+
+
+                    }
+                });
+
 
                 switch (item.getText()) {
                     case "perks":
@@ -816,7 +919,8 @@ public class History extends AppCompatActivity {
 
             class ViewHolder extends RecyclerView.ViewHolder {
 
-                TextView code, date, type, status, price, paid, bill, balance;
+                TextView code, date, type, status, price, paid, bill, balance , text;
+                Button generate;
 
                 public ViewHolder(@NonNull View itemView) {
                     super(itemView);
@@ -830,6 +934,12 @@ public class History extends AppCompatActivity {
 
                     bill = itemView.findViewById(R.id.bill);
                     balance = itemView.findViewById(R.id.balance);
+                    text = itemView.findViewById(R.id.text);
+                    generate = itemView.findViewById(R.id.generate);
+
+
+
+
 
                 }
             }

@@ -209,6 +209,13 @@ public interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("bigboss/api/generateBill.php")
+    Call<scratchCardBean> generateBill(
+            @Part("id") String id
+    );
+
+
+    @Multipart
     @POST("bigboss/api/getRedeem3.php")
     Call<scratchCardBean> getRedeemed3(
             @Part("id") String id,
@@ -324,6 +331,14 @@ public interface AllApiIneterface {
     @Multipart
     @POST("bigboss/api/transfer_amount.php")
     Call<usersBean> transfer(
+            @Part("id") String id,
+            @Part("tid") String tid,
+            @Part("amount") String amount
+    );
+
+    @Multipart
+    @POST("bigboss/api/transfer_scratch.php")
+    Call<usersBean> transfer2(
             @Part("id") String id,
             @Part("tid") String tid,
             @Part("amount") String amount

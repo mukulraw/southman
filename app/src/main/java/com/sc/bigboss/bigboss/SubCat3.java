@@ -49,8 +49,10 @@ import com.sc.bigboss.bigboss.scratchCardPOJO.Datum;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
+import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.tarek360.instacapture.Instacapture;
 import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.File;
 import java.io.IOException;
@@ -1150,6 +1152,147 @@ public class SubCat3 extends AppCompatActivity {
 
                     ScratchTextView scratch = dialog.findViewById(R.id.scratch);
                     Button share = dialog.findViewById(R.id.share);
+                    TextView transfer = dialog.findViewById(R.id.transfer);
+
+
+                    transfer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+
+                            transfer.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dialog.dismiss();
+
+                                    Dialog dialog = new Dialog(SubCat3.this);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setCancelable(true);
+                                    dialog.setContentView(R.layout.transfer_layout);
+                                    dialog.show();
+
+
+                                    List<String> ids = new ArrayList<>();
+                                    List<String> names = new ArrayList<>();
+                                    final String[] id = new String[1];
+
+                                    SearchableSpinner spinner = dialog.findViewById(R.id.spinner);
+                                    EditText amount = dialog.findViewById(R.id.amount);
+                                    Button submit = dialog.findViewById(R.id.submit);
+
+                                    spinner.setTitle("Select user");
+                                    spinner.setPositiveButton("OK");
+
+                                    Bean b = (Bean) getApplicationContext();
+
+                                    Retrofit retrofit = new Retrofit.Builder()
+                                            .baseUrl(b.baseurl)
+                                            .addConverterFactory(ScalarsConverterFactory.create())
+                                            .addConverterFactory(GsonConverterFactory.create())
+                                            .build();
+
+                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                    Call<usersBean> call = cr.getUsers();
+                                    call.enqueue(new Callback<usersBean>() {
+                                        @Override
+                                        public void onResponse(Call<usersBean> call, Response<usersBean> response) {
+
+
+                                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                                ids.add(response.body().getData().get(i).getId());
+                                                names.add(response.body().getData().get(i).getName() + "_" + response.body().getData().get(i).getDeviceId());
+                                            }
+
+
+                                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SubCat3.this,
+                                                    R.layout.spinner_item, names);
+
+                                            spinner.setAdapter(adapter);
+
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<usersBean> call, Throwable t) {
+
+                                        }
+                                    });
+
+
+                                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id1) {
+
+                                            id[0] = ids.get(position);
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+
+                                        }
+                                    });
+
+
+
+
+                                    submit.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            String a = amount.getText().toString();
+                                            String c = item.getCashValue();
+
+                                            float aa = Float.parseFloat(a);
+                                            float cc = Float.parseFloat(c);
+
+                                            if (aa > 0 && aa <= cc)
+                                            {
+
+
+
+                                                Call<usersBean> call1 = cr.transfer2(item.getId() , id[0] , String.valueOf(aa));
+
+                                                call1.enqueue(new Callback<usersBean>() {
+                                                    @Override
+                                                    public void onResponse(Call<usersBean> call, Response<usersBean> response) {
+
+                                                        dialog.dismiss();
+                                                        Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                        onResume();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<usersBean> call, Throwable t) {
+
+                                                    }
+                                                });
+
+
+
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(SubCat3.this, "Invalid amount", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                    });
+
+
+
+                                }
+                            });
+
+
+
+                        }
+                    });
+
 
                     scratch.setText("You have got Rs." + item.getCashValue());
 
@@ -1158,6 +1301,7 @@ public class SubCat3 extends AppCompatActivity {
                         public void onRevealed(ScratchTextView tv) {
 
                             share.setVisibility(View.VISIBLE);
+                            transfer.setVisibility(View.VISIBLE);
 
                         }
 

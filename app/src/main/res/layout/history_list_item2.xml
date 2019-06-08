@@ -121,6 +121,34 @@
             android:id="@+id/date"
             />
 
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="generate final bill"
+            android:background="@drawable/green_back_round"
+            android:textColor="#ffffff"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="8dp"
+            android:id="@+id/generate"
+            android:paddingBottom="8dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:padding="10dp"
+            android:id="@+id/text"
+            android:textSize="10sp"
+            android:text="*Click on generate bill only when you use required benefits"
+            />
+
+
     </LinearLayout>
 
 
