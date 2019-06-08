@@ -843,7 +843,15 @@ public class History extends AppCompatActivity {
 
                         break;
                     case "cash":
-                        holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                        if (item.getTableName().equals(""))
+                        {
+                            holder.type.setText("ORDER NO. - " + item.getId());
+                        }
+                        else
+                        {
+                            holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                        }
+
                         holder.code.setText("Shop - " + item.getClient());
                         holder.type.setTextColor(Color.parseColor("#689F38"));
 
@@ -876,7 +884,14 @@ public class History extends AppCompatActivity {
                         holder.price.setVisibility(View.VISIBLE);
                         break;
                     case "scratch":
-                        holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                        if (item.getTableName().equals(""))
+                        {
+                            holder.type.setText("ORDER NO. - " + item.getId());
+                        }
+                        else
+                        {
+                            holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                        }
                         holder.code.setText("Shop - " + item.getClient());
                         holder.type.setTextColor(Color.parseColor("#689F38"));
 

@@ -54,7 +54,7 @@
         android:paddingEnd="20dp"
         />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -62,10 +62,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:textColor="#ffffff"
-        android:minWidth="0dp"
-        android:textSize="20sp"
+        android:background="@drawable/green_back_round"
         android:visibility="gone"
-        android:padding="10dp"
+        android:minWidth="0dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:id="@+id/transfer"
         />
 

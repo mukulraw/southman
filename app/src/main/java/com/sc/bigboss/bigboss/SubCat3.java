@@ -454,7 +454,14 @@ public class SubCat3 extends AppCompatActivity {
 
                                                             break;
                                                         case "cash":
-                                                            type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            if (item.getTableName().equals(""))
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId());
+                                                            }
+                                                            else
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            }
                                                             code.setText("Shop - " + item.getClient());
                                                             type.setTextColor(Color.parseColor("#689F38"));
 
@@ -491,7 +498,14 @@ public class SubCat3 extends AppCompatActivity {
                                                             price.setVisibility(View.VISIBLE);
                                                             break;
                                                         case "scratch":
-                                                            type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            if (item.getTableName().equals(""))
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId());
+                                                            }
+                                                            else
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            }
                                                             code.setText("Shop - " + item.getClient());
                                                             type.setTextColor(Color.parseColor("#689F38"));
 
@@ -733,7 +747,14 @@ public class SubCat3 extends AppCompatActivity {
 
                                                             break;
                                                         case "cash":
-                                                            type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            if (item.getTableName().equals(""))
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId());
+                                                            }
+                                                            else
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            }
                                                             code.setText("Shop - " + item.getClient());
                                                             type.setTextColor(Color.parseColor("#689F38"));
 
@@ -770,7 +791,14 @@ public class SubCat3 extends AppCompatActivity {
                                                             price.setVisibility(View.VISIBLE);
                                                             break;
                                                         case "scratch":
-                                                            type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            if (item.getTableName().equals(""))
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId());
+                                                            }
+                                                            else
+                                                            {
+                                                                type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
+                                                            }
                                                             code.setText("Shop - " + item.getClient());
                                                             type.setTextColor(Color.parseColor("#689F38"));
 
@@ -1152,7 +1180,7 @@ public class SubCat3 extends AppCompatActivity {
 
                     ScratchTextView scratch = dialog.findViewById(R.id.scratch);
                     Button share = dialog.findViewById(R.id.share);
-                    TextView transfer = dialog.findViewById(R.id.transfer);
+                    Button transfer = dialog.findViewById(R.id.transfer);
 
 
                     transfer.setOnClickListener(new View.OnClickListener() {
@@ -1170,7 +1198,7 @@ public class SubCat3 extends AppCompatActivity {
                                     Dialog dialog = new Dialog(SubCat3.this);
                                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                     dialog.setCancelable(true);
-                                    dialog.setContentView(R.layout.transfer_layout);
+                                    dialog.setContentView(R.layout.transfer_layout2);
                                     dialog.show();
 
 
@@ -1347,7 +1375,7 @@ public class SubCat3 extends AppCompatActivity {
                                         Dialog dialog = new Dialog(SubCat3.this);
                                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                         dialog.setCancelable(true);
-                                        dialog.setContentView(R.layout.table_dialog);
+                                        dialog.setContentView(R.layout.table_dialog2);
                                         dialog.show();
 
 
@@ -1511,7 +1539,14 @@ public class SubCat3 extends AppCompatActivity {
 
                                                                         break;
                                                                     case "cash":
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        if (item2.getTableName().equals(""))
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId());
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        }
                                                                         code.setText("Shop - " + item2.getClient());
                                                                         type.setTextColor(Color.parseColor("#689F38"));
 
@@ -1548,7 +1583,14 @@ public class SubCat3 extends AppCompatActivity {
                                                                         price.setVisibility(View.VISIBLE);
                                                                         break;
                                                                     case "scratch":
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        if (item2.getTableName().equals(""))
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId());
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        }
                                                                         code.setText("Shop - " + item2.getClient());
                                                                         type.setTextColor(Color.parseColor("#689F38"));
 
@@ -1790,7 +1832,14 @@ public class SubCat3 extends AppCompatActivity {
 
                                                                         break;
                                                                     case "cash":
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        if (item2.getTableName().equals(""))
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId());
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        }
                                                                         code.setText("Shop - " + item2.getClient());
                                                                         type.setTextColor(Color.parseColor("#689F38"));
 
@@ -1827,7 +1876,14 @@ public class SubCat3 extends AppCompatActivity {
                                                                         price.setVisibility(View.VISIBLE);
                                                                         break;
                                                                     case "scratch":
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        if (item2.getTableName().equals(""))
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId());
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
+                                                                        }
                                                                         code.setText("Shop - " + item2.getClient());
                                                                         type.setTextColor(Color.parseColor("#689F38"));
 
