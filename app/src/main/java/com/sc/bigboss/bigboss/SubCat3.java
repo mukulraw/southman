@@ -334,7 +334,7 @@ public class SubCat3 extends AppCompatActivity {
 
 
 
-                                        Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client);
+                                        Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client , tab);
 
                                         call1.enqueue(new Callback<pendingOrderBean>() {
                                             @Override
@@ -364,6 +364,10 @@ public class SubCat3 extends AppCompatActivity {
                                                     Button ok = dialog1.findViewById(R.id.ok);
                                                     Button cancel = dialog1.findViewById(R.id.cancel);
 
+
+
+
+
                                                     cancel.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
@@ -374,6 +378,21 @@ public class SubCat3 extends AppCompatActivity {
                                                     });
 
                                                     Data item = response.body().getData();
+
+                                                    TextView text = dialog1.findViewById(R.id.text);
+
+                                                    if (item.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid")))
+                                                    {
+                                                        cancel.setVisibility(View.VISIBLE);
+                                                        ok.setVisibility(View.VISIBLE);
+                                                        text.setText("Update this order?");
+                                                    }
+                                                    else
+                                                    {
+                                                        cancel.setVisibility(View.GONE);
+                                                        ok.setVisibility(View.GONE);
+                                                        text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
+                                                    }
 
 
                                                     ok.setOnClickListener(new View.OnClickListener() {
@@ -599,7 +618,7 @@ public class SubCat3 extends AppCompatActivity {
 
 
 
-                                        Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client);
+                                        Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client , "");
 
                                         call1.enqueue(new Callback<pendingOrderBean>() {
                                             @Override
@@ -640,6 +659,20 @@ public class SubCat3 extends AppCompatActivity {
 
                                                     Data item = response.body().getData();
 
+                                                    TextView text = dialog1.findViewById(R.id.text);
+
+                                                    if (item.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid")))
+                                                    {
+                                                        cancel.setVisibility(View.VISIBLE);
+                                                        ok.setVisibility(View.VISIBLE);
+                                                        text.setText("Update this order?");
+                                                    }
+                                                    else
+                                                    {
+                                                        cancel.setVisibility(View.GONE);
+                                                        ok.setVisibility(View.GONE);
+                                                        text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
+                                                    }
 
                                                     ok.setOnClickListener(new View.OnClickListener() {
                                                         @Override
@@ -1221,7 +1254,7 @@ public class SubCat3 extends AppCompatActivity {
                                                 if (aa > 0 && aa <= cc) {
 
 
-                                                    Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client);
+                                                    Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client , tab);
 
                                                     call1.enqueue(new Callback<pendingOrderBean>() {
                                                         @Override
@@ -1262,6 +1295,20 @@ public class SubCat3 extends AppCompatActivity {
 
                                                                 Data item2 = response.body().getData();
 
+                                                                TextView text = dialog1.findViewById(R.id.text);
+
+                                                                if (item2.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid")))
+                                                                {
+                                                                    cancel.setVisibility(View.VISIBLE);
+                                                                    ok.setVisibility(View.VISIBLE);
+                                                                    text.setText("Update this order?");
+                                                                }
+                                                                else
+                                                                {
+                                                                    cancel.setVisibility(View.GONE);
+                                                                    ok.setVisibility(View.GONE);
+                                                                    text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
+                                                                }
 
                                                                 ok.setOnClickListener(new View.OnClickListener() {
                                                                     @Override
@@ -1485,7 +1532,7 @@ public class SubCat3 extends AppCompatActivity {
 
 
 
-                                                    Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client);
+                                                    Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid") , client , "");
 
                                                     call1.enqueue(new Callback<pendingOrderBean>() {
                                                         @Override
@@ -1527,6 +1574,20 @@ public class SubCat3 extends AppCompatActivity {
 
                                                                 Data item2 = response.body().getData();
 
+                                                                TextView text = dialog1.findViewById(R.id.text);
+
+                                                                if (item2.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid")))
+                                                                {
+                                                                    cancel.setVisibility(View.VISIBLE);
+                                                                    ok.setVisibility(View.VISIBLE);
+                                                                    text.setText("Update this order?");
+                                                                }
+                                                                else
+                                                                {
+                                                                    cancel.setVisibility(View.GONE);
+                                                                    ok.setVisibility(View.GONE);
+                                                                    text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
+                                                                }
 
                                                                 ok.setOnClickListener(new View.OnClickListener() {
                                                                     @Override

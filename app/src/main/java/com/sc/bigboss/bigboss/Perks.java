@@ -26,6 +26,7 @@ import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
+import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ Button update;
 
                 Dialog dialog = new Dialog(Perks.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
+                dialog.setCancelable(true);
                 dialog.setContentView(R.layout.register_dialog);
                 dialog.show();
 
@@ -203,10 +204,12 @@ Button update;
                 List<String> names = new ArrayList<>();
                 final String[] id = new String[1];
 
-                Spinner spinner = dialog.findViewById(R.id.spinner);
+                SearchableSpinner spinner = dialog.findViewById(R.id.spinner);
                 EditText amount = dialog.findViewById(R.id.amount);
                 Button submit = dialog.findViewById(R.id.submit);
 
+                spinner.setTitle("Select user");
+                spinner.setPositiveButton("OK");
 
                 Bean b = (Bean) getApplicationContext();
 

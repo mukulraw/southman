@@ -752,7 +752,7 @@ public class History extends AppCompatActivity {
 
                         //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
 
-                        if (item.getStatus().equals("pending")) {
+                        if (item.getBillAmount().equals("")) {
 
                             holder.bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
                             holder.balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));

@@ -286,7 +286,8 @@ public interface AllApiIneterface {
     @POST("bigboss/api/getPending.php")
     Call<pendingOrderBean> getPending(
             @Part("id") String id,
-            @Part("client") String client
+            @Part("client") String client,
+            @Part("table") String table
     );
 
     @Multipart

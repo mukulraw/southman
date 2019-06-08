@@ -67,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String idChannel = "southman messages";
         Intent mainIntent;
 
-        mainIntent = new Intent(Bean.getContext(), MyFirebaseMessagingService.class);
+        mainIntent = new Intent(Bean.getContext(), Notification.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(Bean.getContext(), 0, mainIntent, 0);
 
