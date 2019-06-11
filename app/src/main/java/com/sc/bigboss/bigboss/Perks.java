@@ -272,8 +272,17 @@ Button update;
                         String a = amount.getText().toString();
                         String c = cash.getText().toString();
 
-                        float aa = Float.parseFloat(a);
-                        float cc = Float.parseFloat(c);
+                        float aa = 0,cc = 0;
+
+                        try {
+
+                            aa = Float.parseFloat(a);
+                            cc = Float.parseFloat(c);
+
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
 
                         if (aa > 0 && aa <= cc)
                         {
