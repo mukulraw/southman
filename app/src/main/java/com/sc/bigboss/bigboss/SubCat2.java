@@ -283,10 +283,10 @@ public class SubCat2 extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/sub_cat1/" + item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "southman/admin2/upload/sub_cat1/" + item.getImageUrl(), myViewHolder.imageView, options);
 */
 
-            Glide.with(context).load(base + "bigboss/admin2/upload/sub_cat1/" + item.getImageUrl()).into(myViewHolder.imageView);
+            Glide.with(context).load(base + "southman/admin2/upload/sub_cat1/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
 

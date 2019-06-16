@@ -197,11 +197,11 @@ public class Till extends Fragment {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "southman/admin2/upload/cat/" + item.getImageUrl(), myViewHolder.imageView, options);
 */
 
 
-            Glide.with(context).load(base + "bigboss/admin2/upload/cat/" + item.getImageUrl()).into(myViewHolder.imageView);
+            Glide.with(context).load(base + "southman/admin2/upload/cat/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
             ViewGroup.LayoutParams lp = myViewHolder.imageView.getLayoutParams();

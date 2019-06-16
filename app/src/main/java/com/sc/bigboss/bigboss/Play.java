@@ -311,7 +311,7 @@ public class Play extends Fragment {
                                     i.putExtra("name", response.body().getData().getName());
                                     i.putExtra("phone", response.body().getData().getPhone());
                                     i.putExtra("playId", response.body().getData().getPlayId());
-                                    i.putExtra("image", base + "bigboss/admin2/upload/products/" + imm);
+                                    i.putExtra("image", base + "southman/admin2/upload/products/" + imm);
                                     i.putExtra("title", name.getText().toString());
                                     i.putExtra("price", price.getText().toString());
                                     i.putExtra("brand", brand.getText().toString());
@@ -428,7 +428,7 @@ public class Play extends Fragment {
 
             Image1 frag = new Image1();
             Bundle b = new Bundle();
-            b.putString("url", base + "bigboss/admin2/upload/products/" + url);
+            b.putString("url", base + "southman/admin2/upload/products/" + url);
             frag.setArguments(b);
             return frag;
         }
@@ -575,10 +575,10 @@ public class Play extends Fragment {
 
         //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
-        base = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
+        base = "http://mrtecks.com/";
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
+                .baseUrl(base)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -872,10 +872,10 @@ public class Play extends Fragment {
 
             //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
-            base = "http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/";
+            base = "http://mrtecks.com/";
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/")
+                    .baseUrl(base)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -969,7 +969,7 @@ public class Play extends Fragment {
 
                 Image1 frag = new Image1();
                 Bundle b = new Bundle();
-                b.putString("url", base + "bigboss/admin2/upload/products/" + url);
+                b.putString("url", base + "southman/admin2/upload/products/" + url);
                 frag.setArguments(b);
                 return frag;
             }

@@ -278,7 +278,7 @@ public class MeansWear extends Fragment {
                 ImageLoader loader = ImageLoader.getInstance();
 
 
-                loader.loadImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
+                loader.loadImage(base + "southman/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
@@ -399,7 +399,7 @@ public class MeansWear extends Fragment {
                 ImageLoader loader = ImageLoader.getInstance();
 
 
-                loader.loadImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
+                loader.loadImage(base + "southman/admin2/upload/products/" + item.getProductImage(), options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 

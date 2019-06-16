@@ -657,10 +657,10 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
+            loader.displayImage(base + "southman/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
 */
 
-            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
+            Glide.with(context).load(base + "southman/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -756,11 +756,11 @@ public class CollerTshirt extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
+            loader.displayImage(base + "southman/admin2/upload/products/" + item.getProductImage(), myViewHolder.image, options);
 */
 
 
-            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
+            Glide.with(context).load(base + "southman/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
             myViewHolder.order.setOnClickListener(new View.OnClickListener() {

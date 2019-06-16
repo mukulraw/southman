@@ -133,7 +133,7 @@ public class Genral extends Fragment {
 
 
 
-            loader.displayImage(base + "bigboss/admin2/upload/videos/" + item.getThumbnail(), myViewHolder.imageView, options);
+            loader.displayImage(base + "southman/admin2/upload/videos/" + item.getThumbnail(), myViewHolder.imageView, options);
 
             myViewHolder.play.setOnClickListener(new View.OnClickListener() {
                 @Override

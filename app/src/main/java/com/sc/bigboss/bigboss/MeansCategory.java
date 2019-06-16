@@ -286,10 +286,10 @@ public class MeansCategory extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl(), myViewHolder.imageView, options);
+            loader.displayImage(base + "southman/admin2/upload/sub_cat/" + item.getImageUrl(), myViewHolder.imageView, options);
 */
 
-            Glide.with(context).load(base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl()).into(myViewHolder.imageView);
+            Glide.with(context).load(base + "southman/admin2/upload/sub_cat/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +311,7 @@ public class MeansCategory extends AppCompatActivity {
                         i.putExtra("text", item.getSubcatName());
                         i.putExtra("catname", catName);
                         i.putExtra("client", item.getClient_id());
-                        i.putExtra("banner", base + "bigboss/admin2/upload/sub_cat/" + item.getImageUrl());
+                        i.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item.getImageUrl());
                         context.startActivity(i);
                     }
                     else {

@@ -338,7 +338,10 @@ public class Search extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage("http://ec2-13-126-246-74.ap-south-1.compute.amazonaws.com/bigboss/admin2/upload/products/" + item.getProductImage(), my.image, options);
+            base = "http://mrtecks.com/";
+
+
+            loader.displayImage("http://mrtecks.com/southman/admin2/upload/products/" + item.getProductImage(), my.image, options);
 
             my.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

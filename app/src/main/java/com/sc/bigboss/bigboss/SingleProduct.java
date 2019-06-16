@@ -495,7 +495,7 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
             Page2 frag = new Page2();
             Bundle b = new Bundle();
-            b.putString("url" , base + "bigboss/admin2/upload/products/" + tlist.get(i));
+            b.putString("url" , base + "southman/admin2/upload/products/" + tlist.get(i));
 
             frag.setArguments(b);
             return frag;

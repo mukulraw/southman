@@ -135,7 +135,7 @@ public class WristWatch2 extends AppCompatActivity {
 
             Page1 frag = new Page1();
             Bundle b = new Bundle();
-            b.putString("url" , base + "bigboss/admin2/upload/products/" + tlist.get(i));
+            b.putString("url" , base + "southman/admin2/upload/products/" + tlist.get(i));
 
             frag.setArguments(b);
             return frag;

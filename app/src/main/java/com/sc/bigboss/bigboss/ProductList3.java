@@ -330,9 +330,9 @@ public class ProductList3 extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            loader.displayImage(base + "bigboss/admin2/upload/products/" + item.getProductImage(), myViewHolder.imageView, options);
+            loader.displayImage(base + "southman/admin2/upload/products/" + item.getProductImage(), myViewHolder.imageView, options);
 */
-            Glide.with(context).load(base + "bigboss/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.imageView);
+            Glide.with(context).load(base + "southman/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.imageView);
 
 
             myViewHolder.sku.setText(item.getSku());
