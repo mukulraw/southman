@@ -743,8 +743,14 @@ public class CollerTshirt extends AppCompatActivity {
             final ProductInfo item = list.get(i);
 
             myViewHolder.name.setText(item.getProductTitle());
-            myViewHolder.brand.setText(Html.fromHtml(item.getSubTitle()));
 
+
+            String sub = item.getSubTitle();
+
+            myViewHolder.brand.setText(Html.fromHtml(sub.replaceAll("~[\\r\\n\\t]+~" , "")));
+
+
+            myViewHolder.price.setText("\u20B9" + item.getPrice());
 
 
             myViewHolder.color.setText(item.getProductCode());
@@ -814,7 +820,7 @@ public class CollerTshirt extends AppCompatActivity {
 
                             try {
 
-                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:+" + ph));
                                 startActivity(intent);
                                 dialog.dismiss();
 
@@ -847,7 +853,7 @@ public class CollerTshirt extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name, brand, color;
+            TextView name, brand, color , price;
 
             ImageView image;
 
@@ -861,6 +867,7 @@ public class CollerTshirt extends AppCompatActivity {
                 order = itemView.findViewById(R.id.order);
                 color = itemView.findViewById(R.id.color);
                 image = itemView.findViewById(R.id.image);
+                price = itemView.findViewById(R.id.price);
 
 
             }
