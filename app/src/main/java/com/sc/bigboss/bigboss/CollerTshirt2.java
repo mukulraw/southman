@@ -5,12 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -31,13 +30,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.appyvet.materialrangebar.RangeBar;
 import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +49,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-public class CollerTshirt extends AppCompatActivity {
+public class CollerTshirt2 extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -61,7 +57,7 @@ public class CollerTshirt extends AppCompatActivity {
 
     GridLayoutManager manager;
 
-    CollerAdapter adapeter;
+
     CollerAdapter2 adapeter2;
 
     List<ProductInfo> list;
@@ -76,7 +72,7 @@ public class CollerTshirt extends AppCompatActivity {
 
     TextView title;
 
-    TextView sort, filter;
+    TextView sort;
 
     boolean isPrice = false, isSize = false;
 
@@ -95,9 +91,9 @@ public class CollerTshirt extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coller_tshirt);
+        setContentView(R.layout.activity_coller_tshirt2);
 
-        cd = new ConnectionDetector(CollerTshirt.this);
+        cd = new ConnectionDetector(CollerTshirt2.this);
 
         id = getIntent().getStringExtra("id");
         catName = getIntent().getStringExtra("catname");
@@ -110,7 +106,7 @@ public class CollerTshirt extends AppCompatActivity {
 
 
         sort = findViewById(R.id.sort);
-        filter = findViewById(R.id.filter);
+
 
         notification = findViewById(R.id.notification);
         perks2 = findViewById(R.id.perks2);
@@ -121,7 +117,7 @@ public class CollerTshirt extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(CollerTshirt.this, Notification.class);
+                Intent i = new Intent(CollerTshirt2.this, Notification.class);
                 startActivity(i);
             }
         });
@@ -130,7 +126,7 @@ public class CollerTshirt extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(CollerTshirt.this , Perks.class);
+                Intent intent = new Intent(CollerTshirt2.this , Perks.class);
                 startActivity(intent);
             }
         });
@@ -151,7 +147,7 @@ public class CollerTshirt extends AppCompatActivity {
         filteredList = new ArrayList<>();
         sortedList = new ArrayList<>();
 
-        adapeter = new CollerAdapter(this, list);
+
         adapeter2 = new CollerAdapter2(this, list);
 
         grid = findViewById(R.id.grid);
@@ -181,7 +177,7 @@ public class CollerTshirt extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                Intent i = new Intent(CollerTshirt.this, Search.class);
+                Intent i = new Intent(CollerTshirt2.this, Search.class);
                 startActivity(i);
             }
         });
@@ -189,7 +185,7 @@ public class CollerTshirt extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CollerTshirt.this, MainActivity.class);
+                Intent i = new Intent(CollerTshirt2.this, MainActivity.class);
                 startActivity(i);
                 finishAffinity();
             }
@@ -238,18 +234,6 @@ public class CollerTshirt extends AppCompatActivity {
 
                         list = response.body().getProductInfo();
 
-                        if (catName.equals("food & drinks"))
-                        {
-                            bottom.setVisibility(View.GONE);
-
-                            grid.setLayoutManager(manager);
-
-                            grid.setAdapter(adapeter2);
-                            adapeter2.setgrid(list);
-                        }
-                        else
-                        {
-                            Log.d("ssii" , String.valueOf(list.size()));
 
                             if (list.size() > 0)
                             {
@@ -260,12 +244,12 @@ public class CollerTshirt extends AppCompatActivity {
                                 bottom.setVisibility(View.GONE);
                             }
 
-
                             grid.setLayoutManager(manager);
 
-                            grid.setAdapter(adapeter);
-                            adapeter.setgrid(list);
-                        }
+                            grid.setAdapter(adapeter2);
+                            adapeter2.setgrid(list);
+
+
 
                         linear.setVisibility(View.GONE);
 
@@ -302,7 +286,7 @@ public class CollerTshirt extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(CollerTshirt.this);
+                final Dialog dialog = new Dialog(CollerTshirt2.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.sort_dialog_layout);
                 dialog.setCancelable(true);
@@ -317,24 +301,12 @@ public class CollerTshirt extends AppCompatActivity {
                     public void onClick(View v) {
 
                         if (isFilter) {
-                            if (catName.equals("one day sale"))
-                            {
+
                                 adapeter2.setgrid(filteredList);
-                            }
-                            else
-                            {
-                                adapeter.setgrid(filteredList);
-                            }
 
                         } else {
-                            if (catName.equals("one day sale"))
-                            {
+
                                 adapeter2.setgrid(list);
-                            }
-                            else
-                            {
-                                adapeter.setgrid(list);
-                            }
 
                         }
 
@@ -376,20 +348,29 @@ public class CollerTshirt extends AppCompatActivity {
                                     @Override
                                     public int compare(ProductInfo o1, ProductInfo o2) {
                                         Log.d("sort" , "5");
-                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
                                     }
                                 });
 
-                                if (catName.equals("one day sale"))
-                                {
+
                                     Log.d("sort" , "6");
                                     adapeter2.setgrid(sortedList);
-                                }
-                                else
-                                {
-                                    Log.d("sort" , "6");
-                                    adapeter.setgrid(sortedList);
-                                }
+
 
 
                                 dialog.dismiss();
@@ -411,20 +392,30 @@ public class CollerTshirt extends AppCompatActivity {
                                     @Override
                                     public int compare(ProductInfo o2, ProductInfo o1) {
                                         Log.d("sort" , "10");
-                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
+
                                     }
                                 });
 
-                                if (catName.equals("one day sale"))
-                                {
+
                                     Log.d("sort" , "11");
                                     adapeter2.setgrid(sortedList);
-                                }
-                                else
-                                {
-                                    Log.d("sort" , "12");
-                                    adapeter.setgrid(sortedList);
-                                }
+
 
                                 dialog.dismiss();
 
@@ -432,7 +423,7 @@ public class CollerTshirt extends AppCompatActivity {
 
                         } else {
                             Log.d("sort" , "13");
-                            Toast.makeText(CollerTshirt.this, "Please select a Sorting type", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CollerTshirt2.this, "Please select a Sorting type", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -441,119 +432,7 @@ public class CollerTshirt extends AppCompatActivity {
             }
         });
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                final Dialog dialog1 = new Dialog(CollerTshirt.this);
-                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog1.setContentView(R.layout.price_filter_dialog);
-                dialog1.setCancelable(true);
-                dialog1.show();
-
-
-                final TextView prii = dialog1.findViewById(R.id.prii);
-                RangeBar range = dialog1.findViewById(R.id.range);
-                RecyclerView fgrid = dialog1.findViewById(R.id.grid);
-                GridLayoutManager fmanager = new GridLayoutManager(CollerTshirt.this, 1);
-                TextView fil = dialog1.findViewById(R.id.filter);
-                TextView res = dialog1.findViewById(R.id.reset);
-
-                final String[] min = {"50"};
-                final String[] max = {"5000"};
-
-                range.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-                    @Override
-                    public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
-
-                        min[0] = leftPinValue;
-                        max[0] = rightPinValue;
-
-                        prii.setText("Price: " + leftPinValue + " - " + rightPinValue);
-
-                    }
-                });
-
-
-                List<String> flist = new ArrayList<>();
-
-                for (int i = 0; i < list.size(); i++) {
-                    flist.add(list.get(i).getSize());
-                }
-
-                Log.d("flist", TextUtils.join(",", flist));
-
-                HashSet<String> hashSet = new HashSet<>();
-                hashSet.addAll(flist);
-                flist.clear();
-                flist.addAll(hashSet);
-
-
-                final FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this, flist);
-                fgrid.setAdapter(fadapter);
-                fgrid.setLayoutManager(fmanager);
-
-
-                res.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (catName.equals("one day sale"))
-                        {
-                            adapeter2.setgrid(list);
-                        }
-                        else
-                        {
-                            adapeter.setgrid(list);
-                        }
-
-
-                        isFilter = false;
-                        dialog1.dismiss();
-
-                    }
-                });
-
-
-                fil.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        List<String> fl = fadapter.getChecked();
-
-                        filteredList.clear();
-
-                        for (int i = 0; i < list.size(); i++) {
-
-                            for (int j = 0; j < fl.size(); j++) {
-
-                                if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) < Float.parseFloat(max[0])) {
-                                    filteredList.add(list.get(i));
-                                }
-
-                            }
-
-                        }
-
-                        if (catName.equals("one day sale"))
-                        {
-                            adapeter2.setgrid(filteredList);
-                        }
-                        else
-                        {
-                            adapeter.setgrid(filteredList);
-                        }
-
-
-                        isFilter = true;
-                        dialog1.dismiss();
-
-                    }
-                });
-
-
-            }
-        });
 
         count = findViewById(R.id.count);
 

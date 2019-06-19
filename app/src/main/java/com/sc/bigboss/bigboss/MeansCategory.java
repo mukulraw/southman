@@ -314,7 +314,15 @@ public class MeansCategory extends AppCompatActivity {
                         i.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item.getImageUrl());
                         context.startActivity(i);
                     }
-                    else {
+                    else if (catName.equals("food & drinks")){
+                        Intent i = new Intent(context, CollerTshirt2.class);
+                        i.putExtra("id", item.getId());
+                        i.putExtra("text", item.getSubcatName());
+                        i.putExtra("catname", catName);
+                        context.startActivity(i);
+                    }
+                    else
+                    {
                         Intent i = new Intent(context, CollerTshirt.class);
                         i.putExtra("id", item.getId());
                         i.putExtra("text", item.getSubcatName());

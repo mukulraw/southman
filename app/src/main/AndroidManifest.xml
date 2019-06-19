@@ -82,6 +82,9 @@
             android:name=".CollerTshirt"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".CollerTshirt2"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".MeansCategory"
             android:screenOrientation="portrait" />
         <activity
