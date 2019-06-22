@@ -62,7 +62,7 @@ public class CollerTshirt extends AppCompatActivity {
     GridLayoutManager manager;
 
     CollerAdapter adapeter;
-    CollerAdapter2 adapeter2;
+
 
     List<ProductInfo> list;
 
@@ -152,7 +152,7 @@ public class CollerTshirt extends AppCompatActivity {
         sortedList = new ArrayList<>();
 
         adapeter = new CollerAdapter(this, list);
-        adapeter2 = new CollerAdapter2(this, list);
+
 
         grid = findViewById(R.id.grid);
 
@@ -238,17 +238,7 @@ public class CollerTshirt extends AppCompatActivity {
 
                         list = response.body().getProductInfo();
 
-                        if (catName.equals("food & drinks"))
-                        {
-                            bottom.setVisibility(View.GONE);
 
-                            grid.setLayoutManager(manager);
-
-                            grid.setAdapter(adapeter2);
-                            adapeter2.setgrid(list);
-                        }
-                        else
-                        {
                             Log.d("ssii" , String.valueOf(list.size()));
 
                             if (list.size() > 0)
@@ -265,7 +255,6 @@ public class CollerTshirt extends AppCompatActivity {
 
                             grid.setAdapter(adapeter);
                             adapeter.setgrid(list);
-                        }
 
                         linear.setVisibility(View.GONE);
 
@@ -317,24 +306,14 @@ public class CollerTshirt extends AppCompatActivity {
                     public void onClick(View v) {
 
                         if (isFilter) {
-                            if (catName.equals("one day sale"))
-                            {
-                                adapeter2.setgrid(filteredList);
-                            }
-                            else
-                            {
+
                                 adapeter.setgrid(filteredList);
-                            }
+
 
                         } else {
-                            if (catName.equals("one day sale"))
-                            {
-                                adapeter2.setgrid(list);
-                            }
-                            else
-                            {
+
                                 adapeter.setgrid(list);
-                            }
+
 
                         }
 
@@ -376,20 +355,29 @@ public class CollerTshirt extends AppCompatActivity {
                                     @Override
                                     public int compare(ProductInfo o1, ProductInfo o2) {
                                         Log.d("sort" , "5");
-                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
                                     }
                                 });
 
-                                if (catName.equals("one day sale"))
-                                {
-                                    Log.d("sort" , "6");
-                                    adapeter2.setgrid(sortedList);
-                                }
-                                else
-                                {
+
                                     Log.d("sort" , "6");
                                     adapeter.setgrid(sortedList);
-                                }
+
 
 
                                 dialog.dismiss();
@@ -411,20 +399,28 @@ public class CollerTshirt extends AppCompatActivity {
                                     @Override
                                     public int compare(ProductInfo o2, ProductInfo o1) {
                                         Log.d("sort" , "10");
-                                        return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
+                                        {
+                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
+                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                                        }
+                                        else
+                                        {
+                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                                        }
                                     }
                                 });
 
-                                if (catName.equals("one day sale"))
-                                {
-                                    Log.d("sort" , "11");
-                                    adapeter2.setgrid(sortedList);
-                                }
-                                else
-                                {
                                     Log.d("sort" , "12");
                                     adapeter.setgrid(sortedList);
-                                }
+
 
                                 dialog.dismiss();
 
@@ -498,14 +494,9 @@ public class CollerTshirt extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        if (catName.equals("one day sale"))
-                        {
-                            adapeter2.setgrid(list);
-                        }
-                        else
-                        {
+
                             adapeter.setgrid(list);
-                        }
+
 
 
                         isFilter = false;
@@ -527,22 +518,29 @@ public class CollerTshirt extends AppCompatActivity {
 
                             for (int j = 0; j < fl.size(); j++) {
 
-                                if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) < Float.parseFloat(max[0])) {
-                                    filteredList.add(list.get(i));
+                                if (list.get(i).getDiscountPrice() != null)
+                                {
+                                    if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) <= Float.parseFloat(max[0])) {
+                                        filteredList.add(list.get(i));
+                                    }
+
                                 }
+                                else
+                                {
+                                    if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getDiscountPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getDiscountPrice()) <= Float.parseFloat(max[0])) {
+                                        filteredList.add(list.get(i));
+                                    }
+
+                                }
+
 
                             }
 
                         }
 
-                        if (catName.equals("one day sale"))
-                        {
-                            adapeter2.setgrid(filteredList);
-                        }
-                        else
-                        {
+
                             adapeter.setgrid(filteredList);
-                        }
+
 
 
                         isFilter = true;

@@ -317,7 +317,7 @@ public class Search extends AppCompatActivity {
             }
            // my.prices.setText(item.getPrice());
             my.color.setText(item.getColor());
-            if (item.getNegotiable().equals("no")){
+            /*if (item.getNegotiable().equals("no")){
 
                 my.negotiable.setText("No");
 
@@ -329,7 +329,7 @@ public class Search extends AppCompatActivity {
 
                 my.negotiable.setTextColor(Color.parseColor("#4CAF50"));
 
-            }
+            }*/
 
 
 

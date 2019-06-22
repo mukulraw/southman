@@ -257,6 +257,17 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
                 de = de.replace("\t" , "");
                 de = de.replace("\n" , "");
+                de = de.replace("<p>" , "");
+                de = de.replace("</p>" , "<br>");
+
+                StringBuilder sb = new StringBuilder(de);
+
+                sb.delete(de.length() - 4 , de.length());
+
+                de = sb.toString();
+
+                Log.d("ddddd" , de);
+
 
                 details.setText(Html.fromHtml(de));
                 //details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
