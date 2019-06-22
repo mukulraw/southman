@@ -119,9 +119,9 @@ public interface AllApiIneterface {
 
 
     @Multipart
-    @POST("southman/?rest_route=/SearchProduct/v1/get-product")
+    @POST("southman/api/search.php")
     Call<SearchBean> search(
-            @Part("searchVal") String cat ,
+            @Part("query") String query,
             @Part("locationId") String c
 
     );

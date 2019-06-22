@@ -58,7 +58,8 @@ public class Datum {
     private String productDetail;
     @SerializedName("created")
     @Expose
-    private String created;@SerializedName("discount_price")
+    private String created;
+    @SerializedName("discount_price")
     @Expose
     private String discountPrice;
 
