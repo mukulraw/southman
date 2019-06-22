@@ -1,27 +1,27 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
+ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
 	package
-		ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:11-53
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:11-53
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
+		ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:1:1-5:12
 application
-ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:3:5-20
+ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml:3:5-20
 uses-sdk
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-		ADDED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		ADDED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml
+		INJECTED from D:\mukul\StudioProjects\Bigboss\library\src\main\AndroidManifest.xml

@@ -136,18 +136,14 @@ public class Search extends AppCompatActivity {
                                         Log.d("response" , "response");
                                         linear.setVisibility(View.GONE);
 
-
                                     }else {
-
                                         linear.setVisibility(View.VISIBLE);
                                     }
 
 
-                                    linear.setVisibility(View.GONE);
-
                                 }
                                 else {
-
+                                    adapter.setgrid(response.body().getData());
                                     linear.setVisibility(View.VISIBLE);
                                 }
 
