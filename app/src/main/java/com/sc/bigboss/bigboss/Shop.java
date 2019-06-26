@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,13 +12,16 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.ShoptabPOJO.Datum;
 import com.sc.bigboss.bigboss.ShoptabPOJO.ShopBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +60,10 @@ public class Shop extends Fragment {
                 .build();
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+
+
 
         Call<ShopBean> call = cr.sho( SharePreferenceUtils.getInstance().getString("location"));
         call.enqueue(new Callback<ShopBean>() {

@@ -29,6 +29,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 import com.sc.bigboss.bigboss.locationPOJO.Datum;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -139,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("count"))
-                {
+                if (intent.getAction().equals("count")) {
                     count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
                 }
 
@@ -185,11 +186,9 @@ public class MainActivity extends AppCompatActivity {
                         String n = name.getText().toString();
                         String p = phone.getText().toString();
 
-                        if (n.length() > 0)
-                        {
+                        if (n.length() > 0) {
 
-                            if (p.length() == 10)
-                            {
+                            if (p.length() == 10) {
                                 Bean b = (Bean) getApplicationContext();
                                 Retrofit retrofit = new Retrofit.Builder()
                                         .baseUrl(b.baseurl)
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                                 AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid") , n , p);
+                                Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid"), n, p);
 
                                 call1.enqueue(new Callback<scratchCardBean>() {
                                     @Override
@@ -217,18 +216,12 @@ public class MainActivity extends AppCompatActivity {
 
                                     }
                                 });
-                            }
-                            else
-                            {
+                            } else {
                                 Toast.makeText(MainActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                             }
 
 
-
-
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(MainActivity.this, "Invalid details", Toast.LENGTH_SHORT).show();
                         }
 
@@ -340,20 +333,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 */
-       reward.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
+        reward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-               Intent intent = new Intent(MainActivity.this , Winners.class);
-               startActivity(intent);
-           }
-       });
+                Intent intent = new Intent(MainActivity.this, Winners.class);
+                startActivity(intent);
+            }
+        });
 
         perks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this , Perks.class);
+                Intent intent = new Intent(MainActivity.this, Perks.class);
                 startActivity(intent);
             }
         });
@@ -431,6 +424,48 @@ public class MainActivity extends AppCompatActivity {
 
                 if (i == 2) {
 
+                    Bean b = (Bean) getApplicationContext();
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                    Call<bannerBean> call1 = cr.getBanners();
+
+                    call1.enqueue(new Callback<bannerBean>() {
+                        @Override
+                        public void onResponse(Call<bannerBean> call, Response<bannerBean> response) {
+
+
+                            if (response.body().getData().size() > 0) {
+
+                                Dialog dialog = new Dialog(MainActivity.this);
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog.setCancelable(true);
+                                dialog.setContentView(R.layout.popup_dialog);
+                                dialog.show();
+
+                                ImageView im = dialog.findViewById(R.id.image);
+
+                                Glide.with(MainActivity.this).load(response.body().getData().get(0).getImage()).into(im);
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<bannerBean> call, Throwable t) {
+
+                        }
+                    });
+
                     search.setVisibility(View.GONE);
                     request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
@@ -444,6 +479,10 @@ public class MainActivity extends AppCompatActivity {
                     search.setVisibility(View.GONE);
                     reward.setVisibility(View.VISIBLE);
                     request.setVisibility(View.VISIBLE);
+
+
+
+
                 }
 
 

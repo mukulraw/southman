@@ -9,6 +9,7 @@ import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
+import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
@@ -179,6 +180,9 @@ public interface AllApiIneterface {
 
     @GET("southman/api/getWinners.php")
     Call<winnersBean> getWiners();
+
+    @GET("southman/api/getBanner.php")
+    Call<bannerBean> getBanners();
 
     @Multipart
     @POST("southman/api/getPerks.php")

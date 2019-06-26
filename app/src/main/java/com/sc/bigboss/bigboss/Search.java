@@ -137,6 +137,7 @@ public class Search extends AppCompatActivity {
                                         linear.setVisibility(View.GONE);
 
                                     }else {
+                                        adapter.setgrid(response.body().getData());
                                         linear.setVisibility(View.VISIBLE);
                                     }
 
@@ -150,6 +151,7 @@ public class Search extends AppCompatActivity {
                             } catch (Exception e) {
 
                                 e.printStackTrace();
+                                Log.d("asdsad" , e.toString());
                             }
 
 
@@ -215,20 +217,18 @@ public class Search extends AppCompatActivity {
 
                                         adapter.setgrid(response.body().getData());
 
+                                        Log.d("response" , "response");
                                         linear.setVisibility(View.GONE);
 
-
                                     }else {
-
+                                        adapter.setgrid(response.body().getData());
                                         linear.setVisibility(View.VISIBLE);
                                     }
 
 
-                                    linear.setVisibility(View.GONE);
-
                                 }
                                 else {
-
+                                    adapter.setgrid(response.body().getData());
                                     linear.setVisibility(View.VISIBLE);
                                 }
 
