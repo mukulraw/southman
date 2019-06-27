@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (response.body().getData().size() > 0) {
 
-                                Dialog dialog = new Dialog(MainActivity.this);
+                                Dialog dialog = new Dialog(MainActivity.this  , android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog.setCancelable(true);
                                 dialog.setContentView(R.layout.popup_dialog);
