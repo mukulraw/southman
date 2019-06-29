@@ -15,18 +15,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ShopMens extends AppCompatActivity {
 
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    MAdapter1 adapter1;
+    private MAdapter1 adapter1;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +38,9 @@ public class ShopMens extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
         grid = findViewById(R.id.grid);
@@ -73,12 +69,12 @@ public class ShopMens extends AppCompatActivity {
 
     public class MAdapter1 extends RecyclerView.Adapter<MAdapter1.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
       //  List<Datum> list = new ArrayList<>();
 
 
-        public MAdapter1(Context context) {
+        MAdapter1(Context context) {
 
             this.context = context;
            // this.list = list;
@@ -128,26 +124,23 @@ public class ShopMens extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView imageView;
+            final ImageView imageView;
 
-            TextView name;
+            final TextView name;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 imageView = itemView.findViewById(R.id.tshirt);
 
                 name = itemView.findViewById(R.id.name);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                itemView.setOnClickListener(v -> {
 
-                        Intent i = new Intent(context, CollerTshirt.class);
-                        context.startActivity(i);
+                    Intent i = new Intent(context, CollerTshirt.class);
+                    context.startActivity(i);
 
 
-                    }
                 });
             }
         }

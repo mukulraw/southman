@@ -14,18 +14,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WishList extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    WishAdapter adapter;
+    private WishAdapter adapter;
 
-    List<String>list;
+    private List<String>list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +35,10 @@ public class WishList extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         toolbar.setTitle("My WishList");
 
@@ -79,11 +74,11 @@ public class WishList extends AppCompatActivity {
     public class WishAdapter extends RecyclerView.Adapter<WishAdapter.MyViewHolder>{
 
 
-        Context context;
+        final Context context;
 
-        List<String>list = new ArrayList<>();
+        List<String>list;
 
-        public WishAdapter(Context context , List<String>list){
+        WishAdapter(Context context, List<String> list){
 
             this.context = context;
             this.list = list;
@@ -136,9 +131,14 @@ public class WishList extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView color , name, price , negitable , size , brand;
+            final TextView color;
+            final TextView name;
+            final TextView price;
+            final TextView negitable;
+            final TextView size;
+            final TextView brand;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 color = itemView.findViewById(R.id.color);

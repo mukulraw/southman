@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 
 public class Womenwear extends Fragment {
 
-    LinearLayout top, bottom;
+    private LinearLayout top;
+    private LinearLayout bottom;
 
-    ImageView shirt, pant;
+    private ImageView shirt;
+    private ImageView pant;
 
     @Nullable
     @Override
@@ -32,70 +34,58 @@ public class Womenwear extends Fragment {
         bottom = view.findViewById(R.id.bottom);
 
 
-        top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        top.setOnClickListener(v -> {
 
 
-                Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.topdialog);
-                dialog.setCancelable(true);
-                dialog.show();
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.topdialog);
+            dialog.setCancelable(true);
+            dialog.show();
 
 
-                RecyclerView grid = dialog.findViewById(R.id.grid);
-                GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
-                WomanAdapter adapter = new WomanAdapter(getContext());
-                grid.setLayoutManager(manager);
-                grid.setAdapter(adapter);
+            RecyclerView grid = dialog.findViewById(R.id.grid);
+            GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+            WomanAdapter adapter = new WomanAdapter(getContext());
+            grid.setLayoutManager(manager);
+            grid.setAdapter(adapter);
 
-            }
         });
 
 
-        bottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bottom.setOnClickListener(v -> {
 
 
-                Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.bottomdialog);
-                dialog.setCancelable(true);
-                dialog.show();
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.bottomdialog);
+            dialog.setCancelable(true);
+            dialog.show();
 
 
-                RecyclerView grid = dialog.findViewById(R.id.grid);
-                GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
-                WomanAdapter1 adapter = new WomanAdapter1(getContext());
-                grid.setLayoutManager(manager);
-                grid.setAdapter(adapter);
+            RecyclerView grid = dialog.findViewById(R.id.grid);
+            GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+            WomanAdapter1 adapter = new WomanAdapter1(getContext());
+            grid.setLayoutManager(manager);
+            grid.setAdapter(adapter);
 
-            }
         });
 
         shirt = view.findViewById(R.id.shirt);
         pant = view.findViewById(R.id.pant);
-        shirt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        shirt.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(getContext(), SingleProduct.class);
-                startActivity(i);
+            Intent i = new Intent(getContext(), SingleProduct.class);
+            startActivity(i);
 
-            }
         });
 
 
-        pant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        pant.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(getContext(), SingleProduct.class);
-                startActivity(i);
+            Intent i = new Intent(getContext(), SingleProduct.class);
+            startActivity(i);
 
-            }
         });
 
         return view;
@@ -105,10 +95,10 @@ public class Womenwear extends Fragment {
     public class WomanAdapter extends RecyclerView.Adapter<WomanAdapter.Myviewholder> {
 
 
-        Context context;
+        final Context context;
 
 
-        public WomanAdapter(Context context) {
+        WomanAdapter(Context context) {
             this.context = context;
         }
 
@@ -132,7 +122,7 @@ public class Womenwear extends Fragment {
 
         public class Myviewholder extends RecyclerView.ViewHolder {
 
-            public Myviewholder(@NonNull View itemView) {
+            Myviewholder(@NonNull View itemView) {
                 super(itemView);
             }
         }
@@ -142,10 +132,10 @@ public class Womenwear extends Fragment {
     public class WomanAdapter1 extends RecyclerView.Adapter<WomanAdapter1.Myviewholder> {
 
 
-        Context context;
+        final Context context;
 
 
-        public WomanAdapter1(Context context) {
+        WomanAdapter1(Context context) {
             this.context = context;
         }
 
@@ -169,7 +159,7 @@ public class Womenwear extends Fragment {
 
         public class Myviewholder extends RecyclerView.ViewHolder {
 
-            public Myviewholder(@NonNull View itemView) {
+            Myviewholder(@NonNull View itemView) {
                 super(itemView);
             }
         }

@@ -19,8 +19,8 @@ import java.util.Objects;
 public class Image1 extends Fragment {
 
 
-    ImageView image;
-    String url;
+    private ImageView image;
+    private String url;
 
     @Nullable
     @Override
@@ -28,7 +28,7 @@ public class Image1 extends Fragment {
 
         View view = inflater.inflate(R.layout.image1 , container , false);
 
-        url = getArguments().getString("url");
+        url = Objects.requireNonNull(getArguments()).getString("url");
 
         image = view.findViewById(R.id.image);
 
@@ -36,21 +36,18 @@ public class Image1 extends Fragment {
         ImageLoader loader = ImageLoader.getInstance();
         loader.displayImage(url , image , options);
 
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        image.setOnClickListener(v -> {
 
-                FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                assert getFragmentManager() != null;
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                DialogFragment dialogFragment = new Play.MyCustomDialogFragment();
-                dialogFragment.show(ft, "dialog");
-
+            FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+            assert getFragmentManager() != null;
+            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
             }
+            ft.addToBackStack(null);
+            DialogFragment dialogFragment = new Play.MyCustomDialogFragment();
+            dialogFragment.show(ft, "dialog");
+
         });
 
         return view;

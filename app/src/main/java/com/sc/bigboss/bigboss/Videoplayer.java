@@ -1,20 +1,17 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberUtils;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -26,27 +23,29 @@ import java.net.URL;
 
 public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    YouTubePlayerView youTubePlayerView;
+    private YouTubePlayerView youTubePlayerView;
 
-    ImageView back;
+    private ImageView back;
 
-    String id;
+    private String id;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    TextView ingr;
+    private TextView ingr;
 
-    Button order;
+    private Button order;
 
-    String is;
+    private String is;
 
-    String ph, co;
+    private String ph;
+    private String co;
 
-    String url, des;
+    private String url;
+    private String des;
 
-    YouTubePlayer player;
+    private YouTubePlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +68,7 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         back = findViewById(R.id.back);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
         bar = findViewById(R.id.progress);
 
@@ -100,69 +93,60 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
             order.setVisibility(View.GONE);
         }
 
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        order.setOnClickListener(v -> {
 
-                final Dialog dialog = new Dialog(Videoplayer.this);
+            final Dialog dialog = new Dialog(Videoplayer.this);
 
-                dialog.setContentView(R.layout.dialog);
+            dialog.setContentView(R.layout.dialog);
 
-                dialog.setCancelable(true);
+            dialog.setCancelable(true);
 
-                dialog.show();
+            dialog.show();
 
-                TextView code = dialog.findViewById(R.id.code);
+            TextView code = dialog.findViewById(R.id.code);
 
-                TextView mobile = dialog.findViewById(R.id.mobile);
+            TextView mobile = dialog.findViewById(R.id.mobile);
 
-                Button watshp = dialog.findViewById(R.id.whatsapp);
+            Button watshp = dialog.findViewById(R.id.whatsapp);
 
-                Button call = dialog.findViewById(R.id.call);
+            Button call = dialog.findViewById(R.id.call);
 
-                mobile.setText(ph);
-                code.setText(co);
+            mobile.setText(ph);
+            code.setText(co);
 
-                watshp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            watshp.setOnClickListener(v12 -> {
 
 
-                        try {
+                try {
 
-                            openWhatsApp();
-                            dialog.dismiss();
+                    openWhatsApp();
+                    dialog.dismiss();
 
-                        } catch (Exception e) {
+                } catch (Exception e) {
 
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-
-                call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    e.printStackTrace();
+                }
 
 
-                        try {
+            });
 
-                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
-                            startActivity(intent);
-                            dialog.dismiss();
+            call.setOnClickListener(v1 -> {
 
 
-                        } catch (Exception e) {
+                try {
 
-                            e.printStackTrace();
-                        }
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                    startActivity(intent);
+                    dialog.dismiss();
 
 
-                    }
-                });
-            }
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+
+
+            });
         });
 
 
@@ -194,7 +178,7 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
     }
 
 
-    public String extractYoutubeId(String url) throws MalformedURLException {
+    private String extractYoutubeId(String url) throws MalformedURLException {
         String query = new URL(url).getQuery();
         String[] param = query.split("&");
         String id = null;
@@ -220,7 +204,6 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
         } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
         }
         return app_installed;
     }

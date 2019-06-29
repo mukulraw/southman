@@ -21,8 +21,7 @@ public class AsymmetricRecyclerView extends RecyclerView implements AsymmetricVi
     if (vto != null) {
       vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override public void onGlobalLayout() {
-          //noinspection deprecation
-          getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            getViewTreeObserver().removeGlobalOnLayoutListener(this);
           viewImpl.determineColumns(getAvailableSpace());
           if (adapter != null) {
             adapter.recalculateItemsPerRow();

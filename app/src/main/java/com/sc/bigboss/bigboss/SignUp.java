@@ -11,15 +11,22 @@ import android.widget.TextView;
 
 public class SignUp extends AppCompatActivity {
 
-    Button sign;
+    private Button sign;
 
-    ImageView back;
+    private ImageView back;
 
-    Button male, female, whitemale, whitefemale;
+    private Button male;
+    private Button female;
+    private Button whitemale;
+    private Button whitefemale;
 
-    TextView login;
+    private TextView login;
 
-    EditText name, email, pass, age, mobile;
+    private EditText name;
+    private EditText email;
+    private EditText pass;
+    private EditText age;
+    private EditText mobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,54 +58,36 @@ public class SignUp extends AppCompatActivity {
         whitemale = findViewById(R.id.whitemale);
 
 
-        male.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        male.setOnClickListener(v -> {
 
-                whitemale.setVisibility(View.VISIBLE);
-                male.setVisibility(View.GONE);
-                whitefemale.setVisibility(View.VISIBLE);
+            whitemale.setVisibility(View.VISIBLE);
+            male.setVisibility(View.GONE);
+            whitefemale.setVisibility(View.VISIBLE);
 
-            }
         });
 
-        female.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        female.setOnClickListener(v -> {
 
 
-                female.setVisibility(View.GONE);
-                whitefemale.setVisibility(View.VISIBLE);
-                male.setVisibility(View.VISIBLE);
-            }
+            female.setVisibility(View.GONE);
+            whitefemale.setVisibility(View.VISIBLE);
+            male.setVisibility(View.VISIBLE);
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SignUp.this, Login.class);
-                startActivity(i);
+        login.setOnClickListener(v -> {
+            Intent i = new Intent(SignUp.this, Login.class);
+            startActivity(i);
 
 
-            }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        back.setOnClickListener(v -> finish());
+        sign.setOnClickListener(v -> {
 
-                finish();
-            }
-        });
-        sign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(SignUp.this, Login.class);
-                startActivity(i);
+            Intent i = new Intent(SignUp.this, Login.class);
+            startActivity(i);
 
 
-            }
         });
 
 /*

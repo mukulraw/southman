@@ -32,7 +32,7 @@
         android:background="@drawable/background_color"
         android:hint="tap to enter"
         android:inputType="number"
-        />
+        android:importantForAutofill="no" />
 
 
 

@@ -64,7 +64,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="15dp"
-                            android:src="@drawable/ic_gift" />
+                            android:src="@drawable/ic_gift"
+                            android:contentDescription="TODO" />
 
 
                         <RelativeLayout
@@ -78,7 +79,8 @@
                                 android:id="@+id/notification"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/notification" />
+                                android:src="@drawable/notification"
+                                android:contentDescription="TODO" />
 
                             <TextView
                                 android:layout_width="15dp"
@@ -101,7 +103,8 @@
                             android:id="@+id/home"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="10dp"
-                            android:src="@drawable/ic_home_black_24dp"/>
+                            android:src="@drawable/ic_home_black_24dp"
+                            android:contentDescription="TODO" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -109,7 +112,8 @@
                             android:id="@+id/search"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="5dp"
-                            android:src="@drawable/saerch"/>
+                            android:src="@drawable/saerch"
+                            android:contentDescription="TODO" />
                     </LinearLayout>
 
 
@@ -168,7 +172,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="3"
                             android:orientation="vertical">
 
 
@@ -190,7 +193,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -242,7 +246,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -295,7 +300,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -348,7 +354,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -403,7 +410,8 @@
                                 android:id="@+id/negotitle"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -460,7 +468,8 @@
                                 android:layout_marginBottom="10dp"
                                 android:orientation="horizontal"
                                 android:padding="1dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -521,7 +530,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/ic_mobile"
-                                android:visibility="gone" />
+                                android:visibility="gone"
+                                android:contentDescription="TODO" />
 
 
                             <Button

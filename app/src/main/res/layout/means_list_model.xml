@@ -24,7 +24,8 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                android:contentDescription="TODO" />
 
 
             <TextView
@@ -60,7 +61,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:id="@+id/tshirt"
-                />
+                android:contentDescription="TODO" />
 
 
             <TextView

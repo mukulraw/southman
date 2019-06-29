@@ -3,7 +3,7 @@ package com.sc.bigboss.bigboss;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class notiBean {
+class notiBean {
 
     @SerializedName("id")
     @Expose

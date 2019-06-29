@@ -54,7 +54,7 @@
         android:background="@drawable/background_color"
         android:padding="10dp"
         android:hint="tap to enter"
-        />
+        android:importantForAutofill="no" />
 
     <Button
         android:layout_width="wrap_content"

@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.Objects;
 
 public class Page1 extends Fragment {
 
-    ImageView imageView;
+    private ImageView imageView;
 
-    String url;
+    private String url;
 
     @Nullable
     @Override
@@ -25,7 +25,7 @@ public class Page1 extends Fragment {
 
         View view = inflater.inflate(R.layout.page1 , container , false);
 
-        url = getArguments().getString("url");
+        url = Objects.requireNonNull(getArguments()).getString("url");
 
         imageView = view.findViewById(R.id.watch);
 
@@ -36,7 +36,7 @@ public class Page1 extends Fragment {
 */
 
 
-        Glide.with(getActivity()).load(url).into(imageView);
+        Glide.with(Objects.requireNonNull(getActivity())).load(url).into(imageView);
 
 
         return view;

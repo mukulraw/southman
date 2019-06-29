@@ -11,15 +11,16 @@ import android.widget.ProgressBar;
 
 public class ChangePAssword extends AppCompatActivity {
 
-    Button submit;
+    private Button submit;
 
-    ImageView back;
+    private ImageView back;
 
-    EditText np , cp;
+    private EditText np;
+    private EditText cp;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    ConnectionDetector cd;
+    private ConnectionDetector cd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +38,12 @@ public class ChangePAssword extends AppCompatActivity {
         cp = findViewById(R.id.cp);
         bar = findViewById(R.id.progress);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        submit.setOnClickListener(v -> {
 
-                Intent i = new Intent(ChangePAssword.this , Login.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ChangePAssword.this , Login.class);
+            startActivity(i);
         });
     }
 }

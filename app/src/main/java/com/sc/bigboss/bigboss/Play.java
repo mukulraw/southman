@@ -26,7 +26,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -69,44 +69,55 @@ import static android.app.Activity.RESULT_OK;
 
 public class Play extends Fragment {
 
-    FloatingActionButton submit;
+    private FloatingActionButton submit;
 
-    AutoScrollViewPager pager;
+    private AutoScrollViewPager pager;
 
-    CircleIndicator indicator;
+    private CircleIndicator indicator;
 
-    ImageAddapter adapter;
+    private ImageAddapter adapter;
 
-    TextView textTimer, imageTimer;
+    private TextView textTimer;
+    private TextView imageTimer;
 
-    TextView name, color, price, size, proof, brand, nagtiable;
+    private TextView name;
+    private TextView color;
+    private TextView price;
+    private TextView size;
+    private TextView proof;
+    private TextView brand;
+    private TextView nagtiable;
 
-    EditText email, phone;
+    private EditText email;
+    private EditText phone;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
     String id;
 
-    String playId;
+    private String playId;
 
-    String imm , base;
+    private String imm;
+    private String base;
 
-    ConstraintLayout regLayout;
-    View imgLayout;
+    private ConstraintLayout regLayout;
+    private View imgLayout;
 
-    LinearLayout changeImage;
+    private LinearLayout changeImage;
 
-    ImageView image;
+    private ImageView image;
 
-    File f1;
+    private File f1;
 
-    String video, diff , sku;
+    private String video;
+    private String diff;
+    private String sku;
 
     // List<ProductInfo>list;
 
-    String tttt;
+    private String tttt;
 
-    Uri uri;
+    private Uri uri;
 
     @Nullable
     @Override
@@ -250,170 +261,161 @@ public class Play extends Fragment {
         });*/
 
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        submit.setOnClickListener(v -> {
 
 
-                String e = email.getText().toString();
-                String p = phone.getText().toString();
+            String e = email.getText().toString();
+            String p = phone.getText().toString();
 
-                if (e.length() > 0) {
-                    if (p.length() == 10) {
-
-
-                        bar.setVisibility(View.VISIBLE);
+            if (e.length() > 0) {
+                if (p.length() == 10) {
 
 
-                        MultipartBody.Part body = null;
-
-                        try {
-
-                            RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
-                            body = MultipartBody.Part.createFormData("image", f1.getName(), reqFile1);
+                    bar.setVisibility(View.VISIBLE);
 
 
-                        }catch (Exception e1)
-                        {
-                            e1.printStackTrace();
+                    MultipartBody.Part body = null;
+
+                    try {
+
+                        RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), f1);
+                        body = MultipartBody.Part.createFormData("image", f1.getName(), reqFile1);
+
+
+                    }catch (Exception e1)
+                    {
+                        e1.printStackTrace();
+                    }
+
+                    Bean b = (Bean) getContext().getApplicationContext();
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                    String android_id = Settings.Secure.getString(getActivity().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
+
+                    Log.d("Android", "Android ID : " + android_id);
+                    Log.d("Android", "Android ID : " + getLocalIpAddress());
+                    Log.d("Android", "Android ID : " + SharePreferenceUtils.getInstance().getString("token"));
+
+
+                    Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token") , sku , body);
+
+                    call.enqueue(new Callback<registerPlayBean>() {
+                        @Override
+                        public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+
+                            if (response.body().getStatus().equals("1")) {
+
+                                Intent i = new Intent(getContext(), AdActivity.class);
+                                //Intent i = new Intent(getContext(), Playitem.class);
+
+                                i.putExtra("userid", response.body().getData().getUserId());
+                                i.putExtra("name", response.body().getData().getName());
+                                i.putExtra("phone", response.body().getData().getPhone());
+                                i.putExtra("playId", response.body().getData().getPlayId());
+                                i.putExtra("image", base + "southman/admin2/upload/products/" + imm);
+                                i.putExtra("title", name.getText().toString());
+                                i.putExtra("price", price.getText().toString());
+                                i.putExtra("brand", brand.getText().toString());
+                                i.putExtra("color", color.getText().toString());
+                                i.putExtra("size", size.getText().toString());
+                                i.putExtra("negotiable", proof.getText().toString());
+                                i.putExtra("url", video);
+                                i.putExtra("diff", tttt);
+
+                                startActivity(i);
+
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            bar.setVisibility(View.GONE);
+
                         }
 
-                        Bean b = (Bean) getContext().getApplicationContext();
+                        @Override
+                        public void onFailure(Call<registerPlayBean> call, Throwable t) {
+                            bar.setVisibility(View.GONE);
+                        }
+                    });
 
-                        Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl(b.baseurl)
-                                .addConverterFactory(ScalarsConverterFactory.create())
-                                .addConverterFactory(GsonConverterFactory.create())
-                                .build();
-
-                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                        String android_id = Settings.Secure.getString(getActivity().getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
-
-                        Log.d("Android", "Android ID : " + android_id);
-                        Log.d("Android", "Android ID : " + getLocalIpAddress());
-                        Log.d("Android", "Android ID : " + SharePreferenceUtils.getInstance().getString("token"));
-
-
-                        Call<registerPlayBean> call = cr.registerPlay(playId, e, p, android_id, getLocalIpAddress(), SharePreferenceUtils.getInstance().getString("token") , sku , body);
-
-                        call.enqueue(new Callback<registerPlayBean>() {
-                            @Override
-                            public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
-
-                                if (response.body().getStatus().equals("1")) {
-
-                                    Intent i = new Intent(getContext(), AdActivity.class);
-                                    //Intent i = new Intent(getContext(), Playitem.class);
-
-                                    i.putExtra("userid", response.body().getData().getUserId());
-                                    i.putExtra("name", response.body().getData().getName());
-                                    i.putExtra("phone", response.body().getData().getPhone());
-                                    i.putExtra("playId", response.body().getData().getPlayId());
-                                    i.putExtra("image", base + "southman/admin2/upload/products/" + imm);
-                                    i.putExtra("title", name.getText().toString());
-                                    i.putExtra("price", price.getText().toString());
-                                    i.putExtra("brand", brand.getText().toString());
-                                    i.putExtra("color", color.getText().toString());
-                                    i.putExtra("size", size.getText().toString());
-                                    i.putExtra("negotiable", proof.getText().toString());
-                                    i.putExtra("url", video);
-                                    i.putExtra("diff", tttt);
-
-                                    startActivity(i);
-
-                                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-
-                                bar.setVisibility(View.GONE);
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<registerPlayBean> call, Throwable t) {
-                                bar.setVisibility(View.GONE);
-                            }
-                        });
-
-                    } else {
-                        Toast.makeText(getContext(), "Invalid Phone", Toast.LENGTH_SHORT).show();
-                    }
                 } else {
-                    Toast.makeText(getContext(), "Invalid Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Invalid Phone", Toast.LENGTH_SHORT).show();
                 }
-
-
+            } else {
+                Toast.makeText(getContext(), "Invalid Name", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
 
-        changeImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        changeImage.setOnClickListener(v -> {
 
 
-                final CharSequence[] items = {"Take Photo from Camera",
-                        "Choose from Gallery",
-                        "Cancel"};
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
-                builder.setTitle("Add Photo!");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals("Take Photo from Camera")) {
-                            final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
-                            File newdir = new File(dir);
-                            try {
-                                newdir.mkdirs();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
-                            String file = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
-
-
-                            f1 = new File(file);
-                            try {
-                                f1.createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", f1);
-
-                            Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                            getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            startActivityForResult(getpic, 1);
-                        } else if (items[item].equals("Choose from Gallery")) {
-                            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, 2);
-                        } else if (items[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
+            final CharSequence[] items = {"Take Photo from Camera",
+                    "Choose from Gallery",
+                    "Cancel"};
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+            builder.setTitle("Add Photo!");
+            builder.setItems(items, (dialog, item) -> {
+                if (items[item].equals("Take Photo from Camera")) {
+                    final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+                    File newdir = new File(dir);
+                    try {
+                        newdir.mkdirs();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                });
-                builder.show();
 
 
-            }
+                    String file = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+                    f1 = new File(file);
+                    try {
+                        f1.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    uri = FileProvider.getUriForFile(getContext(), BuildConfig.APPLICATION_ID + ".provider", f1);
+
+                    Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                    getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivityForResult(getpic, 1);
+                } else if (items[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+
+
         });
 
 
         return view;
     }
 
-    public class ImageAddapter extends FragmentStatePagerAdapter {
+    class ImageAddapter extends FragmentStatePagerAdapter {
 
 
         // List<ProductInfo>list = new ArrayList<>();
-        List<String> im = new ArrayList<>();
+        List<String> im;
 
-        public ImageAddapter(FragmentManager fm, List<String> im) {
+        ImageAddapter(FragmentManager fm, List<String> im) {
             super(fm);
             this.im = im;
 
@@ -439,7 +441,7 @@ public class Play extends Fragment {
         }
     }
 
-    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageSelected(int position) {
@@ -475,7 +477,7 @@ public class Play extends Fragment {
 
     }
 
-    public String getLocalIpAddress() {
+    private String getLocalIpAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
                  en.hasMoreElements(); ) {
@@ -493,9 +495,9 @@ public class Play extends Fragment {
         return null;
     }
 
-    CountDownTimer timer;
+    private CountDownTimer timer;
 
-    void startTextTimer() {
+    private void startTextTimer() {
         timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -521,7 +523,7 @@ public class Play extends Fragment {
         timer.start();
     }
 
-    void startImageTimer() {
+    private void startImageTimer() {
         timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -567,7 +569,7 @@ public class Play extends Fragment {
         return String.valueOf(number);
     }
 
-    void reload() {
+    private void reload() {
         regLayout.setVisibility(View.INVISIBLE);
         imgLayout.setVisibility(View.INVISIBLE);
 
@@ -591,7 +593,7 @@ public class Play extends Fragment {
             public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
 
 
-                if (response.body().getStatus().equals("1")) {
+                if (Objects.requireNonNull(response.body()).getStatus().equals("1")) {
                     playId = response.body().getData().get(0).getId();
 
 
@@ -700,8 +702,8 @@ public class Play extends Fragment {
             f1 = new File(ypath);
 
             String[] filePath = { MediaStore.Images.Media.DATA };
-            Cursor cursor = getActivity().getContentResolver().query(uri, filePath, null, null, null);
-            cursor.moveToFirst();
+            Cursor cursor = Objects.requireNonNull(getActivity()).getContentResolver().query(uri, filePath, null, null, null);
+            Objects.requireNonNull(cursor).moveToFirst();
             String imagePath = cursor.getString(cursor.getColumnIndex(filePath[0]));
 
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -809,22 +811,16 @@ public class Play extends Fragment {
     private static String getDataColumn(Context context, Uri uri, String selection,
                                         String[] selectionArgs) {
 
-        Cursor cursor = null;
         final String column = "_data";
         final String[] projection = {
                 column
         };
-
-        try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
-                    null);
+        try (Cursor cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+                null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(column_index);
             }
-        } finally {
-            if (cursor != null)
-                cursor.close();
         }
         return null;
     }
@@ -888,7 +884,7 @@ public class Play extends Fragment {
                 public void onResponse(Call<getPlayBean> call, Response<getPlayBean> response) {
 
 
-                    if (response.body().getStatus().equals("1")) {
+                    if (Objects.requireNonNull(response.body()).getStatus().equals("1")) {
                         //playId = response.body().getData().get(0).getId();
 
 
@@ -920,13 +916,7 @@ public class Play extends Fragment {
                             //textTimer.setText("Time till registration ");
 
 
-                        } else {
-
                         }
-
-
-                    } else {
-
 
 
                     }
@@ -948,11 +938,11 @@ public class Play extends Fragment {
         }
 
 
-        public class ImageAddapter extends FragmentStatePagerAdapter {
+        class ImageAddapter extends FragmentStatePagerAdapter {
 
 
             // List<ProductInfo>list = new ArrayList<>();
-            List<String> im = new ArrayList<>();
+            List<String> im;
 
             ImageAddapter(FragmentManager fm, List<String> im) {
                 super(fm);

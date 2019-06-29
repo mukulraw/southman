@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,14 +10,16 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@drawable/bigboss" />
+        android:src="@drawable/bigboss"
+        android:contentDescription="TODO" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:layout_marginTop="180dp"
-        android:src="#ffffff" />
+        android:src="#ffffff"
+        android:contentDescription="TODO" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,12 +105,12 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_fece" />
+                    android:src="@drawable/ic_fece"
+                    android:contentDescription="TODO" />
 
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="1dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="4dp"
@@ -128,7 +129,8 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_google" />
+                    android:src="@drawable/ic_google"
+                    android:contentDescription="TODO" />
 
             </RelativeLayout>
 

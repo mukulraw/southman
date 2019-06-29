@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-public final class Utils {
+final class Utils {
   public static int dpToPx(final Context context, final float dp) {
     // Took from http://stackoverflow.com/questions/8309354/formula-px-to-dp-dp-to-px-android
     final float scale = context.getResources().getDisplayMetrics().density;
@@ -24,7 +24,7 @@ public final class Utils {
    * @param context valid context
    * @return DisplayMetrics object
    */
-  static DisplayMetrics getDisplayMetrics(final Context context) {
+  private static DisplayMetrics getDisplayMetrics(final Context context) {
     final WindowManager
         windowManager =
         (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

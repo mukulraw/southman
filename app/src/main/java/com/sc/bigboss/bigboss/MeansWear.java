@@ -29,6 +29,7 @@ import com.sc.bigboss.bigboss.matchPOJO.matchBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,15 +41,23 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class MeansWear extends Fragment {
 
 
-    LinearLayout top, bottom;
+    private LinearLayout top;
+    private LinearLayout bottom;
 
-    ImageView pant, shirt;
+    private ImageView pant;
+    private ImageView shirt;
 
-    String catId , base , type;
+    private String catId;
+    private String base;
+    private String type;
 
-    String tid, bid, ttitle, btitle;
+    private String tid;
+    private String bid;
+    private String ttitle;
+    private String btitle;
 
-    ImageView tclick, bclick;
+    private ImageView tclick;
+    private ImageView bclick;
 
     @Nullable
     @Override
@@ -56,7 +65,7 @@ public class MeansWear extends Fragment {
 
         View view = inflater.inflate(R.layout.meanswear, container, false);
 
-        catId = getArguments().getString("Catid");
+        catId = Objects.requireNonNull(getArguments()).getString("Catid");
         type = getArguments().getString("type");
 
         top = view.findViewById(R.id.top);
@@ -67,119 +76,113 @@ public class MeansWear extends Fragment {
 
         bclick = view.findViewById(R.id.bclick);
 
-        Bean b = (Bean) getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         base = b.baseurl;
 
-        top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        top.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.topdialog);
-                dialog.setCancelable(true);
-                dialog.show();
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.topdialog);
+            dialog.setCancelable(true);
+            dialog.show();
 
 
-                final RecyclerView grid = dialog.findViewById(R.id.grid);
-                final ProgressBar progress = dialog.findViewById(R.id.progress);
-                final GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+            final RecyclerView grid = dialog.findViewById(R.id.grid);
+            final ProgressBar progress = dialog.findViewById(R.id.progress);
+            final GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
 
-                Bean b = (Bean) getContext().getApplicationContext();
+            Bean b12 = (Bean) getContext().getApplicationContext();
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(b.baseurl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b12.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                Call<matchBean> call = cr.getMatch(type , "top" , SharePreferenceUtils.getInstance().getString("location"));
+            Call<matchBean> call = cr.getMatch(type , "top" , SharePreferenceUtils.getInstance().getString("location"));
 
-                call.enqueue(new Callback<matchBean>() {
-                    @Override
-                    public void onResponse(Call<matchBean> call, Response<matchBean> response) {
-
-
-                        MeansAdapter adapter = new MeansAdapter(getContext(), response.body().getData(), tclick, shirt, dialog);
-                        grid.setLayoutManager(manager);
-                        grid.setAdapter(adapter);
-
-                        progress.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<matchBean> call, Throwable t) {
-                        progress.setVisibility(View.GONE);
-                    }
-                });
+            call.enqueue(new Callback<matchBean>() {
+                @Override
+                public void onResponse(Call<matchBean> call, Response<matchBean> response) {
 
 
-            }
+                    MeansAdapter adapter = new MeansAdapter(getContext(), response.body().getData(), tclick, shirt, dialog);
+                    grid.setLayoutManager(manager);
+                    grid.setAdapter(adapter);
+
+                    progress.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<matchBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
+
         });
 
 
-        bottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bottom.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.topdialog);
-                dialog.setCancelable(true);
-                dialog.show();
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.topdialog);
+            dialog.setCancelable(true);
+            dialog.show();
 
 
-                final RecyclerView grid = dialog.findViewById(R.id.grid);
-                final ProgressBar progress = dialog.findViewById(R.id.progress);
-                final GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+            final RecyclerView grid = dialog.findViewById(R.id.grid);
+            final ProgressBar progress = dialog.findViewById(R.id.progress);
+            final GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
 
-                progress.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.VISIBLE);
 
-                Bean b = (Bean) getContext().getApplicationContext();
+            Bean b1 = (Bean) getContext().getApplicationContext();
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(b.baseurl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b1.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-
-                Call<matchBean> call = cr.getMatch(type , "bottom" , SharePreferenceUtils.getInstance().getString("location"));
-
-                Log.d("catId", catId);
-
-                call.enqueue(new Callback<matchBean>() {
-                    @Override
-                    public void onResponse(Call<matchBean> call, Response<matchBean> response) {
-
-                        Log.d("count", String.valueOf(response.body().getData()));
-
-                        BottomAdapter adapter = new BottomAdapter(getContext(), response.body().getData(), bclick, pant, dialog);
-
-                        grid.setLayoutManager(manager);
-
-                        grid.setAdapter(adapter);
-
-                        progress.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<matchBean> call, Throwable t) {
-
-                        progress.setVisibility(View.GONE);
-
-                    }
-                });
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-            }
+            Call<matchBean> call = cr.getMatch(type , "bottom" , SharePreferenceUtils.getInstance().getString("location"));
+
+            Log.d("catId", catId);
+
+            call.enqueue(new Callback<matchBean>() {
+                @Override
+                public void onResponse(Call<matchBean> call, Response<matchBean> response) {
+
+                    Log.d("count", String.valueOf(response.body().getData()));
+
+                    BottomAdapter adapter = new BottomAdapter(getContext(), response.body().getData(), bclick, pant, dialog);
+
+                    grid.setLayoutManager(manager);
+
+                    grid.setAdapter(adapter);
+
+                    progress.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<matchBean> call, Throwable t) {
+
+                    progress.setVisibility(View.GONE);
+
+                }
+            });
+
+
         });
 
 
@@ -187,46 +190,40 @@ public class MeansWear extends Fragment {
 
         pant = view.findViewById(R.id.pant);
 
-        shirt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        shirt.setOnClickListener(v -> {
 
-                if (tid != null) {
+            if (tid != null) {
 
-                    Intent i = new Intent(getContext(), SingleProduct2.class);
-                    i.putExtra("id", tid);
-                    i.putExtra("text", ttitle);
-                    startActivity(i);
+                Intent i = new Intent(getContext(), SingleProduct2.class);
+                i.putExtra("id", tid);
+                i.putExtra("text", ttitle);
+                startActivity(i);
 
-                } else {
-                    Toast.makeText(getContext(), "Please choose the Top Wear", Toast.LENGTH_SHORT).show();
-                }
-
-
+            } else {
+                Toast.makeText(getContext(), "Please choose the Top Wear", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
 
-        pant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        pant.setOnClickListener(v -> {
 
-                //  Log.d("id" , bid);
-                // Log.d("text" , btitle);
+            //  Log.d("id" , bid);
+            // Log.d("text" , btitle);
 
-                if (bid != null) {
+            if (bid != null) {
 
-                    Intent i = new Intent(getContext(), SingleProduct2.class);
-                    i.putExtra("id", bid);
-                    i.putExtra("text", btitle);
-                    startActivity(i);
+                Intent i = new Intent(getContext(), SingleProduct2.class);
+                i.putExtra("id", bid);
+                i.putExtra("text", btitle);
+                startActivity(i);
 
-                } else {
-                    Toast.makeText(getContext(), "Please choose the Bottom Wear", Toast.LENGTH_SHORT).show();
-                }
-
-
+            } else {
+                Toast.makeText(getContext(), "Please choose the Bottom Wear", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
 
@@ -236,11 +233,12 @@ public class MeansWear extends Fragment {
 
     public class MeansAdapter extends RecyclerView.Adapter<MeansAdapter.MyViewHolder> {
 
-        Context context;
-        ImageView tclick, tview;
-        Dialog dialog;
+        final Context context;
+        final ImageView tclick;
+        final ImageView tview;
+        final Dialog dialog;
         //String tid , ttitle;
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
         // List<String> list = new ArrayList<>();
 
@@ -304,19 +302,16 @@ public class MeansWear extends Fragment {
 
                 myViewHolder.name.setText(item.getProductTitle());
 
-                myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                myViewHolder.itemView.setOnClickListener(v -> {
 
-                        tview.setImageBitmap(lBitmap[0]);
-                        tclick.setImageBitmap(lBitmap[0]);
+                    tview.setImageBitmap(lBitmap[0]);
+                    tclick.setImageBitmap(lBitmap[0]);
 
-                        tid = item.getPid();
-                        ttitle = item.getProductTitle();
+                    tid = item.getPid();
+                    ttitle = item.getProductTitle();
 
-                        dialog.dismiss();
+                    dialog.dismiss();
 
-                    }
                 });
 
 
@@ -340,12 +335,12 @@ public class MeansWear extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name;
+            final TextView name;
 
-            ImageView image;
+            final ImageView image;
 
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);
@@ -356,11 +351,12 @@ public class MeansWear extends Fragment {
 
     public class BottomAdapter extends RecyclerView.Adapter<BottomAdapter.MyViewHolder> {
 
-        Context context;
-        ImageView tclick, tview;
-        Dialog dialog;
+        final Context context;
+        final ImageView tclick;
+        final ImageView tview;
+        final Dialog dialog;
         String tid, ttitle;
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
         // List<String> list = new ArrayList<>();
 
@@ -425,19 +421,16 @@ public class MeansWear extends Fragment {
 
                 myViewHolder.name.setText(item.getProductTitle());
 
-                myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                myViewHolder.itemView.setOnClickListener(v -> {
 
-                        tview.setImageBitmap(lBitmap[0]);
-                        tclick.setImageBitmap(lBitmap[0]);
+                    tview.setImageBitmap(lBitmap[0]);
+                    tclick.setImageBitmap(lBitmap[0]);
 
-                        bid = item.getPid();
-                        btitle = item.getProductTitle();
+                    bid = item.getPid();
+                    btitle = item.getProductTitle();
 
-                        dialog.dismiss();
+                    dialog.dismiss();
 
-                    }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -459,12 +452,12 @@ public class MeansWear extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name;
+            final TextView name;
 
-            ImageView image;
+            final ImageView image;
 
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);

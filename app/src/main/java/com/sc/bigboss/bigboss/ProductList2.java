@@ -2,8 +2,6 @@ package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -19,11 +18,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberUtils;
 import android.text.Html;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -39,8 +36,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.prodList2POJO.Datum;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
@@ -69,46 +64,52 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ProductList2 extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    MAdapter adapter;
+    private MAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    String id;
+    private String id;
 
-    TextView title;
+    private TextView title;
 
-    ImageView search , home;
+    private ImageView search;
+    private ImageView home;
 
-    ConnectionDetector cd;
+    private ConnectionDetector cd;
 
-    String catName , base , client;
+    private String catName;
+    private String base;
+    private String client;
 
-    LinearLayout linear;
+    private LinearLayout linear;
 
-    Uri uri;
-    File file;
+    private Uri uri;
+    private File file;
 
-    String ph , co;
+    private String ph;
+    private String co;
 
-    TextView perks;
+    private TextView perks;
 
-    String p;
+    private String p;
 
-    String pho = "" , tex = "";
+    private String pho = "";
+    private String tex = "";
 
-    ImageView notification, perks2;
+    private ImageView notification;
+    private ImageView perks2;
 
-    String phone;
+    private String phone;
 
-    Button upload;
+    private Button upload;
 
 
     @Override
@@ -128,33 +129,21 @@ public class ProductList2 extends AppCompatActivity {
 
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-                finish();
-            }
+        notification.setOnClickListener(v -> {
+
+
+            Intent i = new Intent(ProductList2.this, Notification.class);
+            startActivity(i);
         });
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        perks2.setOnClickListener(view -> {
 
-
-                Intent i = new Intent(ProductList2.this, Notification.class);
-                startActivity(i);
-            }
-        });
-
-        perks2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(ProductList2.this , Perks.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(ProductList2.this , Perks.class);
+            startActivity(intent);
         });
 
         title = findViewById(R.id.title);
@@ -183,23 +172,17 @@ public class ProductList2 extends AppCompatActivity {
         search = findViewById(R.id.search);
         home = findViewById(R.id.home);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        search.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(ProductList2.this, Search.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(ProductList2.this, Search.class);
+            startActivity(i);
         });
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ProductList2.this, MainActivity.class);
-                startActivity(i);
-                finishAffinity();
-            }
+        home.setOnClickListener(v -> {
+            Intent i = new Intent(ProductList2.this, MainActivity.class);
+            startActivity(i);
+            finishAffinity();
         });
 
         id = getIntent().getStringExtra("id");
@@ -226,7 +209,7 @@ public class ProductList2 extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<prodList2Bean> call, Response<prodList2Bean> response) {
 
-                    if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                         adapter.setgrid(response.body().getData());
                         linear.setVisibility(View.GONE);
@@ -253,40 +236,37 @@ public class ProductList2 extends AppCompatActivity {
         }
 
 
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        upload.setOnClickListener(v -> {
 
-                pho = phone;
-                tex = "";
+            pho = phone;
+            tex = "";
 
-                final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
-                File newdir = new File(dir);
-                try {
-                    newdir.mkdirs();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
-
-
-                file = new File(fil);
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
-
-                Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivityForResult(getpic, 1);
-
+            final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+            File newdir = new File(dir);
+            try {
+                newdir.mkdirs();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
+            String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+            file = new File(fil);
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
+
+            Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(getpic, 1);
+
         });
 
         count = findViewById(R.id.count);
@@ -295,7 +275,7 @@ public class ProductList2 extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("count")) {
+                if (Objects.requireNonNull(intent.getAction()).equals("count")) {
                     count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
                 }
 
@@ -309,18 +289,18 @@ public class ProductList2 extends AppCompatActivity {
 
     }
 
-    BroadcastReceiver singleReceiver;
-    TextView count;
+    private BroadcastReceiver singleReceiver;
+    private TextView count;
 
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
 
-        public MAdapter(Context context, List<Datum> list) {
+        MAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -363,207 +343,185 @@ public class ProductList2 extends AppCompatActivity {
             myViewHolder.sku.setText(item.getSku());
 
 
-            myViewHolder.play.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.play.setOnClickListener(v -> {
 
 
-                    float pp = Float.parseFloat(p);
-                    float total = Float.parseFloat(item.getPrice());
+                float pp = Float.parseFloat(p);
+                float total = Float.parseFloat(item.getPrice());
 
 
-                    if (pp >= total)
+                if (pp >= total)
+                {
+                    float ppp = 0;
+
+                    if (total <= pp)
                     {
-                        float ppp = 0;
-
-                        if (total <= pp)
-                        {
-                            ppp = total;
-                        }
-                        else
-                        {
-                            ppp = pp;
-                        }
+                        ppp = total;
+                    }
+                    else
+                    {
+                        ppp = pp;
+                    }
 
 
-                        Dialog dialog1 = new Dialog(context);
-                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog1.setCancelable(false);
-                        dialog1.setContentView(R.layout.share_dialog2);
-                        dialog1.show();
+                    Dialog dialog1 = new Dialog(context);
+                    dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog1.setCancelable(false);
+                    dialog1.setContentView(R.layout.share_dialog2);
+                    dialog1.show();
 
 
-                        TextView device = dialog1.findViewById(R.id.device);
-                        TextView nnn = dialog1.findViewById(R.id.name);
+                    TextView device = dialog1.findViewById(R.id.device);
+                    TextView nnn = dialog1.findViewById(R.id.name);
 
-                        nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
+                    nnn.setText("Attention " + SharePreferenceUtils.getInstance().getString("name"));
 
-                        TextView code = dialog1.findViewById(R.id.code);
-                        TextView cancel = dialog1.findViewById(R.id.cancel);
-                        TextView proceed = dialog1.findViewById(R.id.proceed);
-                        ProgressBar bar = dialog1.findViewById(R.id.progress);
+                    TextView code = dialog1.findViewById(R.id.code);
+                    TextView cancel = dialog1.findViewById(R.id.cancel);
+                    TextView proceed = dialog1.findViewById(R.id.proceed);
+                    ProgressBar bar = dialog1.findViewById(R.id.progress);
 
-                        String android_id = Settings.Secure.getString(getContentResolver(),
-                                Settings.Secure.ANDROID_ID);
+                    String android_id = Settings.Secure.getString(getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
 
 
 
 
 
-                        device.setText("Device - " + android_id);
-                        code.setText("Code - " + item.getSku() + " | Max Perks - " + String.valueOf(ppp));
+                    device.setText("Device - " + android_id);
+                    code.setText("Code - " + item.getSku() + " | Max Perks - " + ppp);
 
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog1.dismiss();
-                            }
-                        });
+                    cancel.setOnClickListener(v12 -> dialog1.dismiss());
 
 
-                        float finalPpp = ppp;
-                        proceed.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                    float finalPpp = ppp;
+                    proceed.setOnClickListener(v1 -> Instacapture.INSTANCE.capture(ProductList2.this, new SimpleScreenCapturingListener() {
+                        @Override
+                        public void onCaptureComplete(Bitmap bitmap) {
+                            //Your code here..
 
-                                Instacapture.INSTANCE.capture(ProductList2.this , new SimpleScreenCapturingListener() {
-                                    @Override
-                                    public void onCaptureComplete(Bitmap bitmap) {
-                                        //Your code here..
+                            bar.setVisibility(View.VISIBLE);
 
-                                        bar.setVisibility(View.VISIBLE);
+                            Bean b = (Bean) getApplicationContext();
 
-                                        Bean b = (Bean) getApplicationContext();
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
 
-                                        Retrofit retrofit = new Retrofit.Builder()
-                                                .baseUrl(b.baseurl)
-                                                .addConverterFactory(ScalarsConverterFactory.create())
-                                                .addConverterFactory(GsonConverterFactory.create())
-                                                .build();
-
-                                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                        Call<scratchCardBean> call2 = cr.buyPerks(SharePreferenceUtils.getInstance().getString("userid") , client , String.valueOf(finalPpp) , "perks" , item.getSku() , item.getPrice());
+                            Call<scratchCardBean> call2 = cr.buyPerks(SharePreferenceUtils.getInstance().getString("userid"), client, String.valueOf(finalPpp), "perks", item.getSku(), item.getPrice());
 
-                                        call2.enqueue(new Callback<scratchCardBean>() {
-                                            @Override
-                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+                            call2.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
 
-                                                if (response.body().getStatus().equals("1"))
-                                                {
+                                    if (response.body().getStatus().equals("1")) {
 
-                                                    Toast.makeText(ProductList2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ProductList2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                    loadPerks();
+                                        loadPerks();
 
 /*
-                                                    Intent sendIntent = new Intent("android.intent.action.MAIN");
-                                                    //File f=new File("path to the file");
-                                                    //Uri uri = Uri.fromFile(file);
-                                                    //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
-                                                    sendIntent.setType("image");
-                                                    sendIntent.setAction(Intent.ACTION_SEND);
-                                                    sendIntent.setPackage("com.whatsapp");
-                                                    sendIntent.putExtra(Intent.EXTRA_STREAM,getImageUri(context , bitmap));
-                                                    sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
-                                                    //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
-                                                    startActivity(sendIntent);
+                                                Intent sendIntent = new Intent("android.intent.action.MAIN");
+                                                //File f=new File("path to the file");
+                                                //Uri uri = Uri.fromFile(file);
+                                                //sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+                                                sendIntent.setType("image");
+                                                sendIntent.setAction(Intent.ACTION_SEND);
+                                                sendIntent.setPackage("com.whatsapp");
+                                                sendIntent.putExtra(Intent.EXTRA_STREAM,getImageUri(context , bitmap));
+                                                sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
+                                                //sendIntent.putExtra(Intent.EXTRA_TEXT,"Product Code - " + tex);
+                                                startActivity(sendIntent);
 */
 
 
 
 /*
 
-                                                    Intent sendIntent = new Intent("android.intent.action.SEND");
-                                                    //File f=new File("path to the file");
-                                                    //Uri uri = Uri.fromFile(file);
-                                                    sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
-                                                    sendIntent.setType("image");
-                                                    sendIntent.putExtra(Intent.EXTRA_STREAM , getImageUri(context , bitmap));
-                                                    sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
-                                                    sendIntent.putExtra(Intent.EXTRA_TEXT,"");
-                                                    startActivity(sendIntent);*/
+                                                Intent sendIntent = new Intent("android.intent.action.SEND");
+                                                //File f=new File("path to the file");
+                                                //Uri uri = Uri.fromFile(file);
+                                                sendIntent.setComponent(new ComponentName("com.whatsapp","com.whatsapp.ContactPicker"));
+                                                sendIntent.setType("image");
+                                                sendIntent.putExtra(Intent.EXTRA_STREAM , getImageUri(context , bitmap));
+                                                sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators(item.getPhoneNumber())+"@s.whatsapp.net");
+                                                sendIntent.putExtra(Intent.EXTRA_TEXT,"");
+                                                startActivity(sendIntent);*/
 
 
-
-                                                    dialog1.dismiss();
-
-                                                }
-
-                                                bar.setVisibility(View.GONE);
-
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                                bar.setVisibility(View.GONE);
-                                            }
-                                        });
-
-
-
+                                        dialog1.dismiss();
 
                                     }
-                                });
 
-                            }
-                        });
+                                    bar.setVisibility(View.GONE);
 
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "Sorry, you don't have enough perks to buy this voucher", Toast.LENGTH_SHORT).show();
-                    }
+                                }
 
-
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    bar.setVisibility(View.GONE);
+                                }
+                            });
 
 
+                        }
+                    }));
 
                 }
+                else
+                {
+                    Toast.makeText(context, "Sorry, you don't have enough perks to buy this voucher", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
             });
 
 
             ph = item.getPhoneNumber();
             co = item.getSku();
 
-            myViewHolder.upload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.upload.setOnClickListener(v -> {
 
 
-                    pho = item.getPhoneNumber();
-                    tex = item.getSku();
+                pho = item.getPhoneNumber();
+                tex = item.getSku();
 
-                    final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
-                    File newdir = new File(dir);
-                    try {
-                        newdir.mkdirs();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-
-                    String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
-
-
-                    file = new File(fil);
-                    try {
-                        file.createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
-
-                    Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                    getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivityForResult(getpic, 1);
-
-
-
+                final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
+                File newdir = new File(dir);
+                try {
+                    newdir.mkdirs();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+
+                String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
+
+
+                file = new File(fil);
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                uri = FileProvider.getUriForFile(ProductList2.this, BuildConfig.APPLICATION_ID + ".provider", file);
+
+                Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivityForResult(getpic, 1);
+
+
+
             });
 
 
@@ -571,7 +529,7 @@ public class ProductList2 extends AppCompatActivity {
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -585,15 +543,17 @@ public class ProductList2 extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView imageView;
+            final ImageView imageView;
 
-            TextView textView , sku;
+            final TextView textView;
+            final TextView sku;
 
-            Button play , upload;
+            final Button play;
+            final Button upload;
 
             // TextView name;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
                 textView = itemView.findViewById(R.id.text);
                 sku = itemView.findViewById(R.id.sku);
@@ -631,7 +591,7 @@ public class ProductList2 extends AppCompatActivity {
 
             try {
 
-                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
+                RequestBody reqFile1 = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(file2));
                 body = MultipartBody.Part.createFormData("bill", file2.getName(), reqFile1);
 
 
@@ -660,7 +620,7 @@ public class ProductList2 extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
 
-                    if (response.body().getStatus().equals("1"))
+                    if (Objects.requireNonNull(response.body()).getStatus().equals("1"))
                     {
                         Toast.makeText(ProductList2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -711,7 +671,7 @@ public class ProductList2 extends AppCompatActivity {
         return Uri.parse(path);
     }
 
-    void loadPerks()
+    private void loadPerks()
     {
 
         bar.setVisibility(View.VISIBLE);
@@ -739,7 +699,7 @@ public class ProductList2 extends AppCompatActivity {
             @Override
             public void onResponse(Call<getPerksBean> call, Response<getPerksBean> response) {
 
-                if (response.body().getStatus().equals("1")) {
+                if (Objects.requireNonNull(response.body()).getStatus().equals("1")) {
                     perks.setText("Perks remaining : " + response.body().getData().get(0).getPerks());
                     p = response.body().getData().get(0).getPerks();
 

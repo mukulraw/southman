@@ -32,17 +32,18 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Shopby extends Fragment {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    ShopByAdapter adapter;
+    private ShopByAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    String catid , location;
+    private String catid;
+    String location;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
     @Nullable
     @Override
@@ -51,7 +52,7 @@ public class Shopby extends Fragment {
         View view = inflater.inflate(R.layout.till, container, false);
 
 
-        catid = getArguments().getString("catid");
+        catid = Objects.requireNonNull(getArguments()).getString("catid");
 
 
 
@@ -75,11 +76,11 @@ public class Shopby extends Fragment {
 
     public class ShopByAdapter extends RecyclerView.Adapter<ShopByAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
-        public ShopByAdapter(Context context, List<Datum> list) {
+        ShopByAdapter(Context context, List<Datum> list) {
 
             this.list = list;
             this.context = context;
@@ -102,21 +103,18 @@ public class Shopby extends Fragment {
             final Datum item = list.get(i);
             myViewHolder.textView.setText(item.getSubcatName());
 
-         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+         myViewHolder.itemView.setOnClickListener(v -> {
 
 
-                    Intent i = new Intent(getContext(), MeansCategory.class);
-                    i.putExtra("id" , item.getId());
-                    context.startActivity(i);
-                }
-            });
+             Intent i1 = new Intent(getContext(), MeansCategory.class);
+             i1.putExtra("id" , item.getId());
+             context.startActivity(i1);
+         });
 
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
             this.list = list;
         }
@@ -128,11 +126,11 @@ public class Shopby extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView textView;
+            final TextView textView;
 
-            ImageView imageView;
+            final ImageView imageView;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
 
@@ -151,7 +149,7 @@ public class Shopby extends Fragment {
 
         bar.setVisibility(View.VISIBLE);
 
-        Bean b = (Bean) getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)
@@ -167,7 +165,7 @@ public class Shopby extends Fragment {
             @Override
             public void onResponse(Call<TillBean> call, Response<TillBean> response) {
 
-                if (Objects.equals(response.body().getStatus(), "1")) {
+                if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                     adapter.setgrid(response.body().getData());
 

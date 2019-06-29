@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 public class Image3 extends Fragment {
 
-    ImageView imageView;
+    private ImageView imageView;
 
     @Nullable
     @Override

@@ -38,21 +38,21 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Genral extends Fragment {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    GenralAdapter adapter;
+    private GenralAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    String catid;
+    private String catid;
 
-    LinearLayout linearLayout;
+    private LinearLayout linearLayout;
 
-    String base;
+    private String base;
 
 
     @Nullable
@@ -65,7 +65,7 @@ public class Genral extends Fragment {
 
         base = b.baseurl;
 
-        catid = getArguments().getString("catid");
+        catid = Objects.requireNonNull(getArguments()).getString("catid");
 
         list = new ArrayList<>();
 
@@ -90,11 +90,11 @@ public class Genral extends Fragment {
 
     public class GenralAdapter extends RecyclerView.Adapter<GenralAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
-        public GenralAdapter(Context context, List<Datum> list) {
+        GenralAdapter(Context context, List<Datum> list) {
 
             this.context = context;
 
@@ -135,45 +135,39 @@ public class Genral extends Fragment {
 
             loader.displayImage(base + "southman/admin2/upload/videos/" + item.getThumbnail(), myViewHolder.imageView, options);
 
-            myViewHolder.play.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.play.setOnClickListener(v -> {
 
-                    Intent intent = new Intent(context, Videoplayer.class);
-                    intent.putExtra("id", item.getId());
-                    intent.putExtra("ph", item.getPhoneNo());
-                    intent.putExtra("is", item.getWhatsOrderNow());
-                    intent.putExtra("videourl", item.getVideoUrl());
-                    intent.putExtra("des", item.getDescription());
-                    intent.putExtra("code", item.getProductCode());
-                    startActivity(intent);
+                Intent intent = new Intent(context, Videoplayer.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("ph", item.getPhoneNo());
+                intent.putExtra("is", item.getWhatsOrderNow());
+                intent.putExtra("videourl", item.getVideoUrl());
+                intent.putExtra("des", item.getDescription());
+                intent.putExtra("code", item.getProductCode());
+                startActivity(intent);
 
 
-                }
             });
 
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.itemView.setOnClickListener(v -> {
 
-                    Log.d("iidd" , item.getVideoUrl());
+                Log.d("iidd" , item.getVideoUrl());
 
-                    Intent intent = new Intent(context, Videoplayer.class);
-                    intent.putExtra("id", item.getId());
-                    intent.putExtra("ph", item.getPhoneNo());
-                    intent.putExtra("is", item.getWhatsOrderNow());
-                    intent.putExtra("videourl", item.getVideoUrl());
-                    intent.putExtra("des", item.getDescription());
-                    intent.putExtra("code", item.getProductCode());
-                    startActivity(intent);
+                Intent intent = new Intent(context, Videoplayer.class);
+                intent.putExtra("id", item.getId());
+                intent.putExtra("ph", item.getPhoneNo());
+                intent.putExtra("is", item.getWhatsOrderNow());
+                intent.putExtra("videourl", item.getVideoUrl());
+                intent.putExtra("des", item.getDescription());
+                intent.putExtra("code", item.getProductCode());
+                startActivity(intent);
 
-                }
             });
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -187,13 +181,13 @@ public class Genral extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView imageView;
+            final ImageView imageView;
 
-            TextView textView;
+            final TextView textView;
 
-            Button play;
+            final Button play;
 
-            public MyViewHolder(@NonNull final View itemView) {
+            MyViewHolder(@NonNull final View itemView) {
                 super(itemView);
 
                 textView = itemView.findViewById(R.id.text);
@@ -230,7 +224,7 @@ public class Genral extends Fragment {
 
                 try {
 
-                    if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                         if (response.body().getData().size()>0){
 

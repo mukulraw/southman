@@ -1,7 +1,6 @@
 package com.sc.bigboss.bigboss;
 
 import android.app.Dialog;
-import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -41,10 +40,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class Location extends AppCompatActivity {
 
 
-    Spinner spinner;
+    private Spinner spinner;
 
-    List<String> listt = new ArrayList<>();
-    List<String> lid = new ArrayList<>();
+    private List<String> listt = new ArrayList<>();
+    private List<String> lid = new ArrayList<>();
 
 
     String li;
@@ -54,18 +53,18 @@ public class Location extends AppCompatActivity {
 
     String sel = "";
 
-    ProgressBar progress;
+    private ProgressBar progress;
 
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
-    GridLayoutManager manager;
-    locAdapter adapter;
+    private RecyclerView grid;
+    private GridLayoutManager manager;
+    private locAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    ConnectionDetector cd;
+    private ConnectionDetector cd;
 
 
     @Override
@@ -82,15 +81,9 @@ public class Location extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
         grid = findViewById(R.id.grid);
@@ -137,7 +130,7 @@ public class Location extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                        if (Objects.equals(response.body().getStatus(), "1")) {
+                        if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                             adapter.setgrid(response.body().getData());
 
@@ -175,84 +168,81 @@ public class Location extends AppCompatActivity {
                 Button submit = dialog.findViewById(R.id.submit);
 
 
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                submit.setOnClickListener(v -> {
 
-                        String n = name.getText().toString();
-                        String p = phone.getText().toString();
+                    String n = name.getText().toString();
+                    String p = phone.getText().toString();
 
-                        if (n.length() > 0)
+                    if (n.length() > 0)
+                    {
+
+                        if (p.length() == 10)
                         {
+                            Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token") , p);
 
-                            if (p.length() == 10)
-                            {
-                                Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token") , p);
+                            call1.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
-                                call1.enqueue(new Callback<scratchCardBean>() {
-                                    @Override
-                                    public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+                                    dialog.dismiss();
 
-                                        dialog.dismiss();
-
-                                        SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
-                                        SharePreferenceUtils.getInstance().saveString("name" , n);
-                                        SharePreferenceUtils.getInstance().saveString("phone" , p);
+                                    SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
+                                    SharePreferenceUtils.getInstance().saveString("name" , n);
+                                    SharePreferenceUtils.getInstance().saveString("phone" , p);
 
 
-                                        Call<locationBean> call = cr.getLocations();
+                                    Call<locationBean> call = cr.getLocations();
 
-                                        call.enqueue(new Callback<locationBean>() {
-                                            @Override
-                                            public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+                                    call.enqueue(new Callback<locationBean>() {
+                                        @Override
+                                        public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                                                if (Objects.equals(response.body().getStatus(), "1")) {
+                                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                                                    adapter.setgrid(response.body().getData());
+                                                adapter.setgrid(response.body().getData());
 
-                                                } else {
+                                            } else {
 
-                                                    Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                }
-                                                progress.setVisibility(View.GONE);
-
-
-
+                                                Toast.makeText(Location.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
                                             }
-
-                                            @Override
-                                            public void onFailure(Call<locationBean> call, Throwable t) {
-                                                progress.setVisibility(View.GONE);
-                                            }
-                                        });
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
-
-
-
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                Toast.makeText(Location.this, "Invalid phone", Toast.LENGTH_SHORT).show();
-                            }
+                                            progress.setVisibility(View.GONE);
 
 
 
 
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<locationBean> call, Throwable t) {
+                                            progress.setVisibility(View.GONE);
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+
+
+                                }
+                            });
                         }
                         else
                         {
-                            Toast.makeText(Location.this, "Invalid name", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Location.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                         }
 
+
+
+
                     }
+                    else
+                    {
+                        Toast.makeText(Location.this, "Invalid name", Toast.LENGTH_SHORT).show();
+                    }
+
                 });
 
 
@@ -318,11 +308,11 @@ public class Location extends AppCompatActivity {
 
     public class locAdapter extends RecyclerView.Adapter<locAdapter.My> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
-        public locAdapter(Context context, List<Datum> list) {
+        locAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -346,27 +336,24 @@ public class Location extends AppCompatActivity {
             my.lo.setText(item.getName());
 
 
-            my.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            my.itemView.setOnClickListener(v -> {
 
 
-                    SharePreferenceUtils.getInstance().saveString("location", list.get(i).getId());
-                    SharePreferenceUtils.getInstance().saveString("lname", list.get(i).getName());
-                    Intent ii = new Intent(Location.this, MainActivity.class);
-                    //ii.putExtra("lname", list.get(i).getName());
-                    startActivity(ii);
-                    finish();
+                SharePreferenceUtils.getInstance().saveString("location", list.get(i).getId());
+                SharePreferenceUtils.getInstance().saveString("lname", list.get(i).getName());
+                Intent ii = new Intent(Location.this, MainActivity.class);
+                //ii.putExtra("lname", list.get(i).getName());
+                startActivity(ii);
+                finish();
 
 
-                }
             });
 
 
         }
 
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
 
             this.list = list;
@@ -380,10 +367,10 @@ public class Location extends AppCompatActivity {
 
         public class My extends RecyclerView.ViewHolder {
 
-            TextView lo;
-            RadioButton radioButton;
+            final TextView lo;
+            final RadioButton radioButton;
 
-            public My(@NonNull View itemView) {
+            My(@NonNull View itemView) {
                 super(itemView);
 
                 lo = itemView.findViewById(R.id.lo);

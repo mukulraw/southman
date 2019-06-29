@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -123,7 +122,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -185,7 +185,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -239,7 +240,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -293,7 +295,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -348,7 +351,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -403,7 +407,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="visible"
-                            android:weightSum="2">
+                            android:weightSum="2"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -511,7 +516,8 @@
                         android:layout_height="170dp"
                         android:scaleType="centerCrop"
                         android:id="@+id/image"
-                        android:src="@drawable/man" />
+                        android:src="@drawable/man"
+                        android:contentDescription="TODO" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -564,7 +570,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@drawable/profil" />
+                                    android:src="@drawable/profil"
+                                    android:contentDescription="TODO" />
 
                                 <EditText
                                     android:id="@+id/email"
@@ -574,7 +581,8 @@
                                     android:inputType="textPersonName"
                                     android:maxLength="15"
                                     android:paddingStart="8dp"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:importantForAutofill="no" />
 
 
                             </LinearLayout>
@@ -600,7 +608,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:src="@drawable/phone" />
+                                    android:src="@drawable/phone"
+                                    android:contentDescription="TODO" />
 
                                 <EditText
                                     android:id="@+id/phone"
@@ -610,7 +619,8 @@
                                     android:inputType="phone"
                                     android:maxLength="10"
                                     android:paddingStart="8dp"
-                                    android:textSize="12sp" />
+                                    android:textSize="12sp"
+                                    android:importantForAutofill="no" />
 
                             </LinearLayout>
 
@@ -688,7 +698,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
@@ -702,14 +712,16 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/v" />
+                    android:src="@drawable/v"
+                    android:contentDescription="TODO" />
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
                     android:padding="5dp"
-                    android:src="@drawable/c" />
+                    android:src="@drawable/c"
+                    android:contentDescription="TODO" />
 
 
             </LinearLayout>

@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,11 +32,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Videos extends Fragment {
 
-    TabLayout tab;
+    private TabLayout tab;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    VideoAddapter adapter;
+    private VideoAddapter adapter;
 
 
     @Nullable
@@ -47,7 +48,7 @@ public class Videos extends Fragment {
         pager = view.findViewById(R.id.pager);
         tab = view.findViewById(R.id.tab);
 
-        Bean b = (Bean)getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)
@@ -63,7 +64,7 @@ public class Videos extends Fragment {
             public void onResponse(Call<TabBean> call, Response<TabBean> response) {
 
 
-                for (int i = 0; i < response.body().getData().size(); i++) {
+                for (int i = 0; i < Objects.requireNonNull(response.body()).getData().size(); i++) {
 
                     //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
                     //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
@@ -77,7 +78,7 @@ public class Videos extends Fragment {
 
                 for (int i = 0; i < response.body().getData().size(); i++) {
 
-                    tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName()));
+                    Objects.requireNonNull(tab.getTabAt(i)).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName()));
 
                 }
 
@@ -100,7 +101,7 @@ public class Videos extends Fragment {
         return view;
     }
 
-    View getCustomView(LayoutInflater inflater , String url , String name)
+    private View getCustomView(LayoutInflater inflater, String url, String name)
     {
         View view = inflater.inflate(R.layout.tabs_layout , null);
 
@@ -116,11 +117,11 @@ public class Videos extends Fragment {
         return view;
     }
 
-    public class VideoAddapter extends FragmentStatePagerAdapter {
+    class VideoAddapter extends FragmentStatePagerAdapter {
 
-        List<Datum>list = new ArrayList<>();
+        List<Datum>list;
 
-        public VideoAddapter(FragmentManager fm, List<Datum>list) {
+        VideoAddapter(FragmentManager fm, List<Datum> list) {
             super(fm);
 
             this.list = list;

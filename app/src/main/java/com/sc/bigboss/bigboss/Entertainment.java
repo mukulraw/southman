@@ -20,15 +20,15 @@ import java.util.List;
 
 public class Entertainment extends Fragment {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    EntainmentAdapeter adapter;
+    private EntainmentAdapeter adapter;
 
     List<String>list;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
 
     @Nullable
@@ -58,11 +58,11 @@ public class Entertainment extends Fragment {
 
     public class EntainmentAdapeter extends RecyclerView.Adapter<EntainmentAdapeter.MyViewHolder>{
 
-        Context context;
+        final Context context;
 
         //List<String>list;
 
-        public EntainmentAdapeter(Context context){
+        EntainmentAdapeter(Context context){
 
             this.context = context;
             //this.list = list;
@@ -110,13 +110,13 @@ public class Entertainment extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
 
-            TextView text;
+            final TextView text;
 
-            ImageView image;
+            final ImageView image;
 
-            Button play;
+            final Button play;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
 
@@ -127,14 +127,11 @@ public class Entertainment extends Fragment {
                 text = itemView.findViewById(R.id.text);
 
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                itemView.setOnClickListener(v -> {
 
 
-                        Intent i = new Intent(context , Videoplayer.class);
-                        context.startActivity(i);
-                    }
+                    Intent i = new Intent(context , Videoplayer.class);
+                    context.startActivity(i);
                 });
             }
         }

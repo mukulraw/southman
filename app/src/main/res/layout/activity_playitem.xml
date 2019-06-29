@@ -79,7 +79,8 @@
                             android:layout_height="120dp"
                             android:layout_gravity="center_vertical"
                             android:background="#ecebeb"
-                            android:padding="2dp" />
+                            android:padding="2dp"
+                            android:contentDescription="TODO" />
 
 
 
@@ -112,7 +113,8 @@
                             android:layout_marginEnd="2dp"
                             android:orientation="horizontal"
                             android:padding="1dp"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -169,7 +171,8 @@
                             android:orientation="horizontal"
                             android:padding="1dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -222,7 +225,8 @@
                             android:orientation="horizontal"
                             android:padding="1dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -275,7 +279,8 @@
                             android:orientation="horizontal"
                             android:padding="1dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -328,7 +333,8 @@
                             android:layout_marginEnd="2dp"
                             android:orientation="horizontal"
                             android:padding="1dp"
-                            android:weightSum="3">
+                            android:weightSum="3"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -356,7 +362,8 @@
                             android:orientation="horizontal"
                             android:padding="2dp"
                             android:visibility="gone"
-                            android:weightSum="2.5">
+                            android:weightSum="2.5"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -440,7 +447,8 @@
                 app:cardUseCompatPadding="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView5">
+                app:layout_constraintTop_toBottomOf="@+id/cardView5"
+                tools:targetApi="lollipop">
 
 
                 <LinearLayout
@@ -453,7 +461,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:weightSum="3"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -512,7 +521,8 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/timer" />
+                                android:src="@drawable/timer"
+                                android:contentDescription="TODO" />
 
 
                             <LinearLayout
@@ -567,9 +577,11 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:editable="false"
+                            android:hint=""
                             android:gravity="start"
                             android:textColor="#2dc12d"
-                            android:typeface="monospace" />
+                            android:typeface="monospace"
+                            android:importantForAutofill="no" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -583,7 +595,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:orientation="horizontal"
-                            android:weightSum="6">
+                            android:weightSum="6"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -718,7 +731,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:orientation="horizontal"
-                            android:weightSum="6">
+                            android:weightSum="6"
+                            android:baselineAligned="false">
 
 
                             <LinearLayout
@@ -877,7 +891,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/relativeLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sign"
@@ -24,7 +23,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="100dp"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:baselineAligned="false">
 
 
                 <LinearLayout
@@ -150,12 +150,12 @@
                 android:textColor="#000" />
 
             <EditText
-                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:hint="tap enter to username" />
+                android:hint="tap enter to username"
+                android:importantForAutofill="no" />
 
 
             <TextView
@@ -177,7 +177,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:inputType="textEmailAddress"
-                android:hint="tap enter to email" />
+                android:hint="tap enter to email"
+                android:importantForAutofill="no" />
 
 
             <TextView
@@ -199,7 +200,8 @@
                 android:inputType="textPassword"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:hint="tap enter to password" />
+                android:hint="tap enter to password"
+                android:importantForAutofill="no" />
 
 
             <TextView
@@ -221,7 +223,8 @@
                 android:layout_marginStart="10dp"
                 android:inputType="phone"
                 android:layout_marginEnd="10dp"
-                android:hint="tap enter to age" />
+                android:hint="tap enter to age"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -242,7 +245,8 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:inputType="phone"
-                android:hint="tap enter to mobile" />
+                android:hint="tap enter to mobile"
+                android:importantForAutofill="no" />
 
 
             <Button
@@ -303,7 +307,8 @@
             android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:id="@+id/back"
-            android:src="@drawable/arr" />
+            android:src="@drawable/arr"
+            android:contentDescription="TODO" />
 
 
         <LinearLayout

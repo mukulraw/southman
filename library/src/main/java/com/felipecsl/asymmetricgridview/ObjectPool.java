@@ -1,5 +1,6 @@
 package com.felipecsl.asymmetricgridview;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -7,11 +8,11 @@ import android.support.annotation.NonNull;
 import java.util.Stack;
 
 class ObjectPool<T> implements Parcelable {
-  Stack<T> stack = new Stack<>();
-  PoolObjectFactory<T> factory;
-  PoolStats stats;
+  private final Stack<T> stack = new Stack<>();
+  private PoolObjectFactory<T> factory;
+  private PoolStats stats;
 
-  public ObjectPool(Parcel in) {
+  private ObjectPool(Parcel in) {
   }
 
   ObjectPool() {
@@ -28,6 +29,7 @@ class ObjectPool<T> implements Parcelable {
     int misses = 0;
     int created = 0;
 
+    @SuppressLint("DefaultLocale")
     String getStats(String name) {
       return String.format("%s: size %d, hits %d, misses %d, created %d", name, size, hits,
                            misses, created);

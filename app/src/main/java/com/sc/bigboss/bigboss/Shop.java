@@ -1,6 +1,5 @@
 package com.sc.bigboss.bigboss;
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,19 +11,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.ShoptabPOJO.Datum;
 import com.sc.bigboss.bigboss.ShoptabPOJO.ShopBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,11 +32,11 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Shop extends Fragment {
 
-    TabLayout tab;
+    private TabLayout tab;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    ShopAdapter adapter;
+    private ShopAdapter adapter;
 
     @Nullable
     @Override
@@ -51,7 +48,7 @@ public class Shop extends Fragment {
 
         tab = view.findViewById(R.id.tab);
 
-        Bean b = (Bean)getContext().getApplicationContext();
+        Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(b.baseurl)
@@ -73,7 +70,7 @@ public class Shop extends Fragment {
                 try {
 
 
-                    for (int i = 0; i < response.body().getData().size(); i++) {
+                    for (int i = 0; i < Objects.requireNonNull(response.body()).getData().size(); i++) {
 
                         tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName())));
 
@@ -85,7 +82,7 @@ public class Shop extends Fragment {
 
                     for (int i = 0; i < response.body().getData().size(); i++) {
 
-                        tab.getTabAt(i).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
+                        Objects.requireNonNull(tab.getTabAt(i)).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
 
                     }
 
@@ -112,11 +109,11 @@ public class Shop extends Fragment {
     }
 
 
-    public class ShopAdapter extends FragmentStatePagerAdapter {
+    class ShopAdapter extends FragmentStatePagerAdapter {
 
-        List<Datum>list = new ArrayList<>();
+        List<Datum>list;
 
-        public ShopAdapter(FragmentManager fm, List<Datum>list) {
+        ShopAdapter(FragmentManager fm, List<Datum> list) {
             super(fm);
 
             this.list = list;
@@ -176,7 +173,7 @@ public class Shop extends Fragment {
     }
 
 
-    View getCustomView(LayoutInflater inflater , String url , String name)
+    private View getCustomView(LayoutInflater inflater, String url, String name)
     {
         View view = inflater.inflate(R.layout.tabs_layout , null);
 

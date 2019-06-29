@@ -72,7 +72,8 @@
                         android:layout_marginBottom="10dp"
                         android:id="@+id/image"
                         android:padding="10dp"
-                        android:src="@drawable/ic_tshirt" />
+                        android:src="@drawable/ic_tshirt"
+                        android:contentDescription="TODO" />
 
 
                     <RelativeLayout
@@ -85,7 +86,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="10dp"
-                            android:layout_weight="3"
                             android:orientation="vertical">
 
 
@@ -105,7 +105,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -157,7 +158,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -209,7 +211,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -261,7 +264,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -313,7 +317,8 @@
                                 android:layout_marginEnd="10dp"
                                 android:orientation="horizontal"
                                 android:padding="2dp"
-                                android:weightSum="2">
+                                android:weightSum="2"
+                                android:baselineAligned="false">
 
 
                                 <LinearLayout
@@ -377,7 +382,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_mobile" />
+                                android:src="@drawable/ic_mobile"
+                                android:contentDescription="TODO" />
 
 
                             <Button

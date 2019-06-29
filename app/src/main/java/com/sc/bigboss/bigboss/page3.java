@@ -13,7 +13,7 @@ import com.jsibbold.zoomage.ZoomageView;
 public class page3 extends Fragment {
 
 
-    ZoomageView imageView;
+    private ZoomageView imageView;
 
     @Nullable
     @Override

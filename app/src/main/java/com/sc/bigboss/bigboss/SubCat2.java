@@ -22,8 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.subCat3POJO.Datum;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 
@@ -40,31 +38,35 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SubCat2 extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    MAdapter adapter;
+    private MAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    String id;
+    private String id;
 
-    TextView title;
+    private TextView title;
 
-    ImageView search , home;
+    private ImageView search;
+    private ImageView home;
 
-    ConnectionDetector cd;
+    private ConnectionDetector cd;
 
-    String catName , base , client;
+    private String catName;
+    private String base;
+    private String client;
 
-    LinearLayout linear;
+    private LinearLayout linear;
 
-    ImageView notification, perks2;
+    private ImageView notification;
+    private ImageView perks2;
 
 
 
@@ -79,15 +81,9 @@ public class SubCat2 extends AppCompatActivity {
         linear = findViewById(R.id.linear);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         title = findViewById(R.id.title);
 
@@ -95,23 +91,17 @@ public class SubCat2 extends AppCompatActivity {
         perks2 = findViewById(R.id.perks2);
 
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notification.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(SubCat2.this, Notification.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(SubCat2.this, Notification.class);
+            startActivity(i);
         });
 
-        perks2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        perks2.setOnClickListener(view -> {
 
-                Intent intent = new Intent(SubCat2.this , Perks.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(SubCat2.this , Perks.class);
+            startActivity(intent);
         });
 
 
@@ -147,23 +137,17 @@ public class SubCat2 extends AppCompatActivity {
         search = findViewById(R.id.search);
         home = findViewById(R.id.home);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        search.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(SubCat2.this, Search.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(SubCat2.this, Search.class);
+            startActivity(i);
         });
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SubCat2.this, MainActivity.class);
-                startActivity(i);
-                finishAffinity();
-            }
+        home.setOnClickListener(v -> {
+            Intent i = new Intent(SubCat2.this, MainActivity.class);
+            startActivity(i);
+            finishAffinity();
         });
 
         id = getIntent().getStringExtra("id");
@@ -190,7 +174,7 @@ public class SubCat2 extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<subCat3Bean> call, Response<subCat3Bean> response) {
 
-                    if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                         adapter.setgrid(response.body().getData());
                         linear.setVisibility(View.GONE);
@@ -222,7 +206,7 @@ public class SubCat2 extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("count")) {
+                if (Objects.requireNonNull(intent.getAction()).equals("count")) {
                     count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
                 }
 
@@ -235,18 +219,18 @@ public class SubCat2 extends AppCompatActivity {
 
     }
 
-    BroadcastReceiver singleReceiver;
-    TextView count;
+    private BroadcastReceiver singleReceiver;
+    private TextView count;
 
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
 
-        public MAdapter(Context context, List<Datum> list) {
+        MAdapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -254,7 +238,7 @@ public class SubCat2 extends AppCompatActivity {
 
         }
 
-        public String getSpace(int position)
+        String getSpace(int position)
         {
             return list.get(position).getSpace();
         }
@@ -290,41 +274,38 @@ public class SubCat2 extends AppCompatActivity {
 
 
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.itemView.setOnClickListener(v -> {
 
 
-                    if (catName.equals("redeem store"))
-                    {
-                        Intent i = new Intent(context, ProductList3.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        i.putExtra("phone", item.getPhone());
-                        i.putExtra("client", client);
-                        context.startActivity(i);
-                    }
-                    else
-                    {
-                        Intent i = new Intent(context, ProductList2.class);
-                        i.putExtra("id", item.getId());
-                        i.putExtra("text", item.getSubcatName());
-                        i.putExtra("catname", catName);
-                        i.putExtra("phone", item.getPhone());
-                        i.putExtra("client", client);
-                        context.startActivity(i);
-                    }
-
-
-
-
+                if (catName.equals("redeem store"))
+                {
+                    Intent i1 = new Intent(context, ProductList3.class);
+                    i1.putExtra("id", item.getId());
+                    i1.putExtra("text", item.getSubcatName());
+                    i1.putExtra("catname", catName);
+                    i1.putExtra("phone", item.getPhone());
+                    i1.putExtra("client", client);
+                    context.startActivity(i1);
                 }
+                else
+                {
+                    Intent i1 = new Intent(context, ProductList2.class);
+                    i1.putExtra("id", item.getId());
+                    i1.putExtra("text", item.getSubcatName());
+                    i1.putExtra("catname", catName);
+                    i1.putExtra("phone", item.getPhone());
+                    i1.putExtra("client", client);
+                    context.startActivity(i1);
+                }
+
+
+
+
             });
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -338,11 +319,11 @@ public class SubCat2 extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView imageView;
+            final ImageView imageView;
 
             // TextView name;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 imageView = itemView.findViewById(R.id.tshirt);

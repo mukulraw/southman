@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
@@ -36,8 +35,6 @@ import com.appyvet.materialrangebar.RangeBar;
 import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ProductInfo;
 import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,42 +52,47 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class CollerTshirt extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    CollerAdapter adapeter;
+    private CollerAdapter adapeter;
 
 
-    List<ProductInfo> list;
+    private List<ProductInfo> list;
 
-    List<ProductInfo> filteredList;
+    private List<ProductInfo> filteredList;
 
-    List<ProductInfo> sortedList;
+    private List<ProductInfo> sortedList;
 
-    String id;
+    private String id;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    TextView title;
+    private TextView title;
 
-    TextView sort, filter;
+    private TextView sort;
+    private TextView filter;
 
     boolean isPrice = false, isSize = false;
 
-    boolean isFilter = false;
+    private boolean isFilter = false;
 
-    ImageView search, home;
+    private ImageView search;
+    private ImageView home;
 
-    ConnectionDetector cd;
+    private ConnectionDetector cd;
 
-    String catName , base;
+    private String catName;
+    private String base;
 
-    LinearLayout linear , bottom;
+    private LinearLayout linear;
+    private LinearLayout bottom;
 
-    ImageView notification, perks2;
+    private ImageView notification;
+    private ImageView perks2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,35 +118,23 @@ public class CollerTshirt extends AppCompatActivity {
         perks2 = findViewById(R.id.perks2);
 
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notification.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(CollerTshirt.this, Notification.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(CollerTshirt.this, Notification.class);
+            startActivity(i);
         });
 
-        perks2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        perks2.setOnClickListener(view -> {
 
-                Intent intent = new Intent(CollerTshirt.this , Perks.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(CollerTshirt.this , Perks.class);
+            startActivity(intent);
         });
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
         list = new ArrayList<>();
@@ -176,23 +166,17 @@ public class CollerTshirt extends AppCompatActivity {
         }
 
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        search.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(CollerTshirt.this, Search.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(CollerTshirt.this, Search.class);
+            startActivity(i);
         });
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(CollerTshirt.this, MainActivity.class);
-                startActivity(i);
-                finishAffinity();
-            }
+        home.setOnClickListener(v -> {
+            Intent i = new Intent(CollerTshirt.this, MainActivity.class);
+            startActivity(i);
+            finishAffinity();
         });
 
         if (cd.isConnectingToInternet()) {
@@ -214,7 +198,7 @@ public class CollerTshirt extends AppCompatActivity {
             Log.d("asdasdasd" , id);
             Log.d("asdlosad" , SharePreferenceUtils.getInstance().getString("location"));
 
-            String f = "";
+            String f;
 
             if (catName.equals("food & drinks"))
             {
@@ -287,270 +271,223 @@ public class CollerTshirt extends AppCompatActivity {
         }
 
 
-        sort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        sort.setOnClickListener(v -> {
 
-                final Dialog dialog = new Dialog(CollerTshirt.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.sort_dialog_layout);
-                dialog.setCancelable(true);
-                dialog.show();
+            final Dialog dialog = new Dialog(CollerTshirt.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.sort_dialog_layout);
+            dialog.setCancelable(true);
+            dialog.show();
 
-                final RadioGroup group = dialog.findViewById(R.id.group);
-                TextView res = dialog.findViewById(R.id.reset);
-                final TextView sor = dialog.findViewById(R.id.sort);
+            final RadioGroup group = dialog.findViewById(R.id.group);
+            TextView res = dialog.findViewById(R.id.reset);
+            final TextView sor = dialog.findViewById(R.id.sort);
 
-                res.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            res.setOnClickListener(v14 -> {
+
+                if (isFilter) {
+
+                    adapeter.setgrid(filteredList);
+
+
+                } else {
+
+                    adapeter.setgrid(list);
+
+
+                }
+
+                dialog.dismiss();
+
+            });
+
+            sor.setOnClickListener(v13 -> {
+
+                int iidd = group.getCheckedRadioButtonId();
+
+                if (iidd > -1) {
+
+                    Log.d("sort", "1");
+
+                    if (iidd == R.id.l2h) {
+
+                        sortedList.clear();
+
+                        Log.d("sort", "2");
 
                         if (isFilter) {
-
-                                adapeter.setgrid(filteredList);
-
-
+                            Log.d("sort", "3");
+                            List<ProductInfo> fl = new ArrayList<>();
+                            fl = filteredList;
+                            sortedList.addAll(fl);
                         } else {
-
-                                adapeter.setgrid(list);
-
-
+                            Log.d("sort", "4");
+                            List<ProductInfo> fl = new ArrayList<>();
+                            fl = list;
+                            sortedList.addAll(fl);
                         }
+
+
+                        Collections.sort(sortedList, (o1, o2) -> {
+                            Log.d("sort", "5");
+                            if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null) {
+                                return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                            } else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null) {
+                                return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                            } else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null) {
+                                return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                            } else {
+                                return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                            }
+                        });
+
+
+                        Log.d("sort", "6");
+                        adapeter.setgrid(sortedList);
+
+
+                        dialog.dismiss();
+
+                    } else if (iidd == R.id.h2l) {
+                        Log.d("sort", "7");
+                        sortedList.clear();
+
+                        if (isFilter) {
+                            Log.d("sort", "8");
+                            sortedList.addAll(filteredList);
+                        } else {
+                            Log.d("sort", "9");
+                            sortedList.addAll(list);
+                        }
+
+
+                        Collections.sort(sortedList, (o2, o1) -> {
+                            Log.d("sort", "10");
+                            if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null) {
+                                return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                            } else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null) {
+                                return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                            } else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null) {
+                                return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
+                            } else {
+                                return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
+                            }
+                        });
+
+                        Log.d("sort", "12");
+                        adapeter.setgrid(sortedList);
+
 
                         dialog.dismiss();
 
                     }
-                });
 
-                sor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                } else {
+                    Log.d("sort", "13");
+                    Toast.makeText(CollerTshirt.this, "Please select a Sorting type", Toast.LENGTH_SHORT).show();
+                }
 
-                        int iidd = group.getCheckedRadioButtonId();
+            });
 
-                        if (iidd > -1) {
+        });
 
-                            Log.d("sort" , "1");
+        filter.setOnClickListener(v -> {
 
-                            if (iidd == R.id.l2h) {
-
-                                sortedList.clear();
-
-                                Log.d("sort" , "2");
-
-                                if (isFilter) {
-                                    Log.d("sort" , "3");
-                                    List<ProductInfo> fl = new ArrayList<>();
-                                    fl = filteredList;
-                                    sortedList.addAll(fl);
-                                } else {
-                                    Log.d("sort" , "4");
-                                    List<ProductInfo> fl = new ArrayList<>();
-                                    fl = list;
-                                    sortedList.addAll(fl);
-                                }
+            final Dialog dialog1 = new Dialog(CollerTshirt.this);
+            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog1.setContentView(R.layout.price_filter_dialog);
+            dialog1.setCancelable(true);
+            dialog1.show();
 
 
-                                Collections.sort(sortedList, new Comparator<ProductInfo>() {
-                                    @Override
-                                    public int compare(ProductInfo o1, ProductInfo o2) {
-                                        Log.d("sort" , "5");
-                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
-                                        {
-                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
-                                        }
-                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
-                                        {
-                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
-                                        }
-                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
-                                        {
-                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
-                                        }
-                                        else
-                                        {
-                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
-                                        }
-                                    }
-                                });
+            final TextView prii = dialog1.findViewById(R.id.prii);
+            RangeBar range = dialog1.findViewById(R.id.range);
+            RecyclerView fgrid = dialog1.findViewById(R.id.grid);
+            GridLayoutManager fmanager = new GridLayoutManager(CollerTshirt.this, 1);
+            TextView fil = dialog1.findViewById(R.id.filter);
+            TextView res = dialog1.findViewById(R.id.reset);
+
+            final String[] min = {"50"};
+            final String[] max = {"5000"};
+
+            range.setOnRangeBarChangeListener((rangeBar, leftPinIndex, rightPinIndex, leftPinValue, rightPinValue) -> {
+
+                min[0] = leftPinValue;
+                max[0] = rightPinValue;
+
+                prii.setText("Price: " + leftPinValue + " - " + rightPinValue);
+
+            });
 
 
-                                    Log.d("sort" , "6");
-                                    adapeter.setgrid(sortedList);
+            List<String> flist = new ArrayList<>();
+
+            for (int i = 0; i < list.size(); i++) {
+                flist.add(list.get(i).getSize());
+            }
+
+            Log.d("flist", TextUtils.join(",", flist));
+
+            HashSet<String> hashSet = new HashSet<>();
+            hashSet.addAll(flist);
+            flist.clear();
+            flist.addAll(hashSet);
 
 
-
-                                dialog.dismiss();
-
-                            } else if (iidd == R.id.h2l) {
-                                Log.d("sort" , "7");
-                                sortedList.clear();
-
-                                if (isFilter) {
-                                    Log.d("sort" , "8");
-                                    sortedList.addAll(filteredList);
-                                } else {
-                                    Log.d("sort" , "9");
-                                    sortedList.addAll(list);
-                                }
+            final FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this, flist);
+            fgrid.setAdapter(fadapter);
+            fgrid.setLayoutManager(fmanager);
 
 
-                                Collections.sort(sortedList, new Comparator<ProductInfo>() {
-                                    @Override
-                                    public int compare(ProductInfo o2, ProductInfo o1) {
-                                        Log.d("sort" , "10");
-                                        if (o2.getDiscountPrice() != null && o1.getDiscountPrice() != null)
-                                        {
-                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
-                                        }
-                                        else if (o2.getDiscountPrice() == null && o1.getDiscountPrice() != null)
-                                        {
-                                            return Float.valueOf(o1.getDiscountPrice()).compareTo(Float.valueOf(o2.getPrice()));
-                                        }
-                                        else if (o2.getDiscountPrice() != null && o1.getDiscountPrice() == null)
-                                        {
-                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getDiscountPrice()));
-                                        }
-                                        else
-                                        {
-                                            return Float.valueOf(o1.getPrice()).compareTo(Float.valueOf(o2.getPrice()));
-                                        }
-                                    }
-                                });
-
-                                    Log.d("sort" , "12");
-                                    adapeter.setgrid(sortedList);
+            res.setOnClickListener(v12 -> {
 
 
-                                dialog.dismiss();
+                adapeter.setgrid(list);
 
+
+                isFilter = false;
+                dialog1.dismiss();
+
+            });
+
+
+            fil.setOnClickListener(v1 -> {
+
+                List<String> fl = fadapter.getChecked();
+
+                filteredList.clear();
+
+                for (int i = 0; i < list.size(); i++) {
+
+                    for (int j = 0; j < fl.size(); j++) {
+
+                        if (list.get(i).getDiscountPrice() != null) {
+                            if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) <= Float.parseFloat(max[0])) {
+                                filteredList.add(list.get(i));
                             }
 
                         } else {
-                            Log.d("sort" , "13");
-                            Toast.makeText(CollerTshirt.this, "Please select a Sorting type", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
-            }
-        });
-
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Dialog dialog1 = new Dialog(CollerTshirt.this);
-                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog1.setContentView(R.layout.price_filter_dialog);
-                dialog1.setCancelable(true);
-                dialog1.show();
-
-
-                final TextView prii = dialog1.findViewById(R.id.prii);
-                RangeBar range = dialog1.findViewById(R.id.range);
-                RecyclerView fgrid = dialog1.findViewById(R.id.grid);
-                GridLayoutManager fmanager = new GridLayoutManager(CollerTshirt.this, 1);
-                TextView fil = dialog1.findViewById(R.id.filter);
-                TextView res = dialog1.findViewById(R.id.reset);
-
-                final String[] min = {"50"};
-                final String[] max = {"5000"};
-
-                range.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-                    @Override
-                    public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex, int rightPinIndex, String leftPinValue, String rightPinValue) {
-
-                        min[0] = leftPinValue;
-                        max[0] = rightPinValue;
-
-                        prii.setText("Price: " + leftPinValue + " - " + rightPinValue);
-
-                    }
-                });
-
-
-                List<String> flist = new ArrayList<>();
-
-                for (int i = 0; i < list.size(); i++) {
-                    flist.add(list.get(i).getSize());
-                }
-
-                Log.d("flist", TextUtils.join(",", flist));
-
-                HashSet<String> hashSet = new HashSet<>();
-                hashSet.addAll(flist);
-                flist.clear();
-                flist.addAll(hashSet);
-
-
-                final FilterAdapter fadapter = new FilterAdapter(CollerTshirt.this, flist);
-                fgrid.setAdapter(fadapter);
-                fgrid.setLayoutManager(fmanager);
-
-
-                res.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                            adapeter.setgrid(list);
-
-
-
-                        isFilter = false;
-                        dialog1.dismiss();
-
-                    }
-                });
-
-
-                fil.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        List<String> fl = fadapter.getChecked();
-
-                        filteredList.clear();
-
-                        for (int i = 0; i < list.size(); i++) {
-
-                            for (int j = 0; j < fl.size(); j++) {
-
-                                if (list.get(i).getDiscountPrice() != null)
-                                {
-                                    if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getPrice()) <= Float.parseFloat(max[0])) {
-                                        filteredList.add(list.get(i));
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getDiscountPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getDiscountPrice()) <= Float.parseFloat(max[0])) {
-                                        filteredList.add(list.get(i));
-                                    }
-
-                                }
-
-
+                            if (fl.get(j).equals(list.get(i).getSize()) && Float.parseFloat(list.get(i).getDiscountPrice()) > Float.parseFloat(min[0]) && Float.parseFloat(list.get(i).getDiscountPrice()) <= Float.parseFloat(max[0])) {
+                                filteredList.add(list.get(i));
                             }
 
                         }
 
 
-                            adapeter.setgrid(filteredList);
-
-
-
-                        isFilter = true;
-                        dialog1.dismiss();
-
                     }
-                });
+
+                }
 
 
-            }
+                adapeter.setgrid(filteredList);
+
+
+                isFilter = true;
+                dialog1.dismiss();
+
+            });
+
+
         });
 
         count = findViewById(R.id.count);
@@ -559,7 +496,7 @@ public class CollerTshirt extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("count")) {
+                if (Objects.requireNonNull(intent.getAction()).equals("count")) {
                     count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
                 }
 
@@ -572,17 +509,17 @@ public class CollerTshirt extends AppCompatActivity {
 
     }
 
-    BroadcastReceiver singleReceiver;
-    TextView count;
+    private BroadcastReceiver singleReceiver;
+    private TextView count;
 
 
     public class CollerAdapter extends RecyclerView.Adapter<CollerAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<ProductInfo> list = new ArrayList<>();
+        List<ProductInfo> list;
 
-        public CollerAdapter(Context context, List<ProductInfo> list) {
+        CollerAdapter(Context context, List<ProductInfo> list) {
 
             this.context = context;
             this.list = list;
@@ -661,23 +598,20 @@ public class CollerTshirt extends AppCompatActivity {
             Glide.with(context).load(base + "southman/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            myViewHolder.itemView.setOnClickListener(v -> {
 
-                    Intent i = new Intent(context, SingleProduct.class);
+                Intent i1 = new Intent(context, SingleProduct.class);
 
-                    i.putExtra("id", item.getId());
-                    i.putExtra("catname", catName);
-                    i.putExtra("text", item.getProductTitle());
+                i1.putExtra("id", item.getId());
+                i1.putExtra("catname", catName);
+                i1.putExtra("text", item.getProductTitle());
 
-                    context.startActivity(i);
-                }
+                context.startActivity(i1);
             });
 
         }
 
-        public void setgrid(List<ProductInfo> list) {
+        void setgrid(List<ProductInfo> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -690,12 +624,17 @@ public class CollerTshirt extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name, brand, size, prices, color, negotiable;
-            LinearLayout negititle;
+            final TextView name;
+            final TextView brand;
+            final TextView size;
+            final TextView prices;
+            final TextView color;
+            final TextView negotiable;
+            final LinearLayout negititle;
 
-            ImageView image;
+            final ImageView image;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);
@@ -715,9 +654,9 @@ public class CollerTshirt extends AppCompatActivity {
 
     public class CollerAdapter2 extends RecyclerView.Adapter<CollerAdapter2.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<ProductInfo> list = new ArrayList<>();
+        List<ProductInfo> list;
 
         public CollerAdapter2(Context context, List<ProductInfo> list) {
 
@@ -794,72 +733,59 @@ public class CollerTshirt extends AppCompatActivity {
             Glide.with(context).load(base + "southman/admin2/upload/products/" + item.getProductImage()).into(myViewHolder.image);
 
 
-            myViewHolder.order.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            myViewHolder.order.setOnClickListener(view -> {
 
-                    final Dialog dialog = new Dialog(context);
+                final Dialog dialog = new Dialog(context);
 
-                    dialog.setContentView(R.layout.dialog);
+                dialog.setContentView(R.layout.dialog);
 
-                    dialog.setCancelable(true);
+                dialog.setCancelable(true);
 
-                    dialog.show();
+                dialog.show();
 
-                    TextView code = dialog.findViewById(R.id.code);
+                TextView code = dialog.findViewById(R.id.code);
 
-                    TextView mobile = dialog.findViewById(R.id.mobile);
+                TextView mobile = dialog.findViewById(R.id.mobile);
 
-                    Button watshp = dialog.findViewById(R.id.whatsapp);
+                Button watshp = dialog.findViewById(R.id.whatsapp);
 
-                    Button call = dialog.findViewById(R.id.call);
+                Button call = dialog.findViewById(R.id.call);
 
-                    mobile.setText(item.getPhoneNumber());
+                mobile.setText(item.getPhoneNumber());
 
-                    code.setText(item.getProductCode());
+                code.setText(item.getProductCode());
 
-                    final String ph = item.getPhoneNumber();
-                    final String co = item.getProductCode();
+                final String ph = item.getPhoneNumber();
+                final String co = item.getProductCode();
 
-                    watshp.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                watshp.setOnClickListener(v -> {
 
 
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + ph + "&text=Product Code : " + co));
-                            startActivity(browserIntent);
-                            dialog.dismiss();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + ph + "&text=Product Code : " + co));
+                    startActivity(browserIntent);
+                    dialog.dismiss();
 
 
+                });
 
-                        }
-                    });
-
-                    call.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                call.setOnClickListener(v -> {
 
 
+                    try {
+
+                        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:+" + ph));
+                        startActivity(intent);
+                        dialog.dismiss();
 
 
+                    } catch (Exception e) {
 
-                            try {
-
-                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:+" + ph));
-                                startActivity(intent);
-                                dialog.dismiss();
+                        e.printStackTrace();
+                    }
 
 
-                            } catch (Exception e) {
+                });
 
-                                e.printStackTrace();
-                            }
-
-
-                        }
-                    });
-
-                }
             });
 
 
@@ -878,13 +804,16 @@ public class CollerTshirt extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView name, brand, color , price;
+            final TextView name;
+            final TextView brand;
+            final TextView color;
+            final TextView price;
 
-            ImageView image;
+            final ImageView image;
 
-            Button order;
+            final Button order;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);
@@ -902,13 +831,13 @@ public class CollerTshirt extends AppCompatActivity {
 
     class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<String> flist = new ArrayList<>();
+        List<String> flist;
 
-        List<String> checked = new ArrayList<>();
+        final List<String> checked = new ArrayList<>();
 
-        public FilterAdapter(Context context, List<String> flist) {
+        FilterAdapter(Context context, List<String> flist) {
             this.context = context;
             this.flist = flist;
         }
@@ -934,26 +863,23 @@ public class CollerTshirt extends AppCompatActivity {
 
             checked.add(item);
 
-            viewHolder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            viewHolder.check.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                    if (isChecked) {
+                if (isChecked) {
 
-                        checked.add(item);
+                    checked.add(item);
 
-                    } else {
+                } else {
 
-                        checked.remove(item);
-
-                    }
+                    checked.remove(item);
 
                 }
+
             });
 
         }
 
-        public List<String> getChecked() {
+        List<String> getChecked() {
             return checked;
         }
 
@@ -964,9 +890,9 @@ public class CollerTshirt extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            CheckBox check;
+            final CheckBox check;
 
-            public ViewHolder(@NonNull View itemView) {
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 check = itemView.findViewById(R.id.check);

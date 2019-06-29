@@ -58,7 +58,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="15dp"
-                        android:src="@drawable/ic_gift" />
+                        android:src="@drawable/ic_gift"
+                        android:contentDescription="TODO" />
 
 
                     <RelativeLayout
@@ -72,7 +73,8 @@
                             android:id="@+id/notification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/notification" />
+                            android:src="@drawable/notification"
+                            android:contentDescription="TODO" />
 
                         <TextView
                             android:layout_width="15dp"
@@ -95,7 +97,8 @@
                         android:id="@+id/home"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
-                        android:src="@drawable/ic_home_black_24dp"/>
+                        android:src="@drawable/ic_home_black_24dp"
+                        android:contentDescription="TODO" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -104,7 +107,8 @@
                         android:visibility="gone"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="5dp"
-                        android:src="@drawable/saerch"/>
+                        android:src="@drawable/saerch"
+                        android:contentDescription="TODO" />
                 </LinearLayout>
 
 
@@ -122,7 +126,7 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/banner"
-            />
+            android:contentDescription="TODO" />
 
 
         <TextView
@@ -171,7 +175,7 @@
                     android:src="@drawable/man"
                     android:visibility="visible"
                     android:layout_gravity="center"
-                    android:id="@+id/man"/>
+                    android:contentDescription="TODO" />
 
                 <TextView
                     android:layout_width="match_parent"

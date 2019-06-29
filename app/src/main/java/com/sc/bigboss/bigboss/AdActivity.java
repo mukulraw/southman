@@ -30,6 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -41,23 +42,35 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class AdActivity extends YouTubeBaseActivity  implements YouTubePlayer.OnInitializedListener {
 
-    YouTubePlayerView youTubePlayerView;
-    YouTubePlayer player;
+    private YouTubePlayerView youTubePlayerView;
+    private YouTubePlayer player;
 
-    String url , diff;
-    TextView timerr , nnn;
+    private String url;
+    private String diff;
+    private TextView timerr;
+    private TextView nnn;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-Button quit;
+private Button quit;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    List<User> list;
+    private List<User> list;
 
-    PlayitemAdapter adapter;
+    private PlayitemAdapter adapter;
 
-    String userId , playId , name , phone , image , title , price , brand , color , size , negotiable;
+    private String userId;
+    private String playId;
+    private String name;
+    private String phone;
+    private String image;
+    private String title;
+    private String price;
+    private String brand;
+    private String color;
+    private String size;
+    private String negotiable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,38 +117,23 @@ Button quit;
         startImageTimer();
 
 
-        quit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        quit.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(AdActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.quit_dialog_layout);
-                dialog.show();
+            final Dialog dialog = new Dialog(AdActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.quit_dialog_layout);
+            dialog.show();
 
-                Button ookk = dialog.findViewById(R.id.button2);
-                Button canc = dialog.findViewById(R.id.button4);
+            Button ookk = dialog.findViewById(R.id.button2);
+            Button canc = dialog.findViewById(R.id.button4);
 
-                canc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+            canc.setOnClickListener(v12 -> dialog.dismiss());
 
-                ookk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        finish();
-
-                    }
-                });
+            ookk.setOnClickListener(v1 -> finish());
 
 
-            }
         });
 
         setRepeat();
@@ -167,7 +165,7 @@ Button quit;
 
     }
 
-    public String extractYoutubeId(String url) throws MalformedURLException {
+    private String extractYoutubeId(String url) throws MalformedURLException {
         String query = new URL(url).getQuery();
         String[] param = query.split("&");
         String id = null;
@@ -180,9 +178,9 @@ Button quit;
         return id;
     }
 
-    CountDownTimer timer;
+    private CountDownTimer timer;
 
-    void startImageTimer() {
+    private void startImageTimer() {
         timer = new CountDownTimer((long) Float.parseFloat(diff) * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -242,38 +240,23 @@ Button quit;
 
     @Override
     public void onBackPressed() {
-        quit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        quit.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(AdActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.quit_dialog_layout);
-                dialog.show();
+            final Dialog dialog = new Dialog(AdActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.quit_dialog_layout);
+            dialog.show();
 
-                Button ookk = dialog.findViewById(R.id.button2);
-                Button canc = dialog.findViewById(R.id.button4);
+            Button ookk = dialog.findViewById(R.id.button2);
+            Button canc = dialog.findViewById(R.id.button4);
 
-                canc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+            canc.setOnClickListener(v12 -> dialog.dismiss());
 
-                ookk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        finish();
-
-                    }
-                });
+            ookk.setOnClickListener(v1 -> finish());
 
 
-            }
         });
     }
 
@@ -287,12 +270,12 @@ Button quit;
 
     public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<User> list = new ArrayList<>();
+        List<User> list;
         // List<String>list = new ArrayList<>();
 
-        public PlayitemAdapter(Context context, List<User> list) {
+        PlayitemAdapter(Context context, List<User> list) {
 
             this.context = context;
             this.list = list;
@@ -320,7 +303,7 @@ Button quit;
 
         }
 
-        public void setgrid(List<User> list) {
+        void setgrid(List<User> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -334,10 +317,10 @@ Button quit;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView textView;
-            CircleImageView image;
+            final TextView textView;
+            final CircleImageView image;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 textView = itemView.findViewById(R.id.text);
@@ -348,7 +331,7 @@ Button quit;
         }
     }
 
-    void setRepeat() {
+    private void setRepeat() {
         final Handler handler = new Handler();
 // Define the code block to be executed
         Runnable runnableCode = new Runnable() {
@@ -371,7 +354,7 @@ Button quit;
                     @Override
                     public void onResponse(Call<playDataBean> call, Response<playDataBean> response) {
 
-                        adapter.setgrid(response.body().getUsers());
+                        adapter.setgrid(Objects.requireNonNull(response.body()).getUsers());
 
                     }
 

@@ -14,7 +14,7 @@ public class Setting extends AppCompatActivity {
 
     TextView change;
 
-    ImageButton back;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +57,6 @@ public class Setting extends AppCompatActivity {
 
         back = findViewById(R.id.imageButton4);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-
-            }
-        });
+        back.setOnClickListener(v -> finish());
     }
 }

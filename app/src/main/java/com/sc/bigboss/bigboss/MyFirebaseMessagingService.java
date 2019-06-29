@@ -43,7 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d("asdasd" , remoteMessage.getData().toString());
 
-        JSONObject object = null;
+        JSONObject object;
         object = new JSONObject(remoteMessage.getData());
 
         try {
@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationManager mNotificationManager = (NotificationManager) Bean.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationChannel mChannel = null;
+        NotificationChannel mChannel;
         // The id of the channel.
 
         int importance = NotificationManager.IMPORTANCE_HIGH;

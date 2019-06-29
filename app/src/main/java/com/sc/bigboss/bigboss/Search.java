@@ -2,7 +2,6 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,25 +41,25 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Search extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    SearchAdapter adapter;
+    private SearchAdapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    EditText search;
+    private EditText search;
 
-    LinearLayout linear;
+    private LinearLayout linear;
 
-    String base;
+    private String base;
 
-    ImageView back;
+    private ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,19 +67,13 @@ public class Search extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
 
         bar = findViewById(R.id.progress);
 
         back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        back.setOnClickListener(v -> finish());
 
         search = findViewById(R.id.s);
 
@@ -98,82 +91,79 @@ public class Search extends AppCompatActivity {
 
         grid.setLayoutManager(manager);
 
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+        search.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                    String ss = search.getText().toString();
+                String ss = search.getText().toString();
 
-                    bar.setVisibility(View.VISIBLE);
+                bar.setVisibility(View.VISIBLE);
 
-                    Bean b = (Bean) getApplicationContext();
+                Bean b = (Bean) getApplicationContext();
 
-                    final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(b.baseurl)
-                            .addConverterFactory(ScalarsConverterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
+                final Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(b.baseurl)
+                        .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
 
-                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                    Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
+                Call<SearchBean> call = cr.search(ss, SharePreferenceUtils.getInstance().getString("location"));
 
-                    Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
+                Log.d("location" ,SharePreferenceUtils.getInstance().getString("location") );
 
-                    call.enqueue(new Callback<SearchBean>() {
-                        @Override
-                        public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
+                call.enqueue(new Callback<SearchBean>() {
+                    @Override
+                    public void onResponse(Call<SearchBean> call, Response<SearchBean> response) {
 
-                            try {
+                        try {
 
-                                if (Objects.equals(response.body().getStatus(), "1")) {
+                            if (Objects.equals(response.body().getStatus(), "1")) {
 
-                                    if (response.body().getData().size()>0){
+                                if (response.body().getData().size()>0){
 
-                                        adapter.setgrid(response.body().getData());
+                                    adapter.setgrid(response.body().getData());
 
-                                        Log.d("response" , "response");
-                                        linear.setVisibility(View.GONE);
+                                    Log.d("response" , "response");
+                                    linear.setVisibility(View.GONE);
 
-                                    }else {
-                                        adapter.setgrid(response.body().getData());
-                                        linear.setVisibility(View.VISIBLE);
-                                    }
-
-
-                                }
-                                else {
+                                }else {
                                     adapter.setgrid(response.body().getData());
                                     linear.setVisibility(View.VISIBLE);
                                 }
 
-                            } catch (Exception e) {
 
-                                e.printStackTrace();
-                                Log.d("asdsad" , e.toString());
+                            }
+                            else {
+                                adapter.setgrid(response.body().getData());
+                                linear.setVisibility(View.VISIBLE);
                             }
 
+                        } catch (Exception e) {
 
-                            bar.setVisibility(View.GONE);
-
+                            e.printStackTrace();
+                            Log.d("asdsad" , e.toString());
                         }
 
-                        @Override
-                        public void onFailure(Call<SearchBean> call, Throwable t) {
 
-                            Log.d("failure" , t.toString());
-                            adapter.setgrid(new ArrayList<Datum>());
-                            linear.setVisibility(View.VISIBLE);
-                            bar.setVisibility(View.GONE);
+                        bar.setVisibility(View.GONE);
 
-                        }
-                    });
+                    }
 
-                    return true;
-                }
-                return false;
+                    @Override
+                    public void onFailure(Call<SearchBean> call, Throwable t) {
+
+                        Log.d("failure" , t.toString());
+                        adapter.setgrid(new ArrayList<>());
+                        linear.setVisibility(View.VISIBLE);
+                        bar.setVisibility(View.GONE);
+
+                    }
+                });
+
+                return true;
             }
+            return false;
         });
 
         search.addTextChangedListener(new TextWatcher() {
@@ -211,7 +201,7 @@ public class Search extends AppCompatActivity {
 
                             try {
 
-                                if (Objects.equals(response.body().getStatus(), "1")) {
+                                if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                                     if (response.body().getData().size()>0){
 
@@ -245,7 +235,7 @@ public class Search extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<SearchBean> call, Throwable t) {
 
-                            adapter.setgrid(new ArrayList<Datum>());
+                            adapter.setgrid(new ArrayList<>());
                             linear.setVisibility(View.VISIBLE);
                             bar.setVisibility(View.GONE);
 
@@ -254,7 +244,7 @@ public class Search extends AppCompatActivity {
                 }
                 else
                 {
-                    adapter.setgrid(new ArrayList<Datum>());
+                    adapter.setgrid(new ArrayList<>());
                 }
 
 
@@ -272,11 +262,11 @@ public class Search extends AppCompatActivity {
 
     public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.My> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
-        public SearchAdapter(Context context, List<Datum> list) {
+        SearchAdapter(Context context, List<Datum> list) {
 
             this.context = context;
 
@@ -339,24 +329,21 @@ public class Search extends AppCompatActivity {
 
             loader.displayImage("http://mrtecks.com/southman/admin2/upload/products/" + item.getProductImage(), my.image, options);
 
-            my.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            my.itemView.setOnClickListener(v -> {
 
-                    Intent i = new Intent(context, SingleProduct.class);
+                Intent i1 = new Intent(context, SingleProduct.class);
 
-                    i.putExtra("id", item.getId());
+                i1.putExtra("id", item.getId());
 
-                    i.putExtra("text", item.getProductTitle());
+                i1.putExtra("text", item.getProductTitle());
 
-                    context.startActivity(i);
-                }
+                context.startActivity(i1);
             });
 
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -369,11 +356,16 @@ public class Search extends AppCompatActivity {
 
         public class My extends RecyclerView.ViewHolder {
 
-            TextView name, brand, size, prices, color, negotiable;
-            ImageView image;
+            final TextView name;
+            final TextView brand;
+            final TextView size;
+            final TextView prices;
+            final TextView color;
+            final TextView negotiable;
+            final ImageView image;
 
 
-            public My(@NonNull View itemView) {
+            My(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.google.android.flexbox.AlignSelf;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.sc.bigboss.bigboss.ShopTillPOJO.Datum;
 import com.sc.bigboss.bigboss.ShopTillPOJO.TillBean;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,21 +32,22 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Till extends Fragment {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    TillAddapter adapter;
+    private TillAddapter adapter;
 
-    List<Datum> list;
+    private List<Datum> list;
 
-    String catid;
+    private String catid;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    LinearLayout linearLayout;
+    private LinearLayout linearLayout;
 
-    String catName , base;
+    private String catName;
+    private String base;
 
     @Nullable
     @Override
@@ -61,7 +55,7 @@ public class Till extends Fragment {
 
         View vi = inflater.inflate(R.layout.till, container, false);
 
-        catid = getArguments().getString("Catid");
+        catid = Objects.requireNonNull(getArguments()).getString("Catid");
         catName = getArguments().getString("catname");
 
         //Log.d("catname " , catName);
@@ -115,7 +109,7 @@ public class Till extends Fragment {
 
                 try {
 
-                    if (Objects.equals(response.body().getStatus(), "1")) {
+                    if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
                         if (response.body().getData().size()>0){
 
@@ -162,12 +156,12 @@ public class Till extends Fragment {
 
     public class TillAddapter extends RecyclerView.Adapter<TillAddapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<Datum> list = new ArrayList<>();
+        List<Datum> list;
 
 
-        public TillAddapter(Context context, List<Datum> list) {
+        TillAddapter(Context context, List<Datum> list) {
 
             this.context = context;
             this.list = list;
@@ -204,36 +198,28 @@ public class Till extends Fragment {
             Glide.with(context).load(base + "southman/admin2/upload/cat/" + item.getImageUrl()).into(myViewHolder.imageView);
 
 
-            ViewGroup.LayoutParams lp = myViewHolder.imageView.getLayoutParams();
-            if (lp instanceof FlexboxLayoutManager.LayoutParams) {
-                FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
-                flexboxLp.setFlexGrow(2.0f);
-                flexboxLp.setAlignSelf(AlignSelf.AUTO);
-            }
-
-            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent i = new Intent(context, MeansCategory.class);
-                    i.putExtra("id", item.getId());
-                    i.putExtra("text", item.getSubcatName());
-                    i.putExtra("catname", catName);
-                    context.startActivity(i);
 
 
-                }
+            myViewHolder.itemView.setOnClickListener(v -> {
+
+                Intent i1 = new Intent(context, MeansCategory.class);
+                i1.putExtra("id", item.getId());
+                i1.putExtra("text", item.getSubcatName());
+                i1.putExtra("catname", catName);
+                context.startActivity(i1);
+
+
             });
 
         }
 
-        public void setgrid(List<Datum> list) {
+        void setgrid(List<Datum> list) {
             this.list = list;
             notifyDataSetChanged();
 
         }
 
-        public String getSpace(int position)
+        String getSpace(int position)
         {
             return list.get(position).getSpace();
         }
@@ -245,10 +231,10 @@ public class Till extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            ImageView imageView;
+            final ImageView imageView;
 
 
-            public MyViewHolder(@NonNull final View itemView) {
+            MyViewHolder(@NonNull final View itemView) {
                 super(itemView);
 
 

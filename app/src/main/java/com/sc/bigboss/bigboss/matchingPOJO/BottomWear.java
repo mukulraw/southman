@@ -3,7 +3,7 @@ package com.sc.bigboss.bigboss.matchingPOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BottomWear {
+class BottomWear {
     @SerializedName("id")
     @Expose
     private String id;

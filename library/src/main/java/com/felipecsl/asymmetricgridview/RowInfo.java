@@ -18,8 +18,7 @@ class RowInfo implements Parcelable {
     this.spaceLeft = spaceLeft;
   }
 
-  @SuppressWarnings("unchecked")
-  public RowInfo(final Parcel in) {
+  private RowInfo(final Parcel in) {
     rowHeight = in.readInt();
     spaceLeft = in.readFloat();
     int totalItems = in.readInt();

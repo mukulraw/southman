@@ -6,16 +6,11 @@ import android.content.DialogInterface;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.playDataPOJO.User;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
@@ -41,10 +35,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,38 +47,62 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Playitem extends AppCompatActivity {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    PlayitemAdapter adapter;
+    private PlayitemAdapter adapter;
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Button quit;
+    private Button quit;
 
-    TextView name, color, price, size, chances, proof, brand, nagtiable, totalprice, timer, one, two, three, four, five, six, seven, eight, nine, ten, delete, ok;
+    private TextView name;
+    private TextView color;
+    private TextView price;
+    private TextView size;
+    private TextView chances;
+    private TextView proof;
+    private TextView brand;
+    private TextView nagtiable;
+    private TextView totalprice;
+    private TextView timer;
+    private TextView one;
+    private TextView two;
+    private TextView three;
+    private TextView four;
+    private TextView five;
+    private TextView six;
+    private TextView seven;
+    private TextView eight;
+    private TextView nine;
+    private TextView ten;
+    private TextView delete;
+    private TextView ok;
 
-    EditText totaltext;
+    private EditText totaltext;
 
     Handler handler;
 
-    ImageView image;
+    private ImageView image;
 
-    float current = 0;
+    private float current = 0;
 
     int count = 0;
 
-    TextView bname;
-    CircleImageView uimage;
+    private TextView bname;
+    private CircleImageView uimage;
 
-    String userId, playId;
+    private String userId;
+    private String playId;
 
-    List<User> list;
+    private List<User> list;
 
-    int chanc = 3;
+    private int chanc = 3;
 
-    String wid , wimage , wname = "South Man. No one played, this product is yours";
+    private String wid;
+    private String wimage;
+    private String wname = "South Man. No one played, this product is yours";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,15 +117,9 @@ public class Playitem extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         uimage = findViewById(R.id.image);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
         adapter = new PlayitemAdapter(this, list);
@@ -125,47 +136,24 @@ public class Playitem extends AppCompatActivity {
 
         grid.setLayoutManager(manager);
 
-        quit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        quit.setOnClickListener(v -> quit.setOnClickListener(v13 -> {
 
 
-                quit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            final Dialog dialog = new Dialog(Playitem.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.quit_dialog_layout);
+            dialog.show();
+
+            Button ookk = dialog.findViewById(R.id.button2);
+            Button canc = dialog.findViewById(R.id.button4);
+
+            canc.setOnClickListener(v12 -> dialog.dismiss());
+
+            ookk.setOnClickListener(v1 -> finish());
 
 
-                        final Dialog dialog = new Dialog(Playitem.this);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setCancelable(false);
-                        dialog.setContentView(R.layout.quit_dialog_layout);
-                        dialog.show();
-
-                        Button ookk = dialog.findViewById(R.id.button2);
-                        Button canc = dialog.findViewById(R.id.button4);
-
-                        canc.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        ookk.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                finish();
-
-                            }
-                        });
-
-
-                    }
-                });
-
-            }
-        });
+        }));
 
 
         name = findViewById(R.id.name);
@@ -216,7 +204,7 @@ public class Playitem extends AppCompatActivity {
         chances = findViewById(R.id.chances);
 
 
-        chances.setText("You have " + String.valueOf(chanc) + " chances left");
+        chances.setText("You have " + chanc + " chances left");
 
 
         String im = getIntent().getStringExtra("image");
@@ -247,250 +235,214 @@ public class Playitem extends AppCompatActivity {
         final InputConnection ic = totaltext.onCreateInputConnection(new EditorInfo());
 
 
-        one.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        one.setOnClickListener(v -> {
 
-                try {
-                    String value = "1";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                String value = "1";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
         });
 
-        two.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        two.setOnClickListener(v -> {
 
-                try {
-                    String value = "2";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                String value = "2";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
         });
 
 
-        three.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        three.setOnClickListener(v -> {
 
 
-                try {
-                    String value = "3";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                String value = "3";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
         });
 
 
-        four.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        four.setOnClickListener(v -> {
 
 
-                try {
-                    String value = "4";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
+            try {
+                String value = "4";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
         });
 
 
-        five.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        five.setOnClickListener(v -> {
 
 
-                try {
-                    String value = "5";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                String value = "5";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
 
-        six.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        six.setOnClickListener(v -> {
 
-                try {
-                    String value = "6";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                String value = "6";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+        });
+
+
+        seven.setOnClickListener(v -> {
+
+            try {
+                String value = "7";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+
+        eight.setOnClickListener(v -> {
+
+            try {
+                String value = "8";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
 
-        seven.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        nine.setOnClickListener(v -> {
 
-                try {
-                    String value = "7";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            try {
+                String value = "9";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+        });
+
+
+        ten.setOnClickListener(v -> {
+
+            try {
+                String value = "0";
+                ic.commitText(value, 1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
 
-        eight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        delete.setOnClickListener(v -> {
 
-                try {
-                    String value = "8";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+            try {
 
 
-        nine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    String value = "9";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-
-        ten.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    String value = "0";
-                    ic.commitText(value, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-
-
-                    CharSequence selectedText = ic.getSelectedText(0);
-                    if (TextUtils.isEmpty(selectedText)) {
-                        // no selection, so delete previous character
-                        ic.deleteSurroundingText(1, 0);
-                    } else {
-                        // delete the selection
-                        ic.commitText("", 1);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (chanc > 0) {
-                    String tt = totaltext.getText().toString();
-
-                    String pp = price.getText().toString();
-
-                    if (tt.length() > 0) {
-                        float ttt = Float.parseFloat(tt);
-
-                        if (ttt > current && ttt < Float.parseFloat(pp)) {
-
-
-                            Bean b = (Bean) getApplicationContext();
-
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(b.baseurl)
-                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                    .addConverterFactory(GsonConverterFactory.create())
-                                    .build();
-
-                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                            Call<registerPlayBean> call = cr.playBid(playId, userId, tt);
-
-
-                            call.enqueue(new Callback<registerPlayBean>() {
-                                @Override
-                                public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
-
-                                    if (response.body().getStatus().equals("1")) {
-
-                                        chanc = Integer.parseInt(response.body().getMessage());
-                                        Toast.makeText(Playitem.this, "Bid placed successfully", Toast.LENGTH_SHORT).show();
-
-                                        chances.setText("You have " + String.valueOf(chanc) + " chances left");
-
-                                        totaltext.setText("");
-
-                                    } else {
-                                        Toast.makeText(Playitem.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<registerPlayBean> call, Throwable t) {
-
-                                }
-                            });
-
-
-                        } else {
-                            Toast.makeText(Playitem.this, "The bid amount must be between " + String.valueOf(current) + " and " + price.getText().toString(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
+                CharSequence selectedText = ic.getSelectedText(0);
+                if (TextUtils.isEmpty(selectedText)) {
+                    // no selection, so delete previous character
+                    ic.deleteSurroundingText(1, 0);
                 } else {
-                    Toast.makeText(Playitem.this, "You don't have any chances left", Toast.LENGTH_SHORT).show();
+                    // delete the selection
+                    ic.commitText("", 1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        });
+
+
+        ok.setOnClickListener(v -> {
+
+            if (chanc > 0) {
+                String tt = totaltext.getText().toString();
+
+                String pp = price.getText().toString();
+
+                if (tt.length() > 0) {
+                    float ttt = Float.parseFloat(tt);
+
+                    if (ttt > current && ttt < Float.parseFloat(pp)) {
+
+
+                        Bean b = (Bean) getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Call<registerPlayBean> call = cr.playBid(playId, userId, tt);
+
+
+                        call.enqueue(new Callback<registerPlayBean>() {
+                            @Override
+                            public void onResponse(Call<registerPlayBean> call, Response<registerPlayBean> response) {
+
+                                if (response.body().getStatus().equals("1")) {
+
+                                    chanc = Integer.parseInt(response.body().getMessage());
+                                    Toast.makeText(Playitem.this, "Bid placed successfully", Toast.LENGTH_SHORT).show();
+
+                                    chances.setText("You have " + chanc + " chances left");
+
+                                    totaltext.setText("");
+
+                                } else {
+                                    Toast.makeText(Playitem.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<registerPlayBean> call, Throwable t) {
+
+                            }
+                        });
+
+
+                    } else {
+                        Toast.makeText(Playitem.this, "The bid amount must be between " + current + " and " + price.getText().toString(), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
 
-
+            } else {
+                Toast.makeText(Playitem.this, "You don't have any chances left", Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
 
@@ -501,7 +453,7 @@ public class Playitem extends AppCompatActivity {
     }
 
 
-    void setRepeat() {
+    private void setRepeat() {
         final Handler handler = new Handler();
 // Define the code block to be executed
         Runnable runnableCode = new Runnable() {
@@ -524,7 +476,7 @@ public class Playitem extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<playDataBean> call, Response<playDataBean> response) {
 
-                        adapter.setgrid(response.body().getUsers());
+                        adapter.setgrid(Objects.requireNonNull(response.body()).getUsers());
 
                         try {
 
@@ -576,12 +528,12 @@ public class Playitem extends AppCompatActivity {
 
     public class PlayitemAdapter extends RecyclerView.Adapter<PlayitemAdapter.MyViewHolder> {
 
-        Context context;
+        final Context context;
 
-        List<User> list = new ArrayList<>();
+        List<User> list;
         // List<String>list = new ArrayList<>();
 
-        public PlayitemAdapter(Context context, List<User> list) {
+        PlayitemAdapter(Context context, List<User> list) {
 
             this.context = context;
             this.list = list;
@@ -609,7 +561,7 @@ public class Playitem extends AppCompatActivity {
 
         }
 
-        public void setgrid(List<User> list) {
+        void setgrid(List<User> list) {
 
             this.list = list;
             notifyDataSetChanged();
@@ -623,10 +575,10 @@ public class Playitem extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView textView;
-            CircleImageView image;
+            final TextView textView;
+            final CircleImageView image;
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 textView = itemView.findViewById(R.id.text);
@@ -637,10 +589,10 @@ public class Playitem extends AppCompatActivity {
         }
     }
 
-    CountDownTimer timer2;
+    private CountDownTimer timer2;
 
 
-    void resetTimer() {
+    private void resetTimer() {
 
         try {
             timer2.cancel();
@@ -702,7 +654,7 @@ public class Playitem extends AppCompatActivity {
     }
 
 
-    void endPlay()
+    private void endPlay()
     {
 
 
@@ -739,14 +691,7 @@ public class Playitem extends AppCompatActivity {
                 ImageLoader loader = ImageLoader.getInstance();
                 loader.displayImage(wimage , iimm , options);
 
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-
-                        finish();
-
-                    }
-                });
+                dialog.setOnCancelListener(dialog1 -> finish());
 
             }
 
@@ -762,38 +707,23 @@ public class Playitem extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        quit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        quit.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(Playitem.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.quit_dialog_layout);
-                dialog.show();
+            final Dialog dialog = new Dialog(Playitem.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.quit_dialog_layout);
+            dialog.show();
 
-                Button ookk = dialog.findViewById(R.id.button2);
-                Button canc = dialog.findViewById(R.id.button4);
+            Button ookk = dialog.findViewById(R.id.button2);
+            Button canc = dialog.findViewById(R.id.button4);
 
-                canc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+            canc.setOnClickListener(v12 -> dialog.dismiss());
 
-                ookk.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        finish();
-
-                    }
-                });
+            ookk.setOnClickListener(v1 -> finish());
 
 
-            }
         });
 
     }

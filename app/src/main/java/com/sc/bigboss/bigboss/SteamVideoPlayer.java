@@ -6,12 +6,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Objects;
+
 public class SteamVideoPlayer extends AppCompatActivity {
 
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Button order;
+    private Button order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,24 +22,15 @@ public class SteamVideoPlayer extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         order = findViewById(R.id.order);
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        order.setOnClickListener(v -> {
 
 
 
-            }
         });
     }
 }

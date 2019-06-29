@@ -16,7 +16,8 @@
             android:id="@+id/image"
             android:padding="5dp"
             android:visibility="visible"
-            android:src="@drawable/w" />
+            android:src="@drawable/w"
+            android:contentDescription="TODO" />
 
 
 

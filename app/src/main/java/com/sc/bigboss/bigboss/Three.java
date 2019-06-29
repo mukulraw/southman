@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class Three extends Fragment {
 
-    Button next;
+    private Button next;
 
     @Nullable
     @Override
@@ -21,16 +21,13 @@ public class Three extends Fragment {
         View view = inflater.inflate(R.layout.three , container , false);
 
         next = view.findViewById(R.id.next);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        next.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(getContext() , Location.class);
-                startActivity(i);
-                getActivity().finish();
+            Intent i = new Intent(getContext() , Location.class);
+            startActivity(i);
+            getActivity().finish();
 
-            }
         });
         return view;
     }

@@ -7,7 +7,7 @@ public class SharePreferenceUtils {
 
     private static String PREFERENCE_NAME = "selectiol";
     private static SharePreferenceUtils sharePreferenceUtils;
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     private SharePreferenceUtils(Context context){
         PREFERENCE_NAME = PREFERENCE_NAME + context.getPackageName();

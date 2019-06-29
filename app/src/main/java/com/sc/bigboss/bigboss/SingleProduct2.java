@@ -30,6 +30,7 @@ import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
@@ -41,37 +42,41 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SingleProduct2 extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Button order;
+    private Button order;
 
-    TextView name;
-    TextView brand;
-    TextView color;
-    TextView size;
-    TextView negitable;
-    TextView price;
-    static TextView title;
-    TextView details;
-    TextView cod;
+    private TextView name;
+    private TextView brand;
+    private TextView color;
+    private TextView size;
+    private TextView negitable;
+    private TextView price;
+    private static TextView title;
+    private TextView details;
+    private TextView cod;
 
-    ViewPager imageView;
+    private ViewPager imageView;
 
-    CircleIndicator indicator;
+    private CircleIndicator indicator;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
-    static String id;
+    private static String id;
 
-    ImageView search , home;
+    private ImageView search;
+    private ImageView home;
 
-    String ph, co;
+    private String ph;
+    private String co;
 
-    String catName , base;
+    private String catName;
+    private String base;
 
-    LinearLayout negotitle;
+    private LinearLayout negotitle;
 
-    ImageView notification, perks2;
+    private ImageView notification;
+    private ImageView perks2;
 
 
 
@@ -88,41 +93,29 @@ public class SingleProduct2 extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
         title = findViewById(R.id.title);
 
         notification = findViewById(R.id.notification);
         perks2 = findViewById(R.id.perks2);
 
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notification.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(SingleProduct2.this, Notification.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(SingleProduct2.this, Notification.class);
+            startActivity(i);
         });
 
-        perks2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        perks2.setOnClickListener(view -> {
 
-                Intent intent = new Intent(SingleProduct2.this , Perks.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(SingleProduct2.this , Perks.class);
+            startActivity(intent);
         });
 
         indicator = findViewById(R.id.indicator);
@@ -151,25 +144,19 @@ public class SingleProduct2 extends AppCompatActivity {
         home = findViewById(R.id.home);
         cod = findViewById(R.id.code);
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        search.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(SingleProduct2.this, Search.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(SingleProduct2.this, Search.class);
+            startActivity(i);
         });
 
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        home.setOnClickListener(v -> {
 
-                Intent i = new Intent(SingleProduct2.this, MainActivity.class);
-                startActivity(i);
-                finishAffinity();
-            }
+            Intent i = new Intent(SingleProduct2.this, MainActivity.class);
+            startActivity(i);
+            finishAffinity();
         });
 
 
@@ -195,7 +182,7 @@ public class SingleProduct2 extends AppCompatActivity {
             @Override
             public void onResponse(Call<matchByIdBean> call, Response<matchByIdBean> response) {
 
-                name.setText(response.body().getData().getProductTitle());
+                name.setText(Objects.requireNonNull(response.body()).getData().getProductTitle());
 
                 brand.setText(response.body().getData().getBrand());
 
@@ -275,135 +262,121 @@ public class SingleProduct2 extends AppCompatActivity {
         });
 
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        imageView.setOnClickListener(v -> {
 
-                Intent i = new Intent(SingleProduct2.this, WristWatch.class);
-                i.putExtra("id", id);
-                i.putExtra("text", title.getText().toString());
-                startActivity(i);
+            Intent i = new Intent(SingleProduct2.this, WristWatch.class);
+            i.putExtra("id", id);
+            i.putExtra("text", title.getText().toString());
+            startActivity(i);
 
-            }
         });
 
 
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        order.setOnClickListener(v -> {
 
-                final Dialog dialog = new Dialog(SingleProduct2.this);
+            final Dialog dialog = new Dialog(SingleProduct2.this);
 
-                dialog.setContentView(R.layout.dialog);
+            dialog.setContentView(R.layout.dialog);
 
-                dialog.setCancelable(true);
+            dialog.setCancelable(true);
 
-                dialog.show();
+            dialog.show();
 
-                TextView code = dialog.findViewById(R.id.code);
+            TextView code = dialog.findViewById(R.id.code);
 
-                TextView mobile = dialog.findViewById(R.id.mobile);
+            TextView mobile = dialog.findViewById(R.id.mobile);
 
-                Button watshp = dialog.findViewById(R.id.whatsapp);
+            Button watshp = dialog.findViewById(R.id.whatsapp);
 
-                Button call = dialog.findViewById(R.id.call);
+            Button call1 = dialog.findViewById(R.id.call);
 
-                mobile.setText(ph);
+            mobile.setText(ph);
 
-                code.setText(co);
+            code.setText(co);
 
-                watshp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            watshp.setOnClickListener(v12 -> {
 
 
 
 /*
 
-                        try {
+                    try {
 
-                            Uri uri = Uri.parse("smsto:" + ph);
-                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
-                            sendIntent.setPackage("com.whatsapp");
-                            startActivity(sendIntent);
+                        Uri uri = Uri.parse("smsto:" + ph);
+                        Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+                        sendIntent.setPackage("com.whatsapp");
+                        startActivity(sendIntent);
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 */
 
 
-                        openWhatsApp();
+                openWhatsApp();
 
-                        dialog.dismiss();
+                dialog.dismiss();
 
-                        // String formattedNumber = Util.formatPhone(ph);
-                       /* try{
-                            Intent sendIntent =new Intent("android.intent.action.MAIN");
-                            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
-                            sendIntent.setAction(Intent.ACTION_SEND);
-                            sendIntent.setType("text/plain");
-                            sendIntent.putExtra(Intent.EXTRA_TEXT,"dstfdsg");
-                            sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators("917503381028") +"@s.whatsapp.net");
-                            sendIntent.setPackage("com.whatsapp");
-                            SingleProduct.this.startActivity(sendIntent);
-                        }
-                        catch(Exception e)
-                        {
-                            Toast.makeText(SingleProduct.this,"Error/n"+ e.toString(),Toast.LENGTH_SHORT).show();
-                        }
+                // String formattedNumber = Util.formatPhone(ph);
+                   /* try{
+                        Intent sendIntent =new Intent("android.intent.action.MAIN");
+                        sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.setType("text/plain");
+                        sendIntent.putExtra(Intent.EXTRA_TEXT,"dstfdsg");
+                        sendIntent.putExtra("jid", PhoneNumberUtils.stripSeparators("917503381028") +"@s.whatsapp.net");
+                        sendIntent.setPackage("com.whatsapp");
+                        SingleProduct.this.startActivity(sendIntent);
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(SingleProduct.this,"Error/n"+ e.toString(),Toast.LENGTH_SHORT).show();
+                    }
 */
 
 
 
 /*
 
-                        String url = "https://api.whatsapp.com/send?phone="+ph;
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(url));
+                    String url = "https://api.whatsapp.com/send?phone="+ph;
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+*/
+
+
+            });
+
+            call1.setOnClickListener(v1 -> {
+
+                   /* try {
+
+
+                        Intent i = new Intent(Intent.ACTION_CALL);
+                        i.setData(Uri.parse(ph));
                         startActivity(i);
-*/
 
 
-                    }
-                });
+                    } catch (Exception e) {
 
-                call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                       /* try {
+                        e.printStackTrace();
+                    }*/
 
 
-                            Intent i = new Intent(Intent.ACTION_CALL);
-                            i.setData(Uri.parse(ph));
-                            startActivity(i);
+                try {
+
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                    startActivity(intent);
+                    dialog.dismiss();
 
 
-                        } catch (Exception e) {
+                } catch (Exception e) {
 
-                            e.printStackTrace();
-                        }*/
-
-
+                    e.printStackTrace();
+                }
 
 
-                        try {
-
-                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
-                            startActivity(intent);
-                            dialog.dismiss();
-
-
-                        } catch (Exception e) {
-
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-            }
+            });
         });
     }
 
@@ -442,16 +415,15 @@ public class SingleProduct2 extends AppCompatActivity {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
         } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
         }
         return app_installed;
     }
 
-    public class ViewAdapter extends FragmentStatePagerAdapter {
+    class ViewAdapter extends FragmentStatePagerAdapter {
 
-        List<String> tlist = new ArrayList<>();
+        List<String> tlist;
 
-        public ViewAdapter(FragmentManager fm, List<String> tlist) {
+        ViewAdapter(FragmentManager fm, List<String> tlist) {
             super(fm);
             this.tlist = tlist;
         }
@@ -487,7 +459,7 @@ public class SingleProduct2 extends AppCompatActivity {
 
             View view = inflater.inflate(R.layout.page1 , container , false);
 
-            url = getArguments().getString("url");
+            url = Objects.requireNonNull(getArguments()).getString("url");
 
             imageView = view.findViewById(R.id.watch);
 
@@ -495,16 +467,13 @@ public class SingleProduct2 extends AppCompatActivity {
             ImageLoader loader = ImageLoader.getInstance();
             loader.displayImage(url , imageView , options);
 
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            imageView.setOnClickListener(v -> {
 
-                    Intent i = new Intent(getContext(), WristWatch2.class);
-                    i.putExtra("id", id);
-                    i.putExtra("text", title.getText().toString());
-                    startActivity(i);
+                Intent i = new Intent(getContext(), WristWatch2.class);
+                i.putExtra("id", id);
+                i.putExtra("text", title.getText().toString());
+                startActivity(i);
 
-                }
             });
 
             return view;

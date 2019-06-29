@@ -14,6 +14,7 @@ import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
@@ -26,18 +27,20 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class WristWatch2 extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    AutoScrollViewPager pager;
+    private AutoScrollViewPager pager;
 
-    ViewAdapter adapter;
+    private ViewAdapter adapter;
 
-    CircleIndicator indicator;
+    private CircleIndicator indicator;
 
-    String id , title , base;
+    private String id;
+    private String title;
+    private String base;
 
-    TextView tool;
-    ProgressBar bar;
+    private TextView tool;
+    private ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,20 +54,13 @@ public class WristWatch2 extends AppCompatActivity {
         bar = findViewById(R.id.progress);
         tool = findViewById(R.id.tool);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         tool.setText(title);
 
-        pager = (AutoScrollViewPager) findViewById(R.id.pager);
+        pager = findViewById(R.id.pager);
 
         //pager.setOnPageChangeListener(new MyOnPageChangeListener());
 
@@ -98,7 +94,7 @@ public class WristWatch2 extends AppCompatActivity {
 
 
 
-                adapter = new ViewAdapter(getSupportFragmentManager(), response.body().getData().getThumb());
+                adapter = new ViewAdapter(getSupportFragmentManager(), Objects.requireNonNull(response.body()).getData().getThumb());
 
                 pager.setAdapter(adapter);
 
@@ -120,11 +116,11 @@ public class WristWatch2 extends AppCompatActivity {
 
     }
 
-    public class ViewAdapter extends FragmentStatePagerAdapter {
+    class ViewAdapter extends FragmentStatePagerAdapter {
 
-        List<String> tlist = new ArrayList<>();
+        List<String> tlist;
 
-        public ViewAdapter(FragmentManager fm, List<String> tlist) {
+        ViewAdapter(FragmentManager fm, List<String> tlist) {
             super(fm);
             this.tlist = tlist;
         }

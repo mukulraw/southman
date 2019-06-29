@@ -3,7 +3,7 @@ package com.sc.bigboss.bigboss.VideoUrlPOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+class Datum {
 
 
     @SerializedName("id")

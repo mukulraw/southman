@@ -13,9 +13,9 @@ import android.widget.TextView;
 public class First extends Fragment {
 
 
-    TextView next;
+    private TextView next;
 
-    ViewPager pager;
+    private ViewPager pager;
 
     public void setData(ViewPager pager) {
         this.pager = pager;
@@ -29,24 +29,21 @@ public class First extends Fragment {
 
         next = view.findViewById(R.id.next);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        next.setOnClickListener(v -> {
 
 
-                pager.setCurrentItem(1);
+            pager.setCurrentItem(1);
 
 
-                /*FragmentManager fm = getChildFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                First f = new First();
-                ft.replace(R.id.replace, f);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            /*FragmentManager fm = getChildFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            First f = new First();
+            ft.replace(R.id.replace, f);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
 
-                ft.commit();
+            ft.commit();
 */
 
-            }
         });
         return view;
     }

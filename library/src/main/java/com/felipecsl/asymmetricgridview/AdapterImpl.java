@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 final class AdapterImpl implements View.OnClickListener, View.OnLongClickListener {
   private static final String TAG = "AdapterImpl";
@@ -91,20 +92,18 @@ final class AdapterImpl implements View.OnClickListener, View.OnLongClickListene
   }
 
   @Override public void onClick(@NonNull View v) {
-    // noinspection unchecked
     ViewState rowItem = (ViewState) v.getTag();
     listView.fireOnItemClick(rowItem.rowItem.getIndex(), v);
   }
 
   @Override public boolean onLongClick(@NonNull View v) {
-    // noinspection unchecked
     ViewState rowItem = (ViewState) v.getTag();
     return listView.fireOnItemLongClick(rowItem.rowItem.getIndex(), v);
   }
 
   void onBindViewHolder(ViewHolder holder, int position, ViewGroup parent) {
     if (debugEnabled) {
-      Log.d(TAG, "onBindViewHolder(" + String.valueOf(position) + ")");
+      Log.d(TAG, "onBindViewHolder(" + position + ")");
     }
 
     RowInfo rowInfo = itemsPerRow.get(position);
@@ -196,22 +195,22 @@ final class AdapterImpl implements View.OnClickListener, View.OnLongClickListene
     return new ViewHolder(layout);
   }
 
-  int getRowHeight(AsymmetricItem item) {
+  private int getRowHeight(AsymmetricItem item) {
     return getRowHeight(item.getRowSpan());
   }
 
-  int getRowHeight(int rowSpan) {
+  private int getRowHeight(int rowSpan) {
     final int rowHeight = listView.getColumnWidth() * rowSpan;
     // when the item spans multiple rows, we need to account for the vertical padding
     // and add that to the total final height
     return rowHeight + ((rowSpan - 1) * listView.getDividerHeight());
   }
 
-  int getRowWidth(AsymmetricItem item) {
+  private int getRowWidth(AsymmetricItem item) {
     return getRowWidth(item.getColumnSpan());
   }
 
-  protected int getRowWidth(int columnSpan) {
+  private int getRowWidth(int columnSpan) {
     final int rowWidth = listView.getColumnWidth() * columnSpan;
     // when the item spans multiple columns, we need to account for the horizontal padding
     // and add that to the total final width
@@ -230,7 +229,7 @@ final class AdapterImpl implements View.OnClickListener, View.OnLongClickListene
         View innerView = tempChild.getChildAt(k);
         ViewState viewState = (ViewState) innerView.getTag();
         ObjectPool<AsymmetricViewHolder<?>> pool = viewHoldersMap.get(viewState.viewType);
-        pool.put(viewState.viewHolder);
+        Objects.requireNonNull(pool).put(viewState.viewHolder);
       }
       tempChild.removeAllViews();
     }

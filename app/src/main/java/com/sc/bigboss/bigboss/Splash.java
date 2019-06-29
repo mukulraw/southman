@@ -24,9 +24,9 @@ public class Splash extends AppCompatActivity {
 
     ProgressBar bar;
 
-    Timer timer;
+    private Timer timer;
 
-    String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
+    private final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_CONTACTS,
@@ -44,14 +44,7 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("all").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                Log.d("task" , task.toString());
-
-            }
-        });
+        FirebaseMessaging.getInstance().subscribeToTopic("all").addOnCompleteListener(task -> Log.d("task" , task.toString()));
 
         if (hasPermissions(this, PERMISSIONS)) {
 
@@ -62,7 +55,7 @@ public class Splash extends AppCompatActivity {
 
     }
 
-    public static boolean hasPermissions(Context context, String... permissions) {
+    private static boolean hasPermissions(Context context, String... permissions) {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
             for (String permission : permissions) {
                 if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -114,7 +107,7 @@ public class Splash extends AppCompatActivity {
 
     }
 
-    void startApp() {
+    private void startApp() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
 
 
@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        android:layout_margin="5dp"
-        android:elevation="3dp">
+        android:elevation="3dp"
+        tools:targetApi="lollipop">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,7 +29,8 @@
                     android:layout_gravity="center_vertical"
                     android:padding="18dp"
                     android:id="@+id/image"
-                    android:src="@drawable/teddy" />
+                    android:src="@drawable/teddy"
+                    android:contentDescription="TODO" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -52,7 +54,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="2dp"
-                        android:weightSum="2">
+                        android:weightSum="2"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -104,7 +107,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="2dp"
-                        android:weightSum="2">
+                        android:weightSum="2"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -156,7 +160,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="2dp"
-                        android:weightSum="2">
+                        android:weightSum="2"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -209,7 +214,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="2"
-                        android:padding="2dp">
+                        android:padding="2dp"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -261,7 +267,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="2dp"
-                        android:weightSum="2">
+                        android:weightSum="2"
+                        android:baselineAligned="false">
 
 
                         <LinearLayout
@@ -322,7 +329,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
-                />
+                android:contentDescription="TODO" />
 
         </RelativeLayout>
 

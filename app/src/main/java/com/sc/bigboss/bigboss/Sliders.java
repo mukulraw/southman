@@ -13,11 +13,11 @@ import me.relex.circleindicator.CircleIndicator;
 public class Sliders extends AppCompatActivity {
 
 
-    AutoScrollViewPager pager;
+    private AutoScrollViewPager pager;
 
-    CircleIndicator indicator;
+    private CircleIndicator indicator;
 
-    SliderAdapter adapter;
+    private SliderAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class Sliders extends AppCompatActivity {
 
         pager = findViewById(R.id.pager);
 
-        pager.setOnPageChangeListener(new MyOnPageChangeListener());
+        pager.addOnPageChangeListener(new MyOnPageChangeListener());
 
         pager.setInterval(2000);
         pager.startAutoScroll();
@@ -44,7 +44,7 @@ public class Sliders extends AppCompatActivity {
 
     }
 
-    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageSelected(int position) {
@@ -79,10 +79,10 @@ public class Sliders extends AppCompatActivity {
 
 
 
-    public class SliderAdapter extends FragmentStatePagerAdapter{
+    class SliderAdapter extends FragmentStatePagerAdapter{
 
 
-        public SliderAdapter(FragmentManager fm , int list) {
+        SliderAdapter(FragmentManager fm, int list) {
             super(fm);
         }
 

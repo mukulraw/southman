@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -32,12 +33,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Winners extends AppCompatActivity {
-    Toolbar toolbar;
-    RecyclerView grid;
-    ProgressBar progress;
-    GridLayoutManager manager;
-    List<Datum> list;
-    WinnersAdapter adapter;
+    private Toolbar toolbar;
+    private RecyclerView grid;
+    private ProgressBar progress;
+    private GridLayoutManager manager;
+    private List<Datum> list;
+    private WinnersAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +53,11 @@ public class Winners extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         toolbar.setTitle("Winners");
 
@@ -90,7 +85,7 @@ public class Winners extends AppCompatActivity {
             @Override
             public void onResponse(Call<winnersBean> call, Response<winnersBean> response) {
 
-                Log.d("respomse" , String.valueOf(response.body().getData().size()));
+                Log.d("respomse" , String.valueOf(Objects.requireNonNull(response.body()).getData().size()));
 
                 adapter.setData(response.body().getData());
 
@@ -107,16 +102,16 @@ public class Winners extends AppCompatActivity {
 
     class WinnersAdapter extends RecyclerView.Adapter<WinnersAdapter.ViewHolder>
     {
-        Context context;
-        List<Datum> list = new ArrayList<>();
+        final Context context;
+        List<Datum> list;
 
-        public WinnersAdapter(Context context , List<Datum> list)
+        WinnersAdapter(Context context, List<Datum> list)
         {
             this.context = context;
             this.list = list;
         }
 
-        public void setData(List<Datum> list)
+        void setData(List<Datum> list)
         {
             this.list = list;
             notifyDataSetChanged();
@@ -156,10 +151,13 @@ public class Winners extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder
         {
 
-            TextView title , price , name , date;
-            CircleImageView image;
+            final TextView title;
+            final TextView price;
+            final TextView name;
+            final TextView date;
+            final CircleImageView image;
 
-            public ViewHolder(@NonNull View itemView) {
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 title = itemView.findViewById(R.id.textView23);

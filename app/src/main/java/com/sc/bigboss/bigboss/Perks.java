@@ -18,12 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
-import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
@@ -42,18 +40,20 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Perks extends AppCompatActivity {
 
-    Toolbar toolbar;
-    ProgressBar progress;
+    private Toolbar toolbar;
+    private ProgressBar progress;
 
-    TextView perks, cash;
+    private TextView perks;
+    private TextView cash;
 
-    TextView name , phone;
+    private TextView name;
+    private TextView phone;
 
-Button update;
+private Button update;
 
-    TextView history;
+    private TextView history;
 
-    Button transfer;
+    private Button transfer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,251 +76,214 @@ Button update;
         progress = findViewById(R.id.progress);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         toolbar.setTitle("Profile");
 
 
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        update.setOnClickListener(v -> {
 
-                Dialog dialog = new Dialog(Perks.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.register_dialog);
-                dialog.show();
+            Dialog dialog = new Dialog(Perks.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.register_dialog);
+            dialog.show();
 
-                EditText name = dialog.findViewById(R.id.name);
-                EditText phone = dialog.findViewById(R.id.phone);
-                Button submit = dialog.findViewById(R.id.submit);
+            EditText name = dialog.findViewById(R.id.name);
+            EditText phone = dialog.findViewById(R.id.phone);
+            Button submit = dialog.findViewById(R.id.submit);
 
 
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            submit.setOnClickListener(v12 -> {
 
-                        String n = name.getText().toString();
-                        String p = phone.getText().toString();
+                String n = name.getText().toString();
+                String p = phone.getText().toString();
 
-                        if (n.length() > 0)
-                        {
+                if (n.length() > 0) {
 
-                            if (p.length() == 10)
-                            {
+                    if (p.length() == 10) {
 
-                                Bean b = (Bean) getApplicationContext();
+                        Bean b = (Bean) getApplicationContext();
 
-                                Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl(b.baseurl)
-                                        .addConverterFactory(ScalarsConverterFactory.create())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build();
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
 
-                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
+                        String android_id = Settings.Secure.getString(getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
 
-                                String android_id = Settings.Secure.getString(getContentResolver(),
-                                        Settings.Secure.ANDROID_ID);
+                        Call<scratchCardBean> call1 = cr.register(android_id, n, SharePreferenceUtils.getInstance().getString("token"), p);
 
-                                Call<scratchCardBean> call1 = cr.register(android_id , n , SharePreferenceUtils.getInstance().getString("token") , p);
+                        call1.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
-                                call1.enqueue(new Callback<scratchCardBean>() {
-                                    @Override
-                                    public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+                                dialog.dismiss();
 
-                                        dialog.dismiss();
+                                SharePreferenceUtils.getInstance().saveString("userid", response2.body().getMessage());
+                                SharePreferenceUtils.getInstance().saveString("name", n);
+                                SharePreferenceUtils.getInstance().saveString("phone", p);
 
-                                        SharePreferenceUtils.getInstance().saveString("userid" , response2.body().getMessage());
-                                        SharePreferenceUtils.getInstance().saveString("name" , n);
-                                        SharePreferenceUtils.getInstance().saveString("phone" , p);
+                                onResume();
 
-                                        onResume();
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
-
-
-
-                                    }
-                                });
-                            }
-                            else
-                            {
-                                Toast.makeText(Perks.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                             }
 
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
 
 
-
-                        }
-                        else
-                        {
-                            Toast.makeText(Perks.this, "Invalid name", Toast.LENGTH_SHORT).show();
-                        }
-
+                            }
+                        });
+                    } else {
+                        Toast.makeText(Perks.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                     }
-                });
 
 
-            }
+                } else {
+                    Toast.makeText(Perks.this, "Invalid name", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+
         });
 
-        history.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Perks.this, History.class);
-                startActivity(intent);
-            }
+        history.setOnClickListener(v -> {
+            Intent intent = new Intent(Perks.this, History.class);
+            startActivity(intent);
         });
 
 
-        transfer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        transfer.setOnClickListener(v -> {
 
 
-                Dialog dialog = new Dialog(Perks.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.transfer_layout);
-                dialog.show();
+            Dialog dialog = new Dialog(Perks.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.transfer_layout);
+            dialog.show();
 
 
-                List<String> ids = new ArrayList<>();
-                List<String> names = new ArrayList<>();
-                final String[] id = new String[1];
+            List<String> ids = new ArrayList<>();
+            List<String> names = new ArrayList<>();
+            final String[] id = new String[1];
 
-                SearchableSpinner spinner = dialog.findViewById(R.id.spinner);
-                EditText amount = dialog.findViewById(R.id.amount);
-                Button submit = dialog.findViewById(R.id.submit);
+            SearchableSpinner spinner = dialog.findViewById(R.id.spinner);
+            EditText amount = dialog.findViewById(R.id.amount);
+            Button submit = dialog.findViewById(R.id.submit);
 
-                spinner.setTitle("Select user");
-                spinner.setPositiveButton("OK");
+            spinner.setTitle("Select user");
+            spinner.setPositiveButton("OK");
 
-                Bean b = (Bean) getApplicationContext();
+            Bean b = (Bean) getApplicationContext();
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(b.baseurl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-
-                Call<usersBean> call = cr.getUsers();
-                call.enqueue(new Callback<usersBean>() {
-                    @Override
-                    public void onResponse(Call<usersBean> call, Response<usersBean> response) {
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                        for (int i = 0; i < response.body().getData().size(); i++) {
-                            ids.add(response.body().getData().get(i).getId());
-                            names.add(response.body().getData().get(i).getName() + "_" + response.body().getData().get(i).getDeviceId());
+            Call<usersBean> call = cr.getUsers();
+            call.enqueue(new Callback<usersBean>() {
+                @Override
+                public void onResponse(Call<usersBean> call, Response<usersBean> response) {
+
+
+                    for (int i = 0; i < response.body().getData().size(); i++) {
+                        ids.add(response.body().getData().get(i).getId());
+                        names.add(response.body().getData().get(i).getName() + "_" + response.body().getData().get(i).getDeviceId());
+                    }
+
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(Perks.this,
+                            R.layout.spinner_item, names);
+
+                    spinner.setAdapter(adapter);
+
+
+                }
+
+                @Override
+                public void onFailure(Call<usersBean> call, Throwable t) {
+
+                }
+            });
+
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id1) {
+
+                    id[0] = ids.get(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+
+
+            submit.setOnClickListener(v1 -> {
+
+                String a = amount.getText().toString();
+                String c = cash.getText().toString();
+
+                float aa = 0, cc = 0;
+
+                try {
+
+                    aa = Float.parseFloat(a);
+                    cc = Float.parseFloat(c);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (aa > 0 && aa <= cc) {
+
+
+                    Call<usersBean> call1 = cr.transfer(SharePreferenceUtils.getInstance().getString("userid"), id[0], String.valueOf(aa));
+
+                    call1.enqueue(new Callback<usersBean>() {
+                        @Override
+                        public void onResponse(Call<usersBean> call22, Response<usersBean> response) {
+
+                            dialog.dismiss();
+                            Toast.makeText(Perks.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            onResume();
                         }
 
-
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Perks.this,
-                                R.layout.spinner_item, names);
-
-                        spinner.setAdapter(adapter);
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<usersBean> call, Throwable t) {
-
-                    }
-                });
-
-
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id1) {
-
-                        id[0] = ids.get(position);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-
-
-
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        String a = amount.getText().toString();
-                        String c = cash.getText().toString();
-
-                        float aa = 0,cc = 0;
-
-                        try {
-
-                            aa = Float.parseFloat(a);
-                            cc = Float.parseFloat(c);
-
-                        }catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                        if (aa > 0 && aa <= cc)
-                        {
-
-
-
-                            Call<usersBean> call1 = cr.transfer(SharePreferenceUtils.getInstance().getString("userid") , id[0] , String.valueOf(aa));
-
-                            call1.enqueue(new Callback<usersBean>() {
-                                @Override
-                                public void onResponse(Call<usersBean> call, Response<usersBean> response) {
-
-                                    dialog.dismiss();
-                                    Toast.makeText(Perks.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                    onResume();
-                                }
-
-                                @Override
-                                public void onFailure(Call<usersBean> call, Throwable t) {
-
-                                }
-                            });
-
-
+                        @Override
+                        public void onFailure(Call<usersBean> call22, Throwable t) {
 
                         }
-                        else
-                        {
-                            Toast.makeText(Perks.this, "Invalid amount", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
+                    });
 
 
+                } else {
+                    Toast.makeText(Perks.this, "Invalid amount", Toast.LENGTH_SHORT).show();
+                }
 
-            }
+            });
+
+
+
         });
 
 
@@ -356,7 +319,7 @@ Button update;
             @Override
             public void onResponse(Call<getPerksBean> call, Response<getPerksBean> response) {
 
-                if (response.body().getStatus().equals("1")) {
+                if (Objects.requireNonNull(response.body()).getStatus().equals("1")) {
                     cash.setText(response.body().getData().get(0).getCashRewards());
                     perks.setText(response.body().getData().get(0).getPerks());
 

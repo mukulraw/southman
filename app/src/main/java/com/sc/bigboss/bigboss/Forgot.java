@@ -11,13 +11,13 @@ import android.widget.ProgressBar;
 
 public class Forgot extends AppCompatActivity {
 
-    Button send;
+    private Button send;
 
-    ImageView back;
+    //private ImageView back;
 
-    EditText email;
+    private EditText email;
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +26,19 @@ public class Forgot extends AppCompatActivity {
 
         send = findViewById(R.id.send);
 
-        back = findViewById(R.id.imageButton3);
+        //back = findViewById(R.id.imageButton3);
 
         email = findViewById(R.id.email);
 
         bar = findViewById(R.id.progress);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                finish();
-            }
-        });
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        send.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(Forgot.this , Login.class);
-                startActivity(i);
+            Intent i = new Intent(Forgot.this , Login.class);
+            startActivity(i);
 
-            }
         });
     }
 }

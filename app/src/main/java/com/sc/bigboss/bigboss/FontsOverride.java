@@ -5,7 +5,7 @@ import android.graphics.Typeface;
 
 import java.lang.reflect.Field;
 
-public class FontsOverride {
+class FontsOverride {
 
     public static void setDefaultFont(Context context,
                                       String staticTypefaceFieldName, String fontAssetName) {
@@ -14,8 +14,8 @@ public class FontsOverride {
         replaceFont(staticTypefaceFieldName, regular);
     }
 
-    protected static void replaceFont(String staticTypefaceFieldName,
-                                      final Typeface newTypeface) {
+    private static void replaceFont(String staticTypefaceFieldName,
+                                    final Typeface newTypeface) {
 
         try {
 

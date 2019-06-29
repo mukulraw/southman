@@ -15,20 +15,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ShopCollershirt extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    CollerAdapter1 adapeter1;
+    private CollerAdapter1 adapeter1;
 
     // List<String>list;
 
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
 
     @Override
@@ -40,15 +42,9 @@ public class ShopCollershirt extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
 
         //  list = new ArrayList<>();
@@ -72,11 +68,11 @@ public class ShopCollershirt extends AppCompatActivity {
 
     public class CollerAdapter1 extends RecyclerView.Adapter<CollerAdapter1.MyViewHolder>{
 
-        Context context;
+        final Context context;
 
         // List<String>list = new ArrayList<>();
 
-        public CollerAdapter1(Context context){
+        CollerAdapter1(Context context){
 
             this.context = context;
             //this.list = list;
@@ -127,12 +123,17 @@ public class ShopCollershirt extends AppCompatActivity {
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
 
-            TextView name , brand , size , prices , color , negtiable;
+            final TextView name;
+            final TextView brand;
+            final TextView size;
+            final TextView prices;
+            final TextView color;
+            final TextView negtiable;
 
-            ImageView image;
+            final ImageView image;
 
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);
@@ -143,13 +144,10 @@ public class ShopCollershirt extends AppCompatActivity {
                 negtiable = itemView.findViewById(R.id.nagtiable);
                 image = itemView.findViewById(R.id.image);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                itemView.setOnClickListener(v -> {
 
-                        Intent i = new Intent(context ,SingleProduct.class );
-                        context.startActivity(i);
-                    }
+                    Intent i = new Intent(context ,SingleProduct.class );
+                    context.startActivity(i);
                 });
             }
         }

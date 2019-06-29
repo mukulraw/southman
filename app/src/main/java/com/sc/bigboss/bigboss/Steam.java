@@ -19,11 +19,11 @@ import java.util.List;
 
 public class Steam extends Fragment {
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    SteamAdapter adapter;
+    private SteamAdapter adapter;
 
     List<String>list;
 
@@ -57,11 +57,11 @@ public class Steam extends Fragment {
 
     public class SteamAdapter extends RecyclerView.Adapter<SteamAdapter.MyViewHolder>{
 
-        Context context;
+        final Context context;
 
       //  List<String>list = new ArrayList<>();
 
-        public SteamAdapter(Context context){
+        SteamAdapter(Context context){
 
             this.context = context;
             //this.list = list;
@@ -110,14 +110,14 @@ public class Steam extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
 
-            Button play;
+            final Button play;
 
-            ImageView imageView;
+            final ImageView imageView;
 
-            TextView textView;
+            final TextView textView;
 
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
 
@@ -128,14 +128,11 @@ public class Steam extends Fragment {
                 textView = itemView.findViewById(R.id.text);
 
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(context , SteamVideoPlayer.class);
-                        context.startActivity(i);
+                itemView.setOnClickListener(v -> {
+                    Intent i = new Intent(context , SteamVideoPlayer.class);
+                    context.startActivity(i);
 
 
-                    }
                 });
 
             }

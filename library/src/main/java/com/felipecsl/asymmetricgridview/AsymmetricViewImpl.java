@@ -8,12 +8,12 @@ import android.view.View;
 
 final class AsymmetricViewImpl {
   private static final int DEFAULT_COLUMN_COUNT = 2;
-  protected int numColumns = DEFAULT_COLUMN_COUNT;
-  protected int requestedHorizontalSpacing;
-  protected int requestedColumnWidth;
-  protected int requestedColumnCount;
-  protected boolean allowReordering;
-  protected boolean debugging;
+  private int numColumns = DEFAULT_COLUMN_COUNT;
+  private int requestedHorizontalSpacing;
+  private int requestedColumnWidth;
+  private int requestedColumnCount;
+  private boolean allowReordering;
+  private boolean debugging;
 
   AsymmetricViewImpl(Context context) {
     requestedHorizontalSpacing = Utils.dpToPx(context, 5);
@@ -35,7 +35,7 @@ final class AsymmetricViewImpl {
     requestedHorizontalSpacing = spacing;
   }
 
-  public int determineColumns(int availableSpace) {
+  public void determineColumns(int availableSpace) {
     int numColumns;
 
     if (requestedColumnWidth > 0) {
@@ -54,7 +54,6 @@ final class AsymmetricViewImpl {
 
     this.numColumns = numColumns;
 
-    return numColumns;
   }
 
   public Parcelable onSaveInstanceState(Parcelable superState) {

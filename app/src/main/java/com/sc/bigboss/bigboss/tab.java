@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 public class tab extends AppCompatActivity {
 
-    RecyclerView grid;
-    LinearLayoutManager manager;
+    private RecyclerView grid;
+    private LinearLayoutManager manager;
 
-    TabAdapter adapter;
+    private TabAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,9 @@ public class tab extends AppCompatActivity {
     public class TabAdapter extends RecyclerView.Adapter<TabAdapter.Myviewholder>{
 
 
-        Context context;
+        final Context context;
 
-        public TabAdapter(Context context){
+        TabAdapter(Context context){
             this.context = context;
         }
 
@@ -63,7 +63,7 @@ public class tab extends AppCompatActivity {
 
         public class Myviewholder extends RecyclerView.ViewHolder{
 
-            public Myviewholder(@NonNull View itemView) {
+            Myviewholder(@NonNull View itemView) {
                 super(itemView);
             }
         }

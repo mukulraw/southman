@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 public class BottomAdapter extends RecyclerView.Adapter<BottomAdapter.MyViewHolder> {
 
 
-    Context context;
+    private final Context context;
 
 
     public BottomAdapter(Context context){
@@ -39,7 +39,7 @@ public class BottomAdapter extends RecyclerView.Adapter<BottomAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }

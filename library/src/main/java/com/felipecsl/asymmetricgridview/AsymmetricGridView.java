@@ -11,9 +11,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class AsymmetricGridView extends ListView implements AsymmetricView {
-  protected AdapterView.OnItemClickListener onItemClickListener;
-  protected AdapterView.OnItemLongClickListener onItemLongClickListener;
-  protected AsymmetricGridViewAdapter gridAdapter;
+  private AdapterView.OnItemClickListener onItemClickListener;
+  private AdapterView.OnItemLongClickListener onItemLongClickListener;
+  private AsymmetricGridViewAdapter gridAdapter;
   private final AsymmetricViewImpl viewImpl;
 
   public AsymmetricGridView(Context context, AttributeSet attrs) {
@@ -25,8 +25,7 @@ public class AsymmetricGridView extends ListView implements AsymmetricView {
     if (vto != null) {
       vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override public void onGlobalLayout() {
-          //noinspection deprecation
-          getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            getViewTreeObserver().removeGlobalOnLayoutListener(this);
           viewImpl.determineColumns(getAvailableSpace());
           if (gridAdapter != null) {
             gridAdapter.recalculateItemsPerRow();

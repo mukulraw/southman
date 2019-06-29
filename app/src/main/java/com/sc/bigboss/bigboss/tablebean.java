@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class tablebean {
+class tablebean {
     @SerializedName("status")
     @Expose
     private String status;

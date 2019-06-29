@@ -1,6 +1,5 @@
 package com.sc.bigboss.bigboss;
 
-import android.app.SharedElementCallback;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,12 +27,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class Notification extends AppCompatActivity {
 
-    Toolbar toolbar;
-    RecyclerView grid;
-    List<notiBean> list;
-    GridLayoutManager manager;
-    NotiAdapter adapter;
-    ProgressBar progress;
+    private Toolbar toolbar;
+    private RecyclerView grid;
+    private List<notiBean> list;
+    private GridLayoutManager manager;
+    private NotiAdapter adapter;
+    private ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +50,11 @@ public class Notification extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         toolbar.setNavigationIcon(R.drawable.arrowleft);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         toolbar.setTitle("Notification");
 
@@ -102,10 +96,10 @@ public class Notification extends AppCompatActivity {
     }
 
     class NotiAdapter extends RecyclerView.Adapter<NotiAdapter.ViewHolder> {
-        Context context;
-        List<notiBean> list = new ArrayList<>();
+        final Context context;
+        List<notiBean> list;
 
-        public NotiAdapter(Context context, List<notiBean> list) {
+        NotiAdapter(Context context, List<notiBean> list) {
             this.context = context;
             this.list = list;
         }
@@ -138,10 +132,12 @@ public class Notification extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView code, date, type;
-            RelativeLayout layout;
+            final TextView code;
+            final TextView date;
+            final TextView type;
+            final RelativeLayout layout;
 
-            public ViewHolder(@NonNull View itemView) {
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 layout = itemView.findViewById(R.id.layout);

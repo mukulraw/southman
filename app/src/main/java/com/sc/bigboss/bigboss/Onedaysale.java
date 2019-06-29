@@ -19,21 +19,22 @@ import com.sc.bigboss.bigboss.ShopTillPOJO.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Onedaysale extends Fragment {
 
 
-    RecyclerView grid;
+    private RecyclerView grid;
 
-    GridLayoutManager manager;
+    private GridLayoutManager manager;
 
-    OnedayAdapter adapter;
+    private OnedayAdapter adapter;
 
-    String catid;
+    private String catid;
 
     ProgressBar bar;
 
-    List<Datum>list;
+    private List<Datum>list;
 
     @Nullable
     @Override
@@ -41,7 +42,7 @@ public class Onedaysale extends Fragment {
 
         View vi = inflater.inflate(R.layout.till , container , false);
 
-        catid = getArguments().getString("catid");
+        catid = Objects.requireNonNull(getArguments()).getString("catid");
 
         list = new ArrayList<>();
 
@@ -65,12 +66,12 @@ public class Onedaysale extends Fragment {
     public class OnedayAdapter extends RecyclerView.Adapter<OnedayAdapter.MyViewHolder>{
 
 
-        Context context;
-         List<Datum> list = new ArrayList<>();
+        final Context context;
+         List<Datum> list;
 
 
 
-        public OnedayAdapter(Context context , List<Datum>list ){
+        OnedayAdapter(Context context, List<Datum> list){
 
             this.context  = context;
             this.list = list;
@@ -103,19 +104,16 @@ public class Onedaysale extends Fragment {
 
 
 
-          myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+          myViewHolder.itemView.setOnClickListener(v -> {
 
 
-                    Intent i = new Intent(context , MeansCategory.class);
-                    i.putExtra("id" , item.getId());
-                    context.startActivity(i);
+              Intent i1 = new Intent(context , MeansCategory.class);
+              i1.putExtra("id" , item.getId());
+              context.startActivity(i1);
 
 
 
-                }
-            });
+          });
 
 
         }
@@ -133,11 +131,11 @@ public class Onedaysale extends Fragment {
 
         public class MyViewHolder extends RecyclerView.ViewHolder{
 
-            ImageView imageView;
-            TextView name;
+            final ImageView imageView;
+            final TextView name;
 
 
-            public MyViewHolder(@NonNull View itemView) {
+            MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 name = itemView.findViewById(R.id.name);

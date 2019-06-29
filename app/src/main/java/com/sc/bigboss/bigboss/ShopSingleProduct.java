@@ -9,15 +9,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ShopSingleProduct extends AppCompatActivity {
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    Button order;
+    private Button order;
 
-    TextView name , brand , color , size , negitable , price;
+    private TextView name;
+    private TextView brand;
+    private TextView color;
+    private TextView size;
+    private TextView negitable;
+    private TextView price;
 
-    ImageView imageView;
+    private ImageView imageView;
 
 
 
@@ -29,15 +36,9 @@ public class ShopSingleProduct extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
         name = findViewById(R.id.name);
 
@@ -61,44 +62,35 @@ public class ShopSingleProduct extends AppCompatActivity {
         loader.displayImage("" , imageView , options);
 
 */
-        order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        order.setOnClickListener(v -> {
 
-                final Dialog dialog = new Dialog(ShopSingleProduct.this);
+            final Dialog dialog = new Dialog(ShopSingleProduct.this);
 
-                dialog.setContentView(R.layout.dialog);
+            dialog.setContentView(R.layout.dialog);
 
-                dialog.setCancelable(true);
+            dialog.setCancelable(true);
 
-                dialog.show();
+            dialog.show();
 
-                TextView code = dialog.findViewById(R.id.code);
+            TextView code = dialog.findViewById(R.id.code);
 
-                TextView mobile = dialog.findViewById(R.id.mobile);
+            TextView mobile = dialog.findViewById(R.id.mobile);
 
-                Button watshp = dialog.findViewById(R.id.whatsapp);
+            Button watshp = dialog.findViewById(R.id.whatsapp);
 
-                Button call = dialog.findViewById(R.id.call);
+            Button call = dialog.findViewById(R.id.call);
 
-                watshp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            watshp.setOnClickListener(v12 -> {
 
-                        finish();
-                        dialog.dismiss();
-                    }
-                });
+                finish();
+                dialog.dismiss();
+            });
 
-                call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            call.setOnClickListener(v1 -> {
 
-                        finish();
-                        dialog.dismiss();
-                    }
-                });
-            }
+                finish();
+                dialog.dismiss();
+            });
         });
 
     }

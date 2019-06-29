@@ -10,8 +10,9 @@ import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class ContactHelper {
+class ContactHelper {
     public static Cursor getContactCursor(ContentResolver contactHelper, String startsWith) {
 
         String[] projection = { ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER };
@@ -23,7 +24,7 @@ public class ContactHelper {
             } else {
                 cur = contactHelper.query (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
             }
-            cur.moveToFirst();
+            Objects.requireNonNull(cur).moveToFirst();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -32,7 +33,7 @@ public class ContactHelper {
     }
 
     public static boolean insertContact(ContentResolver contactAdder, String firstName, String mobileNumber) {
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI).withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null).withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
 
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0).withValue(ContactsContract.Data.MIMETYPE,ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE).withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,firstName).build());
@@ -49,7 +50,7 @@ public class ContactHelper {
 
     public static void deleteContact(ContentResolver contactHelper, String number) {
 
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
         String[] args = new String[] { String.valueOf(getContactID(contactHelper, number)) };
 
         ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI).withSelection(ContactsContract.RawContacts.CONTACT_ID + "=?", args).build());
@@ -71,7 +72,7 @@ public class ContactHelper {
         try {
             cursor = contactHelper.query(contactUri, projection, null, null,null);
 
-            if (cursor.moveToFirst()) {
+            if (Objects.requireNonNull(cursor).moveToFirst()) {
                 int personID = cursor.getColumnIndex(ContactsContract.PhoneLookup._ID);
                 return cursor.getLong(personID);
             }
@@ -82,7 +83,6 @@ public class ContactHelper {
         } finally {
             if (cursor != null) {
                 cursor.close();
-                cursor = null;
             }
         }
         return -1;
@@ -92,18 +92,12 @@ public class ContactHelper {
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
         String name = "?";
 
-        Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
-                ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
-
-        try {
+        try (Cursor contactLookup = contentResolver.query(uri, new String[]{BaseColumns._ID,
+                ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null)) {
             if (contactLookup != null && contactLookup.getCount() > 0) {
                 contactLookup.moveToNext();
                 name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
                 //String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
-            }
-        } finally {
-            if (contactLookup != null) {
-                contactLookup.close();
             }
         }
 

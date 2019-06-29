@@ -52,30 +52,34 @@ public class MainActivity extends AppCompatActivity {
 
     //DrawerLayout drawer;
 
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
-    ViewPager pager;
+    private ViewPager pager;
 
-    SmartTabLayout tabLayout;
+    private SmartTabLayout tabLayout;
 
-    PagerAdapter adapter;
+    private PagerAdapter adapter;
 
-    ImageView search, notification, reward, perks, request;
+    private ImageView search;
+    private ImageView notification;
+    private ImageView reward;
+    private ImageView perks;
+    private ImageView request;
 
     //TextView profile, order, wishlist, setting, logout, name, edit;
 
-    RoundedImageView roundedImageView;
+    private RoundedImageView roundedImageView;
 
     Button play, video, shop;
 
-    TextView location;
+    private TextView location;
 
-    String lname;
+    private String lname;
 
-    TextView count;
+    private TextView count;
 
 
-    BroadcastReceiver singleReceiver;
+    private BroadcastReceiver singleReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open, R.string.close);
@@ -121,27 +125,24 @@ public class MainActivity extends AppCompatActivity {
 
         logout = findViewById(R.id.logout);
 */
-        roundedImageView = findViewById(R.id.imageView1);
+
 
         ada();
 
         lname = SharePreferenceUtils.getInstance().getString("lname");
 
-        notification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        notification.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(MainActivity.this, Notification.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(MainActivity.this, Notification.class);
+            startActivity(i);
         });
 
         singleReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals("count")) {
+                if (Objects.requireNonNull(intent.getAction()).equals("count")) {
                     count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
                 }
 
@@ -151,85 +152,76 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
                 new IntentFilter("count"));
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        search.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(MainActivity.this, Search.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(MainActivity.this, Search.class);
+            startActivity(i);
         });
 
 
-        request.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        request.setOnClickListener(v -> {
 
 
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.request_dialog);
-                dialog.show();
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setContentView(R.layout.request_dialog);
+            dialog.show();
 
 
-                EditText name = dialog.findViewById(R.id.name);
-                EditText phone = dialog.findViewById(R.id.phone);
-                Button submit = dialog.findViewById(R.id.submit);
+            EditText name = dialog.findViewById(R.id.name);
+            EditText phone = dialog.findViewById(R.id.phone);
+            Button submit = dialog.findViewById(R.id.submit);
 
 
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            submit.setOnClickListener(v1 -> {
 
-                        String n = name.getText().toString();
-                        String p = phone.getText().toString();
+                String n = name.getText().toString();
+                String p = phone.getText().toString();
 
-                        if (n.length() > 0) {
+                if (n.length() > 0) {
 
-                            if (p.length() == 10) {
-                                Bean b = (Bean) getApplicationContext();
-                                Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl(b.baseurl)
-                                        .addConverterFactory(ScalarsConverterFactory.create())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build();
+                    if (p.length() == 10) {
+                        Bean b = (Bean) getApplicationContext();
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
 
-                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
 
-                                Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid"), n, p);
+                        Call<scratchCardBean> call1 = cr.request(SharePreferenceUtils.getInstance().getString("userid"), n, p);
 
-                                call1.enqueue(new Callback<scratchCardBean>() {
-                                    @Override
-                                    public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
+                        call1.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call2, Response<scratchCardBean> response2) {
 
-                                        Toast.makeText(MainActivity.this, response2.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, response2.body().getMessage(), Toast.LENGTH_SHORT).show();
 
-                                        dialog.dismiss();
+                                dialog.dismiss();
 
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
-
-                                    }
-                                });
-                            } else {
-                                Toast.makeText(MainActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                             }
 
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
 
-                        } else {
-                            Toast.makeText(MainActivity.this, "Invalid details", Toast.LENGTH_SHORT).show();
-                        }
-
+                            }
+                        });
+                    } else {
+                        Toast.makeText(MainActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
                     }
-                });
 
 
-            }
+                } else {
+                    Toast.makeText(MainActivity.this, "Invalid details", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+
         });
 
 
@@ -333,80 +325,71 @@ public class MainActivity extends AppCompatActivity {
         });
 
 */
-        reward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        reward.setOnClickListener(view -> {
 
-                Intent intent = new Intent(MainActivity.this, Winners.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(MainActivity.this, Winners.class);
+            startActivity(intent);
         });
 
-        perks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        perks.setOnClickListener(view -> {
 
-                Intent intent = new Intent(MainActivity.this, Perks.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(MainActivity.this, Perks.class);
+            startActivity(intent);
         });
 
 
-        location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        location.setOnClickListener(v -> {
 
 
-                final Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.location_layoout);
-                dialog.setCancelable(true);
-                dialog.show();
+            final Dialog dialog = new Dialog(MainActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.location_layoout);
+            dialog.setCancelable(true);
+            dialog.show();
 
 
-                final RecyclerView grid = dialog.findViewById(R.id.recyclerView);
-                ProgressBar progress = dialog.findViewById(R.id.progressBar);
+            final RecyclerView grid = dialog.findViewById(R.id.recyclerView);
+            ProgressBar progress = dialog.findViewById(R.id.progressBar);
 
-                progress = findViewById(R.id.progress);
+            progress = findViewById(R.id.progress);
 
 
-                Bean b = (Bean) getApplicationContext();
+            Bean b = (Bean) getApplicationContext();
 
-                progress.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.VISIBLE);
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(b.baseurl)
-                        .addConverterFactory(ScalarsConverterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                Call<locationBean> call = cr.getLocations();
+            Call<locationBean> call = cr.getLocations();
 
-                Log.d("location", lname);
+            Log.d("location", lname);
 
-                final ProgressBar finalProgress = progress;
-                call.enqueue(new Callback<locationBean>() {
-                    @Override
-                    public void onResponse(Call<locationBean> call, Response<locationBean> response) {
+            final ProgressBar finalProgress = progress;
+            call.enqueue(new Callback<locationBean>() {
+                @Override
+                public void onResponse(Call<locationBean> call, Response<locationBean> response) {
 
-                        LocationAdapter adapter = new LocationAdapter(MainActivity.this, response.body().getData(), dialog);
-                        GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
-                        grid.setAdapter(adapter);
-                        grid.setLayoutManager(manager);
+                    LocationAdapter adapter = new LocationAdapter(MainActivity.this, response.body().getData(), dialog);
+                    GridLayoutManager manager = new GridLayoutManager(MainActivity.this, 1);
+                    grid.setAdapter(adapter);
+                    grid.setLayoutManager(manager);
 
-                        finalProgress.setVisibility(View.GONE);
+                    finalProgress.setVisibility(View.GONE);
 
-                    }
+                }
 
-                    @Override
-                    public void onFailure(Call<locationBean> call, Throwable t) {
-                        finalProgress.setVisibility(View.GONE);
-                    }
-                });
+                @Override
+                public void onFailure(Call<locationBean> call, Throwable t) {
+                    finalProgress.setVisibility(View.GONE);
+                }
+            });
 
-            }
         });
 
 
@@ -442,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(Call<bannerBean> call, Response<bannerBean> response) {
 
 
-                            if (response.body().getData().size() > 0) {
+                            if (Objects.requireNonNull(response.body()).getData().size() > 0) {
 
                                 Dialog dialog = new Dialog(MainActivity.this  , android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -498,7 +481,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void ada() {
+    private void ada() {
 
         notification.setVisibility(View.VISIBLE);
         search.setVisibility(View.GONE);
@@ -512,15 +495,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class PagerAdapter extends FragmentStatePagerAdapter {
+    class PagerAdapter extends FragmentStatePagerAdapter {
 
-        String[] titles = {
+        final String[] titles = {
                 "Play",
                 "Videos",
                 "Shop"
         };
 
-        public PagerAdapter(FragmentManager fm, int list) {
+        PagerAdapter(FragmentManager fm, int list) {
             super(fm);
         }
 
@@ -563,11 +546,11 @@ public class MainActivity extends AppCompatActivity {
 
     class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
 
-        Context context;
-        List<Datum> list = new ArrayList<>();
-        Dialog dialog;
+        final Context context;
+        List<Datum> list;
+        final Dialog dialog;
 
-        public LocationAdapter(Context context, List<Datum> list, Dialog dialog) {
+        LocationAdapter(Context context, List<Datum> list, Dialog dialog) {
             this.context = context;
             this.list = list;
             this.dialog = dialog;
@@ -590,18 +573,15 @@ public class MainActivity extends AppCompatActivity {
             viewHolder.text.setText(item.getName());
 
 
-            viewHolder.text.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            viewHolder.text.setOnClickListener(v -> {
 
-                    SharePreferenceUtils.getInstance().saveString("location", item.getId());
-                    SharePreferenceUtils.getInstance().saveString("lname", item.getName());
-                    lname = item.getName();
-                    location.setText(item.getName());
-                    dialog.dismiss();
-                    ada();
+                SharePreferenceUtils.getInstance().saveString("location", item.getId());
+                SharePreferenceUtils.getInstance().saveString("lname", item.getName());
+                lname = item.getName();
+                location.setText(item.getName());
+                dialog.dismiss();
+                ada();
 
-                }
             });
 
 
@@ -613,9 +593,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView text;
+            final TextView text;
 
-            public ViewHolder(@NonNull View itemView) {
+            ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 text = itemView.findViewById(R.id.textView2);
             }

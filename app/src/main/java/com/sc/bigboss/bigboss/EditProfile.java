@@ -6,7 +6,7 @@ import android.widget.ProgressBar;
 
 public class EditProfile extends AppCompatActivity {
 
-    ProgressBar bar;
+    private ProgressBar bar;
 
 
     @Override

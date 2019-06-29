@@ -32,7 +32,7 @@
         android:background="@drawable/background_color"
         android:hint="tap to enter"
         android:inputType="textPersonName"
-        />
+        android:importantForAutofill="no" />
 
 
     <TextView
@@ -54,7 +54,7 @@
         android:background="@drawable/background_color"
         android:hint="tap to enter"
         android:inputType="phone"
-        />
+        android:importantForAutofill="no" />
 
 
     <Button

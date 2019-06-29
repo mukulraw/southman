@@ -10,11 +10,13 @@ import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
 
-    Button submit;
+    private Button submit;
 
-    TextView signup , forgot;
+    private TextView signup;
+    private TextView forgot;
 
-    EditText email , pass;
+    private EditText email;
+    private EditText pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,34 +33,25 @@ public class Login extends AppCompatActivity {
 
         pass = findViewById(R.id.password);
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        signup.setOnClickListener(v -> {
 
-                Intent i =new Intent(Login.this , SignUp.class);
-                startActivity(i);
-            }
+            Intent i =new Intent(Login.this , SignUp.class);
+            startActivity(i);
         });
 
 
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        submit.setOnClickListener(v -> {
 
 
-                Intent i =new Intent(Login.this , MainActivity.class);
-                startActivity(i);
-            }
+            Intent i =new Intent(Login.this , MainActivity.class);
+            startActivity(i);
         });
 
-        forgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        forgot.setOnClickListener(v -> {
 
 
-                Intent i =new Intent(Login.this , Forgot.class);
-                startActivity(i);
-            }
+            Intent i =new Intent(Login.this , Forgot.class);
+            startActivity(i);
         });
     }
 }

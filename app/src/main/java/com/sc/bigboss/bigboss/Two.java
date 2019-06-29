@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class Two extends Fragment {
 
-    Button next;
+    private Button next;
 
     @Nullable
     @Override
@@ -22,14 +22,11 @@ public class Two extends Fragment {
 
         next = view.findViewById(R.id.next);
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        next.setOnClickListener(v -> {
 
 
-                Intent i = new Intent(getContext() , Three.class);
-                startActivity(i);
-            }
+            Intent i = new Intent(getContext() , Three.class);
+            startActivity(i);
         });
         return view;
     }

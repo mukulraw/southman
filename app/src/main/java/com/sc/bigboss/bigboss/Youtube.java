@@ -12,11 +12,11 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class Youtube extends YouTubeBaseActivity {
 
-    Button play;
+    private Button play;
 
-    YouTubePlayerView youTubePlayerView;
+    private YouTubePlayerView youTubePlayerView;
 
-    YouTubePlayer.OnInitializedListener onInitializedListener;
+    private YouTubePlayer.OnInitializedListener onInitializedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +44,16 @@ public class Youtube extends YouTubeBaseActivity {
         };
 
 
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                youTubePlayerView.initialize(PlayerConfig.API_KEY, onInitializedListener);
-
-            }
-        });
+        play.setOnClickListener(v -> youTubePlayerView.initialize(PlayerConfig.API_KEY, onInitializedListener));
 
     }
 
-    public class PlayerConfig {
+    class PlayerConfig {
 
         PlayerConfig() {
         }
 
-        public static final String API_KEY =
+        static final String API_KEY =
                 "AIzaSyCB_Qx_NUNn1YL-jMoXZfG4j8xJDAOtlBo";
     }
 }
