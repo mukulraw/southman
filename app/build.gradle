@@ -5,7 +5,7 @@ android {
 
     signingConfigs {
         config {
-            storeFile file('D:\\mukul\\StudioProjects\\Bigboss\\bigboss.jks')
+            storeFile file('C:\\Users\\mukul\\StudioProjects\\Bigboss\\bigboss.jks')
             storePassword 'bigboss@123'
             keyAlias = 'bigboss'
             keyPassword 'bigboss@123'
@@ -16,8 +16,8 @@ android {
         applicationId "com.sc.bigboss.bigboss"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 17
-        versionName "2.6"
+        versionCode 18
+        versionName "2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         multiDexEnabled true

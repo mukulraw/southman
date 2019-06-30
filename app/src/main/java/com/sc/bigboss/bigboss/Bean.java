@@ -6,7 +6,7 @@ import android.support.multidex.MultiDexApplication;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-class Bean extends MultiDexApplication {
+public class Bean extends MultiDexApplication {
     private static Context context;
 
     public final String baseurl = "http://mrtecks.com/";
@@ -16,10 +16,6 @@ class Bean extends MultiDexApplication {
         return context;
     }
 
-    public Bean()
-    {
-
-    }
 
     @Override
     public void onCreate() {
