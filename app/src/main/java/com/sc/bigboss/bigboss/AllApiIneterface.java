@@ -10,6 +10,7 @@ import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
+import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
@@ -23,6 +24,7 @@ import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
+import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
 import java.util.List;
@@ -77,10 +79,25 @@ interface AllApiIneterface {
             @Part("locationId") String ctid );
 
     @Multipart
-    @POST("southman/api/getSubCat3.php")
-    Call<subCat3Bean> subCat3(
-            @Part("subcat1_id") String catid,
+    @POST("southman/api/getProd3.php")
+    Call<vouchersBean> subCat3(
+            @Part("sub_category2") String catid,
             @Part("locationId") String location
+    );
+
+    @Multipart
+    @POST("southman/api/addCart.php")
+    Call<vouchersBean> addCart(
+            @Part("user_id") String user_id,
+            @Part("product_id") String product_id,
+            @Part("quantity") String quantity,
+            @Part("unit_price") String unit_price
+    );
+
+    @Multipart
+    @POST("southman/api/getCart.php")
+    Call<cartBean> getCart(
+            @Part("user_id") String user_id
     );
 
     @Multipart
