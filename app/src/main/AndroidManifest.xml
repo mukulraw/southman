@@ -23,7 +23,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Cart"></activity>
+        <activity android:name=".StatusActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".Cart" />
         <activity
             android:name=".Register"
             android:screenOrientation="portrait" />

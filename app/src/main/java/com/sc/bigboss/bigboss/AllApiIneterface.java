@@ -101,6 +101,12 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/buyVouchers.php")
+    Call<cartBean> buyVouchers(
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
     @POST("southman/api/getProd2.php")
     Call<prodList2Bean> getProd2(
             @Part("sub_category2") String catid,

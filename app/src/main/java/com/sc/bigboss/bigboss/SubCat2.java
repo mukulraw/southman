@@ -76,6 +76,8 @@ public class SubCat2 extends AppCompatActivity {
 
     TextView bquantity , btotal , bproceed;
 
+    int amm = 0;
+
     View bottom;
 
 
@@ -226,6 +228,29 @@ public class SubCat2 extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
                 new IntentFilter("count"));
+
+
+        bproceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SubCat2.this, WebViewActivity.class);
+                intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
+                intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
+                intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
+                intent.putExtra(AvenuesParams.CURRENCY, "INR");
+                intent.putExtra(AvenuesParams.AMOUNT, String.valueOf(amm));
+                //intent.putExtra(AvenuesParams.AMOUNT, "1");
+                intent.putExtra("pid", SharePreferenceUtils.getInstance().getString("userid"));
+
+                intent.putExtra(AvenuesParams.REDIRECT_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
+                intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
+                intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
+
+                startActivity(intent);
+
+            }
+        });
 
 
     }
@@ -513,6 +538,8 @@ public class SubCat2 extends AppCompatActivity {
 
                 if (response.body().getData().size() > 0)
                 {
+
+                    amm = Integer.parseInt(response.body().getTotal());
 
 
                     bquantity.setText(response.body().getItems() + " Items");
