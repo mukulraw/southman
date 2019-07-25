@@ -32,8 +32,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sc.bigboss.bigboss.scratchCardPOJO.Datum;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
+import com.sc.bigboss.bigboss.voucherHistoryPOJO.Datum;
+import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -206,11 +207,11 @@ public class History extends AppCompatActivity {
 
                     progress.setVisibility(View.VISIBLE);
 
-                    Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), strDate);
+                    Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), strDate);
 
-                    call1.enqueue(new Callback<scratchCardBean>() {
+                    call1.enqueue(new Callback<voucherHistoryBean>() {
                         @Override
-                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+                        public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
 
                             //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -226,7 +227,7 @@ public class History extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                        public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
                             progress.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -253,11 +254,11 @@ public class History extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
 
-            Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+            Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
-            call1.enqueue(new Callback<scratchCardBean>() {
+            call1.enqueue(new Callback<voucherHistoryBean>() {
                 @Override
-                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+                public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -273,7 +274,7 @@ public class History extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
                     progress.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -299,11 +300,11 @@ public class History extends AppCompatActivity {
 
                         progress.setVisibility(View.VISIBLE);
 
-                        Call<scratchCardBean> call1 = cr.getRedeemed(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+                        Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
-                        call1.enqueue(new Callback<scratchCardBean>() {
+                        call1.enqueue(new Callback<voucherHistoryBean>() {
                             @Override
-                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response1) {
+                            public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
 
                                 //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -319,7 +320,7 @@ public class History extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                            public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
                                 progress.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -342,7 +343,7 @@ public class History extends AppCompatActivity {
 
             List<Datum> list;
             final Context context;
-
+LayoutInflater inflater;
             CardAdapter(Context context, List<Datum> list) {
                 this.context = context;
                 this.list = list;
@@ -356,66 +357,74 @@ public class History extends AppCompatActivity {
             @NonNull
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.history_list_item, viewGroup, false);
+                inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.history_list_item1, viewGroup, false);
                 return new ViewHolder(view);
             }
 
             @Override
-            public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
+            public void onBindViewHolder(@NonNull ViewHolder holder, int i2) {
 
-                Datum item = list.get(i);
+                Datum item = list.get(i2);
 
 
-                holder.date.setText(item.getCreated());
+                holder.status.setText(item.getCreated());
 
-                holder.status.setText(item.getStatus());
 
-                switch (item.getText()) {
-                    case "perks":
-                        holder.type.setText("ORDER NO. - " + item.getId());
-                        holder.code.setText("Item - " + item.getCode());
-                        holder.type.setTextColor(Color.parseColor("#009688"));
+                holder.type.setText("ORDER NO. - " + item.getId());
+                holder.code.setText("Item - " + item.getProductTitle());
+                holder.type.setTextColor(Color.parseColor("#009688"));
 
-                        holder.price.setText(Html.fromHtml("<font color=#000000>Benefits</font> - " + item.getPrice() + " credits"));
+                holder.price.setText(Html.fromHtml("<font color=#000000>Paid</font> - Rs. " + item.getPrice()));
 
-                        float pr = Float.parseFloat(item.getPrice());
-                        float pa = Float.parseFloat(item.getCashValue());
+                holder.date.setVisibility(View.GONE);
+                holder.price.setVisibility(View.VISIBLE);
 
-                        holder.paid.setText(Html.fromHtml("<font color=#000000>Pending benefits</font> - " + (pr - pa) + " credits"));
-
-                        holder.paid.setVisibility(View.VISIBLE);
-                        holder.price.setVisibility(View.VISIBLE);
-
-                        break;
-                    case "cash":
-                        holder.type.setText("ORDER NO. - " + item.getId());
-                        holder.code.setText("Shop - " + item.getClient());
-                        holder.type.setTextColor(Color.parseColor("#689F38"));
-
-                        holder.price.setText("Price - Rs." + item.getPrice());
-
-//                    float pr1 = Float.parseFloat(item.getPrice());
-                        //                  float pa1 = Float.parseFloat(item.getCashValue());
-
-                        //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
-
-                        holder.paid.setVisibility(View.VISIBLE);
-                        holder.price.setVisibility(View.VISIBLE);
-
-                        break;
-                    case "scratch":
-                        holder.type.setText("ORDER NO. - " + item.getId());
-
-                        holder.type.setTextColor(Color.parseColor("#F9A825"));
-
-                        holder.price.setText("Benefits - " + item.getCashValue() + " credits");
-
-                        holder.paid.setVisibility(View.GONE);
-                        //holder.price.setVisibility(View.GONE);
-
-                        break;
+                try {
+                    holder.benefits.removeAllViews();
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
+
+                for (int i = 0 ; i < item.getBenefits().size() ; i++)
+                {
+
+                    View view = inflater.inflate(R.layout.benefit_layout , null);
+
+                    TextView type = view.findViewById(R.id.textView4);
+                    TextView text = view.findViewById(R.id.textView6);
+
+                    type.setText(item.getBenefits().get(i).getType());
+
+                    if (item.getBenefits().get(i).getType().equals("CASH"))
+                    {
+                        text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
+                    }
+                    else
+                    {
+                        text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
+                    }
+
+                    holder.benefits.addView(view);
+
+                }
+
+                holder.paid.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (holder.benefits.getVisibility() == View.VISIBLE)
+                        {
+                            holder.benefits.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            holder.benefits.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
 
             }
 
@@ -425,7 +434,7 @@ public class History extends AppCompatActivity {
             }
 
             class ViewHolder extends RecyclerView.ViewHolder {
-
+                LinearLayout benefits;
                 final TextView code;
                 final TextView date;
                 final TextView type;
@@ -442,6 +451,7 @@ public class History extends AppCompatActivity {
                     status = itemView.findViewById(R.id.status);
                     price = itemView.findViewById(R.id.price);
                     paid = itemView.findViewById(R.id.paid);
+                    benefits = itemView.findViewById(R.id.benefits);
 
                 }
             }
@@ -463,7 +473,7 @@ public class History extends AppCompatActivity {
         ProgressBar progress;
         RecyclerView grid;
         GridLayoutManager manager;
-        List<Datum> list;
+        List<com.sc.bigboss.bigboss.scratchCardPOJO.Datum> list;
         CardAdapter adapter;
         TextView date;
         LinearLayout linear;
@@ -573,8 +583,6 @@ public class History extends AppCompatActivity {
 
 
             });
-
-
 
 
             singleReceiver = new BroadcastReceiver() {
@@ -688,15 +696,15 @@ public class History extends AppCompatActivity {
 
         class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-            List<Datum> list;
+            List<com.sc.bigboss.bigboss.scratchCardPOJO.Datum> list;
             final Context context;
 
-            CardAdapter(Context context, List<Datum> list) {
+            CardAdapter(Context context, List<com.sc.bigboss.bigboss.scratchCardPOJO.Datum> list) {
                 this.context = context;
                 this.list = list;
             }
 
-            void setData(List<Datum> list) {
+            void setData(List<com.sc.bigboss.bigboss.scratchCardPOJO.Datum> list) {
                 this.list = list;
                 notifyDataSetChanged();
             }
@@ -712,7 +720,7 @@ public class History extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
 
-                Datum item = list.get(i);
+                com.sc.bigboss.bigboss.scratchCardPOJO.Datum item = list.get(i);
 
 
                 holder.date.setText(item.getCreated());
@@ -720,30 +728,23 @@ public class History extends AppCompatActivity {
                 holder.status.setText(item.getStatus());
 
 
-                if (item.getGenerate().equals("no"))
-                {
+                if (item.getGenerate().equals("no")) {
 
-                    if (item.getStatus().equals("cancelled") || item.getStatus().equals("completed"))
-                    {
+                    if (item.getStatus().equals("cancelled") || item.getStatus().equals("completed")) {
                         holder.text.setVisibility(View.GONE);
                         holder.generate.setVisibility(View.GONE);
-                    }
-                    else
-                    {
+                    } else {
                         holder.text.setVisibility(View.VISIBLE);
                         holder.generate.setVisibility(View.VISIBLE);
                     }
 
-                }
-                else
-                {
+                } else {
                     holder.text.setVisibility(View.GONE);
                     holder.generate.setVisibility(View.GONE);
                 }
 
 
                 holder.generate.setOnClickListener(v -> {
-
 
 
                     final Dialog dialog = new Dialog(context);
@@ -793,9 +794,6 @@ public class History extends AppCompatActivity {
                     });
 
 
-
-
-
                 });
 
 
@@ -817,12 +815,9 @@ public class History extends AppCompatActivity {
 
                         break;
                     case "cash":
-                        if (item.getTableName().equals(""))
-                        {
+                        if (item.getTableName().equals("")) {
                             holder.type.setText("ORDER NO. - " + item.getId());
-                        }
-                        else
-                        {
+                        } else {
                             holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
                         }
 
@@ -858,12 +853,9 @@ public class History extends AppCompatActivity {
                         holder.price.setVisibility(View.VISIBLE);
                         break;
                     case "scratch":
-                        if (item.getTableName().equals(""))
-                        {
+                        if (item.getTableName().equals("")) {
                             holder.type.setText("ORDER NO. - " + item.getId());
-                        }
-                        else
-                        {
+                        } else {
                             holder.type.setText("ORDER NO. - " + item.getId() + " (Table - " + item.getTableName() + ")");
                         }
                         holder.code.setText("Shop - " + item.getClient());
@@ -933,9 +925,6 @@ public class History extends AppCompatActivity {
                     balance = itemView.findViewById(R.id.balance);
                     text = itemView.findViewById(R.id.text);
                     generate = itemView.findViewById(R.id.generate);
-
-
-
 
 
                 }

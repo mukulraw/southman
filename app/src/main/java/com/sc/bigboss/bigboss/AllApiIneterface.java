@@ -24,6 +24,7 @@ import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
+import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
 import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
 import com.sc.bigboss.bigboss.winnersPOJO.winnersBean;
 
@@ -251,6 +252,13 @@ interface AllApiIneterface {
     @Multipart
     @POST("southman/api/getRedeem.php")
     Call<scratchCardBean> getRedeemed(
+            @Part("id") String id,
+            @Part("date") String date
+    );
+
+    @Multipart
+    @POST("southman/api/getRedeem21.php")
+    Call<voucherHistoryBean> getRedeemed21(
             @Part("id") String id,
             @Part("date") String date
     );
