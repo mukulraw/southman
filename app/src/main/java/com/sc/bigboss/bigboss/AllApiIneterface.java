@@ -102,6 +102,26 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/clearCart.php")
+    Call<vouchersBean> clearCart(
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
+    @POST("southman/api/deleteCart.php")
+    Call<vouchersBean> deleteCart(
+            @Part("id") String id
+    );
+
+    @Multipart
+    @POST("southman/api/updateCart.php")
+    Call<vouchersBean> updateCart(
+            @Part("id") String id,
+            @Part("quantity") String quantity,
+            @Part("unit_price") String unit_price
+    );
+
+    @Multipart
     @POST("southman/api/getCart.php")
     Call<cartBean> getCart(
             @Part("user_id") String user_id

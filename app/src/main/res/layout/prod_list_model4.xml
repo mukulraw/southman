@@ -90,13 +90,14 @@
                 <RelativeLayout
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
+                    android:id="@+id/left"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true">
 
                     <nl.dionsegijn.steppertouch.StepperTouch
                         android:id="@+id/play"
                         android:layout_width="100dp"
-                        android:layout_height="35dp"
+                        android:layout_height="30dp"
                         android:layout_centerInParent="true"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
@@ -109,6 +110,18 @@
 
                 </RelativeLayout>
 
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/delete"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:background="@drawable/ic_rubbish_bin"
+                    android:layout_toEndOf="@+id/left"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    />
 
 
                 <TextView

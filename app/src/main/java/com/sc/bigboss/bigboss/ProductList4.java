@@ -351,7 +351,7 @@ public class ProductList4 extends AppCompatActivity {
 
 
                     stepperTouch.getStepper().setMin(1);
-                    stepperTouch.getStepper().setMax(200);
+                    stepperTouch.getStepper().setMax(99);
                     stepperTouch.enableSideTap(true);
                     stepperTouch.getStepper().setValue(1);
 
