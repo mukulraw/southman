@@ -80,8 +80,15 @@ interface AllApiIneterface {
 
     @Multipart
     @POST("southman/api/getProd3.php")
-    Call<vouchersBean> subCat3(
+    Call<vouchersBean> getProd3(
             @Part("sub_category2") String catid,
+            @Part("locationId") String location
+    );
+
+    @Multipart
+    @POST("southman/api/getSubCat3.php")
+    Call<subCat3Bean> subCat3(
+            @Part("subcat1_id") String catid,
             @Part("locationId") String location
     );
 

@@ -3,6 +3,8 @@ package com.sc.bigboss.bigboss.cartPOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Datum {
     @SerializedName("pid")
     @Expose
@@ -31,6 +33,9 @@ public class Datum {
     @SerializedName("created")
     @Expose
     private String created;
+    @SerializedName("benefits")
+    @Expose
+    private List<Benefit> benefits = null;
 
     public String getPid() {
         return pid;
@@ -102,6 +107,14 @@ public class Datum {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public List<Benefit> getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(List<Benefit> benefits) {
+        this.benefits = benefits;
     }
 
 }

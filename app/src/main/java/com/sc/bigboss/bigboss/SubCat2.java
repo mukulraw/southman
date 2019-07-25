@@ -1,25 +1,20 @@
 package com.sc.bigboss.bigboss;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,9 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.sc.bigboss.bigboss.cartPOJO.cartBean;
-import com.sc.bigboss.bigboss.vouchersPOJO.Datum;
-import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
+import com.sc.bigboss.bigboss.subCat3POJO.Datum;
+import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,11 +68,6 @@ public class SubCat2 extends AppCompatActivity {
     private ImageView notification;
     private ImageView perks2;
 
-    TextView bquantity , btotal , bproceed;
-
-    int amm = 0;
-
-    View bottom;
 
 
     @Override
@@ -90,17 +79,11 @@ public class SubCat2 extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
-        bottom = findViewById(R.id.cart_bottom);
-        bquantity = findViewById(R.id.textView7);
-        btotal = findViewById(R.id.textView9);
-        bproceed = findViewById(R.id.textView10);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(v -> finish());
-
-
 
         title = findViewById(R.id.title);
 
@@ -134,9 +117,16 @@ public class SubCat2 extends AppCompatActivity {
 
         adapter = new MAdapter(this, list);
 
-        manager = new GridLayoutManager(getApplicationContext(), 1);
+        manager = new GridLayoutManager(getApplicationContext(), 3);
 
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int i) {
 
+                return Integer.parseInt(adapter.getSpace(i));
+
+            }
+        });
 
         grid.setLayoutManager(manager);
 
@@ -178,14 +168,11 @@ public class SubCat2 extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Log.d("id" , id);
-            Log.d("location" , SharePreferenceUtils.getInstance().getString("location"));
+            Call<subCat3Bean> call = cr.subCat3(id , SharePreferenceUtils.getInstance().getString("location"));
 
-            Call<vouchersBean> call = cr.subCat3(id , SharePreferenceUtils.getInstance().getString("location"));
-
-            call.enqueue(new Callback<vouchersBean>() {
+            call.enqueue(new Callback<subCat3Bean>() {
                 @Override
-                public void onResponse(Call<vouchersBean> call, Response<vouchersBean> response) {
+                public void onResponse(Call<subCat3Bean> call, Response<subCat3Bean> response) {
 
                     if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
@@ -201,7 +188,7 @@ public class SubCat2 extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<vouchersBean> call, Throwable t) {
+                public void onFailure(Call<subCat3Bean> call, Throwable t) {
 
                     bar.setVisibility(View.GONE);
 
@@ -230,29 +217,6 @@ public class SubCat2 extends AppCompatActivity {
                 new IntentFilter("count"));
 
 
-        bproceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(SubCat2.this, WebViewActivity.class);
-                intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
-                intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
-                intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
-                intent.putExtra(AvenuesParams.CURRENCY, "INR");
-                intent.putExtra(AvenuesParams.AMOUNT, String.valueOf(amm));
-                //intent.putExtra(AvenuesParams.AMOUNT, "1");
-                intent.putExtra("pid", SharePreferenceUtils.getInstance().getString("userid"));
-
-                intent.putExtra(AvenuesParams.REDIRECT_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
-                intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
-                intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
-
-                startActivity(intent);
-
-            }
-        });
-
-
     }
 
     private BroadcastReceiver singleReceiver;
@@ -265,8 +229,6 @@ public class SubCat2 extends AppCompatActivity {
 
         List<Datum> list;
 
-        LayoutInflater inflater;
-
 
         MAdapter(Context context, List<Datum> list) {
 
@@ -276,170 +238,28 @@ public class SubCat2 extends AppCompatActivity {
 
         }
 
-
+        String getSpace(int position)
+        {
+            return list.get(position).getSpace();
+        }
 
         @NonNull
         @Override
         public MAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-
-            View view = inflater.inflate(R.layout.prod_list_model2, viewGroup, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.category_list_model, viewGroup, false);
 
             return new MyViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull MAdapter.MyViewHolder myViewHolder, int j) {
+        public void onBindViewHolder(@NonNull MAdapter.MyViewHolder myViewHolder, int i) {
 
 
-            final Datum item = list.get(j);
-            myViewHolder.setIsRecyclable(false);
+            final Datum item = list.get(i);
 
             //  myViewHolder.name.setText(item.getSubcatName());
 
-            myViewHolder.subtitle.setText(Html.fromHtml(item.getSubTitle()));
-
-            myViewHolder.title.setText(item.getProductTitle());
-
-            for (int i = 0 ; i < item.getBenefits().size() ; i++)
-            {
-
-                View view = inflater.inflate(R.layout.benefit_layout , null);
-
-                TextView type = view.findViewById(R.id.textView4);
-                TextView text = view.findViewById(R.id.textView6);
-
-                type.setText(item.getBenefits().get(i).getType());
-
-                if (item.getBenefits().get(i).getType().equals("CASH"))
-                {
-                    text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
-                }
-                else
-                {
-                    text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
-                }
-
-                myViewHolder.benefits.addView(view);
-
-            }
-
-
-            myViewHolder.buy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-                    Dialog dialog = new Dialog(SubCat2.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.add_cart_dialog);
-                    dialog.show();
-
-                    Button plus = dialog.findViewById(R.id.button7);
-                    Button minus = dialog.findViewById(R.id.button3);
-                    TextView quan = dialog.findViewById(R.id.textView12);
-                    Button add = dialog.findViewById(R.id.button8);
-                    ProgressBar progressBar = dialog.findViewById(R.id.progressBar2);
-
-
-                    plus.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            int q = Integer.parseInt(String.valueOf(quan.getText().toString()));
-
-                            q++;
-
-                            quan.setText(String.valueOf(q));
-
-                        }
-                    });
-
-                    minus.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            int q = Integer.parseInt(String.valueOf(quan.getText().toString()));
-
-                            if (q > 1)
-                            {
-                                q--;
-
-                                quan.setText(String.valueOf(q));
-                            }
-
-                        }
-                    });
-
-
-                    add.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            progressBar.setVisibility(View.VISIBLE);
-
-                            Bean b = (Bean) getApplicationContext();
-
-                            base = b.baseurl;
-
-                            Retrofit retrofit = new Retrofit.Builder()
-                                    .baseUrl(b.baseurl)
-                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                    .addConverterFactory(GsonConverterFactory.create())
-                                    .build();
-
-                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , quan.getText().toString() , item.getPrice());
-
-                            call.enqueue(new Callback<vouchersBean>() {
-                                @Override
-                                public void onResponse(Call<vouchersBean> call, Response<vouchersBean> response) {
-
-                                    if (response.body().getStatus().equals("1"))
-                                    {
-                                        loadCart();
-                                        dialog.dismiss();
-                                    }
-
-                                    Toast.makeText(SubCat2.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                    progressBar.setVisibility(View.GONE);
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<vouchersBean> call, Throwable t) {
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            });
-
-
-                        }
-                    });
-
-
-                }
-            });
-
-
-            myViewHolder.viewBenefits.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (myViewHolder.benefits.getVisibility() == View.VISIBLE)
-                    {
-                        myViewHolder.benefits.setVisibility(View.GONE);
-                    }
-                    else
-                    {
-                        myViewHolder.benefits.setVisibility(View.VISIBLE);
-                    }
-
-                }
-            });
 
 /*
             DisplayImageOptions options = new DisplayImageOptions.Builder().
@@ -450,11 +270,25 @@ public class SubCat2 extends AppCompatActivity {
             loader.displayImage(base + "southman/admin2/upload/sub_cat1/" + item.getImageUrl(), myViewHolder.imageView, options);
 */
 
-            Glide.with(context).load(base + "southman/admin2/upload/products3/" + item.getProductImage()).into(myViewHolder.imageView);
+            Glide.with(context).load(base + "southman/admin2/upload/sub_cat1/" + item.getImageUrl()).into(myViewHolder.imageView);
+
+
+
+            myViewHolder.itemView.setOnClickListener(v -> {
+
+
+                    Intent i1 = new Intent(context, ProductList4.class);
+                    i1.putExtra("id", item.getId());
+                    i1.putExtra("text", item.getSubcatName());
+                    i1.putExtra("catname", catName);
+                    i1.putExtra("phone", item.getPhone());
+                    i1.putExtra("client", client);
+                    context.startActivity(i1);
 
 
 
 
+            });
 
         }
 
@@ -474,22 +308,12 @@ public class SubCat2 extends AppCompatActivity {
 
             final ImageView imageView;
 
-            LinearLayout benefits;
-
-            TextView title , subtitle , viewBenefits;
-
-            Button buy;
             // TextView name;
 
             MyViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                imageView = itemView.findViewById(R.id.image);
-                buy = itemView.findViewById(R.id.play);
-                title = itemView.findViewById(R.id.title);
-                subtitle = itemView.findViewById(R.id.subtitle);
-                benefits = itemView.findViewById(R.id.benefits);
-                viewBenefits = itemView.findViewById(R.id.view);
+                imageView = itemView.findViewById(R.id.tshirt);
 
                 //name = itemView.findViewById(R.id.name);
 
@@ -510,58 +334,5 @@ public class SubCat2 extends AppCompatActivity {
         super.onResume();
         count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
 
-
-        loadCart();
-
     }
-
-    void loadCart()
-    {
-        bar.setVisibility(View.VISIBLE);
-
-        Bean b = (Bean) getApplicationContext();
-
-        base = b.baseurl;
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(b.baseurl)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid"));
-        call.enqueue(new Callback<cartBean>() {
-            @Override
-            public void onResponse(Call<cartBean> call, Response<cartBean> response) {
-
-                if (response.body().getData().size() > 0)
-                {
-
-                    amm = Integer.parseInt(response.body().getTotal());
-
-
-                    bquantity.setText(response.body().getItems() + " Items");
-                    btotal.setText("Total: Rs. " + response.body().getTotal());
-
-                    bottom.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-bottom.setVisibility(View.GONE);
-                }
-
-                bar.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onFailure(Call<cartBean> call, Throwable t) {
-                bar.setVisibility(View.GONE);
-            }
-        });
-
-    }
-
 }
