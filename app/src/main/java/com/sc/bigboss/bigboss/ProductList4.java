@@ -307,6 +307,8 @@ public class ProductList4 extends AppCompatActivity {
 
             myViewHolder.subtitle.setText(Html.fromHtml(item.getSubTitle()));
 
+            Log.d("subtitlw" , item.getSubTitle());
+
             myViewHolder.title.setText(item.getProductTitle());
 
             for (int i = 0 ; i < item.getBenefits().size() ; i++)
