@@ -2,6 +2,7 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -58,6 +59,11 @@ public class Cart extends AppCompatActivity {
     RecyclerView grid;
 
     List<Datum> list;
+
+    private static final int TEZ_REQUEST_CODE = 123;
+
+    private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,8 +146,25 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Uri uri =
+                        new Uri.Builder()
+                                .scheme("upi")
+                                .authority("pay")
+                                .appendQueryParameter("pa", "southman@sbi")
+                                .appendQueryParameter("pn", "South Man")
+                                .appendQueryParameter("mc", "BCR2DN6TWW2773CT")
+                                .appendQueryParameter("tr", "123456789")
+                                .appendQueryParameter("tn", "Voucher Pay")
+                                .appendQueryParameter("am", "1")
+                                .appendQueryParameter("cu", "INR")
+                                .appendQueryParameter("url", "https://southman.in")
+                                .build();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(uri);
+                intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
+                startActivityForResult(intent, TEZ_REQUEST_CODE);
 
-                Intent intent = new Intent(Cart.this, WebViewActivity.class);
+                /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
                 intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
                 intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
                 intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
@@ -154,7 +177,7 @@ public class Cart extends AppCompatActivity {
                 intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
                 intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
 
-                startActivity(intent);
+                startActivity(intent);*/
 
             }
         });
@@ -449,6 +472,17 @@ public class Cart extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TEZ_REQUEST_CODE) {
+            // Process based on the data in response.
+            Log.d("result", data.getStringExtra("Status"));
+        }
     }
 
 
