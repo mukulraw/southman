@@ -12,23 +12,23 @@
         >
 
 
-        <androidx.appcompat.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/toolbar"
                 />
 
-        </androidx.appcompat.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
 
 
-<android.support.design.widget.TabLayout
+<com.google.android.material.tabs.TabLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/tabs"
@@ -36,7 +36,7 @@
 
 
 
-        <androidx.core.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/grid"

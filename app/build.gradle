@@ -12,11 +12,11 @@ android {
             keyPassword 'bigboss@123'
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.sc.bigboss.bigboss"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 19
         versionName "2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -49,7 +49,7 @@ dependencies {
     implementation 'us.belka:androidtoggleswitch:1.2.2'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
-    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -75,7 +75,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     //implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     implementation 'com.appyvet:materialrangebar:1.4.4'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "com.github.tarek360:instacapture:2.0.1"
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'id.zelory:compressor:2.1.0'

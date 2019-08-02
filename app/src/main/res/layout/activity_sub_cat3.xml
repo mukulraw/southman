@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content">
 
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                     android:layout_centerVertical="true"
                     android:background="#fff">
 
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
 
 
                 <TextView
@@ -117,7 +117,7 @@
             </RelativeLayout>
 
 
-        </androidx.appcompat.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <ImageView
@@ -152,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/grid"
                 android:layout_width="match_parent"
                 android:paddingBottom="40dp"
@@ -194,7 +194,7 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#ffffff"
@@ -243,7 +243,7 @@
 
     </RelativeLayout>
 
-    </androidx.appcompat.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 

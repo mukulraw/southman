@@ -145,7 +145,7 @@
             app:stl_indicatorThickness="40dp"
             app:stl_indicatorWidth="auto" />
 
-        <androidx.core.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
