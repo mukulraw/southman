@@ -22,10 +22,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/toolbar"
                 />
-
-
-
-        </>
+        </androidx.cardview.widget.CardView>
 
 
         <androidx.recyclerview.widget.RecyclerView
