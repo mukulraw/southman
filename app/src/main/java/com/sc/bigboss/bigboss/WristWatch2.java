@@ -1,18 +1,19 @@
 package com.sc.bigboss.bigboss;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class WristWatch2 extends AppCompatActivity {
 
     private Toolbar toolbar;
 
-    private AutoScrollViewPager pager;
+    private ViewPager pager;
 
     private ViewAdapter adapter;
 
@@ -64,8 +65,6 @@ public class WristWatch2 extends AppCompatActivity {
 
         //pager.setOnPageChangeListener(new MyOnPageChangeListener());
 
-        pager.setInterval(14000);
-        pager.startAutoScroll();
         //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
         indicator = findViewById(R.id.indicator);
@@ -166,14 +165,14 @@ public class WristWatch2 extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // stop auto scroll when onPause
-        pager.stopAutoScroll();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // start auto scroll when onResume
-        pager.startAutoScroll();
+
     }
 
 }

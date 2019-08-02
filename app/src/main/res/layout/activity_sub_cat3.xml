@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <androidx.appcompat.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -117,7 +117,7 @@
             </RelativeLayout>
 
 
-        </android.support.v7.widget.CardView>
+        </androidx.appcompat.widget.CardView>
 
 
         <ImageView
@@ -152,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.appcompat.widget.RecyclerView
                 android:id="@+id/grid"
                 android:layout_width="match_parent"
                 android:paddingBottom="40dp"
@@ -194,7 +194,7 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.CardView
+    <androidx.appcompat.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#ffffff"
@@ -243,7 +243,7 @@
 
     </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.appcompat.widget.CardView>
 
 
 

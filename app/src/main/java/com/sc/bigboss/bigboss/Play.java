@@ -2,7 +2,6 @@ package com.sc.bigboss.bigboss;
 
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -14,16 +13,17 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewPager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.format.DateFormat;
@@ -38,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
@@ -47,13 +48,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import me.relex.circleindicator.CircleIndicator;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -71,7 +70,7 @@ public class Play extends Fragment {
 
     private FloatingActionButton submit;
 
-    private AutoScrollViewPager pager;
+    private ViewPager pager;
 
     private CircleIndicator indicator;
 
@@ -147,10 +146,6 @@ public class Play extends Fragment {
 
         pager.addOnPageChangeListener(new MyOnPageChangeListener());
 
-        pager.setInterval(2000);
-
-        pager.startAutoScroll();
-        //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
         indicator = view.findViewById(R.id.indicator);
 
@@ -464,14 +459,12 @@ public class Play extends Fragment {
     public void onPause() {
         super.onPause();
         // stop auto scroll when onPause
-        pager.stopAutoScroll();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // start auto scroll when onResume
-        pager.startAutoScroll();
 
         reload();
 

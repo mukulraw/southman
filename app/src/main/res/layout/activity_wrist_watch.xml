@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
 
-        <android.support.v7.widget.CardView
+        <androidx.appcompat.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -39,19 +39,19 @@
 
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.appcompat.widget.CardView>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+            </androidx.viewpager.widget.ViewPager>
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"

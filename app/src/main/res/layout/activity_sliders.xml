@@ -15,13 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-            <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 >
 
-            </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+            </androidx.viewpager.widget.ViewPager>
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"

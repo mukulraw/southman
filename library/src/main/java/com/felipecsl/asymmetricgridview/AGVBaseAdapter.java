@@ -1,6 +1,6 @@
 package com.felipecsl.asymmetricgridview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.widget.RecyclerView;
 import android.view.ViewGroup;
 
 interface AGVBaseAdapter<T extends RecyclerView.ViewHolder> {

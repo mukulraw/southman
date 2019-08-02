@@ -1,10 +1,11 @@
 package com.sc.bigboss.bigboss;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.os.Bundle;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
@@ -13,7 +14,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class Sliders extends AppCompatActivity {
 
 
-    private AutoScrollViewPager pager;
+    private ViewPager pager;
 
     private CircleIndicator indicator;
 
@@ -28,8 +29,6 @@ public class Sliders extends AppCompatActivity {
 
         pager.addOnPageChangeListener(new MyOnPageChangeListener());
 
-        pager.setInterval(2000);
-        pager.startAutoScroll();
         //pager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % ListUtils.getSize(imageIdList));
 
 
@@ -67,19 +66,19 @@ public class Sliders extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         // stop auto scroll when onPause
-        pager.stopAutoScroll();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // start auto scroll when onResume
-        pager.startAutoScroll();
+
     }
 
 
 
-    class SliderAdapter extends FragmentStatePagerAdapter{
+    class SliderAdapter extends FragmentStatePagerAdapter {
 
 
         SliderAdapter(FragmentManager fm, int list) {

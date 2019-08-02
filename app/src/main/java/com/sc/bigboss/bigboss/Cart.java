@@ -2,19 +2,19 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +27,6 @@ import com.sc.bigboss.bigboss.cartPOJO.Datum;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -145,6 +144,7 @@ public class Cart extends AppCompatActivity {
         bproceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+/*
 
                 Uri uri =
                         new Uri.Builder()
@@ -163,8 +163,9 @@ public class Cart extends AppCompatActivity {
                 intent.setData(uri);
                 intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
                 startActivityForResult(intent, TEZ_REQUEST_CODE);
+*/
 
-                /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
+                Intent intent = new Intent(Cart.this, WebViewActivity.class);
                 intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
                 intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
                 intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
@@ -177,7 +178,7 @@ public class Cart extends AppCompatActivity {
                 intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
                 intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
 
-                startActivity(intent);*/
+                startActivity(intent);
 
             }
         });

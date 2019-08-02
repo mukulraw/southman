@@ -1,7 +1,8 @@
 package com.sc.bigboss.bigboss;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
