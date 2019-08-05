@@ -259,7 +259,7 @@ public class Cart extends AppCompatActivity {
 
 
 
-            viewHolder.buy.getStepper().setValue(Integer.parseInt(item.getQuantity()));
+            viewHolder.buy.setCount(Integer.parseInt(item.getQuantity()));
 
             viewHolder.viewBenefits.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -277,7 +277,7 @@ public class Cart extends AppCompatActivity {
                 }
             });
 
-            viewHolder.buy.getStepper().addStepCallback(new OnStepCallback() {
+            viewHolder.buy.addStepCallback(new OnStepCallback() {
                 @Override
                 public void onStep(int i, boolean b1) {
 
@@ -298,7 +298,7 @@ public class Cart extends AppCompatActivity {
 
                     AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                    Call<vouchersBean> call = cr.updateCart(item.getPid() , String.valueOf(viewHolder.buy.getStepper().getValue()), item.getPrice());
+                    Call<vouchersBean> call = cr.updateCart(item.getPid() , String.valueOf(viewHolder.buy.getCount()), item.getPrice());
 
                     call.enqueue(new Callback<vouchersBean>() {
                         @Override
@@ -412,9 +412,9 @@ public class Cart extends AppCompatActivity {
                 viewBenefits = itemView.findViewById(R.id.view);
                 delete = itemView.findViewById(R.id.delete);
 
-                buy.getStepper().setMax(99);
-                buy.getStepper().setMin(1);
-                buy.enableSideTap(true);
+                buy.setMaxValue(99);
+                buy.setMinValue(1);
+                buy.setSideTapEnabled(true);
 
                 //name = itemView.findViewById(R.id.name);
 

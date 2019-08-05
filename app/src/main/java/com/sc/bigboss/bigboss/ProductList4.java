@@ -352,10 +352,10 @@ public class ProductList4 extends AppCompatActivity {
 
 
 
-                    stepperTouch.getStepper().setMin(1);
-                    stepperTouch.getStepper().setMax(99);
-                    stepperTouch.enableSideTap(true);
-                    stepperTouch.getStepper().setValue(1);
+                    stepperTouch.setMinValue(1);
+                    stepperTouch.setMaxValue(99);
+                    stepperTouch.setSideTapEnabled(true);
+                    stepperTouch.setCount(1);
 
 
                     add.setOnClickListener(new View.OnClickListener() {
@@ -376,7 +376,7 @@ public class ProductList4 extends AppCompatActivity {
 
                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getStepper().getValue()), item.getPrice());
+                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getCount()), item.getPrice());
 
                             call.enqueue(new Callback<vouchersBean>() {
                                 @Override
