@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -59,6 +61,8 @@ public class Cart extends AppCompatActivity {
 
     List<Datum> list;
 
+    String client;
+
     private static final int TEZ_REQUEST_CODE = 123;
 
     private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
@@ -68,6 +72,8 @@ public class Cart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        client = getIntent().getStringExtra("client");
 
         list = new ArrayList<>();
 
@@ -144,15 +150,17 @@ public class Cart extends AppCompatActivity {
         bproceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-/*
 
-                Uri uri =
+                Intent intent = new Intent(Cart.this , StatusActivity.class);
+                startActivity(intent);
+
+                /*Uri uri =
                         new Uri.Builder()
                                 .scheme("upi")
                                 .authority("pay")
                                 .appendQueryParameter("pa", "southman@sbi")
                                 .appendQueryParameter("pn", "South Man")
-                                .appendQueryParameter("mc", "BCR2DN6TWW2773CT")
+                                .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
                                 .appendQueryParameter("tr", "123456789")
                                 .appendQueryParameter("tn", "Voucher Pay")
                                 .appendQueryParameter("am", "1")
@@ -162,10 +170,9 @@ public class Cart extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(uri);
                 intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                startActivityForResult(intent, TEZ_REQUEST_CODE);
-*/
+                startActivityForResult(intent, TEZ_REQUEST_CODE);*/
 
-                Intent intent = new Intent(Cart.this, WebViewActivity.class);
+                /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
                 intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
                 intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
                 intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
@@ -179,7 +186,7 @@ public class Cart extends AppCompatActivity {
                 intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
 
                 startActivity(intent);
-
+*/
             }
         });
 
@@ -239,17 +246,19 @@ public class Cart extends AppCompatActivity {
 
                 View view = inflater.inflate(R.layout.benefit_layout , null);
 
-                TextView type = view.findViewById(R.id.textView4);
+                ImageView type = view.findViewById(R.id.textView4);
                 TextView text = view.findViewById(R.id.textView6);
 
-                type.setText(item.getBenefits().get(i).getType());
+
 
                 if (item.getBenefits().get(i).getType().equals("CASH"))
                 {
+                    type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
                     text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
                 }
                 else
                 {
+                    type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
                     text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
                 }
 
@@ -440,7 +449,7 @@ public class Cart extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid"));
+        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid") , client);
         call.enqueue(new Callback<cartBean>() {
             @Override
             public void onResponse(Call<cartBean> call, Response<cartBean> response) {
@@ -483,6 +492,9 @@ public class Cart extends AppCompatActivity {
         if (requestCode == TEZ_REQUEST_CODE) {
             // Process based on the data in response.
             Log.d("result", data.getStringExtra("Status"));
+
+
+
         }
     }
 

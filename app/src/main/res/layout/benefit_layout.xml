@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <ImageView
         android:id="@+id/textView4"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/accent_stroke"
         android:gravity="center"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="SCRATCH"
-        android:textColor="@color/colorAccent"
+        android:src="@drawable/ic_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

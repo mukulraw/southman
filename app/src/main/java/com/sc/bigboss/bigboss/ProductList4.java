@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.Image;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -238,6 +240,7 @@ public class ProductList4 extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(ProductList4.this , Cart.class);
+                intent.putExtra("client" , client);
                 startActivity(intent);
 
                 /*
@@ -316,17 +319,18 @@ public class ProductList4 extends AppCompatActivity {
 
                 View view = inflater.inflate(R.layout.benefit_layout , null);
 
-                TextView type = view.findViewById(R.id.textView4);
+                ImageView type = view.findViewById(R.id.textView4);
                 TextView text = view.findViewById(R.id.textView6);
-
-                type.setText(item.getBenefits().get(i).getType());
 
                 if (item.getBenefits().get(i).getType().equals("CASH"))
                 {
+                    type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
+
                     text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
                 }
                 else
                 {
+                    type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
                     text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
                 }
 
@@ -376,7 +380,7 @@ public class ProductList4 extends AppCompatActivity {
 
                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getCount()), item.getPrice());
+                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getCount()), item.getPrice() , client);
 
                             call.enqueue(new Callback<vouchersBean>() {
                                 @Override
@@ -515,7 +519,7 @@ public class ProductList4 extends AppCompatActivity {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid"));
+        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid") , client);
         call.enqueue(new Callback<cartBean>() {
             @Override
             public void onResponse(Call<cartBean> call, Response<cartBean> response) {

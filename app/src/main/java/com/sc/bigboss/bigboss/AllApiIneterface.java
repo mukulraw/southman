@@ -99,7 +99,8 @@ interface AllApiIneterface {
             @Part("user_id") String user_id,
             @Part("product_id") String product_id,
             @Part("quantity") String quantity,
-            @Part("unit_price") String unit_price
+            @Part("unit_price") String unit_price,
+            @Part("client") String client
     );
 
     @Multipart
@@ -125,7 +126,8 @@ interface AllApiIneterface {
     @Multipart
     @POST("southman/api/getCart.php")
     Call<cartBean> getCart(
-            @Part("user_id") String user_id
+            @Part("user_id") String user_id,
+            @Part("client") String client
     );
 
     @Multipart

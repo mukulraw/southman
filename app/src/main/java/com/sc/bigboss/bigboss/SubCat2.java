@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.subCat3POJO.Datum;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 
@@ -70,7 +71,11 @@ public class SubCat2 extends AppCompatActivity {
     private ImageView notification;
     private ImageView perks2;
 
+    TextView bquantity , btotal , bproceed;
 
+    int amm = 0;
+
+    View bottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +91,10 @@ public class SubCat2 extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.arrowleft);
         toolbar.setNavigationOnClickListener(v -> finish());
-
+        bottom = findViewById(R.id.cart_bottom);
+        bquantity = findViewById(R.id.textView7);
+        btotal = findViewById(R.id.textView9);
+        bproceed = findViewById(R.id.textView10);
         title = findViewById(R.id.title);
 
         notification = findViewById(R.id.notification);
@@ -219,6 +227,33 @@ public class SubCat2 extends AppCompatActivity {
                 new IntentFilter("count"));
 
 
+        bproceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(SubCat2.this , Cart.class);
+                intent.putExtra("client" , client);
+                startActivity(intent);
+
+                /*
+                Intent intent = new Intent(ProductList4.this, WebViewActivity.class);
+                intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
+                intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
+                intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
+                intent.putExtra(AvenuesParams.CURRENCY, "INR");
+                intent.putExtra(AvenuesParams.AMOUNT, String.valueOf(amm));
+                //intent.putExtra(AvenuesParams.AMOUNT, "1");
+                intent.putExtra("pid", SharePreferenceUtils.getInstance().getString("userid"));
+
+                intent.putExtra(AvenuesParams.REDIRECT_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
+                intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
+                intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
+
+                startActivity(intent);*/
+
+            }
+        });
+
     }
 
     private BroadcastReceiver singleReceiver;
@@ -335,6 +370,57 @@ public class SubCat2 extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         count.setText(String.valueOf(SharePreferenceUtils.getInstance().getInteger("count")));
+        loadCart();
 
     }
+
+    void loadCart()
+    {
+        bar.setVisibility(View.VISIBLE);
+
+        Bean b = (Bean) getApplicationContext();
+
+        base = b.baseurl;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(b.baseurl)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid") , client);
+        call.enqueue(new Callback<cartBean>() {
+            @Override
+            public void onResponse(Call<cartBean> call, Response<cartBean> response) {
+
+                if (response.body().getData().size() > 0)
+                {
+
+                    amm = Integer.parseInt(response.body().getTotal());
+
+
+                    bquantity.setText(response.body().getItems() + " Items");
+                    btotal.setText("Total: Rs. " + response.body().getTotal());
+
+                    bottom.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    bottom.setVisibility(View.GONE);
+                }
+
+                bar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<cartBean> call, Throwable t) {
+                bar.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
 }

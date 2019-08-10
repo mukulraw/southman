@@ -133,8 +133,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_rubbish_bin" />
-                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\rubbish-bin.svg" />
+                            <entry key="outputName" value="ic_cancel" />
+                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\cancel.svg" />
                           </map>
                         </option>
                       </PersistentState>

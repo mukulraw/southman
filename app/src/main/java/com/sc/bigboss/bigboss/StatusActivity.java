@@ -20,27 +20,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class StatusActivity extends AppCompatActivity {
-    String transStatus;
+    /*String transStatus;
     ImageView image;
     TextView text;
     Button ok;
     ProgressBar progress;
-    String pid;
+    String pid;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
-        pid = getIntent().getStringExtra("pid");
+        //pid = getIntent().getStringExtra("pid");
 
-        transStatus = getIntent().getStringExtra("transStatus");
+       /* transStatus = getIntent().getStringExtra("transStatus");
         image = findViewById(R.id.imageView7);
         text = findViewById(R.id.textView19);
         ok = findViewById(R.id.button13);
-        progress = findViewById(R.id.progressBar4);
+        progress = findViewById(R.id.progressBar4);*/
 
 
-        switch (transStatus) {
+        /*switch (transStatus) {
             case "Transaction Successful!":
 
 
@@ -103,22 +103,22 @@ public class StatusActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(StatusActivity.this , MainActivity.class);
+                *//*Intent intent = new Intent(StatusActivity.this , MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);*/
+                startActivity(intent);*//*
                 finish();
             }
-        });
+        });*/
 
 
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         Intent intent = new Intent(StatusActivity.this , MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-    }
+    }*/
 
 }
