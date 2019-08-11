@@ -97,11 +97,11 @@ public class WebViewActivity extends AppCompatActivity {
                     Log.d("status" , status);
 
                     //Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), StatusActivity.class);
+                    /*Intent intent = new Intent(getApplicationContext(), StatusActivity.class);
                     intent.putExtra("transStatus", status);
                     intent.putExtra("pid", pid);
                     startActivity(intent);
-                    finish();
+                    finish();*/
                 }
             }
 

@@ -133,7 +133,8 @@ interface AllApiIneterface {
     @Multipart
     @POST("southman/api/buyVouchers.php")
     Call<cartBean> buyVouchers(
-            @Part("user_id") String user_id
+            @Part("user_id") String user_id,
+            @Part("client") String client
     );
 
     @Multipart

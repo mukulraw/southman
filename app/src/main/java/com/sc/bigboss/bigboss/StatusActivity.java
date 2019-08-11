@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewStructure;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,25 +22,50 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class StatusActivity extends AppCompatActivity {
-    /*String transStatus;
-    ImageView image;
-    TextView text;
-    Button ok;
-    ProgressBar progress;
-    String pid;*/
+
+    TextView status , amount , client_name , date , order , tag , paid;
+    Button share;
+    ImageButton back;
+
+    String amm , cli , sta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
-        //pid = getIntent().getStringExtra("pid");
+        amm = getIntent().getStringExtra("amount");
+        cli = getIntent().getStringExtra("client");
+        sta = getIntent().getStringExtra("status");
 
-       /* transStatus = getIntent().getStringExtra("transStatus");
-        image = findViewById(R.id.imageView7);
-        text = findViewById(R.id.textView19);
-        ok = findViewById(R.id.button13);
-        progress = findViewById(R.id.progressBar4);*/
+        status = findViewById(R.id.textView14);
+        amount = findViewById(R.id.textView16);
+        client_name = findViewById(R.id.textView29);
+        date = findViewById(R.id.textView30);
+        order = findViewById(R.id.textView33);
+        share = findViewById(R.id.button3);
+        tag = findViewById(R.id.textView32);
+        back = findViewById(R.id.imageButton);
+        paid = findViewById(R.id.textView17);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        if (sta.equals("failure"))
+        {
+
+            status.setText("Payment Failed");
+            amount.setText("\u20B9 " + amm);
+            amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_cancel) , null , null);
+            back.setVisibility(View.VISIBLE);
+            status.setVisibility(View.VISIBLE);
+            amount.setVisibility(View.VISIBLE);
+
+        }
 
         /*switch (transStatus) {
             case "Transaction Successful!":

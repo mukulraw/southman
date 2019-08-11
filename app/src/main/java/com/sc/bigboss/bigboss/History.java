@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -393,17 +394,19 @@ LayoutInflater inflater;
 
                     View view = inflater.inflate(R.layout.benefit_layout , null);
 
-                    TextView type = view.findViewById(R.id.textView4);
+                    ImageView type = view.findViewById(R.id.textView4);
                     TextView text = view.findViewById(R.id.textView6);
 
-                    type.setText(item.getBenefits().get(i).getType());
+
 
                     if (item.getBenefits().get(i).getType().equals("CASH"))
                     {
+                        type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
                         text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
                     }
                     else
                     {
+                        type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
                         text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
                     }
 

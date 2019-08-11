@@ -152,6 +152,9 @@ public class Cart extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(Cart.this , StatusActivity.class);
+                intent.putExtra("client" , client);
+                intent.putExtra("amount" , String.valueOf(amm));
+                intent.putExtra("status" , "failure");
                 startActivity(intent);
 
                 /*Uri uri =
