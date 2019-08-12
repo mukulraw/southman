@@ -154,7 +154,8 @@ public class Cart extends AppCompatActivity {
                 Intent intent = new Intent(Cart.this , StatusActivity.class);
                 intent.putExtra("client" , client);
                 intent.putExtra("amount" , String.valueOf(amm));
-                intent.putExtra("status" , "failure");
+                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
+                intent.putExtra("status" , "success");
                 startActivity(intent);
 
                 /*Uri uri =
@@ -451,6 +452,9 @@ public class Cart extends AppCompatActivity {
                 .build();
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
+        Log.d("client" , client);
 
         Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid") , client);
         call.enqueue(new Callback<cartBean>() {

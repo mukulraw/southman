@@ -11,6 +11,7 @@ import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
+import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
@@ -132,9 +133,11 @@ interface AllApiIneterface {
 
     @Multipart
     @POST("southman/api/buyVouchers.php")
-    Call<cartBean> buyVouchers(
+    Call<gPayBean> buyVouchers(
             @Part("user_id") String user_id,
-            @Part("client") String client
+            @Part("client") String client,
+            @Part("amount") String amount,
+            @Part("txn") String txn
     );
 
     @Multipart

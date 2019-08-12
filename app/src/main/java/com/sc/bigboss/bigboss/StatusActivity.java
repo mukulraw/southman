@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
+import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,11 +24,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class StatusActivity extends AppCompatActivity {
 
-    TextView status , amount , client_name , date , order , tag , paid;
+    TextView status , amount , client_name , date , order , tag , paid , tid;
     Button share;
     ImageButton back;
+    ImageView gpay;
 
-    String amm , cli , sta;
+    ProgressBar progress;
+
+    String amm , cli , sta , txn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,7 @@ public class StatusActivity extends AppCompatActivity {
         amm = getIntent().getStringExtra("amount");
         cli = getIntent().getStringExtra("client");
         sta = getIntent().getStringExtra("status");
+        txn = getIntent().getStringExtra("txn");
 
         status = findViewById(R.id.textView14);
         amount = findViewById(R.id.textView16);
@@ -47,6 +52,9 @@ public class StatusActivity extends AppCompatActivity {
         tag = findViewById(R.id.textView32);
         back = findViewById(R.id.imageButton);
         paid = findViewById(R.id.textView17);
+        progress = findViewById(R.id.progressBar5);
+        tid = findViewById(R.id.textView34);
+        gpay = findViewById(R.id.textView35);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,18 +63,72 @@ public class StatusActivity extends AppCompatActivity {
             }
         });
 
-        if (sta.equals("failure"))
+
+        if (sta.equals("success"))
         {
 
+            progress.setVisibility(View.VISIBLE);
+
+
+            Log.d("successful" , "success");
+
+            progress.setVisibility(View.VISIBLE);
+
+            Bean b = (Bean) getApplicationContext();
+
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            Call<gPayBean> call = cr.buyVouchers(SharePreferenceUtils.getInstance().getString("userid") , cli , amm , txn);
+            call.enqueue(new Callback<gPayBean>() {
+                @Override
+                public void onResponse(Call<gPayBean> call, Response<gPayBean> response) {
+
+                   // image.setImageResource(R.drawable.success);
+                   // text.setText("Voucher purchased successfully. Benefits will get added to your account.");
+
+                    status.setText("Payment Successful");
+                    amount.setText("\u20B9 " + response.body().getData().getAmount());
+                    amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_checked) , null , null);
+                    client_name.setText(response.body().getData().getClient());
+                    client_name.setVisibility(View.VISIBLE);
+                    date.setText(response.body().getData().getCreated());
+                    back.setVisibility(View.VISIBLE);
+                    paid.setVisibility(View.VISIBLE);
+                    status.setVisibility(View.VISIBLE);
+                    amount.setVisibility(View.VISIBLE);
+                    tag.setVisibility(View.VISIBLE);
+                    order.setVisibility(View.VISIBLE);
+                    date.setVisibility(View.VISIBLE);
+                    tid.setText("TXN ID - " + response.body().getData().getTxn());
+                    tid.setVisibility(View.VISIBLE);
+                    gpay.setVisibility(View.VISIBLE);
+
+                    progress.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<gPayBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
+        }else
+        {
             status.setText("Payment Failed");
             amount.setText("\u20B9 " + amm);
             amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_cancel) , null , null);
             back.setVisibility(View.VISIBLE);
             status.setVisibility(View.VISIBLE);
             amount.setVisibility(View.VISIBLE);
-
         }
-
         /*switch (transStatus) {
             case "Transaction Successful!":
 
