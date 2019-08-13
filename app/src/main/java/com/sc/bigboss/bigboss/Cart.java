@@ -377,6 +377,7 @@ public class Cart extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<vouchersBean> call, Throwable t) {
                             bar.setVisibility(View.GONE);
+                            Log.d("error" , t.toString());
                         }
                     });
 
@@ -476,7 +477,9 @@ public class Cart extends AppCompatActivity {
                 }
                 else
                 {
+                    adapter.setgrid(response.body().getData());
                     bottom.setVisibility(View.GONE);
+                    finish();
                 }
 
                 bar.setVisibility(View.GONE);

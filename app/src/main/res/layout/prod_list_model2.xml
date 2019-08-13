@@ -105,7 +105,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@drawable/green_back_round"
+                        android:background="@drawable/green_back_round3"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:paddingStart="10dp"
