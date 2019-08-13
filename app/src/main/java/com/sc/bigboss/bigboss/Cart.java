@@ -258,12 +258,12 @@ public class Cart extends AppCompatActivity {
                 if (item.getBenefits().get(i).getType().equals("CASH"))
                 {
                     type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
-                    text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
+                    text.setText("Open Cash Rewards worth \u20B9 " + item.getBenefits().get(i).getValue() + " x " + item.getQuantity());
                 }
                 else
                 {
                     type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
-                    text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
+                    text.setText(item.getBenefits().get(i).getClient() + " Digital Coupon Cash worth \u20B9 " + item.getBenefits().get(i).getValue() + " x " + item.getQuantity());
                 }
 
                 viewHolder.benefits.addView(view);
