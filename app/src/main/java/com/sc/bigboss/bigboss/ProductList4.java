@@ -304,15 +304,8 @@ public class ProductList4 extends AppCompatActivity {
 
 
             final Datum item = list.get(j);
+
             myViewHolder.setIsRecyclable(false);
-
-            //  myViewHolder.name.setText(item.getSubcatName());
-
-            myViewHolder.subtitle.setText(Html.fromHtml(item.getSubTitle()));
-
-            Log.d("subtitlw" , item.getSubTitle());
-
-            myViewHolder.title.setText(item.getProductTitle());
 
             for (int i = 0 ; i < item.getBenefits().size() ; i++)
             {
@@ -464,7 +457,7 @@ public class ProductList4 extends AppCompatActivity {
 
             LinearLayout benefits;
 
-            TextView title , subtitle , viewBenefits;
+            Button viewBenefits;
 
             Button buy;
             // TextView name;
@@ -474,8 +467,6 @@ public class ProductList4 extends AppCompatActivity {
 
                 imageView = itemView.findViewById(R.id.image);
                 buy = itemView.findViewById(R.id.play);
-                title = itemView.findViewById(R.id.title);
-                subtitle = itemView.findViewById(R.id.subtitle);
                 benefits = itemView.findViewById(R.id.benefits);
                 viewBenefits = itemView.findViewById(R.id.view);
 
