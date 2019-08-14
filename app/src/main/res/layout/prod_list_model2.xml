@@ -28,6 +28,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="TODO"
                 android:padding="5dp"
+                android:src="@drawable/banner3"
                 android:scaleType="fitXY"
                 app:layout_constraintEnd_toStartOf="@+id/play"
                 app:layout_constraintStart_toStartOf="parent"
