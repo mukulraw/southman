@@ -305,7 +305,7 @@ public class ProductList4 extends AppCompatActivity {
 
             final Datum item = list.get(j);
 
-            myViewHolder.setIsRecyclable(false);
+            //myViewHolder.setIsRecyclable(false);
 
             for (int i = 0 ; i < item.getBenefits().size() ; i++)
             {

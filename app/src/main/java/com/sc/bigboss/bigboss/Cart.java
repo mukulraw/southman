@@ -152,30 +152,24 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(Cart.this , StatusActivity.class);
-                intent.putExtra("client" , client);
-                intent.putExtra("amount" , String.valueOf(amm));
-                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
-                intent.putExtra("status" , "success");
-                startActivity(intent);
 
-                /*Uri uri =
+                Uri uri =
                         new Uri.Builder()
                                 .scheme("upi")
                                 .authority("pay")
                                 .appendQueryParameter("pa", "southman@sbi")
                                 .appendQueryParameter("pn", "South Man")
                                 .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
-                                .appendQueryParameter("tr", "123456789")
+                                .appendQueryParameter("tr", String.valueOf(System.currentTimeMillis()))
                                 .appendQueryParameter("tn", "Voucher Pay")
-                                .appendQueryParameter("am", "1")
+                                .appendQueryParameter("am", String.valueOf(amm))
                                 .appendQueryParameter("cu", "INR")
                                 .appendQueryParameter("url", "https://southman.in")
                                 .build();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(uri);
                 intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                startActivityForResult(intent, TEZ_REQUEST_CODE);*/
+                startActivityForResult(intent, TEZ_REQUEST_CODE);
 
                 /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
                 intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
@@ -240,7 +234,7 @@ public class Cart extends AppCompatActivity {
 
             Datum item = list.get(i1);
 
-            viewHolder.setIsRecyclable(false);
+            //viewHolder.setIsRecyclable(false);
 
 
             for (int i = 0 ; i < item.getBenefits().size() ; i++)
@@ -497,7 +491,32 @@ public class Cart extends AppCompatActivity {
 
         if (requestCode == TEZ_REQUEST_CODE) {
             // Process based on the data in response.
-            Log.d("result", data.getStringExtra("Status"));
+
+
+
+            String res = data.getStringExtra("Status");
+
+            Log.d("result", res);
+
+            if (res.equals("SUCCESS"))
+            {
+                Intent intent = new Intent(Cart.this , StatusActivity.class);
+                intent.putExtra("client" , client);
+                intent.putExtra("amount" , String.valueOf(amm));
+                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
+                intent.putExtra("status" , "success");
+                startActivity(intent);
+            }
+            else
+            {
+                Intent intent = new Intent(Cart.this , StatusActivity.class);
+                intent.putExtra("client" , client);
+                intent.putExtra("amount" , String.valueOf(amm));
+                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
+                intent.putExtra("status" , "failure");
+                startActivity(intent);
+            }
+
 
 
 
