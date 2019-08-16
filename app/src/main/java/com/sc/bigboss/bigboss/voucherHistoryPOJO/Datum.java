@@ -18,6 +18,15 @@ public class Datum {
     @SerializedName("created")
     @Expose
     private String created;
+    @SerializedName("quantity")
+    @Expose
+    private String quantity;
+    @SerializedName("unit_price")
+    @Expose
+    private String unit_price;
+    @SerializedName("product_image")
+    @Expose
+    private String product_image;
     @SerializedName("benefits")
     @Expose
     private List<Benefit> benefits = null;
@@ -60,5 +69,29 @@ public class Datum {
 
     public void setBenefits(List<Benefit> benefits) {
         this.benefits = benefits;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getUnit_price() {
+        return unit_price;
+    }
+
+    public void setUnit_price(String unit_price) {
+        this.unit_price = unit_price;
+    }
+
+    public String getProduct_image() {
+        return product_image;
+    }
+
+    public void setProduct_image(String product_image) {
+        this.product_image = product_image;
     }
 }

@@ -270,6 +270,12 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/getOrderHistory.php")
+    Call<voucherHistoryBean> getOrderHistory(
+            @Part("order_id") String order_id
+    );
+
+    @Multipart
     @POST("southman/api/getRedeem2.php")
     Call<scratchCardBean> getRedeemed2(
             @Part("id") String id,

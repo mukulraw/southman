@@ -33,6 +33,8 @@ public class StatusActivity extends AppCompatActivity {
 
     String amm , cli , sta , txn;
 
+    String oid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +112,8 @@ public class StatusActivity extends AppCompatActivity {
                     tid.setVisibility(View.VISIBLE);
                     gpay.setVisibility(View.VISIBLE);
 
+                    oid = response.body().getData().getId();
+
                     progress.setVisibility(View.GONE);
 
                 }
@@ -129,6 +133,18 @@ public class StatusActivity extends AppCompatActivity {
             status.setVisibility(View.VISIBLE);
             amount.setVisibility(View.VISIBLE);
         }
+
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(StatusActivity.this , OrderDetails.class);
+                intent.putExtra("order" , oid);
+                startActivity(intent);
+
+            }
+        });
+
         /*switch (transStatus) {
             case "Transaction Successful!":
 

@@ -59,7 +59,7 @@ public class Cart extends AppCompatActivity {
 
     List<Datum> list;
 
-    String client;
+    String client , txn;
 
     private static final int TEZ_REQUEST_CODE = 123;
 
@@ -149,15 +149,26 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try {
-                    Uri uri =
-                            new Uri.Builder()
+
+                Intent intent = new Intent(Cart.this , StatusActivity.class);
+                intent.putExtra("client" , client);
+                intent.putExtra("amount" , String.valueOf(amm));
+                intent.putExtra("txn" , txn);
+                intent.putExtra("status" , "success");
+                startActivity(intent);
+
+
+                /*try {
+
+                    txn = String.valueOf(System.currentTimeMillis());
+
+                    Uri uri = new Uri.Builder()
                                     .scheme("upi")
                                     .authority("pay")
                                     .appendQueryParameter("pa", "southman@sbi")
                                     .appendQueryParameter("pn", "South Man")
                                     .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
-                                    .appendQueryParameter("tr", String.valueOf(System.currentTimeMillis()))
+                                    .appendQueryParameter("tr", txn)
                                     .appendQueryParameter("tn", "Voucher Pay")
                                     .appendQueryParameter("am", String.valueOf(amm))
                                     .appendQueryParameter("cu", "INR")
@@ -171,7 +182,7 @@ public class Cart extends AppCompatActivity {
                 {
                     e.printStackTrace();
                     Toast.makeText(Cart.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
 
 
@@ -615,7 +626,7 @@ loadCart();
                 Intent intent = new Intent(Cart.this , StatusActivity.class);
                 intent.putExtra("client" , client);
                 intent.putExtra("amount" , String.valueOf(amm));
-                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
+                intent.putExtra("txn" , txn);
                 intent.putExtra("status" , "success");
                 startActivity(intent);
             }
@@ -624,7 +635,7 @@ loadCart();
                 Intent intent = new Intent(Cart.this , StatusActivity.class);
                 intent.putExtra("client" , client);
                 intent.putExtra("amount" , String.valueOf(amm));
-                intent.putExtra("txn" , String.valueOf(System.currentTimeMillis()));
+                intent.putExtra("txn" , txn);
                 intent.putExtra("status" , "failure");
                 startActivity(intent);
             }

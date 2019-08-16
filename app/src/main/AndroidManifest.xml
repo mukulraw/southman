@@ -20,15 +20,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-        <activity android:name=".ProductList4"
+        android:theme="@style/AppTheme">
+        <activity android:name=".OrderDetails"></activity>
+        <activity
+            android:name=".ProductList4"
             android:screenOrientation="portrait" />
-        <activity android:name=".StatusActivity"
+        <activity
+            android:name=".StatusActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".WebViewActivity"
+        <activity
+            android:name=".WebViewActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Cart"
+        <activity
+            android:name=".Cart"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Register"
