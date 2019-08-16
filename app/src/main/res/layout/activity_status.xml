@@ -4,7 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFE"
     tools:context=".StatusActivity">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/lll1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="#deffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -47,10 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:drawableStart="@drawable/ic_checked"
-        android:drawablePadding="20dp"
+        android:drawableTop="@drawable/ic_checked"
+        android:drawablePadding="5dp"
         android:gravity="center"
         android:text="\u20B9 100"
         android:textColor="#000000"
@@ -68,6 +88,7 @@
         android:layout_marginEnd="8dp"
         android:text="Paid via"
         android:textSize="16sp"
+        android:textColor="#3C4043"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView35"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +106,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text=""
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -99,7 +119,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
@@ -176,13 +195,13 @@
 
     <ImageView
         android:id="@+id/textView35"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@drawable/gpay"
+        android:src="@drawable/ic_google_pay_mark_800_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView17"

@@ -2,17 +2,8 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,17 +16,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.cartPOJO.Datum;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import nl.dionsegijn.steppertouch.OnStepCallback;
-import nl.dionsegijn.steppertouch.StepperTouch;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -152,24 +149,31 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                try {
+                    Uri uri =
+                            new Uri.Builder()
+                                    .scheme("upi")
+                                    .authority("pay")
+                                    .appendQueryParameter("pa", "southman@sbi")
+                                    .appendQueryParameter("pn", "South Man")
+                                    .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
+                                    .appendQueryParameter("tr", String.valueOf(System.currentTimeMillis()))
+                                    .appendQueryParameter("tn", "Voucher Pay")
+                                    .appendQueryParameter("am", String.valueOf(amm))
+                                    .appendQueryParameter("cu", "INR")
+                                    .appendQueryParameter("url", "https://southman.in")
+                                    .build();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(uri);
+                    intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
+                    startActivityForResult(intent, TEZ_REQUEST_CODE);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                    Toast.makeText(Cart.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
+                }
 
-                Uri uri =
-                        new Uri.Builder()
-                                .scheme("upi")
-                                .authority("pay")
-                                .appendQueryParameter("pa", "southman@sbi")
-                                .appendQueryParameter("pn", "South Man")
-                                .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
-                                .appendQueryParameter("tr", String.valueOf(System.currentTimeMillis()))
-                                .appendQueryParameter("tn", "Voucher Pay")
-                                .appendQueryParameter("am", String.valueOf(amm))
-                                .appendQueryParameter("cu", "INR")
-                                .appendQueryParameter("url", "https://southman.in")
-                                .build();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(uri);
-                intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                startActivityForResult(intent, TEZ_REQUEST_CODE);
+
 
                 /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
                 intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
@@ -189,13 +193,15 @@ public class Cart extends AppCompatActivity {
             }
         });
 
+        loadCart();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        loadCart();
+
 
     }
 
@@ -206,7 +212,7 @@ public class Cart extends AppCompatActivity {
         Context context;
         LayoutInflater inflater;
 
-        public CartAdapter(List<Datum> list , Context context)
+        CartAdapter(List<Datum> list, Context context)
         {
             this.context = context;
             this.list = list;
@@ -263,8 +269,123 @@ public class Cart extends AppCompatActivity {
             }
 
 
+            viewHolder.quantity.setText(item.getQuantity());
 
-            viewHolder.buy.setCount(Integer.parseInt(item.getQuantity()));
+            viewHolder.add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int q = Integer.parseInt(item.getQuantity());
+
+                    if (q < 99)
+                    {
+
+                        q++;
+
+                        viewHolder.quantity.setText(String.valueOf(q));
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+                        base = b.baseurl;
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Call<vouchersBean> call = cr.updateCart(item.getPid() , String.valueOf(q), item.getPrice());
+
+                        call.enqueue(new Callback<vouchersBean>() {
+                            @Override
+                            public void onResponse(Call<vouchersBean> call, Response<vouchersBean> response) {
+
+                                if (response.body().getStatus().equals("1"))
+                                {
+                                    loadCart();
+                                }
+
+                                Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                bar.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<vouchersBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+
+
+                }
+            });
+
+
+
+            viewHolder.remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int q = Integer.parseInt(item.getQuantity());
+
+                    if (q > 1)
+                    {
+
+                        q--;
+
+                        viewHolder.quantity.setText(String.valueOf(q));
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+                        base = b.baseurl;
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Call<vouchersBean> call = cr.updateCart(item.getPid() , String.valueOf(q), item.getPrice());
+
+                        call.enqueue(new Callback<vouchersBean>() {
+                            @Override
+                            public void onResponse(Call<vouchersBean> call, Response<vouchersBean> response) {
+
+                                if (response.body().getStatus().equals("1"))
+                                {
+                                    loadCart();
+                                }
+
+                                Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                bar.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<vouchersBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+
+
+                }
+            });
+
+            //viewHolder.buy.setQuantity(Integer.parseInt(item.getQuantity()));
 
             viewHolder.viewBenefits.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -282,52 +403,37 @@ public class Cart extends AppCompatActivity {
                 }
             });
 
-            viewHolder.buy.addStepCallback(new OnStepCallback() {
+            /*viewHolder.buy.setOnQuantityChangeListener(new QuantityView.OnQuantityChangeListener() {
                 @Override
-                public void onStep(int i, boolean b1) {
+                public void onQuantityChanged(int oldQuantity, int value, boolean programmatically) {
 
-                    Log.d("value" , String.valueOf(i));
+                    Log.d("value" , String.valueOf(value));
 
+                    if (programmatically)
+                    {
 
-                    bar.setVisibility(View.VISIBLE);
-
-                    Bean b = (Bean) getApplicationContext();
-
-                    base = b.baseurl;
-
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(b.baseurl)
-                            .addConverterFactory(ScalarsConverterFactory.create())
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-
-                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                    Call<vouchersBean> call = cr.updateCart(item.getPid() , String.valueOf(viewHolder.buy.getCount()), item.getPrice());
-
-                    call.enqueue(new Callback<vouchersBean>() {
-                        @Override
-                        public void onResponse(Call<vouchersBean> call, Response<vouchersBean> response) {
-
-                            if (response.body().getStatus().equals("1"))
-                            {
-                                loadCart();
-                            }
-
-                            Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                            bar.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<vouchersBean> call, Throwable t) {
-                            bar.setVisibility(View.GONE);
-                        }
-                    });
+                    }
 
                 }
-            });
+
+                @Override
+                public void onLimitReached() {
+
+                }
+            });*/
+
+
+
+            /*viewHolder.buy.addStepCallback((i, b1) -> {
+
+
+                if (b1)
+                {
+
+                }
+
+
+            });*/
 
 
             viewHolder.delete.setOnClickListener(new View.OnClickListener() {
@@ -404,21 +510,26 @@ public class Cart extends AppCompatActivity {
 
             ImageButton delete;
 
-            StepperTouch buy;
+            Button add , remove;
+            TextView quantity;
+
+            //QuantityView buy;
             // TextView name;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
                 imageView = itemView.findViewById(R.id.image);
-                buy = itemView.findViewById(R.id.play);
+                //buy = itemView.findViewById(R.id.play);
                 benefits = itemView.findViewById(R.id.benefits);
                 viewBenefits = itemView.findViewById(R.id.view);
                 delete = itemView.findViewById(R.id.delete);
 
-                buy.setMaxValue(99);
-                buy.setMinValue(1);
-                buy.setSideTapEnabled(true);
+                add = itemView.findViewById(R.id.increment);
+                remove = itemView.findViewById(R.id.decrement);
+                quantity = itemView.findViewById(R.id.display);
+
+                //buy.setSideTapEnabled(true);
 
                 //name = itemView.findViewById(R.id.name);
 
@@ -489,7 +600,7 @@ public class Cart extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == TEZ_REQUEST_CODE) {
+        if (requestCode == TEZ_REQUEST_CODE && resultCode == RESULT_OK) {
             // Process based on the data in response.
 
 

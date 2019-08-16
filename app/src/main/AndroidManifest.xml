@@ -22,10 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".ProductList4"></activity>
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".WebViewActivity" />
-        <activity android:name=".Cart" />
+        <activity android:name=".ProductList4"
+            android:screenOrientation="portrait" />
+        <activity android:name=".StatusActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Cart"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Register"
             android:screenOrientation="portrait" />

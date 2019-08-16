@@ -34,15 +34,13 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
 
-            <nl.dionsegijn.steppertouch.StepperTouch
+            <include
                 android:id="@+id/play"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/green_back_round2"
-                android:text="ADD TO CART"
-                android:textColor="#fff"
-                android:textSize="12sp"
+                layout="@layout/number_picker_custom_layout"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="@+id/delete"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/delete" />
