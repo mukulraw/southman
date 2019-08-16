@@ -201,7 +201,7 @@ public class Cart extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-
+loadCart();
 
     }
 
@@ -242,6 +242,7 @@ public class Cart extends AppCompatActivity {
 
             //viewHolder.setIsRecyclable(false);
 
+            viewHolder.benefits.removeAllViews();
 
             for (int i = 0 ; i < item.getBenefits().size() ; i++)
             {
