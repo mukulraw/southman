@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrderDetails"></activity>
+        <activity android:name=".StatusActivity2"></activity>
+        <activity android:name=".OrderDetails" />
         <activity
             android:name=".ProductList4"
             android:screenOrientation="portrait" />

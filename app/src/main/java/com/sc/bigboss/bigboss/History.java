@@ -35,6 +35,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
+import com.sc.bigboss.bigboss.vHistoryPOJO.vHistoryBean;
 import com.sc.bigboss.bigboss.voucherHistoryPOJO.Datum;
 import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
 
@@ -128,7 +129,7 @@ public class History extends AppCompatActivity {
         ProgressBar progress;
         RecyclerView grid;
         GridLayoutManager manager;
-        List<Datum> list;
+        List<com.sc.bigboss.bigboss.vHistoryPOJO.Datum> list;
         CardAdapter adapter;
         TextView date;
         LinearLayout linear;
@@ -209,11 +210,11 @@ public class History extends AppCompatActivity {
 
                     progress.setVisibility(View.VISIBLE);
 
-                    Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), strDate);
+                    Call<vHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), strDate);
 
-                    call1.enqueue(new Callback<voucherHistoryBean>() {
+                    call1.enqueue(new Callback<vHistoryBean>() {
                         @Override
-                        public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
+                        public void onResponse(Call<vHistoryBean> call, Response<vHistoryBean> response1) {
 
                             //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -229,7 +230,7 @@ public class History extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
+                        public void onFailure(Call<vHistoryBean> call, Throwable t) {
                             progress.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                         }
@@ -256,11 +257,11 @@ public class History extends AppCompatActivity {
 
             progress.setVisibility(View.VISIBLE);
 
-            Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+            Call<vHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
-            call1.enqueue(new Callback<voucherHistoryBean>() {
+            call1.enqueue(new Callback<vHistoryBean>() {
                 @Override
-                public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
+                public void onResponse(Call<vHistoryBean> call, Response<vHistoryBean> response1) {
 
                     //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -276,7 +277,7 @@ public class History extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
+                public void onFailure(Call<vHistoryBean> call, Throwable t) {
                     progress.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -302,11 +303,11 @@ public class History extends AppCompatActivity {
 
                         progress.setVisibility(View.VISIBLE);
 
-                        Call<voucherHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
+                        Call<vHistoryBean> call1 = cr.getRedeemed21(SharePreferenceUtils.getInstance().getString("userid"), formattedDate);
 
-                        call1.enqueue(new Callback<voucherHistoryBean>() {
+                        call1.enqueue(new Callback<vHistoryBean>() {
                             @Override
-                            public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response1) {
+                            public void onResponse(Call<vHistoryBean> call, Response<vHistoryBean> response1) {
 
                                 //Toast.makeText(History.this, String.valueOf(response1.body().getData().size()), Toast.LENGTH_SHORT).show();
 
@@ -322,7 +323,7 @@ public class History extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
+                            public void onFailure(Call<vHistoryBean> call, Throwable t) {
                                 progress.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), t.toString(), Toast.LENGTH_SHORT).show();
                             }
@@ -343,15 +344,16 @@ public class History extends AppCompatActivity {
 
         class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
-            List<Datum> list;
+            List<com.sc.bigboss.bigboss.vHistoryPOJO.Datum> list;
             final Context context;
-LayoutInflater inflater;
-            CardAdapter(Context context, List<Datum> list) {
+            LayoutInflater inflater;
+
+            CardAdapter(Context context, List<com.sc.bigboss.bigboss.vHistoryPOJO.Datum> list) {
                 this.context = context;
                 this.list = list;
             }
 
-            void setData(List<Datum> list) {
+            void setData(List<com.sc.bigboss.bigboss.vHistoryPOJO.Datum> list) {
                 this.list = list;
                 notifyDataSetChanged();
             }
@@ -367,68 +369,34 @@ LayoutInflater inflater;
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int i2) {
 
-                Datum item = list.get(i2);
+                com.sc.bigboss.bigboss.vHistoryPOJO.Datum item = list.get(i2);
 
 
                 holder.status.setText(item.getCreated());
 
 
-                holder.type.setText("ORDER NO. - " + item.getId());
-                holder.code.setText("Item - " + item.getProductTitle());
+                holder.type.setText(item.getTxn());
+                holder.code.setText("Paid \u20B9 " + item.getAmount() + " to " + item.getClient());
                 holder.type.setTextColor(Color.parseColor("#009688"));
 
-                holder.price.setText(Html.fromHtml("<font color=#000000>Paid</font> - Rs. " + item.getPrice()));
-
                 holder.date.setVisibility(View.GONE);
-                holder.price.setVisibility(View.VISIBLE);
-
-                try {
-                    holder.benefits.removeAllViews();
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-
-                for (int i = 0 ; i < item.getBenefits().size() ; i++)
-                {
-
-                    View view = inflater.inflate(R.layout.benefit_layout , null);
-
-                    ImageView type = view.findViewById(R.id.textView4);
-                    TextView text = view.findViewById(R.id.textView6);
+                //holder.price.setVisibility(View.VISIBLE);
 
 
 
-                    if (item.getBenefits().get(i).getType().equals("CASH"))
-                    {
-                        type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
-                        text.setText("Get Cash rewards worth Rs. " + item.getBenefits().get(i).getValue());
-                    }
-                    else
-                    {
-                        type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
-                        text.setText("Get Scratch card for " + item.getBenefits().get(i).getClient() + " worth Rs. " + item.getBenefits().get(i).getValue());
-                    }
+                holder.paid.setText("completed");
 
-                    holder.benefits.addView(view);
-
-                }
-
-                holder.paid.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if (holder.benefits.getVisibility() == View.VISIBLE)
-                        {
-                            holder.benefits.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            holder.benefits.setVisibility(View.VISIBLE);
-                        }
+                        Intent intent = new Intent(context , StatusActivity2.class);
+                        intent.putExtra("id" , item.getId());
+                        context.startActivity(intent);
 
                     }
                 });
+
 
             }
 
@@ -438,7 +406,7 @@ LayoutInflater inflater;
             }
 
             class ViewHolder extends RecyclerView.ViewHolder {
-                LinearLayout benefits;
+
                 final TextView code;
                 final TextView date;
                 final TextView type;
@@ -455,7 +423,7 @@ LayoutInflater inflater;
                     status = itemView.findViewById(R.id.status);
                     price = itemView.findViewById(R.id.price);
                     paid = itemView.findViewById(R.id.paid);
-                    benefits = itemView.findViewById(R.id.benefits);
+
 
                 }
             }

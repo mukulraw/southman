@@ -108,7 +108,7 @@ public class OrderDetails extends AppCompatActivity {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
-            View view = inflater.inflate(R.layout.prod_list_model4, viewGroup, false);
+            View view = inflater.inflate(R.layout.prod_list_model5, viewGroup, false);
 
             return new ViewHolder(view);
         }
@@ -148,7 +148,7 @@ public class OrderDetails extends AppCompatActivity {
             }
 
 
-            viewHolder.quantity.setText(item.getQuantity());
+            viewHolder.quantity.setText("Quantity - " + item.getQuantity());
 
 
 
@@ -192,7 +192,7 @@ public class OrderDetails extends AppCompatActivity {
 
             Button viewBenefits;
 
-            ImageButton delete;
+
 
             Button add , remove;
             TextView quantity;
@@ -207,11 +207,11 @@ public class OrderDetails extends AppCompatActivity {
                 //buy = itemView.findViewById(R.id.play);
                 benefits = itemView.findViewById(R.id.benefits);
                 viewBenefits = itemView.findViewById(R.id.view);
-                delete = itemView.findViewById(R.id.delete);
+
 
                 add = itemView.findViewById(R.id.increment);
                 remove = itemView.findViewById(R.id.decrement);
-                quantity = itemView.findViewById(R.id.display);
+                quantity = itemView.findViewById(R.id.play);
 
                 //buy.setSideTapEnabled(true);
 
