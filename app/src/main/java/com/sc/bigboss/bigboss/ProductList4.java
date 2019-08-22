@@ -374,6 +374,12 @@ public class ProductList4 extends AppCompatActivity {
 
                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+                            Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
+                            Log.d("pid" , item.getPid());
+                            Log.d("quantity" , String.valueOf(stepperTouch.getCount()));
+                            Log.d("price" , item.getPrice());
+                            Log.d("client" , client);
+
                             Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getCount()), item.getPrice() , client);
 
                             call.enqueue(new Callback<vouchersBean>() {
@@ -510,6 +516,9 @@ public class ProductList4 extends AppCompatActivity {
                 .build();
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+        Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
+        Log.d("client" , client);
 
         Call<cartBean> call = cr.getCart(SharePreferenceUtils.getInstance().getString("userid") , client);
         call.enqueue(new Callback<cartBean>() {

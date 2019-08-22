@@ -130,10 +130,15 @@ public class SubCat3 extends AppCompatActivity {
     private String take = "no";
 
 
+    Button createOrder;
+    TextView currentOrder;
+    LinearLayout hide;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub_cat3);
+        setContentView(R.layout.activity_sub_cat4);
 
         cd = new ConnectionDetector(SubCat3.this);
 
@@ -145,6 +150,9 @@ public class SubCat3 extends AppCompatActivity {
         perks = findViewById(R.id.perks);
         upload = findViewById(R.id.upload);
 
+        createOrder = findViewById(R.id.create);
+        currentOrder = findViewById(R.id.current);
+        hide = findViewById(R.id.hide);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -243,7 +251,7 @@ public class SubCat3 extends AppCompatActivity {
         }
 
 
-        upload.setOnClickListener(v -> {
+        /*upload.setOnClickListener(v -> {
 
 
             String c = p;
@@ -2200,7 +2208,7 @@ public class SubCat3 extends AppCompatActivity {
 
 
 
-        });
+        });*/
 
         count = findViewById(R.id.count);
 
@@ -2219,6 +2227,21 @@ public class SubCat3 extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
                 new IntentFilter("count"));
 
+        currentOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (hide.getVisibility() == View.GONE)
+                {
+                    hide.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    hide.setVisibility(View.GONE);
+                }
+
+            }
+        });
 
     }
 
@@ -2610,7 +2633,16 @@ public class SubCat3 extends AppCompatActivity {
                     dialog.dismiss();
 
 
-                    bar.setVisibility(View.VISIBLE);
+
+                    Dialog dialog1 = new Dialog(SubCat3.this);
+                    dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog1.setContentView(R.layout.bill_amount_proceed_dialog);
+                    dialog1.setCancelable(false);
+                    dialog1.show();
+
+
+
+                    /*bar.setVisibility(View.VISIBLE);
 
                     Bean b = (Bean) getApplicationContext();
 
@@ -2634,6 +2666,9 @@ public class SubCat3 extends AppCompatActivity {
 
                             String type = response.body().getMessage();
 
+
+
+*//*
 
                             if (type.equals("dining")) {
                                 take = "no";
@@ -3191,7 +3226,8 @@ public class SubCat3 extends AppCompatActivity {
                                 }
 
 
-                            } else if (type.equals("take_away")) {
+                            }
+                            else if (type.equals("take_away")) {
                                 take = "yes";
 
                                 Dialog dialog2 = new Dialog(SubCat3.this);
@@ -3447,7 +3483,8 @@ public class SubCat3 extends AppCompatActivity {
 
                                 });
 
-                            } else if (type.equals("both")) {
+                            }
+                            else if (type.equals("both")) {
                                 Dialog dialog4 = new Dialog(SubCat3.this);
                                 dialog4.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog4.setCancelable(true);
@@ -4283,7 +4320,8 @@ public class SubCat3 extends AppCompatActivity {
 
                                 });
 
-                            } else {
+                            }
+                            else {
                                 take = "no";
 
                                 Dialog dialog2 = new Dialog(SubCat3.this);
@@ -4541,587 +4579,9 @@ public class SubCat3 extends AppCompatActivity {
 
 
                             }
+*//*
 
-                            /*    if (response.body().getData().size() > 0) {
 
-
-                                    Dialog dialog = new Dialog(SubCat3.this);
-                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    dialog.setCancelable(true);
-                                    dialog.setContentView(R.layout.table_dialog2);
-                                    dialog.show();
-
-
-                                    List<String> names = new ArrayList<>();
-
-                                    Spinner spinner = dialog.findViewById(R.id.spinner);
-                                    EditText amount = dialog.findViewById(R.id.amount);
-                                    Button submit = dialog.findViewById(R.id.submit);
-
-                                    names.add("Select table");
-
-                                    names.addAll(response.body().getData());
-
-
-                                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(SubCat3.this,
-                                            R.layout.spinner_item, names);
-
-                                    spinner.setAdapter(adapter);
-
-
-                                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                                            if (position > 0) {
-                                                tab = names.get(position);
-                                            } else {
-                                                tab = "";
-                                            }
-
-
-                                        }
-
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
-
-                                        }
-                                    });
-
-                                    submit.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-
-                                            String a = amount.getText().toString();
-                                            String c = item.getCashValue();
-
-                                            float aa = 0, cc = 0;
-
-                                            try {
-
-                                                aa = Float.parseFloat(a);
-                                                cc = Float.parseFloat(c);
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-
-                                            if (tab.length() > 0) {
-                                                if (aa > 0 && aa <= cc) {
-
-
-                                                    Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid"), client, tab);
-
-                                                    call1.enqueue(new Callback<pendingOrderBean>() {
-                                                        @Override
-                                                        public void onResponse(Call<pendingOrderBean> call, Response<pendingOrderBean> response) {
-
-
-                                                            if (response.body().getStatus().equals("1")) {
-
-                                                                dialog.dismiss();
-
-                                                                Dialog dialog1 = new Dialog(SubCat3.this);
-                                                                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                                                dialog1.setCancelable(true);
-                                                                dialog1.setContentView(R.layout.pending_order_dialog);
-                                                                dialog1.show();
-
-                                                                TextView code = dialog1.findViewById(R.id.code);
-                                                                TextView type = dialog1.findViewById(R.id.type);
-                                                                TextView status = dialog1.findViewById(R.id.status);
-                                                                TextView price = dialog1.findViewById(R.id.price);
-                                                                TextView paid = dialog1.findViewById(R.id.paid);
-
-                                                                TextView bill = dialog1.findViewById(R.id.bill);
-                                                                TextView balance = dialog1.findViewById(R.id.balance);
-
-                                                                Button ok = dialog1.findViewById(R.id.ok);
-                                                                Button cancel = dialog1.findViewById(R.id.cancel);
-
-                                                                cancel.setOnClickListener(new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
-
-                                                                        dialog1.dismiss();
-
-                                                                    }
-                                                                });
-
-                                                                Data item2 = response.body().getData();
-
-                                                                TextView text = dialog1.findViewById(R.id.text);
-
-                                                                if (item2.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid"))) {
-                                                                    cancel.setVisibility(View.VISIBLE);
-                                                                    ok.setVisibility(View.VISIBLE);
-                                                                    text.setText("Update this order?");
-                                                                } else {
-                                                                    cancel.setVisibility(View.GONE);
-                                                                    ok.setVisibility(View.GONE);
-                                                                    text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
-                                                                }
-
-                                                                ok.setOnClickListener(new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
-
-
-                                                                        Call<scratchCardBean> call2 = cr.updateOrder2(item2.getId(), "0", a, item.getId());
-                                                                        call2.enqueue(new Callback<scratchCardBean>() {
-                                                                            @Override
-                                                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                                                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                                                dialog1.dismiss();
-
-                                                                                loadPerks();
-
-                                                                            }
-
-                                                                            @Override
-                                                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
-
-                                                                            }
-                                                                        });
-
-
-                                                                    }
-                                                                });
-
-
-                                                                status.setText(item2.getStatus());
-
-                                                                switch (item2.getText()) {
-                                                                    case "perks":
-                                                                        type.setText("ORDER NO. - " + item2.getId());
-                                                                        code.setText("Item - " + item2.getCode());
-                                                                        type.setTextColor(Color.parseColor("#009688"));
-
-                                                                        price.setText("Benefits - " + item2.getPrice() + " credits");
-
-                                                                        float pr = Float.parseFloat(item2.getPrice());
-                                                                        float pa = Float.parseFloat(item2.getCashValue());
-
-                                                                        paid.setText("Pending benefits - " + String.valueOf(pr - pa) + " credits");
-
-                                                                        paid.setVisibility(View.VISIBLE);
-                                                                        price.setVisibility(View.VISIBLE);
-
-                                                                        break;
-                                                                    case "cash":
-                                                                        if (item2.getTableName().equals("")) {
-                                                                            type.setText("ORDER NO. - " + item2.getId());
-                                                                        } else {
-                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
-                                                                        }
-                                                                        code.setText("Shop - " + item2.getClient());
-                                                                        type.setTextColor(Color.parseColor("#689F38"));
-
-                                                                        price.setText(Html.fromHtml("<font color=#000000>Cash discount</font> - Rs." + item2.getCashRewards()));
-                                                                        paid.setText(Html.fromHtml("<font color=#000000>Scratch discount</font> - Rs." + item2.getScratchAmount()));
-
-//                    float pr1 = Float.parseFloat(item.getPrice());
-                                                                        //                  float pa1 = Float.parseFloat(item.getCashValue());
-
-                                                                        //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
-
-                                                                        if (item2.getStatus().equals("pending")) {
-
-                                                                            bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
-                                                                            balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
-
-                                                                        } else {
-
-                                                                            float c = Float.parseFloat(item2.getCashRewards());
-                                                                            float s = Float.parseFloat(item2.getScratchAmount());
-                                                                            float t = Float.parseFloat(item2.getBillAmount());
-
-                                                                            bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item2.getBillAmount()));
-                                                                            balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
-
-                                                                        }
-
-                                                                        paid.setVisibility(View.VISIBLE);
-                                                                        price.setVisibility(View.VISIBLE);
-                                                                        break;
-                                                                    case "scratch":
-                                                                        if (item2.getTableName().equals("")) {
-                                                                            type.setText("ORDER NO. - " + item2.getId());
-                                                                        } else {
-                                                                            type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
-                                                                        }
-                                                                        code.setText("Shop - " + item2.getClient());
-                                                                        type.setTextColor(Color.parseColor("#689F38"));
-
-                                                                        price.setText(Html.fromHtml("<font color=#000000>Cash discount</font> - Rs." + item2.getCashRewards()));
-                                                                        paid.setText(Html.fromHtml("<font color=#000000>Scratch discount</font> - Rs." + item2.getScratchAmount()));
-
-//                    float pr1 = Float.parseFloat(item.getPrice());
-                                                                        //                  float pa1 = Float.parseFloat(item.getCashValue());
-
-                                                                        //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
-
-                                                                        if (item2.getStatus().equals("pending")) {
-
-                                                                            bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
-                                                                            balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
-
-                                                                        } else {
-
-                                                                            float c = Float.parseFloat(item2.getCashRewards());
-                                                                            float s = Float.parseFloat(item2.getScratchAmount());
-                                                                            float t = Float.parseFloat(item2.getBillAmount());
-
-                                                                            bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item2.getBillAmount()));
-                                                                            balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
-
-                                                                        }
-
-                                                                        paid.setVisibility(View.VISIBLE);
-                                                                        price.setVisibility(View.VISIBLE);
-                                                                        break;
-                                                                }
-
-
-                                                            } else {
-                                                                amo = "0";
-                                                                scr = a;
-                                                                cid = item.getId();
-
-                                                                pho = phone;
-                                                                tex = "";
-
-                                                                dialog.dismiss();
-
-                                                                final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
-                                                                File newdir = new File(dir);
-                                                                try {
-                                                                    newdir.mkdirs();
-                                                                } catch (Exception e) {
-                                                                    e.printStackTrace();
-                                                                }
-
-
-                                                                String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
-
-
-                                                                file = new File(fil);
-                                                                try {
-                                                                    file.createNewFile();
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
-
-                                                                uri = FileProvider.getUriForFile(SubCat3.this, BuildConfig.APPLICATION_ID + ".provider", file);
-
-                                                                Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                                getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                                                getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                                startActivityForResult(getpic, 2);
-
-                                                            }
-
-
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(Call<pendingOrderBean> call, Throwable t) {
-
-                                                        }
-                                                    });
-
-
-                                                } else {
-                                                    Toast.makeText(SubCat3.this, "Invalid amount", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } else {
-                                                Toast.makeText(SubCat3.this, "Please select a table", Toast.LENGTH_SHORT).show();
-                                            }
-
-
-                                        }
-                                    });
-
-
-                                }
-                                else {
-
-
-                                    Dialog dialog2 = new Dialog(SubCat3.this);
-                                    dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    dialog2.setCancelable(true);
-                                    dialog2.setContentView(R.layout.amount_dialog);
-                                    dialog2.show();
-
-
-                                    EditText am = dialog2.findViewById(R.id.name);
-                                    Button sub = dialog2.findViewById(R.id.submit);
-
-                                    sub.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            String a = am.getText().toString();
-                                            String c = item.getCashValue();
-
-                                            float aa = 0, cc = 0;
-
-                                            try {
-
-                                                aa = Float.parseFloat(a);
-                                                cc = Float.parseFloat(c);
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            if (aa > 0 && aa <= cc) {
-
-
-                                                Call<pendingOrderBean> call1 = cr.getPending(SharePreferenceUtils.getInstance().getString("userid"), client, "");
-
-                                                call1.enqueue(new Callback<pendingOrderBean>() {
-                                                    @Override
-                                                    public void onResponse(Call<pendingOrderBean> call, Response<pendingOrderBean> response) {
-
-
-                                                        if (response.body().getStatus().equals("1")) {
-
-                                                            dialog2.dismiss();
-                                                            dialog.dismiss();
-
-                                                            Dialog dialog1 = new Dialog(SubCat3.this);
-                                                            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                                            dialog1.setCancelable(true);
-                                                            dialog1.setContentView(R.layout.pending_order_dialog);
-                                                            dialog1.show();
-
-                                                            TextView code = dialog1.findViewById(R.id.code);
-                                                            TextView type = dialog1.findViewById(R.id.type);
-                                                            TextView status = dialog1.findViewById(R.id.status);
-                                                            TextView price = dialog1.findViewById(R.id.price);
-                                                            TextView paid = dialog1.findViewById(R.id.paid);
-
-                                                            TextView bill = dialog1.findViewById(R.id.bill);
-                                                            TextView balance = dialog1.findViewById(R.id.balance);
-
-                                                            Button ok = dialog1.findViewById(R.id.ok);
-                                                            Button cancel = dialog1.findViewById(R.id.cancel);
-
-                                                            cancel.setOnClickListener(new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View v) {
-
-                                                                    dialog1.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            Data item2 = response.body().getData();
-
-                                                            TextView text = dialog1.findViewById(R.id.text);
-
-                                                            if (item2.getDeviceId().equals(SharePreferenceUtils.getInstance().getString("userid"))) {
-                                                                cancel.setVisibility(View.VISIBLE);
-                                                                ok.setVisibility(View.VISIBLE);
-                                                                text.setText("Update this order?");
-                                                            } else {
-                                                                cancel.setVisibility(View.GONE);
-                                                                ok.setVisibility(View.GONE);
-                                                                text.setText("If you wish to split the bill, then transfer your scratch cards/ cash rewards to that user who has made the order.");
-                                                            }
-
-                                                            ok.setOnClickListener(new View.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(View v) {
-
-
-                                                                    Call<scratchCardBean> call2 = cr.updateOrder2(item2.getId(), "0", a, item.getId());
-                                                                    call2.enqueue(new Callback<scratchCardBean>() {
-                                                                        @Override
-                                                                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                                            dialog1.dismiss();
-
-                                                                            loadPerks();
-
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
-
-                                                                        }
-                                                                    });
-
-
-                                                                }
-                                                            });
-
-
-                                                            status.setText(item2.getStatus());
-
-                                                            switch (item2.getText()) {
-                                                                case "perks":
-                                                                    type.setText("ORDER NO. - " + item2.getId());
-                                                                    code.setText("Item - " + item2.getCode());
-                                                                    type.setTextColor(Color.parseColor("#009688"));
-
-                                                                    price.setText("Benefits - " + item2.getPrice() + " credits");
-
-                                                                    float pr = Float.parseFloat(item2.getPrice());
-                                                                    float pa = Float.parseFloat(item2.getCashValue());
-
-                                                                    paid.setText("Pending benefits - " + String.valueOf(pr - pa) + " credits");
-
-                                                                    paid.setVisibility(View.VISIBLE);
-                                                                    price.setVisibility(View.VISIBLE);
-
-                                                                    break;
-                                                                case "cash":
-                                                                    if (item2.getTableName().equals("")) {
-                                                                        type.setText("ORDER NO. - " + item2.getId());
-                                                                    } else {
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
-                                                                    }
-                                                                    code.setText("Shop - " + item2.getClient());
-                                                                    type.setTextColor(Color.parseColor("#689F38"));
-
-                                                                    price.setText(Html.fromHtml("<font color=#000000>Cash discount</font> - Rs." + item2.getCashRewards()));
-                                                                    paid.setText(Html.fromHtml("<font color=#000000>Scratch discount</font> - Rs." + item2.getScratchAmount()));
-
-//                    float pr1 = Float.parseFloat(item.getPrice());
-                                                                    //                  float pa1 = Float.parseFloat(item.getCashValue());
-
-                                                                    //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
-
-                                                                    if (item2.getStatus().equals("pending")) {
-
-                                                                        bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
-                                                                        balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
-
-                                                                    } else {
-
-                                                                        float c = Float.parseFloat(item2.getCashRewards());
-                                                                        float s = Float.parseFloat(item2.getScratchAmount());
-                                                                        float t = Float.parseFloat(item2.getBillAmount());
-
-                                                                        bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item2.getBillAmount()));
-                                                                        balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
-
-                                                                    }
-
-                                                                    paid.setVisibility(View.VISIBLE);
-                                                                    price.setVisibility(View.VISIBLE);
-                                                                    break;
-                                                                case "scratch":
-                                                                    if (item2.getTableName().equals("")) {
-                                                                        type.setText("ORDER NO. - " + item2.getId());
-                                                                    } else {
-                                                                        type.setText("ORDER NO. - " + item2.getId() + " (Table - " + item2.getTableName() + ")");
-                                                                    }
-                                                                    code.setText("Shop - " + item2.getClient());
-                                                                    type.setTextColor(Color.parseColor("#689F38"));
-
-                                                                    price.setText(Html.fromHtml("<font color=#000000>Cash discount</font> - Rs." + item2.getCashRewards()));
-                                                                    paid.setText(Html.fromHtml("<font color=#000000>Scratch discount</font> - Rs." + item2.getScratchAmount()));
-
-//                    float pr1 = Float.parseFloat(item.getPrice());
-                                                                    //                  float pa1 = Float.parseFloat(item.getCashValue());
-
-                                                                    //                holder.paid.setText("Balance pay - Rs." + String.valueOf(pr1 - pa1));
-
-                                                                    if (item2.getStatus().equals("pending")) {
-
-                                                                        bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - unverified"));
-                                                                        balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - unverified"));
-
-                                                                    } else {
-
-                                                                        float c = Float.parseFloat(item2.getCashRewards());
-                                                                        float s = Float.parseFloat(item2.getScratchAmount());
-                                                                        float t = Float.parseFloat(item2.getBillAmount());
-
-                                                                        bill.setText(Html.fromHtml("<font color=#000000>Total bill</font> - Rs." + item2.getBillAmount()));
-                                                                        balance.setText(Html.fromHtml("<font color=#000000>Balance pay</font> - Rs." + String.valueOf(t - (c + s))));
-
-
-                                                                    }
-
-                                                                    paid.setVisibility(View.VISIBLE);
-                                                                    price.setVisibility(View.VISIBLE);
-                                                                    break;
-                                                            }
-
-
-                                                        } else {
-                                                            amo = "0";
-                                                            tab = "";
-                                                            scr = a;
-
-                                                            cid = item.getId();
-
-                                                            dialog2.dismiss();
-
-                                                            pho = phone;
-                                                            tex = "";
-
-                                                            final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Folder/";
-                                                            File newdir = new File(dir);
-                                                            try {
-                                                                newdir.mkdirs();
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                            }
-
-
-                                                            String fil = dir + DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString() + ".jpg";
-
-
-                                                            file = new File(fil);
-                                                            try {
-                                                                file.createNewFile();
-                                                            } catch (IOException e) {
-                                                                e.printStackTrace();
-                                                            }
-
-                                                            uri = FileProvider.getUriForFile(SubCat3.this, BuildConfig.APPLICATION_ID + ".provider", file);
-
-                                                            Intent getpic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                                            getpic.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                                            getpic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                                            startActivityForResult(getpic, 2);
-
-                                                        }
-
-
-                                                    }
-
-                                                    @Override
-                                                    public void onFailure(Call<pendingOrderBean> call, Throwable t) {
-
-                                                    }
-                                                });
-
-
-                                            } else {
-                                                Toast.makeText(SubCat3.this, "Invalid amount", Toast.LENGTH_SHORT).show();
-                                            }
-
-                                        }
-                                    });
-
-
-                                }
-*/
                             bar.setVisibility(View.GONE);
 
                         }
@@ -5130,7 +4590,7 @@ public class SubCat3 extends AppCompatActivity {
                         public void onFailure(Call<tablebean> call, Throwable t) {
                             bar.setVisibility(View.GONE);
                         }
-                    });
+                    });*/
 
 
                 });
