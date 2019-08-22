@@ -20,6 +20,8 @@ import com.sc.bigboss.bigboss.TabCategoryPOJO.TabBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -61,14 +63,20 @@ public class Videos extends Fragment {
         Call<TabBean> call = cr.tabbean();
         call.enqueue(new Callback<TabBean>() {
             @Override
-            public void onResponse(Call<TabBean> call, Response<TabBean> response) {
+            public void onResponse(@NotNull Call<TabBean> call, @NotNull Response<TabBean> response) {
 
 
                 for (int i = 0; i < Objects.requireNonNull(response.body()).getData().size(); i++) {
 
                     //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
                     //tab.addTab(tab.newTab().setText(response.body().getData().get(i).getVideocatName()));
-                    tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName())));
+                    try {
+                        tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getVideocatName())));
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
 
                 }
 
@@ -103,7 +111,7 @@ public class Videos extends Fragment {
 
     private View getCustomView(LayoutInflater inflater, String url, String name)
     {
-        View view = inflater.inflate(R.layout.tabs_layout , null);
+        View view = getLayoutInflater().inflate(R.layout.tabs_layout , null);
 
         TextView tname = view.findViewById(R.id.textView3);
         ImageView timage = view.findViewById(R.id.imageView);

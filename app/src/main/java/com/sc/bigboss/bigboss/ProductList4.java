@@ -209,6 +209,7 @@ public class ProductList4 extends AppCompatActivity {
                 public void onFailure(Call<vouchersBean> call, Throwable t) {
 
                     bar.setVisibility(View.GONE);
+                    t.printStackTrace();
 
                 }
             });
