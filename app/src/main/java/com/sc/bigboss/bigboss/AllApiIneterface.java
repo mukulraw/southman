@@ -11,6 +11,7 @@ import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
+import com.sc.bigboss.bigboss.createOrderPOJO.createOrderBean;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.getPlayPOJO.getPlayBean;
@@ -142,6 +143,15 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/createOrder.php")
+    Call<createOrderBean> createOrder(
+            @Part("user_id") String user_id,
+            @Part("client") String client,
+            @Part("amount") String amount,
+            @Part("txn") String txn
+    );
+
+    @Multipart
     @POST("southman/api/getSingleOrder.php")
     Call<gPayBean> getSingleOrder(
             @Part("id") String id
@@ -254,6 +264,12 @@ interface AllApiIneterface {
             @Part("deviceId") String phone
     );
 
+    @Multipart
+    @POST("southman/api/getPerks.php")
+    Call<getPerksBean> getPerks2(
+            @Part("deviceId") String phone,
+            @Part("client") String client
+    );
 
     @Multipart
     @POST("southman/api/getCash.php")

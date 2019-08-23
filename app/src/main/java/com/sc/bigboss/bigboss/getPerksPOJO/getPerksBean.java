@@ -15,6 +15,12 @@ public class getPerksBean {
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
+    @SerializedName("scratch")
+    @Expose
+    private List<Scratch> scratch = null;
+    @SerializedName("order")
+    @Expose
+    private Order order;
 
     public String getStatus() {
         return status;
@@ -38,6 +44,22 @@ public class getPerksBean {
 
     public void setData(List<Datum> data) {
         this.data = data;
+    }
+
+    public List<Scratch> getScratch() {
+        return scratch;
+    }
+
+    public void setScratch(List<Scratch> scratch) {
+        this.scratch = scratch;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
 }

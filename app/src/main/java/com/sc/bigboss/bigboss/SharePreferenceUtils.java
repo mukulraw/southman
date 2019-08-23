@@ -37,9 +37,19 @@ public class SharePreferenceUtils {
         return sharedPreferences.getString(key, "");
     }
 
+    public boolean getBoolean(String key){
+        return sharedPreferences.getBoolean(key, false);
+    }
+
     public void saveInt(String key, int Val ){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, Val);
+        editor.commit();
+    }
+
+    public void saveBoolean(String key, boolean val){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, val);
         editor.commit();
     }
 

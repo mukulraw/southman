@@ -24,10 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:textColor="@color/blue"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="To create an Order, you must enter your Total Bill Amount. You will be asked for the Total Bill Amount in the next screen. \n\nPlease enter a valid Bill Amount, otherwise your order will get rejected and you will lose your discount. \n\nThank You."
+        android:text="To use discount, you must create an Order first"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView38" />
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Don't show this again"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
@@ -55,7 +56,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="18dp"
         android:paddingBottom="8dp"
-        android:text="ENTER BILL AMOUNT"
+        android:text="CREATE ORDER NOW"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
