@@ -381,6 +381,12 @@ interface AllApiIneterface {
             @Part("scratch") String scratch
     );
 
+    @Multipart
+    @POST("southman/api/cancelOrder.php")
+    Call<scratchCardBean> cancelOrder(
+            @Part("id") String id
+    );
+
     // scratch
     @Multipart
     @POST("southman/api/updateOrder2.php")

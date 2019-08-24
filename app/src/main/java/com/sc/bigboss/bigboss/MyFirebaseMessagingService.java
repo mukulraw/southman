@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,6 +19,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -79,12 +82,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         int importance = NotificationManager.IMPORTANCE_HIGH;
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(Bean.getContext(), idChannel);
-        builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
-                .setSmallIcon(R.drawable.ddddd)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .setContentText(message);
+        NotificationCompat.Builder builder;
+
+        if (isAppRunning(this))
+        {
+            builder = new NotificationCompat.Builder(Bean.getContext(), idChannel);
+            builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
+                    .setSmallIcon(R.drawable.ddddd)
+                    .setAutoCancel(true)
+                    .setContentText(message);
+        }
+        else
+        {
+            builder = new NotificationCompat.Builder(Bean.getContext(), idChannel);
+            builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
+                    .setSmallIcon(R.drawable.ddddd)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setContentText(message);
+        }
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mChannel = new NotificationChannel(idChannel, Bean.getContext().getString(R.string.app_name), importance);
@@ -111,4 +129,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
+    public static boolean isAppRunning(Context context) {
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(context.getPackageName())) {
+                if (appProcess.importance != ActivityManager.RunningAppProcessInfo.IMPORTANCE_PERCEPTIBLE) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

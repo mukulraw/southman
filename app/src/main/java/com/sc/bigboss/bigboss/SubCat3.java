@@ -275,6 +275,80 @@ public class SubCat3 extends AppCompatActivity {
         }
 
 
+        deleteorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Dialog dialog = new Dialog(SubCat3.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.delete_dialog);
+                dialog.show();
+
+
+                Button ok = dialog.findViewById(R.id.button2);
+                Button cancel = dialog.findViewById(R.id.button4);
+
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        bar.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        Call<scratchCardBean> call = cr.cancelOrder(oid);
+
+                        call.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                dialog.dismiss();
+
+                                bar.setVisibility(View.GONE);
+
+                                loadPerks();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
+            }
+        });
+
 
 
         createOrder.setOnClickListener(new View.OnClickListener() {
@@ -908,13 +982,15 @@ public class SubCat3 extends AppCompatActivity {
 
                     oid = item.getId();
                     ttiidd = item.getTxn();
-                    tbill = item.getAmount();
+
 
                     float ca = Float.parseFloat(item.getCash());
                     float sc = Float.parseFloat(item.getScratch());
                     float tb = Float.parseFloat(item.getAmount());
 
                     float nb = tb - (ca + sc);
+
+                    tbill = String.valueOf(nb);
 
                     billAmount.setText(Html.fromHtml("\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>"));
 
@@ -1012,6 +1088,7 @@ public class SubCat3 extends AppCompatActivity {
                 Button share = dialog.findViewById(R.id.share);
                 Button transfer = dialog.findViewById(R.id.transfer);
 
+                scratch.setStrokeWidth(15);
 
                 transfer.setOnClickListener(v127 -> transfer.setOnClickListener(v126 -> {
 
