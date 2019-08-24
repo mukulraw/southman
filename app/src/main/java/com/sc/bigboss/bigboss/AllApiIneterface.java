@@ -371,6 +371,8 @@ interface AllApiIneterface {
             @Part("phone") String phone
     );
 
+
+    // cash
     @Multipart
     @POST("southman/api/updateOrder.php")
     Call<scratchCardBean> updateOrder(
@@ -379,6 +381,7 @@ interface AllApiIneterface {
             @Part("scratch") String scratch
     );
 
+    // scratch
     @Multipart
     @POST("southman/api/updateOrder2.php")
     Call<scratchCardBean> updateOrder2(
