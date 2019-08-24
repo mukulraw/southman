@@ -351,6 +351,79 @@ public class SubCat3 extends AppCompatActivity {
 
 
 
+        confirmandpay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                float tb = Float.parseFloat(tbill);
+
+                if (tb > 0)
+                {
+
+                    Dialog dialog = new Dialog(SubCat3.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.payment_mode_dialog);
+                    dialog.show();
+
+                    Button gpay = dialog.findViewById(R.id.button7);
+                    Button cash = dialog.findViewById(R.id.button9);
+
+                    gpay.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
+                else
+                {
+
+                    Dialog dialog = new Dialog(SubCat3.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.free_dialog);
+                    dialog.show();
+
+                    Button proceed = dialog.findViewById(R.id.button7);
+                    Button cancel = dialog.findViewById(R.id.button9);
+
+                    proceed.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                            startActivity(intent);
+
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            dialog.dismiss();
+
+                        }
+                    });
+
+                }
+
+
+
+
+
+            }
+        });
+
+
+
         createOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

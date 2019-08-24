@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView reward;
     private ImageView perks;
     private ImageView request;
+    private ImageView scan;
 
     //TextView profile, order, wishlist, setting, logout, name, edit;
 
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         notification = findViewById(R.id.notification);
+        scan = findViewById(R.id.scan);
         reward = findViewById(R.id.reward);
         perks = findViewById(R.id.perks);
         request = findViewById(R.id.request);
