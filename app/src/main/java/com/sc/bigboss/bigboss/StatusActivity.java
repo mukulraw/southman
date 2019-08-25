@@ -2,7 +2,11 @@ package com.sc.bigboss.bigboss;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStructure;
@@ -11,9 +15,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
+import com.tarek360.instacapture.Instacapture;
+import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -144,6 +152,32 @@ public class StatusActivity extends AppCompatActivity {
 
             }
         });
+
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Instacapture.INSTANCE.capture(StatusActivity.this, new SimpleScreenCapturingListener() {
+                    @Override
+                    public void onCaptureComplete(Bitmap bitmap) {
+                        //Your code here..
+
+
+                        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap , tid.getText().toString() , null);
+                        Uri bitmapUri = Uri.parse(bitmapPath);
+
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("image/png");
+                        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+                        startActivity(Intent.createChooser(intent, "Share"));
+
+                    }
+                });
+
+            }
+        });
+
 
         /*switch (transStatus) {
             case "Transaction Successful!":

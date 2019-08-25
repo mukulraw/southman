@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
+import com.tarek360.instacapture.Instacapture;
+import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -164,6 +169,32 @@ public class StatusActivity3 extends AppCompatActivity {
             status.setVisibility(View.VISIBLE);
             amount.setVisibility(View.VISIBLE);
         }
+
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Instacapture.INSTANCE.capture(StatusActivity3.this , new SimpleScreenCapturingListener() {
+                    @Override
+                    public void onCaptureComplete(Bitmap bitmap) {
+                        //Your code here..
+
+                        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap , tid.getText().toString() , null);
+                        Uri bitmapUri = Uri.parse(bitmapPath);
+
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("image/png");
+                        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+                        startActivity(Intent.createChooser(intent, "Share"));
+
+
+                    }
+                });
+
+            }
+        });
+
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override

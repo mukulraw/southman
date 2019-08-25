@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.text.Html;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -90,7 +91,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
                     .setSmallIcon(R.drawable.ddddd)
                     .setAutoCancel(true)
-                    .setContentText(message);
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(Html.fromHtml(message)))
+                    .setContentText(Html.fromHtml(message));
         }
         else
         {
@@ -98,8 +101,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             builder.setContentTitle(Bean.getContext().getString(R.string.app_name))
                     .setSmallIcon(R.drawable.ddddd)
                     .setContentIntent(pendingIntent)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(Html.fromHtml(message)))
                     .setAutoCancel(true)
-                    .setContentText(message);
+                    .setContentText(Html.fromHtml(message));
         }
 
 

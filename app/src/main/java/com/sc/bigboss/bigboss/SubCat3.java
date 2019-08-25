@@ -394,6 +394,14 @@ public class SubCat3 extends AppCompatActivity {
 
                             dialog.dismiss();
 
+                            Intent intent = new Intent(SubCat3.this , StatusActivity4.class);
+                            intent.putExtra("id" , oid);
+                            intent.putExtra("pid" , id);
+                            intent.putExtra("sta" , "success");
+                            intent.putExtra("amount" , baa);
+                            startActivity(intent);
+
+
                         }
                     });
 
@@ -1099,6 +1107,17 @@ public class SubCat3 extends AppCompatActivity {
                     scratchcard.setText("Scratch Discount - \u20B9 " + item.getScratch());
                     bill.setText("Total Bill - \u20B9 " + item.getAmount());
                     balance.setText("Balance Pay - \u20B9 " + String.valueOf(nb));
+
+                    if (item.getMode().equals("CASH"))
+                    {
+                        deleteorder.setVisibility(View.GONE);
+                        confirmandpay.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        deleteorder.setVisibility(View.VISIBLE);
+                        confirmandpay.setVisibility(View.VISIBLE);
+                    }
 
                 }
                 else

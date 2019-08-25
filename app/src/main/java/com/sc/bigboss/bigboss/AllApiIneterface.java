@@ -392,6 +392,20 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/cashPay.php")
+    Call<onlinePayBean> cashPay(
+            @Part("id") String id,
+            @Part("pid") String pid,
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
+    @POST("southman/api/getSingleOrder2.php")
+    Call<onlinePayBean> getSingleOrder2(
+            @Part("id") String id
+    );
+
+    @Multipart
     @POST("southman/api/cancelOrder.php")
     Call<scratchCardBean> cancelOrder(
             @Part("id") String id
