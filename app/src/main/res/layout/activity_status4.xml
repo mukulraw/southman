@@ -147,7 +147,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:gravity="center"
-        android:text="Order completed successfully. Benefits will get added to your account."
+        android:text="Order completed successfully. Rewards will get added to your account."
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"

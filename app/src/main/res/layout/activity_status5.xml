@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFE"
-    tools:context=".StatusActivity3">
+    tools:context=".StatusActivity5">
 
     <ImageView
         android:layout_width="0dp"
@@ -209,7 +209,7 @@
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_google_pay_mark_800_gray"
+        android:src="@drawable/ic_money2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView17"

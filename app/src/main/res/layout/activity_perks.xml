@@ -95,13 +95,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="40dp"
-            android:weightSum="2"
+            android:weightSum="3"
             android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_weight="1"
                 >
 
@@ -154,6 +155,25 @@
 
             </LinearLayout>
 
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:layout_margin="10dp"
+                android:text="transfer cash rewards"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/transfer"
+                android:background="@drawable/green_back_round"
+                android:textColor="#ffffff"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                />
+
 
 
         </LinearLayout>
@@ -170,23 +190,6 @@
             >
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="10dp"
-                android:text="transfer cash rewards"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/transfer"
-                android:background="@drawable/green_back_round"
-                android:textColor="#ffffff"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                />
 
 
         </RelativeLayout>
@@ -196,10 +199,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:typeface="monospace"
-            android:text="Click here for redeem history"
-            android:background="@drawable/green_back_round"
-            android:layout_marginStart="10dp"
-            android:textColor="#ffffff"
+            android:text="Click here for Order History"
+            android:background="@drawable/background_color"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#000000"
             android:minHeight="0dp"
             android:minWidth="0dp"
             android:paddingStart="20dp"

@@ -150,6 +150,10 @@ public class SubCat3 extends AppCompatActivity {
 
     String oid , ttiidd , tbill;
 
+    private static final int TEZ_REQUEST_CODE = 123;
+
+    private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -378,12 +382,36 @@ public class SubCat3 extends AppCompatActivity {
 
                             dialog.dismiss();
 
-                            Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
-                            intent.putExtra("id" , oid);
-                            intent.putExtra("pid" , id);
-                            intent.putExtra("sta" , "success");
-                            intent.putExtra("amount" , baa);
-                            startActivity(intent);
+
+
+                            try {
+
+
+                                Uri uri = new Uri.Builder()
+                                        .scheme("upi")
+                                        .authority("pay")
+                                        .appendQueryParameter("pa", "southman@sbi")
+                                        .appendQueryParameter("pn", "South Man")
+                                        .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
+                                        .appendQueryParameter("tr", ttiidd)
+                                        .appendQueryParameter("tn", "Redeem Store Order")
+                                        .appendQueryParameter("am", String.valueOf(tbill))
+                                        .appendQueryParameter("cu", "INR")
+                                        .appendQueryParameter("url", "https://southman.in")
+                                        .build();
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(uri);
+                                intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
+                                startActivityForResult(intent, TEZ_REQUEST_CODE);
+                            }catch (Exception e)
+                            {
+                                e.printStackTrace();
+                                Toast.makeText(SubCat3.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+
 
                         }
                     });
@@ -1706,13 +1734,6 @@ public class SubCat3 extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -1720,5 +1741,42 @@ public class SubCat3 extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TEZ_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Process based on the data in response.
+
+
+
+            String res = data.getStringExtra("Status");
+
+            Log.d("result", res);
+
+            if (res.equals("SUCCESS"))
+            {
+                Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                intent.putExtra("id" , oid);
+                intent.putExtra("pid" , id);
+                intent.putExtra("sta" , "success");
+                intent.putExtra("amount" , baa);
+                startActivity(intent);
+            }
+            else
+            {
+                Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                intent.putExtra("id" , oid);
+                intent.putExtra("pid" , id);
+                intent.putExtra("amount" , baa);
+                intent.putExtra("sta" , "failure");
+                startActivity(intent);
+            }
+
+
+
+
+        }
+    }
 
 }

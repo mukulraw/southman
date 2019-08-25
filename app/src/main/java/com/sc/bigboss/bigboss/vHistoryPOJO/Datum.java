@@ -19,6 +19,12 @@ public class Datum {
     @SerializedName("created")
     @Expose
     private String created;
+    @SerializedName("mode")
+    @Expose
+    private String mode;
+    @SerializedName("status")
+    @Expose
+    private String status;
 
     public String getId() {
         return id;
@@ -60,4 +66,19 @@ public class Datum {
         this.created = created;
     }
 
+    public String getMode() {
+        return mode;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -302,7 +302,7 @@ interface AllApiIneterface {
 
     @Multipart
     @POST("southman/api/getRedeem2.php")
-    Call<scratchCardBean> getRedeemed2(
+    Call<vHistoryBean> getRedeemed2(
             @Part("id") String id,
             @Part("date") String date
     );
