@@ -10,6 +10,7 @@ import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
 import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
+import com.sc.bigboss.bigboss.benefits3POJO.benefits3Bean;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
 import com.sc.bigboss.bigboss.createOrderPOJO.createOrderBean;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
@@ -19,6 +20,7 @@ import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.sc.bigboss.bigboss.matchByIdPOJO.matchByIdBean;
 import com.sc.bigboss.bigboss.matchPOJO.matchBean;
 import com.sc.bigboss.bigboss.matchingPOJO.matchingBean;
+import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
 import com.sc.bigboss.bigboss.pendingOrderPOJO.pendingOrderBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
@@ -382,9 +384,23 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/onlinePay.php")
+    Call<onlinePayBean> onlinePay(
+            @Part("id") String id,
+            @Part("pid") String pid,
+            @Part("user_id") String user_id
+    );
+
+    @Multipart
     @POST("southman/api/cancelOrder.php")
     Call<scratchCardBean> cancelOrder(
             @Part("id") String id
+    );
+
+    @Multipart
+    @POST("southman/api/getOrderHistory2.php")
+    Call<benefits3Bean> getOrderHistory2(
+            @Part("order_id") String order_id
     );
 
     // scratch

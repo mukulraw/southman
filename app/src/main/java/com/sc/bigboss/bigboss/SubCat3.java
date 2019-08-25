@@ -141,6 +141,7 @@ public class SubCat3 extends AppCompatActivity {
     boolean orderCreated = false;
 
 
+    String baa;
 
     TextView billAmount , tid , status , cashdiscount , scratchcard , bill , balance;
 
@@ -375,8 +376,23 @@ public class SubCat3 extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
+                            dialog.dismiss();
+
                             Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                            intent.putExtra("id" , oid);
+                            intent.putExtra("pid" , id);
+                            intent.putExtra("sta" , "success");
+                            intent.putExtra("amount" , baa);
                             startActivity(intent);
+
+                        }
+                    });
+
+                    cash.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            dialog.dismiss();
 
                         }
                     });
@@ -399,6 +415,10 @@ public class SubCat3 extends AppCompatActivity {
                         public void onClick(View view) {
 
                             Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
+                            intent.putExtra("id" , oid);
+                            intent.putExtra("pid" , id);
+                            intent.putExtra("sta" , "success");
+                            intent.putExtra("amount" , baa);
                             startActivity(intent);
 
                         }
@@ -1065,6 +1085,8 @@ public class SubCat3 extends AppCompatActivity {
 
                     tbill = String.valueOf(nb);
 
+                    baa = "\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>";
+
                     billAmount.setText(Html.fromHtml("\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>"));
 
                     createOrder.setVisibility(View.GONE);
@@ -1085,7 +1107,7 @@ public class SubCat3 extends AppCompatActivity {
                     oid = "";
                     ttiidd = "";
                     tbill = "0";
-
+                    baa = "";
                     createOrder.setVisibility(View.VISIBLE);
                     billAmount.setVisibility(View.GONE);
                     hide.setVisibility(View.GONE);
