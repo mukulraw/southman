@@ -133,8 +133,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_qr_codes" />
-                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\qr-codes.svg" />
+                            <entry key="outputName" value="ic_down_chevron" />
+                            <entry key="sourceFile" value="C:\Users\mukul\Downloads\down-chevron.svg" />
                           </map>
                         </option>
                       </PersistentState>

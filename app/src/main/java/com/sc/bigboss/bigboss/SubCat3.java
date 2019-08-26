@@ -450,6 +450,8 @@ public class SubCat3 extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
 
+                            dialog.dismiss();
+
                             Intent intent = new Intent(SubCat3.this , StatusActivity3.class);
                             intent.putExtra("id" , oid);
                             intent.putExtra("pid" , id);
@@ -953,55 +955,64 @@ public class SubCat3 extends AppCompatActivity {
 
                             String da = damount.getText().toString();
 
-                            float dd = Float.parseFloat(da);
-
-
-                            if (dd > 0 && dd <= ul)
+                            if (da.length() > 0)
                             {
+                                float dd = Float.parseFloat(da);
 
 
-                                pbar.setVisibility(View.VISIBLE);
-
-                                Bean b = (Bean) getApplicationContext();
-
-
-                                Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl(b.baseurl)
-                                        .addConverterFactory(ScalarsConverterFactory.create())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build();
-
-                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                if (dd > 0 && dd <= ul)
+                                {
 
 
-                                Call<scratchCardBean> call = cr.updateOrder(oid , da , "0");
+                                    pbar.setVisibility(View.VISIBLE);
 
-                                call.enqueue(new Callback<scratchCardBean>() {
-                                    @Override
-                                    public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                        Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                        loadPerks();
-
-                                        pbar.setVisibility(View.GONE);
-
-                                        dialog.dismiss();
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                        pbar.setVisibility(View.GONE);
-                                    }
-                                });
+                                    Bean b = (Bean) getApplicationContext();
 
 
+                                    Retrofit retrofit = new Retrofit.Builder()
+                                            .baseUrl(b.baseurl)
+                                            .addConverterFactory(ScalarsConverterFactory.create())
+                                            .addConverterFactory(GsonConverterFactory.create())
+                                            .build();
+
+                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                    Call<scratchCardBean> call = cr.updateOrder(oid , da , "0");
+
+                                    call.enqueue(new Callback<scratchCardBean>() {
+                                        @Override
+                                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            loadPerks();
+
+                                            pbar.setVisibility(View.GONE);
+
+                                            dialog.dismiss();
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                            pbar.setVisibility(View.GONE);
+                                        }
+                                    });
+
+
+                                }
+                                else
+                                {
+                                    Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                            else 
+                            else
                             {
                                 Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                             }
+
+
 
                         }
                     });
@@ -1038,8 +1049,10 @@ public class SubCat3 extends AppCompatActivity {
                 {
                     if (hide.getVisibility() == View.GONE) {
                         hide.setVisibility(View.VISIBLE);
+                        currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.ic_down_chevron , 0);
                     } else {
                         hide.setVisibility(View.GONE);
+                        currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft , 0);
                     }
                 }
 
@@ -1129,6 +1142,8 @@ public class SubCat3 extends AppCompatActivity {
                     billAmount.setVisibility(View.VISIBLE);
                     hide.setVisibility(View.VISIBLE);
 
+                    currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.ic_down_chevron , 0);
+
                     tid.setText("TXN ID - " + item.getTxn());
                     status.setText(item.getStatus());
                     cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
@@ -1150,6 +1165,10 @@ public class SubCat3 extends AppCompatActivity {
                 }
                 else
                 {
+
+                    currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft , 0);
+
+                    orderCreated = false;
 
                     oid = "";
                     ttiidd = "";
@@ -1644,55 +1663,64 @@ public class SubCat3 extends AppCompatActivity {
 
                                 String da = damount.getText().toString();
 
-                                float dd = Float.parseFloat(da);
-
-
-                                if (dd > 0 && dd <= ul)
+                                if (da.length() > 0)
                                 {
+                                    float dd = Float.parseFloat(da);
 
 
-                                    pbar.setVisibility(View.VISIBLE);
-
-                                    Bean b = (Bean) getApplicationContext();
-
-
-                                    Retrofit retrofit = new Retrofit.Builder()
-                                            .baseUrl(b.baseurl)
-                                            .addConverterFactory(ScalarsConverterFactory.create())
-                                            .addConverterFactory(GsonConverterFactory.create())
-                                            .build();
-
-                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                    if (dd > 0 && dd <= ul)
+                                    {
 
 
-                                    Call<scratchCardBean> call = cr.updateOrder2(oid , "0" , da , item.getId());
+                                        pbar.setVisibility(View.VISIBLE);
 
-                                    call.enqueue(new Callback<scratchCardBean>() {
-                                        @Override
-                                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                            loadPerks();
-
-                                            pbar.setVisibility(View.GONE);
-
-                                            dialog5.dismiss();
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                            pbar.setVisibility(View.GONE);
-                                        }
-                                    });
+                                        Bean b = (Bean) getApplicationContext();
 
 
+                                        Retrofit retrofit = new Retrofit.Builder()
+                                                .baseUrl(b.baseurl)
+                                                .addConverterFactory(ScalarsConverterFactory.create())
+                                                .addConverterFactory(GsonConverterFactory.create())
+                                                .build();
+
+                                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                        Call<scratchCardBean> call = cr.updateOrder2(oid , "0" , da , item.getId());
+
+                                        call.enqueue(new Callback<scratchCardBean>() {
+                                            @Override
+                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                loadPerks();
+
+                                                pbar.setVisibility(View.GONE);
+
+                                                dialog5.dismiss();
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                                pbar.setVisibility(View.GONE);
+                                            }
+                                        });
+
+
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else
                                 {
                                     Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                                 }
+
+
 
                             }
                         });
