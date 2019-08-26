@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
 import com.tarek360.instacapture.Instacapture;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
+
 
 public class StatusActivity5 extends AppCompatActivity {
 
@@ -51,6 +53,8 @@ public class StatusActivity5 extends AppCompatActivity {
     TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
 
     String oid;
+
+    ImageView rewars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,8 @@ public class StatusActivity5 extends AppCompatActivity {
         tid = findViewById(R.id.textView34);
         gpay = findViewById(R.id.textView35);
 
+        rewars = findViewById(R.id.reward);
+
 
         tid1 = findViewById(R.id.tid);
         status1 = findViewById(R.id.status);
@@ -81,7 +87,7 @@ public class StatusActivity5 extends AppCompatActivity {
         balance = findViewById(R.id.balance);
 
 
-
+        Glide.with(this).load(R.drawable.giphy).into(rewars);
 
 
         back.setOnClickListener(new View.OnClickListener() {

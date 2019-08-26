@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
@@ -46,6 +47,7 @@ public class StatusActivity3 extends AppCompatActivity {
     TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
 
     String oid;
+    ImageView rewars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +72,15 @@ public class StatusActivity3 extends AppCompatActivity {
         tid = findViewById(R.id.textView34);
         gpay = findViewById(R.id.textView35);
 
-
+        rewars = findViewById(R.id.reward);
         tid1 = findViewById(R.id.tid);
         status1 = findViewById(R.id.status);
         cashdiscount = findViewById(R.id.cash_discount);
         scratchcard = findViewById(R.id.scratch_card);
         bill = findViewById(R.id.bill);
         balance = findViewById(R.id.balance);
+
+        Glide.with(this).load(R.drawable.giphy).into(rewars);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

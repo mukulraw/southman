@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
 import com.tarek360.instacapture.Instacapture;
@@ -55,6 +56,7 @@ public class StatusActivity4 extends AppCompatActivity {
     String oid;
 
     Dialog dialog;
+    ImageView rewars;
 
     private BroadcastReceiver singleReceiver;
 
@@ -80,7 +82,7 @@ public class StatusActivity4 extends AppCompatActivity {
         progress = findViewById(R.id.progressBar5);
         tid = findViewById(R.id.textView34);
         gpay = findViewById(R.id.textView35);
-
+        rewars = findViewById(R.id.reward);
 
         tid1 = findViewById(R.id.tid);
         status1 = findViewById(R.id.status);
@@ -89,7 +91,7 @@ public class StatusActivity4 extends AppCompatActivity {
         bill = findViewById(R.id.bill);
         balance = findViewById(R.id.balance);
 
-
+        Glide.with(this).load(R.drawable.giphy).into(rewars);
 
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
