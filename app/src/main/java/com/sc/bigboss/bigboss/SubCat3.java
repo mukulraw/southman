@@ -1499,6 +1499,7 @@ public class SubCat3 extends AppCompatActivity {
                                                                 if (response.body().getStatus().equals("1")) {
                                                                     orderCreated = true;
                                                                     dialog3.dismiss();
+                                                                    onResume();
                                                                 }
 
                                                                 Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -1580,6 +1581,7 @@ public class SubCat3 extends AppCompatActivity {
                                                         if (response.body().getStatus().equals("1")) {
                                                             orderCreated = true;
                                                             dialog3.dismiss();
+                                                            onResume();
                                                         }
 
                                                         Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
