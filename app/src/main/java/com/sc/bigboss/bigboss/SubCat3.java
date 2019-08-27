@@ -683,342 +683,356 @@ public class SubCat3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!orderCreated) {
+                float pe1 = Float.parseFloat(p);
 
-                    Dialog dialog1 = new Dialog(SubCat3.this);
-                    dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog1.setCancelable(false);
-                    dialog1.setContentView(R.layout.create_order_info_dialog);
-                    dialog1.show();
+                if (pe1 > 0)
+                {
 
-                    Button createOrderNow = dialog1.findViewById(R.id.button7);
-                    Button cancel = dialog1.findViewById(R.id.button9);
+                    if (!orderCreated) {
 
-                    cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                        Dialog dialog1 = new Dialog(SubCat3.this);
+                        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog1.setCancelable(false);
+                        dialog1.setContentView(R.layout.create_order_info_dialog);
+                        dialog1.show();
 
-                            dialog1.dismiss();
+                        Button createOrderNow = dialog1.findViewById(R.id.button7);
+                        Button cancel = dialog1.findViewById(R.id.button9);
 
-                        }
-                    });
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                    createOrderNow.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            dialog1.dismiss();
-
-                            if (!SharePreferenceUtils.getInstance().getBoolean("createOrder")) {
-                                Dialog dialog2 = new Dialog(SubCat3.this);
-                                dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                dialog2.setContentView(R.layout.bill_amount_proceed_dialog);
-                                dialog2.setCancelable(false);
-                                dialog2.show();
-
-                                Button enterBillAmount = dialog2.findViewById(R.id.button7);
-                                Button cancel = dialog2.findViewById(R.id.button9);
-
-                                CheckBox check = dialog2.findViewById(R.id.checkBox);
-
-                                cancel.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialog2.dismiss();
-                                    }
-                                });
-
-
-                                enterBillAmount.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        dialog2.dismiss();
-
-                                        if (check.isChecked()) {
-                                            SharePreferenceUtils.getInstance().saveBoolean("createOrder", true);
-                                        }
-
-                                        Dialog dialog3 = new Dialog(SubCat3.this);
-                                        dialog3.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                        dialog3.setCancelable(false);
-                                        dialog3.setContentView(R.layout.enter_bill_amount_dialog);
-                                        dialog3.show();
-
-
-                                        EditText amount = dialog3.findViewById(R.id.editText);
-                                        Button confirm = dialog3.findViewById(R.id.button10);
-                                        Button cancel = dialog3.findViewById(R.id.button11);
-                                        ProgressBar pbar = dialog3.findViewById(R.id.progressBar6);
-
-                                        cancel.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-
-                                                dialog3.dismiss();
-
-                                            }
-                                        });
-
-
-                                        confirm.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-
-
-                                                String aa = amount.getText().toString();
-
-                                                if (aa.length() > 0) {
-
-                                                    pbar.setVisibility(View.VISIBLE);
-
-                                                    Bean b = (Bean) getApplicationContext();
-
-
-                                                    Retrofit retrofit = new Retrofit.Builder()
-                                                            .baseUrl(b.baseurl)
-                                                            .addConverterFactory(ScalarsConverterFactory.create())
-                                                            .addConverterFactory(GsonConverterFactory.create())
-                                                            .build();
-
-                                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                                                    Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
-                                                    call.enqueue(new Callback<createOrderBean>() {
-                                                        @Override
-                                                        public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
-
-                                                            if (response.body().getStatus().equals("1")) {
-                                                                orderCreated = true;
-                                                                dialog3.dismiss();
-                                                                onResume();
-                                                            }
-
-                                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                            pbar.setVisibility(View.GONE);
-
-                                                        }
-
-                                                        @Override
-                                                        public void onFailure(Call<createOrderBean> call, Throwable t) {
-                                                            pbar.setVisibility(View.GONE);
-                                                        }
-                                                    });
-
-                                                } else {
-                                                    Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
-                                                }
-
-
-                                            }
-                                        });
-
-
-                                    }
-                                });
-
-
-                            } else {
-
-                                Dialog dialog3 = new Dialog(SubCat3.this);
-                                dialog3.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                dialog3.setCancelable(false);
-                                dialog3.setContentView(R.layout.enter_bill_amount_dialog);
-                                dialog3.show();
-
-
-                                EditText amount = dialog3.findViewById(R.id.editText);
-                                Button confirm = dialog3.findViewById(R.id.button10);
-                                Button cancel = dialog3.findViewById(R.id.button11);
-                                ProgressBar pbar = dialog3.findViewById(R.id.progressBar6);
-
-                                cancel.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-                                        dialog3.dismiss();
-
-                                    }
-                                });
-
-
-                                confirm.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-
-
-                                        String aa = amount.getText().toString();
-
-                                        if (aa.length() > 0) {
-
-                                            pbar.setVisibility(View.VISIBLE);
-
-                                            Bean b = (Bean) getApplicationContext();
-
-
-                                            Retrofit retrofit = new Retrofit.Builder()
-                                                    .baseUrl(b.baseurl)
-                                                    .addConverterFactory(ScalarsConverterFactory.create())
-                                                    .addConverterFactory(GsonConverterFactory.create())
-                                                    .build();
-
-                                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-                                            Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
-                                            call.enqueue(new Callback<createOrderBean>() {
-                                                @Override
-                                                public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
-
-                                                    if (response.body().getStatus().equals("1")) {
-                                                        orderCreated = true;
-                                                        dialog3.dismiss();
-                                                        onResume();
-                                                    }
-
-                                                    Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                                    pbar.setVisibility(View.GONE);
-
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<createOrderBean> call, Throwable t) {
-                                                    pbar.setVisibility(View.GONE);
-                                                }
-                                            });
-
-                                        } else {
-                                            Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
-                                        }
-
-
-                                    }
-                                });
+                                dialog1.dismiss();
 
                             }
+                        });
 
-                        }
-                    });
+                        createOrderNow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                } else {
+                                dialog1.dismiss();
 
-                    Dialog dialog = new Dialog(SubCat3.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(false);
-                    dialog.setContentView(R.layout.add_cash_discount_dialog);
-                    dialog.show();
+                                if (!SharePreferenceUtils.getInstance().getBoolean("createOrder")) {
+                                    Dialog dialog2 = new Dialog(SubCat3.this);
+                                    dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog2.setContentView(R.layout.bill_amount_proceed_dialog);
+                                    dialog2.setCancelable(false);
+                                    dialog2.show();
 
+                                    Button enterBillAmount = dialog2.findViewById(R.id.button7);
+                                    Button cancel = dialog2.findViewById(R.id.button9);
 
-                    TextView tag = dialog.findViewById(R.id.textView39);
-                    TextView limit = dialog.findViewById(R.id.textView40);
-                    EditText damount = dialog.findViewById(R.id.editText2);
-                    Button update = dialog.findViewById(R.id.button7);
-                    Button cancel = dialog.findViewById(R.id.button9);
-                    ProgressBar pbar = dialog.findViewById(R.id.progressBar7);
+                                    CheckBox check = dialog2.findViewById(R.id.checkBox);
 
-                    tag.setText("Enter discount amount to add in Order #" + ttiidd);
-
-
-                    float ba = Float.parseFloat(tbill);
-                    float pe = Float.parseFloat(p);
-
-
-                    float ul;
-
-                    if (pe <= ba)
-                    {
-                        ul = pe;
-                    }
-                    else
-                    {
-                        ul = ba;
-                    }
-
-                    limit.setText("Tip: Enter amount in between 1 to " + String.valueOf(ul));
-
-                    cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            dialog.dismiss();
-
-                        }
-                    });
-
-
-
-                    update.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-
-                            String da = damount.getText().toString();
-
-                            if (da.length() > 0)
-                            {
-                                float dd = Float.parseFloat(da);
-
-
-                                if (dd > 0 && dd <= ul)
-                                {
-
-
-                                    pbar.setVisibility(View.VISIBLE);
-
-                                    Bean b = (Bean) getApplicationContext();
-
-
-                                    Retrofit retrofit = new Retrofit.Builder()
-                                            .baseUrl(b.baseurl)
-                                            .addConverterFactory(ScalarsConverterFactory.create())
-                                            .addConverterFactory(GsonConverterFactory.create())
-                                            .build();
-
-                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-
-                                    Call<scratchCardBean> call = cr.updateOrder(oid , da , "0");
-
-                                    call.enqueue(new Callback<scratchCardBean>() {
+                                    cancel.setOnClickListener(new View.OnClickListener() {
                                         @Override
-                                        public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
-
-                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                            loadPerks();
-
-                                            pbar.setVisibility(View.GONE);
-
-                                            dialog.dismiss();
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<scratchCardBean> call, Throwable t) {
-                                            pbar.setVisibility(View.GONE);
+                                        public void onClick(View view) {
+                                            dialog2.dismiss();
                                         }
                                     });
 
 
+                                    enterBillAmount.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            dialog2.dismiss();
+
+                                            if (check.isChecked()) {
+                                                SharePreferenceUtils.getInstance().saveBoolean("createOrder", true);
+                                            }
+
+                                            Dialog dialog3 = new Dialog(SubCat3.this);
+                                            dialog3.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                            dialog3.setCancelable(false);
+                                            dialog3.setContentView(R.layout.enter_bill_amount_dialog);
+                                            dialog3.show();
+
+
+                                            EditText amount = dialog3.findViewById(R.id.editText);
+                                            Button confirm = dialog3.findViewById(R.id.button10);
+                                            Button cancel = dialog3.findViewById(R.id.button11);
+                                            ProgressBar pbar = dialog3.findViewById(R.id.progressBar6);
+
+                                            cancel.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+                                                    dialog3.dismiss();
+
+                                                }
+                                            });
+
+
+                                            confirm.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+
+
+                                                    String aa = amount.getText().toString();
+
+                                                    if (aa.length() > 0) {
+
+                                                        pbar.setVisibility(View.VISIBLE);
+
+                                                        Bean b = (Bean) getApplicationContext();
+
+
+                                                        Retrofit retrofit = new Retrofit.Builder()
+                                                                .baseUrl(b.baseurl)
+                                                                .addConverterFactory(ScalarsConverterFactory.create())
+                                                                .addConverterFactory(GsonConverterFactory.create())
+                                                                .build();
+
+                                                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                                                        Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
+                                                        call.enqueue(new Callback<createOrderBean>() {
+                                                            @Override
+                                                            public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
+
+                                                                if (response.body().getStatus().equals("1")) {
+                                                                    orderCreated = true;
+                                                                    dialog3.dismiss();
+                                                                    onResume();
+                                                                }
+
+                                                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                                pbar.setVisibility(View.GONE);
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<createOrderBean> call, Throwable t) {
+                                                                pbar.setVisibility(View.GONE);
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                                    }
+
+
+                                                }
+                                            });
+
+
+                                        }
+                                    });
+
+
+                                } else {
+
+                                    Dialog dialog3 = new Dialog(SubCat3.this);
+                                    dialog3.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog3.setCancelable(false);
+                                    dialog3.setContentView(R.layout.enter_bill_amount_dialog);
+                                    dialog3.show();
+
+
+                                    EditText amount = dialog3.findViewById(R.id.editText);
+                                    Button confirm = dialog3.findViewById(R.id.button10);
+                                    Button cancel = dialog3.findViewById(R.id.button11);
+                                    ProgressBar pbar = dialog3.findViewById(R.id.progressBar6);
+
+                                    cancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            dialog3.dismiss();
+
+                                        }
+                                    });
+
+
+                                    confirm.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+
+                                            String aa = amount.getText().toString();
+
+                                            if (aa.length() > 0) {
+
+                                                pbar.setVisibility(View.VISIBLE);
+
+                                                Bean b = (Bean) getApplicationContext();
+
+
+                                                Retrofit retrofit = new Retrofit.Builder()
+                                                        .baseUrl(b.baseurl)
+                                                        .addConverterFactory(ScalarsConverterFactory.create())
+                                                        .addConverterFactory(GsonConverterFactory.create())
+                                                        .build();
+
+                                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                                                Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
+                                                call.enqueue(new Callback<createOrderBean>() {
+                                                    @Override
+                                                    public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
+
+                                                        if (response.body().getStatus().equals("1")) {
+                                                            orderCreated = true;
+                                                            dialog3.dismiss();
+                                                            onResume();
+                                                        }
+
+                                                        Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                        pbar.setVisibility(View.GONE);
+
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<createOrderBean> call, Throwable t) {
+                                                        pbar.setVisibility(View.GONE);
+                                                    }
+                                                });
+
+                                            } else {
+                                                Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                            }
+
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+                        });
+
+                    }
+                    else {
+
+                        Dialog dialog = new Dialog(SubCat3.this);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.add_cash_discount_dialog);
+                        dialog.show();
+
+
+                        TextView tag = dialog.findViewById(R.id.textView39);
+                        TextView limit = dialog.findViewById(R.id.textView40);
+                        EditText damount = dialog.findViewById(R.id.editText2);
+                        Button update = dialog.findViewById(R.id.button7);
+                        Button cancel = dialog.findViewById(R.id.button9);
+                        ProgressBar pbar = dialog.findViewById(R.id.progressBar7);
+
+                        tag.setText("Enter discount amount to add in Order #" + ttiidd);
+
+
+                        float ba = Float.parseFloat(tbill);
+                        float pe = Float.parseFloat(p);
+
+
+                        float ul;
+
+                        if (pe <= ba)
+                        {
+                            ul = pe;
+                        }
+                        else
+                        {
+                            ul = ba;
+                        }
+
+                        limit.setText("Tip: Enter amount in between 1 to " + String.valueOf(ul));
+
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                dialog.dismiss();
+
+                            }
+                        });
+
+
+
+                        update.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+                                String da = damount.getText().toString();
+
+                                if (da.length() > 0)
+                                {
+                                    float dd = Float.parseFloat(da);
+
+
+                                    if (dd > 0 && dd <= ul)
+                                    {
+
+
+                                        pbar.setVisibility(View.VISIBLE);
+
+                                        Bean b = (Bean) getApplicationContext();
+
+
+                                        Retrofit retrofit = new Retrofit.Builder()
+                                                .baseUrl(b.baseurl)
+                                                .addConverterFactory(ScalarsConverterFactory.create())
+                                                .addConverterFactory(GsonConverterFactory.create())
+                                                .build();
+
+                                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                                        Call<scratchCardBean> call = cr.updateOrder(oid , da , "0");
+
+                                        call.enqueue(new Callback<scratchCardBean>() {
+                                            @Override
+                                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                loadPerks();
+
+                                                pbar.setVisibility(View.GONE);
+
+                                                dialog.dismiss();
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                                pbar.setVisibility(View.GONE);
+                                            }
+                                        });
+
+
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else
                                 {
                                     Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                                 }
+
+
+
                             }
-                            else
-                            {
-                                Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
-                            }
+                        });
 
 
-
-                        }
-                    });
+                    }
 
 
                 }
+                else
+                {
+                    Toast.makeText(SubCat3.this, "You don't have enough cash rewards", Toast.LENGTH_SHORT).show();
+                }
+
 
             }
         });
