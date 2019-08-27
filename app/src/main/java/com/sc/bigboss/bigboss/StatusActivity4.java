@@ -251,6 +251,12 @@ public class StatusActivity4 extends AppCompatActivity {
                                 dialog.dismiss();
 
                             }
+                            else if (item.getStatus().equals("rejected"))
+                            {
+                                Toast.makeText(StatusActivity4.this, "Your order has been rejected", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                finish();
+                            }
 
                             progress.setVisibility(View.GONE);
 
