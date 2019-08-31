@@ -39,7 +39,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class StatusActivity5 extends AppCompatActivity {
 
-    TextView status , amount , client_name , date , tag , paid , tid;
+    TextView status, amount, client_name, date, tag, paid, tid;
     Button share;
     ImageButton back;
     ImageView gpay;
@@ -50,7 +50,7 @@ public class StatusActivity5 extends AppCompatActivity {
 
     String id;
 
-    TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
+    TextView tid1, status1, cashdiscount, scratchcard, bill, balance;
 
     String oid;
 
@@ -101,12 +101,12 @@ public class StatusActivity5 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Instacapture.INSTANCE.capture(StatusActivity5.this , new SimpleScreenCapturingListener() {
+                Instacapture.INSTANCE.capture(StatusActivity5.this, new SimpleScreenCapturingListener() {
                     @Override
                     public void onCaptureComplete(Bitmap bitmap) {
                         //Your code here..
 
-                        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap , tid.getText().toString() , null);
+                        String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, tid.getText().toString(), null);
                         Uri bitmapUri = Uri.parse(bitmapPath);
 
                         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -126,14 +126,14 @@ public class StatusActivity5 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(StatusActivity5.this , OrderDetails2.class);
-                intent.putExtra("order" , oid);
-                intent.putExtra("tid" , tid1.getText().toString());
-                intent.putExtra("status" , status1.getText().toString());
-                intent.putExtra("cash" , cashdiscount.getText().toString());
-                intent.putExtra("scratch" , scratchcard.getText().toString());
-                intent.putExtra("bill" , bill.getText().toString());
-                intent.putExtra("balance" , balance.getText().toString());
+                Intent intent = new Intent(StatusActivity5.this, OrderDetails2.class);
+                intent.putExtra("order", oid);
+                intent.putExtra("tid", tid1.getText().toString());
+                intent.putExtra("status", status1.getText().toString());
+                intent.putExtra("cash", cashdiscount.getText().toString());
+                intent.putExtra("scratch", scratchcard.getText().toString());
+                intent.putExtra("bill", bill.getText().toString());
+                intent.putExtra("balance", balance.getText().toString());
                 startActivity(intent);
 
             }
@@ -163,75 +163,75 @@ public class StatusActivity5 extends AppCompatActivity {
                 //{
 
 
+                float ca = Float.parseFloat(item.getCash());
+                float sc = Float.parseFloat(item.getScratch());
+                float tb = Float.parseFloat(item.getAmount());
 
-                    float ca = Float.parseFloat(item.getCash());
-                    float sc = Float.parseFloat(item.getScratch());
-                    float tb = Float.parseFloat(item.getAmount());
-
-                    float nb = tb - (ca + sc);
-
-                    if (item.getMode().equals("CASH"))
-                    {
-                        gpay.setImageDrawable(getResources().getDrawable(R.drawable.ic_money2));
-                    }
-                    else
-                    {
-                        gpay.setImageDrawable(getResources().getDrawable(R.drawable.ic_google_pay_mark_800_gray));
-                    }
-
-                    amount.setText(Html.fromHtml("\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>"));
-
-
-                    if (item.getStatus().equals("completed"))
-                    {
-                        status.setText("Payment Successful");
-                        order.setVisibility(View.VISIBLE);
-                        tag.setVisibility(View.VISIBLE);
-                        amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_checked) , null , null);
-                    }
-                    else if (item.getStatus().equals("rejected"))
-                    {
-                        status.setText("Order Rejected");
-                        order.setVisibility(View.GONE);
-                        tag.setVisibility(View.GONE);
-                        amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_cancel) , null , null);
-                    }
-                    else
-                    {
-                        status.setText("Order is Pending");
-                        order.setVisibility(View.GONE);
-                        tag.setVisibility(View.GONE);
-                        amount.setCompoundDrawablesWithIntrinsicBounds(null , null , null , null);
-                    }
+                float nb = tb - (ca + sc);
 
 
 
-                    client_name.setText(response.body().getData().getClient());
-                    client_name.setVisibility(View.VISIBLE);
-                    date.setText(response.body().getData().getCreated());
-                    back.setVisibility(View.VISIBLE);
-                    paid.setVisibility(View.VISIBLE);
-                    status.setVisibility(View.VISIBLE);
-                    amount.setVisibility(View.VISIBLE);
+                if (item.getMode().equals("CASH")) {
+                    gpay.setImageDrawable(getResources().getDrawable(R.drawable.ic_money2));
+                } else {
+                    gpay.setImageDrawable(getResources().getDrawable(R.drawable.ic_google_pay_mark_800_gray));
+                }
+
+                amount.setText(Html.fromHtml("\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>"));
 
 
-                    date.setVisibility(View.VISIBLE);
-                    tid.setText("TXN ID - " + response.body().getData().getTxn());
-                    tid.setVisibility(View.VISIBLE);
+                if (item.getStatus().equals("completed")) {
+                    status.setText("Payment Successful");
+                    order.setVisibility(View.VISIBLE);
+                    tag.setVisibility(View.VISIBLE);
+                    amount.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_checked), null, null);
+                } else if (item.getStatus().equals("rejected")) {
+                    status.setText("Order Rejected");
+                    order.setVisibility(View.GONE);
+                    tag.setVisibility(View.GONE);
+                    amount.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_cancel), null, null);
+                } else {
+                    status.setText("Order is Pending");
+                    order.setVisibility(View.GONE);
+                    tag.setVisibility(View.GONE);
+                    amount.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                }
+
+
+                client_name.setText(response.body().getData().getClient());
+                client_name.setVisibility(View.VISIBLE);
+                date.setText(response.body().getData().getCreated());
+                back.setVisibility(View.VISIBLE);
+                paid.setVisibility(View.VISIBLE);
+                status.setVisibility(View.VISIBLE);
+                amount.setVisibility(View.VISIBLE);
+
+
+                date.setVisibility(View.VISIBLE);
+                tid.setText("TXN ID - " + response.body().getData().getTxn());
+                tid.setVisibility(View.VISIBLE);
+                gpay.setVisibility(View.VISIBLE);
+
+
+                tid1.setText("TXN ID - " + item.getTxn());
+                status1.setText(item.getStatus());
+                cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
+                scratchcard.setText("Scratch Discount - \u20B9 " + item.getScratch());
+                bill.setText("Total Bill - \u20B9 " + item.getAmount());
+                balance.setText("Balance Pay - \u20B9 " + String.valueOf(nb));
+
+
+                oid = response.body().getData().getId();
+
+                if (nb == 0) {
+
+                    paid.setText("You got this order for free");
+                    gpay.setVisibility(View.GONE);
+
+                } else {
+                    paid.setText("Paid via");
                     gpay.setVisibility(View.VISIBLE);
-
-
-                    tid1.setText("TXN ID - " + item.getTxn());
-                    status1.setText(item.getStatus());
-                    cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
-                    scratchcard.setText("Scratch Discount - \u20B9 " + item.getScratch());
-                    bill.setText("Total Bill - \u20B9 " + item.getAmount());
-                    balance.setText("Balance Pay - \u20B9 " + String.valueOf(nb));
-
-
-                    oid = response.body().getData().getId();
-
-
+                }
 
                 //}
 

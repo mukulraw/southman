@@ -144,6 +144,19 @@ public class StatusActivity3 extends AppCompatActivity {
 
                     float nb = tb - (ca + sc);
 
+                    if (nb == 0)
+                    {
+
+                        paid.setText("You got this order for free");
+                        gpay.setVisibility(View.GONE);
+
+                    }
+                    else
+                    {
+                        paid.setText("Paid via");
+                        gpay.setVisibility(View.VISIBLE);
+                    }
+
                     tid1.setText("TXN ID - " + item.getTxn());
                     status1.setText(item.getStatus());
                     cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
