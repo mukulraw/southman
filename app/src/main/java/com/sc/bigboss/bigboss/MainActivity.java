@@ -1,13 +1,16 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -37,11 +40,15 @@ import com.sc.bigboss.bigboss.locationPOJO.Datum;
 import com.sc.bigboss.bigboss.locationPOJO.locationBean;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.sc.bigboss.bigboss.qrPOJO.Redeem;
+import com.sc.bigboss.bigboss.qrPOJO.Voucher;
+import com.sc.bigboss.bigboss.qrPOJO.qrBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 
 import java.util.List;
 import java.util.Objects;
 
+import me.ydcool.lib.qrmodule.activity.QrScannerActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RoundedImageView roundedImageView;
 
+    ProgressBar progress;
+
     Button play, video, shop;
 
     private TextView location;
@@ -82,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private BroadcastReceiver singleReceiver;
+
+    private static final int REQUEST_CODE_QR_SCAN = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         count = findViewById(R.id.count);
 
         toolbar = findViewById(R.id.toolbar);
+        progress = findViewById(R.id.progress);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
@@ -225,6 +237,22 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
+        });
+
+
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MainActivity.this, QrScannerActivity.class);
+                startActivityForResult( i,REQUEST_CODE_QR_SCAN);
+
+
+
+
+
+
+            }
         });
 
 
@@ -612,4 +640,129 @@ public class MainActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(singleReceiver);
 
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode != Activity.RESULT_OK)
+        {
+            Log.d("Asdasd","COULD NOT GET A GOOD RESULT.");
+            if(data==null)
+                return;
+            //Getting the passed result
+            String result = data.getStringExtra("com.blikoon.qrcodescanner.error_decoding_image");
+            if( result!=null)
+            {
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                alertDialog.setTitle("Scan Error");
+                alertDialog.setMessage("QR Code could not be scanned");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+            return;
+
+        }
+        if(requestCode == REQUEST_CODE_QR_SCAN)
+        {
+            if(data==null)
+                return;
+            //Getting the passed result
+            String result = data.getExtras().getString(QrScannerActivity.QR_RESULT_STR);
+            Log.d("Asdasd","Have scan result in your app activity :"+ result);
+
+
+
+            //progress.setVisibility(View.VISIBLE);
+
+            Bean b = (Bean) getApplicationContext();
+
+
+            String base = b.baseurl;
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(b.baseurl)
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+            Call<qrBean> call = cr.getQR(result);
+
+            call.enqueue(new Callback<qrBean>() {
+                @Override
+                public void onResponse(Call<qrBean> call, Response<qrBean> response) {
+
+
+                    Dialog dialog = new Dialog(MainActivity.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.setContentView(R.layout.scan_layout);
+                    dialog.show();
+
+                    TextView tit = dialog.findViewById(R.id.textView38);
+                    Button vs = dialog.findViewById(R.id.button9);
+                    Button rs = dialog.findViewById(R.id.button7);
+
+
+                    tit.setText(response.body().getRedeem().getClientName());
+
+                    Voucher item1 = response.body().getVoucher();
+                    Redeem item2 = response.body().getRedeem();
+
+                    vs.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            dialog.dismiss();
+
+                            Intent i1 = new Intent(MainActivity.this, SubCat2.class);
+                            i1.putExtra("id", item1.getId());
+                            i1.putExtra("text", item1.getCatId());
+                            i1.putExtra("catname", item1.getCatId());
+                            i1.putExtra("client", item1.getClientId());
+                            startActivity(i1);
+
+                        }
+                    });
+
+                    rs.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            dialog.dismiss();
+
+                            Intent i1 = new Intent(MainActivity.this, SubCat3.class);
+                            i1.putExtra("id", item2.getId());
+                            i1.putExtra("text", item2.getCatId());
+                            i1.putExtra("catname", item2.getCatId());
+                            i1.putExtra("client", item2.getClientId());
+                            i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item2.getImageUrl());
+                            startActivity(i1);
+
+                        }
+                    });
+
+
+                    progress.setVisibility(View.GONE);
+
+                }
+
+                @Override
+                public void onFailure(Call<qrBean> call, Throwable t) {
+                    progress.setVisibility(View.GONE);
+                }
+            });
+
+
+
+
+
+
+        }
+    }
+
 }

@@ -29,7 +29,8 @@ public class Splash extends AppCompatActivity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_CONTACTS,
-            Manifest.permission.WRITE_CONTACTS
+            Manifest.permission.WRITE_CONTACTS,
+            Manifest.permission.CAMERA
 
 
     };
@@ -85,7 +86,8 @@ public class Splash extends AppCompatActivity {
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS) ||
-                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CONTACTS)
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CONTACTS) ||
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
                 ) {
 
                     Log.d("permmm", "3");

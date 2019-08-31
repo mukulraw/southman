@@ -24,6 +24,7 @@ import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
 import com.sc.bigboss.bigboss.pendingOrderPOJO.pendingOrderBean;
 import com.sc.bigboss.bigboss.playDataPOJO.playDataBean;
 import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
+import com.sc.bigboss.bigboss.qrPOJO.qrBean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
@@ -415,6 +416,12 @@ interface AllApiIneterface {
     @POST("southman/api/getOrderHistory2.php")
     Call<benefits3Bean> getOrderHistory2(
             @Part("order_id") String order_id
+    );
+
+    @Multipart
+    @POST("southman/api/getQR.php")
+    Call<qrBean> getQR(
+            @Part("client") String client
     );
 
     // scratch

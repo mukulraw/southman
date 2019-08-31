@@ -314,7 +314,7 @@ private Button update;
 
         Log.d("asdsad", android_id);
 
-        Call<getPerksBean> call = cr.getPerks(android_id);
+        Call<getPerksBean> call = cr.getPerks(SharePreferenceUtils.getInstance().getString("userid"));
         call.enqueue(new Callback<getPerksBean>() {
             @Override
             public void onResponse(Call<getPerksBean> call, Response<getPerksBean> response) {
