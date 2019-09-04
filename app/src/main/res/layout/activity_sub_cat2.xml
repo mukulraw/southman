@@ -34,10 +34,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_marginStart="50dp"
                     android:textColor="#000"
+                    android:maxLength="18"
+                    android:ellipsize="end"
                     android:textSize="18sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_centerVertical="true"
                     android:id="@+id/title"/>
 

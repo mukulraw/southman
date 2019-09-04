@@ -213,7 +213,7 @@ public class SubCat3 extends AppCompatActivity {
         client = getIntent().getStringExtra("client");
         bann = getIntent().getStringExtra("banner");
 
-        Log.d("catname", catName);
+        Log.d("catname", getIntent().getStringExtra("text"));
 
         grid = findViewById(R.id.grid);
 
@@ -1066,7 +1066,7 @@ public class SubCat3 extends AppCompatActivity {
                         currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.ic_down_chevron , 0);
                     } else {
                         hide.setVisibility(View.GONE);
-                        currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft , 0);
+                        currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft1 , 0);
                     }
                 }
 
@@ -1180,7 +1180,7 @@ public class SubCat3 extends AppCompatActivity {
                 else
                 {
 
-                    currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft , 0);
+                    currentOrder.setCompoundDrawablesRelativeWithIntrinsicBounds(0 ,0 ,R.drawable.arrowleft1 , 0);
 
                     orderCreated = false;
 

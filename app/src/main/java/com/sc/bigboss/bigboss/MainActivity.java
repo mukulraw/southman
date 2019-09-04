@@ -44,11 +44,12 @@ import com.sc.bigboss.bigboss.qrPOJO.Redeem;
 import com.sc.bigboss.bigboss.qrPOJO.Voucher;
 import com.sc.bigboss.bigboss.qrPOJO.qrBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
+import com.xuexiang.xqrcode.XQRCode;
 
 import java.util.List;
 import java.util.Objects;
 
-import me.ydcool.lib.qrmodule.activity.QrScannerActivity;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -244,11 +245,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(MainActivity.this, QrScannerActivity.class);
-                startActivityForResult( i,REQUEST_CODE_QR_SCAN);
-
-
-
+                Intent intent = new Intent(XQRCode.ACTION_DEFAULT_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_QR_SCAN);
 
 
 
@@ -671,91 +669,114 @@ public class MainActivity extends AppCompatActivity {
             if(data==null)
                 return;
             //Getting the passed result
-            String result = data.getExtras().getString(QrScannerActivity.QR_RESULT_STR);
-            Log.d("Asdasd","Have scan result in your app activity :"+ result);
+
+            Bundle bundle = data.getExtras();
+
+            if (bundle != null) {
+                if (bundle.getInt(XQRCode.RESULT_TYPE) == XQRCode.RESULT_SUCCESS) {
+                    String result = bundle.getString(XQRCode.RESULT_DATA);
+
+                    Log.d("qr result" , result);
+
+                    Bean b = (Bean) getApplicationContext();
+
+                    progress.setVisibility(View.VISIBLE);
+
+                    String base = b.baseurl;
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(b.baseurl)
+                            .addConverterFactory(ScalarsConverterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                    Call<qrBean> call = cr.getQR(result);
+
+                    call.enqueue(new Callback<qrBean>() {
+                        @Override
+                        public void onResponse(Call<qrBean> call, Response<qrBean> response) {
+
+                            if (response.body().getStatus().equals("1"))
+                            {
+                                Dialog dialog = new Dialog(MainActivity.this);
+                                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                dialog.setCancelable(true);
+                                dialog.setContentView(R.layout.scan_layout);
+                                dialog.show();
+
+                                TextView tit = dialog.findViewById(R.id.textView38);
+                                Button vs = dialog.findViewById(R.id.button9);
+                                Button rs = dialog.findViewById(R.id.button7);
+
+
+                                tit.setText(response.body().getRedeem().getClientName());
+
+                                Voucher item1 = response.body().getVoucher();
+                                Redeem item2 = response.body().getRedeem();
+
+                                vs.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        dialog.dismiss();
+
+                                        Intent i1 = new Intent(MainActivity.this, SubCat2.class);
+                                        i1.putExtra("id", item1.getId());
+                                        i1.putExtra("text", item1.getText());
+                                        i1.putExtra("catname", item1.getCatId());
+                                        i1.putExtra("client", item1.getClientId());
+                                        startActivity(i1);
+
+                                    }
+                                });
+
+                                rs.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        dialog.dismiss();
+
+                                        Intent i1 = new Intent(MainActivity.this, SubCat3.class);
+                                        i1.putExtra("id", item2.getId());
+                                        i1.putExtra("text", item2.getText());
+                                        i1.putExtra("catname", item2.getCatId());
+                                        i1.putExtra("client", item2.getClientId());
+                                        i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item2.getImageUrl());
+                                        startActivity(i1);
+
+                                    }
+                                });
+                            }
+                            else
+                            {
+                                Toast.makeText(MainActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+
+                            progress.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<qrBean> call, Throwable t) {
+                            progress.setVisibility(View.GONE);
+                        }
+                    });
+
+                } else if (bundle.getInt(XQRCode.RESULT_TYPE) == XQRCode.RESULT_FAILED) {
+                    Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_SHORT).show();
+                }
+            }
+
 
 
 
             //progress.setVisibility(View.VISIBLE);
 
-            Bean b = (Bean) getApplicationContext();
 
-
-            String base = b.baseurl;
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(b.baseurl)
-                    .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
-
-            Call<qrBean> call = cr.getQR(result);
-
-            call.enqueue(new Callback<qrBean>() {
-                @Override
-                public void onResponse(Call<qrBean> call, Response<qrBean> response) {
-
-
-                    Dialog dialog = new Dialog(MainActivity.this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setCancelable(true);
-                    dialog.setContentView(R.layout.scan_layout);
-                    dialog.show();
-
-                    TextView tit = dialog.findViewById(R.id.textView38);
-                    Button vs = dialog.findViewById(R.id.button9);
-                    Button rs = dialog.findViewById(R.id.button7);
-
-
-                    tit.setText(response.body().getRedeem().getClientName());
-
-                    Voucher item1 = response.body().getVoucher();
-                    Redeem item2 = response.body().getRedeem();
-
-                    vs.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            dialog.dismiss();
-
-                            Intent i1 = new Intent(MainActivity.this, SubCat2.class);
-                            i1.putExtra("id", item1.getId());
-                            i1.putExtra("text", item1.getCatId());
-                            i1.putExtra("catname", item1.getCatId());
-                            i1.putExtra("client", item1.getClientId());
-                            startActivity(i1);
-
-                        }
-                    });
-
-                    rs.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            dialog.dismiss();
-
-                            Intent i1 = new Intent(MainActivity.this, SubCat3.class);
-                            i1.putExtra("id", item2.getId());
-                            i1.putExtra("text", item2.getCatId());
-                            i1.putExtra("catname", item2.getCatId());
-                            i1.putExtra("client", item2.getClientId());
-                            i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item2.getImageUrl());
-                            startActivity(i1);
-
-                        }
-                    });
-
-
-                    progress.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onFailure(Call<qrBean> call, Throwable t) {
-                    progress.setVisibility(View.GONE);
-                }
-            });
 
 
 

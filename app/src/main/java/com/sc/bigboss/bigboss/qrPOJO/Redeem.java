@@ -19,6 +19,9 @@ public class Redeem {
     @SerializedName("image_url")
     @Expose
     private String imageUrl;
+    @SerializedName("text")
+    @Expose
+    private String text;
 
     public String getId() {
         return id;
@@ -58,5 +61,13 @@ public class Redeem {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

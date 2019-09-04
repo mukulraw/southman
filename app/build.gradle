@@ -17,8 +17,8 @@ android {
         applicationId "com.sc.bigboss.bigboss"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 20
-        versionName "2.9"
+        versionCode 21
+        versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         multiDexEnabled true
@@ -95,7 +95,7 @@ dependencies {
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'me.ydcool.lib:qrmodule:1.0'
+    implementation 'com.github.xuexiangjys:XQRCode:1.0.6'
 
 
 }
