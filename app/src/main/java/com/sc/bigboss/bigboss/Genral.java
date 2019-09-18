@@ -217,6 +217,8 @@ public class Genral extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+        Log.d("asdasd" , SharePreferenceUtils.getInstance().getString("location"));
+
         Call<GenralBean> call = cr.genra(catid, SharePreferenceUtils.getInstance().getString("location"));
 
         call.enqueue(new Callback<GenralBean>() {
