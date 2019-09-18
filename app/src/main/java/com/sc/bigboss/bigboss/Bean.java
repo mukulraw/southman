@@ -10,7 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class Bean extends MultiDexApplication {
     private static Context context;
 
-    public final String baseurl = "https://mrtecks.com/";
+    public final String baseurl = "https://southman.in/";
 
 
     public static Context getContext() {

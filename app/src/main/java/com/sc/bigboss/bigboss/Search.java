@@ -325,10 +325,10 @@ public class Search extends AppCompatActivity {
 
             ImageLoader loader = ImageLoader.getInstance();
 
-            base = "http://mrtecks.com/";
+            base = "http://southman.in/";
 
 
-            loader.displayImage("http://mrtecks.com/southman/admin2/upload/products/" + item.getProductImage(), my.image, options);
+            loader.displayImage("http://southman.in/southman/admin2/upload/products/" + item.getProductImage(), my.image, options);
 
             my.itemView.setOnClickListener(v -> {
 

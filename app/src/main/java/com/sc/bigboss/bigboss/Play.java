@@ -570,7 +570,7 @@ public class Play extends Fragment {
 
         //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
-        base = "https://mrtecks.com/";
+        base = "https://southman.in/";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(base)
@@ -861,7 +861,7 @@ public class Play extends Fragment {
 
             //Bean b = (Bean) Objects.requireNonNull(getContext()).getApplicationContext();
 
-            base = "https://mrtecks.com/";
+            base = "https://southman.in/";
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(base)
