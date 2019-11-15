@@ -75,6 +75,11 @@ public class SubCat2 extends AppCompatActivity {
 
     int amm = 0;
 
+    float per = 0;
+    float min = 0;
+
+    String cname;
+
     View bottom;
 
     @Override
@@ -178,7 +183,9 @@ public class SubCat2 extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Call<subCat3Bean> call = cr.subCat3(id , SharePreferenceUtils.getInstance().getString("location"));
+            Log.d("skandas" , id);
+
+            Call<subCat3Bean> call = cr.subCat3(id , SharePreferenceUtils.getInstance().getString("location") , client);
 
             call.enqueue(new Callback<subCat3Bean>() {
                 @Override
@@ -188,6 +195,19 @@ public class SubCat2 extends AppCompatActivity {
 
                         adapter.setgrid(response.body().getData());
                         linear.setVisibility(View.GONE);
+
+                        per = Float.parseFloat(response.body().getClient().getPercentage());
+                        cname = response.body().getClient().getId();
+
+                        if (response.body().getClient().getMinimunBill().equals("0") || response.body().getClient().getMinimunBill() == null)
+                        {
+                            min = 0;
+                        }
+                        else
+                        {
+                            min = Float.parseFloat(response.body().getClient().getMinimunBill());
+                        }
+
                     }
                     else
                     {
@@ -320,6 +340,9 @@ public class SubCat2 extends AppCompatActivity {
                     i1.putExtra("catname", catName);
                     i1.putExtra("phone", item.getPhone());
                     i1.putExtra("client", client);
+                    i1.putExtra("per", per);
+                    i1.putExtra("min", min);
+                    i1.putExtra("cname", cname);
                     context.startActivity(i1);
 
 

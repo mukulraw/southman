@@ -96,7 +96,8 @@ interface AllApiIneterface {
     @POST("southman/api/getSubCat3.php")
     Call<subCat3Bean> subCat3(
             @Part("subcat1_id") String catid,
-            @Part("locationId") String location
+            @Part("locationId") String location,
+            @Part("client") String client
     );
 
     @Multipart

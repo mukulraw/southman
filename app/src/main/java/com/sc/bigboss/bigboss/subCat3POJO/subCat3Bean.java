@@ -15,6 +15,9 @@ public class subCat3Bean {
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
+    @SerializedName("client")
+    @Expose
+    private Client client;
 
     public String getStatus() {
         return status;
@@ -38,5 +41,13 @@ public class subCat3Bean {
 
     public void setData(List<Datum> data) {
         this.data = data;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

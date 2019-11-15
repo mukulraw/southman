@@ -73,6 +73,7 @@ public class ProductList4 extends AppCompatActivity {
     private String catName;
     private String base;
     private String client;
+    private String cname;
 
     private LinearLayout linear;
 
@@ -85,11 +86,16 @@ public class ProductList4 extends AppCompatActivity {
 
     View bottom;
 
+    float per , min;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list4);
+
+        per = getIntent().getFloatExtra("per" , 0);
+        min = getIntent().getFloatExtra("min" , 0);
 
         cd = new ConnectionDetector(ProductList4.this);
 
@@ -128,6 +134,7 @@ public class ProductList4 extends AppCompatActivity {
 
 
         title.setText(getIntent().getStringExtra("text"));
+        cname = getIntent().getStringExtra("cname");
         catName = getIntent().getStringExtra("catname");
         client = getIntent().getStringExtra("client");
 
@@ -308,7 +315,39 @@ public class ProductList4 extends AppCompatActivity {
 
             //myViewHolder.setIsRecyclable(false);
 
-            for (int i = 0 ; i < item.getBenefits().size() ; i++)
+            myViewHolder.benefits.removeAllViews();
+            myViewHolder.benefits.setVisibility(View.GONE);
+            View view = inflater.inflate(R.layout.benefit_layout , null);
+
+            ImageView type = view.findViewById(R.id.textView4);
+            TextView text = view.findViewById(R.id.textView6);
+
+
+            float pri = Float.parseFloat(item.getPrice());
+
+            float net = (per / 100) * pri;
+
+            float npri = net - 3;
+
+            type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
+            text.setText(cname + " Digital Coupon Cash worth \u20B9 " + npri);
+
+            myViewHolder.benefits.addView(view);
+
+            View view2 = inflater.inflate(R.layout.benefit_layout , null);
+
+            ImageView type2 = view2.findViewById(R.id.textView4);
+            TextView text2 = view2.findViewById(R.id.textView6);
+
+
+
+            type2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
+            text2.setText("Get 1 lucky reward");
+
+            myViewHolder.benefits.addView(view2);
+
+
+            /*for (int i = 0 ; i < item.getBenefits().size() ; i++)
             {
 
                 View view = inflater.inflate(R.layout.benefit_layout , null);
@@ -330,7 +369,7 @@ public class ProductList4 extends AppCompatActivity {
 
                 myViewHolder.benefits.addView(view);
 
-            }
+            }*/
 
 
             myViewHolder.buy.setOnClickListener(new View.OnClickListener() {
