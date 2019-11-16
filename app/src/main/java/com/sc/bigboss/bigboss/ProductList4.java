@@ -193,7 +193,7 @@ public class ProductList4 extends AppCompatActivity {
             Log.d("id" , id);
             Log.d("location" , SharePreferenceUtils.getInstance().getString("location"));
 
-            Call<vouchersBean> call = cr.getProd3(id , SharePreferenceUtils.getInstance().getString("location"));
+            Call<vouchersBean> call = cr.getProd3(id , SharePreferenceUtils.getInstance().getString("location") , String.valueOf(per), client);
 
             call.enqueue(new Callback<vouchersBean>() {
                 @Override
@@ -315,7 +315,7 @@ public class ProductList4 extends AppCompatActivity {
 
             //myViewHolder.setIsRecyclable(false);
 
-            myViewHolder.benefits.removeAllViews();
+            /*myViewHolder.benefits.removeAllViews();
             myViewHolder.benefits.setVisibility(View.GONE);
             View view = inflater.inflate(R.layout.benefit_layout , null);
 
@@ -344,10 +344,11 @@ public class ProductList4 extends AppCompatActivity {
             type2.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_money));
             text2.setText("Get 1 lucky reward");
 
-            myViewHolder.benefits.addView(view2);
+            myViewHolder.benefits.addView(view2);*/
 
+            myViewHolder.benefits.removeAllViews();
 
-            /*for (int i = 0 ; i < item.getBenefits().size() ; i++)
+            for (int i = 0 ; i < item.getBenefits().size() ; i++)
             {
 
                 View view = inflater.inflate(R.layout.benefit_layout , null);
@@ -369,7 +370,7 @@ public class ProductList4 extends AppCompatActivity {
 
                 myViewHolder.benefits.addView(view);
 
-            }*/
+            }
 
 
             myViewHolder.buy.setOnClickListener(new View.OnClickListener() {

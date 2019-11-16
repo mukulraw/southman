@@ -89,7 +89,9 @@ interface AllApiIneterface {
     @POST("southman/api/getProd3.php")
     Call<vouchersBean> getProd3(
             @Part("sub_category2") String catid,
-            @Part("locationId") String location
+            @Part("locationId") String location,
+            @Part("percentage") String percentage,
+            @Part("client") String client
     );
 
     @Multipart
