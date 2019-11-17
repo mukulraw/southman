@@ -290,7 +290,7 @@ public class MeansCategory extends AppCompatActivity {
                         context.startActivity(i1);
                         break;
                     }
-                    case "redeem store": {
+                    case "payment store": {
                         Intent i1 = new Intent(context, SubCat3.class);
                         i1.putExtra("id", item.getId());
                         i1.putExtra("text", item.getSubcatName());

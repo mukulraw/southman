@@ -323,6 +323,13 @@ interface AllApiIneterface {
     );
 
 
+    @Multipart
+    @POST("southman/api/updateScratch.php")
+    Call<voucherHistoryBean> updateScratch(
+            @Part("scratch") String scratch
+    );
+
+
 
     @Multipart
     @POST("southman/api/buyPerks.php")

@@ -38,6 +38,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,7 @@ import com.sc.bigboss.bigboss.pendingOrderPOJO.pendingOrderBean;
 
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
+import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.File;
@@ -1249,6 +1251,21 @@ public class SubCat3 extends AppCompatActivity {
 
             holder.text.setText(item.getText());
 
+            if (item.getScratch().equals("1"))
+            {
+                holder.enable.setVisibility(View.VISIBLE);
+                holder.disable.setVisibility(View.GONE);
+            }
+            else
+            {
+                holder.enable.setVisibility(View.GONE);
+                holder.disable.setVisibility(View.VISIBLE);
+            }
+
+            holder.text2.setText("You have got \u20B9 " + item.getCashValue());
+
+            holder.expiry.setText("will expire on " + item.getExpiry());
+
             holder.itemView.setOnClickListener(v -> {
 
 
@@ -1262,6 +1279,7 @@ public class SubCat3 extends AppCompatActivity {
                 ScratchTextView scratch = dialog.findViewById(R.id.scratch);
                 Button share = dialog.findViewById(R.id.share);
                 Button transfer = dialog.findViewById(R.id.transfer);
+                ProgressBar bar = dialog.findViewById(R.id.progress);
 
                 scratch.setStrokeWidth(15);
 
@@ -1388,14 +1406,59 @@ public class SubCat3 extends AppCompatActivity {
                 }));
 
 
-                scratch.setText("You have got Rs." + item.getCashValue());
+                scratch.setText("You have got \u20B9 " + item.getCashValue());
+
+
+
+                if (item.getScratch().equals("1"))
+                {
+
+                }
 
                 scratch.setRevealListener(new ScratchTextView.IRevealListener() {
                     @Override
                     public void onRevealed(ScratchTextView tv) {
 
-                        share.setVisibility(View.VISIBLE);
-                        transfer.setVisibility(View.VISIBLE);
+
+
+
+                        bar.setVisibility(View.VISIBLE);
+
+
+                        Bean b = (Bean) getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Call<voucherHistoryBean> call = cr.updateScratch(item.getId());
+
+                        call.enqueue(new Callback<voucherHistoryBean>() {
+                            @Override
+                            public void onResponse(Call<voucherHistoryBean> call, Response<voucherHistoryBean> response) {
+
+                                share.setVisibility(View.VISIBLE);
+                                transfer.setVisibility(View.VISIBLE);
+                                bar.setVisibility(View.GONE);
+
+                                onResume();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<voucherHistoryBean> call, Throwable t) {
+                                bar.setVisibility(View.GONE);
+                            }
+                        });
+
+
+
+
+
 
                     }
 
@@ -1767,11 +1830,16 @@ public class SubCat3 extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
-            final TextView text;
+            final TextView text , text2 , expiry;
+            RelativeLayout enable , disable;
 
             ViewHolder(@NonNull View itemView) {
                 super(itemView);
                 text = itemView.findViewById(R.id.text);
+                enable = itemView.findViewById(R.id.enable);
+                disable = itemView.findViewById(R.id.disable);
+                text2 = itemView.findViewById(R.id.text2);
+                expiry = itemView.findViewById(R.id.expiry);
             }
         }
     }

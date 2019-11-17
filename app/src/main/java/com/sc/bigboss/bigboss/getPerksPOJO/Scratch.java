@@ -28,6 +28,13 @@ public class Scratch {
     @SerializedName("client")
     @Expose
     private String client;
+    @SerializedName("expiry")
+    @Expose
+    private String expiry;
+    @SerializedName("scratch")
+    @Expose
+    private String scratch;
+
 
     public String getId() {
         return id;
@@ -93,4 +100,19 @@ public class Scratch {
         this.client = client;
     }
 
+    public String getExpiry() {
+        return expiry;
+    }
+
+    public String getScratch() {
+        return scratch;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
+    public void setScratch(String scratch) {
+        this.scratch = scratch;
+    }
 }
