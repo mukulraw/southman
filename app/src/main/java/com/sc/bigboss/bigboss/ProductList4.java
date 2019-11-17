@@ -9,14 +9,12 @@ import android.content.IntentFilter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.Image;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sc.bigboss.bigboss.addCartRequestPOJO.addCartRequestBean;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
+import com.sc.bigboss.bigboss.vouchersPOJO.Benefit;
 import com.sc.bigboss.bigboss.vouchersPOJO.Datum;
 import com.sc.bigboss.bigboss.vouchersPOJO.vouchersBean;
 
@@ -414,13 +414,24 @@ public class ProductList4 extends AppCompatActivity {
 
                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+                            addCartRequestBean body = new addCartRequestBean();
+                            body.setClient(client);
+                            body.setProductId(item.getPid());
+                            body.setQuantity(String.valueOf(stepperTouch.getCount()));
+                            body.setUnitPrice(item.getPrice());
+                            body.setUserId(SharePreferenceUtils.getInstance().getString("userid"));
+
+                            body.setBenefits(item.getBenefits());
+
+
+
                             Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
                             Log.d("pid" , item.getPid());
                             Log.d("quantity" , String.valueOf(stepperTouch.getCount()));
                             Log.d("price" , item.getPrice());
                             Log.d("client" , client);
 
-                            Call<vouchersBean> call = cr.addCart(SharePreferenceUtils.getInstance().getString("userid") , item.getPid() , String.valueOf(stepperTouch.getCount()), item.getPrice() , client);
+                            Call<vouchersBean> call = cr.addCart(body);
 
                             call.enqueue(new Callback<vouchersBean>() {
                                 @Override

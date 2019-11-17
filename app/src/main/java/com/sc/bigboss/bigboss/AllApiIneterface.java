@@ -9,6 +9,7 @@ import com.sc.bigboss.bigboss.TillCategory3POJO.ShopProductBean;
 import com.sc.bigboss.bigboss.TillSubCategory2.TillSubCatBean;
 import com.sc.bigboss.bigboss.VideoGenralPOJO.GenralBean;
 import com.sc.bigboss.bigboss.VideoUrlPOJO.VideourlBean;
+import com.sc.bigboss.bigboss.addCartRequestPOJO.addCartRequestBean;
 import com.sc.bigboss.bigboss.bannerPOJO.bannerBean;
 import com.sc.bigboss.bigboss.benefits3POJO.benefits3Bean;
 import com.sc.bigboss.bigboss.cartPOJO.cartBean;
@@ -38,7 +39,9 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -102,15 +105,9 @@ interface AllApiIneterface {
             @Part("client") String client
     );
 
-    @Multipart
+    @Headers({"Content-Type: application/json"})
     @POST("southman/api/addCart.php")
-    Call<vouchersBean> addCart(
-            @Part("user_id") String user_id,
-            @Part("product_id") String product_id,
-            @Part("quantity") String quantity,
-            @Part("unit_price") String unit_price,
-            @Part("client") String client
-    );
+    Call<vouchersBean> addCart(@Body addCartRequestBean body);
 
     @Multipart
     @POST("southman/api/clearCart.php")

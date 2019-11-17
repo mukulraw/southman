@@ -148,14 +148,14 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-                /*Intent intent = new Intent(Cart.this , StatusActivity.class);
-                intent.putExtra("client" , client);
-                intent.putExtra("amount" , String.valueOf(amm));
-                intent.putExtra("txn" , txn);
-                intent.putExtra("status" , "success");
+                /*Intent intent = new Intent(Cart.this, StatusActivity.class);
+                intent.putExtra("client", client);
+                intent.putExtra("amount", String.valueOf(amm));
+                intent.putExtra("txn", txn);
+                intent.putExtra("status", "success");
                 startActivity(intent);
 */
+
 
                 try {
 
@@ -184,21 +184,7 @@ public class Cart extends AppCompatActivity {
 
 
 
-                /*Intent intent = new Intent(Cart.this, WebViewActivity.class);
-                intent.putExtra(AvenuesParams.ACCESS_CODE, "AVVG86GG67BT51GVTB");
-                intent.putExtra(AvenuesParams.MERCHANT_ID, "225729");
-                intent.putExtra(AvenuesParams.ORDER_ID, String.valueOf(System.currentTimeMillis()));
-                intent.putExtra(AvenuesParams.CURRENCY, "INR");
-                intent.putExtra(AvenuesParams.AMOUNT, String.valueOf(amm));
-                //intent.putExtra(AvenuesParams.AMOUNT, "1");
-                intent.putExtra("pid", SharePreferenceUtils.getInstance().getString("userid"));
 
-                intent.putExtra(AvenuesParams.REDIRECT_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
-                intent.putExtra(AvenuesParams.CANCEL_URL, "https://mrtecks.com/southman/api/pay/ccavResponseHandler.php");
-                intent.putExtra(AvenuesParams.RSA_KEY_URL, "https://mrtecks.com/southman/api/pay/GetRSA.php");
-
-                startActivity(intent);
-*/
             }
         });
 
