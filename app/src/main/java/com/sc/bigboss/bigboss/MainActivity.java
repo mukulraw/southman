@@ -699,7 +699,18 @@ public class MainActivity extends AppCompatActivity {
 
                             if (response.body().getStatus().equals("1"))
                             {
-                                Dialog dialog = new Dialog(MainActivity.this);
+
+                                Redeem item2 = response.body().getRedeem();
+
+                                Intent i1 = new Intent(MainActivity.this, SubCat3.class);
+                                i1.putExtra("id", item2.getId());
+                                i1.putExtra("text", item2.getText());
+                                i1.putExtra("catname", item2.getCatId());
+                                i1.putExtra("client", item2.getClientId());
+                                i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item2.getImageUrl());
+                                startActivity(i1);
+
+                                /*Dialog dialog = new Dialog(MainActivity.this);
                                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                                 dialog.setCancelable(true);
                                 dialog.setContentView(R.layout.scan_layout);
@@ -746,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(i1);
 
                                     }
-                                });
+                                });*/
                             }
                             else
                             {

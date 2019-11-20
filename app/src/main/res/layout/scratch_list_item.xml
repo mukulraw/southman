@@ -55,7 +55,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/scb"
+            android:src="@drawable/reward"
             android:scaleType="centerCrop"
             android:contentDescription="TODO" />
 
