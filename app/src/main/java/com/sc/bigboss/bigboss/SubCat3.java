@@ -422,7 +422,7 @@ public class SubCat3 extends AppCompatActivity {
 
                             Intent intent = new Intent(SubCat3.this, StatusActivity4.class);
                             intent.putExtra("id", oid);
-                            intent.putExtra("pid", id);
+                            intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
                             startActivity(intent);
