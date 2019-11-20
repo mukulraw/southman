@@ -379,6 +379,12 @@ public class SubCat3 extends AppCompatActivity {
 
                             dialog.dismiss();
 
+                            /*Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
+                            intent.putExtra("id", oid);
+                            intent.putExtra("pid", client);
+                            intent.putExtra("sta", "success");
+                            intent.putExtra("amount", baa);
+                            startActivity(intent);*/
 
                             try {
 
@@ -444,7 +450,7 @@ public class SubCat3 extends AppCompatActivity {
 
                             Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
                             intent.putExtra("id", oid);
-                            intent.putExtra("pid", id);
+                            intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
                             startActivity(intent);
@@ -533,41 +539,51 @@ public class SubCat3 extends AppCompatActivity {
 
                                     if (aa.length() > 0) {
 
-                                        pbar.setVisibility(View.VISIBLE);
+                                        float aaa = Float.parseFloat(aa);
+                                        if (aaa > 0)
+                                        {
+                                            pbar.setVisibility(View.VISIBLE);
 
-                                        Bean b = (Bean) getApplicationContext();
+                                            Bean b = (Bean) getApplicationContext();
 
 
-                                        Retrofit retrofit = new Retrofit.Builder()
-                                                .baseUrl(b.baseurl)
-                                                .addConverterFactory(ScalarsConverterFactory.create())
-                                                .addConverterFactory(GsonConverterFactory.create())
-                                                .build();
+                                            Retrofit retrofit = new Retrofit.Builder()
+                                                    .baseUrl(b.baseurl)
+                                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                                    .addConverterFactory(GsonConverterFactory.create())
+                                                    .build();
 
-                                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                                        Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
-                                        call.enqueue(new Callback<createOrderBean>() {
-                                            @Override
-                                            public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
+                                            Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, String.valueOf(aaa), String.valueOf(System.currentTimeMillis()));
+                                            call.enqueue(new Callback<createOrderBean>() {
+                                                @Override
+                                                public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
 
-                                                if (response.body().getStatus().equals("1")) {
-                                                    orderCreated = true;
-                                                    dialog3.dismiss();
-                                                    onResume();
+                                                    if (response.body().getStatus().equals("1")) {
+                                                        orderCreated = true;
+                                                        dialog3.dismiss();
+                                                        onResume();
+                                                    }
+
+                                                    Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                    pbar.setVisibility(View.GONE);
+
                                                 }
 
-                                                Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                                @Override
+                                                public void onFailure(Call<createOrderBean> call, Throwable t) {
+                                                    pbar.setVisibility(View.GONE);
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                        }
 
-                                                pbar.setVisibility(View.GONE);
 
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<createOrderBean> call, Throwable t) {
-                                                pbar.setVisibility(View.GONE);
-                                            }
-                                        });
 
                                     } else {
                                         Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
@@ -615,41 +631,53 @@ public class SubCat3 extends AppCompatActivity {
 
                             if (aa.length() > 0) {
 
-                                pbar.setVisibility(View.VISIBLE);
+                                float aaa = Float.parseFloat(aa);
 
-                                Bean b = (Bean) getApplicationContext();
+                                if (aaa > 0)
+                                {
+                                    pbar.setVisibility(View.VISIBLE);
+
+                                    Bean b = (Bean) getApplicationContext();
 
 
-                                Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl(b.baseurl)
-                                        .addConverterFactory(ScalarsConverterFactory.create())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build();
+                                    Retrofit retrofit = new Retrofit.Builder()
+                                            .baseUrl(b.baseurl)
+                                            .addConverterFactory(ScalarsConverterFactory.create())
+                                            .addConverterFactory(GsonConverterFactory.create())
+                                            .build();
 
-                                AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+                                    AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                                Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, aa, String.valueOf(System.currentTimeMillis()));
-                                call.enqueue(new Callback<createOrderBean>() {
-                                    @Override
-                                    public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
+                                    Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, String.valueOf(aaa), String.valueOf(System.currentTimeMillis()));
+                                    call.enqueue(new Callback<createOrderBean>() {
+                                        @Override
+                                        public void onResponse(Call<createOrderBean> call, Response<createOrderBean> response) {
 
-                                        if (response.body().getStatus().equals("1")) {
-                                            orderCreated = true;
-                                            dialog3.dismiss();
-                                            onResume();
+                                            if (response.body().getStatus().equals("1")) {
+                                                orderCreated = true;
+                                                dialog3.dismiss();
+                                                onResume();
+                                            }
+
+                                            Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                            pbar.setVisibility(View.GONE);
+
                                         }
 
-                                        Toast.makeText(SubCat3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                        @Override
+                                        public void onFailure(Call<createOrderBean> call, Throwable t) {
+                                            pbar.setVisibility(View.GONE);
+                                        }
+                                    });
 
-                                        pbar.setVisibility(View.GONE);
+                                }
+                                else
+                                {
+                                    Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
+                                }
 
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<createOrderBean> call, Throwable t) {
-                                        pbar.setVisibility(View.GONE);
-                                    }
-                                });
 
                             } else {
                                 Toast.makeText(SubCat3.this, "Please enter a valid amount", Toast.LENGTH_SHORT).show();
@@ -2265,14 +2293,14 @@ public class SubCat3 extends AppCompatActivity {
             if (res.equals("SUCCESS")) {
                 Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
                 intent.putExtra("id", oid);
-                intent.putExtra("pid", id);
+                intent.putExtra("pid", client);
                 intent.putExtra("sta", "success");
                 intent.putExtra("amount", baa);
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
                 intent.putExtra("id", oid);
-                intent.putExtra("pid", id);
+                intent.putExtra("pid", client);
                 intent.putExtra("amount", baa);
                 intent.putExtra("sta", "failure");
                 startActivity(intent);

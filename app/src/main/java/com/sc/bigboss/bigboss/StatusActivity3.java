@@ -111,6 +111,10 @@ public class StatusActivity3 extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
+            Log.d("id" , id);
+            Log.d("pid" , pid);
+
+
             Call<onlinePayBean> call = cr.onlinePay(id , pid , SharePreferenceUtils.getInstance().getString("userid"));
             call.enqueue(new Callback<onlinePayBean>() {
                 @Override
