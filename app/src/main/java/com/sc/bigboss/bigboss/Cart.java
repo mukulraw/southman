@@ -148,6 +148,7 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                txn = String.valueOf(System.currentTimeMillis());
                 Intent intent = new Intent(Cart.this, StatusActivity.class);
                 intent.putExtra("client", client);
                 intent.putExtra("amount", String.valueOf(amm));
