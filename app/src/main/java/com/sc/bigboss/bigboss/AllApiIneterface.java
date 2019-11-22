@@ -155,6 +155,14 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/requestOrder.php")
+    Call<createOrderBean> requestOrder(
+            @Part("user_id") String user_id,
+            @Part("client") String client,
+            @Part("txn") String txn
+    );
+
+    @Multipart
     @POST("southman/api/getSingleOrder.php")
     Call<gPayBean> getSingleOrder(
             @Part("id") String id
