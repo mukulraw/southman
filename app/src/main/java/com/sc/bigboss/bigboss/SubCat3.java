@@ -92,7 +92,7 @@ public class SubCat3 extends AppCompatActivity {
 
     private String id;
 
-    private TextView title;
+    private TextView title , minimum;
 
     private ImageView search;
     private ImageView home;
@@ -135,6 +135,7 @@ public class SubCat3 extends AppCompatActivity {
 
     private String take = "no";
 
+    float min = 0;
 
     Button createOrder;
     TextView currentOrder;
@@ -175,6 +176,7 @@ public class SubCat3 extends AppCompatActivity {
         balance = findViewById(R.id.balance);
         confirmandpay = findViewById(R.id.ok);
         deleteorder = findViewById(R.id.cancel);
+        minimum = findViewById(R.id.textView46);
 
         banner = findViewById(R.id.banner);
 
@@ -425,6 +427,7 @@ public class SubCat3 extends AppCompatActivity {
                             intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
+                            intent.putExtra("tid", ttiidd);
                             startActivity(intent);
 
 
@@ -540,7 +543,7 @@ public class SubCat3 extends AppCompatActivity {
                                     if (aa.length() > 0) {
 
                                         float aaa = Float.parseFloat(aa);
-                                        if (aaa > 0)
+                                        if (aaa > min)
                                         {
                                             pbar.setVisibility(View.VISIBLE);
 
@@ -633,7 +636,7 @@ public class SubCat3 extends AppCompatActivity {
 
                                 float aaa = Float.parseFloat(aa);
 
-                                if (aaa > 0)
+                                if (aaa > min)
                                 {
                                     pbar.setVisibility(View.VISIBLE);
 
@@ -1109,6 +1112,25 @@ public class SubCat3 extends AppCompatActivity {
                     perks.setText("Cash reward remaining : " + response.body().getData().get(0).getCashRewards());
                     p = response.body().getData().get(0).getCashRewards();
 
+                }
+
+                if (response.body().getClient().getMinimunBill().equals("0") || response.body().getClient().getMinimunBill() == null)
+                {
+                    min = 0;
+                }
+                else
+                {
+                    min = Float.parseFloat(response.body().getClient().getMinimunBill());
+                }
+
+                if (min > 0)
+                {
+                    minimum.setText("Minimum bill amount is \u20B9 " + (min + 1));
+                    minimum.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    minimum.setVisibility(View.GONE);
                 }
 
                 if (Objects.requireNonNull(response.body()).getScratch().size() > 0) {

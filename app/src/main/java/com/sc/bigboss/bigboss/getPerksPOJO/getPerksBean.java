@@ -21,6 +21,9 @@ public class getPerksBean {
     @SerializedName("order")
     @Expose
     private Order order;
+    @SerializedName("client")
+    @Expose
+    private Client client;
 
     public String getStatus() {
         return status;
@@ -62,4 +65,11 @@ public class getPerksBean {
         this.order = order;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

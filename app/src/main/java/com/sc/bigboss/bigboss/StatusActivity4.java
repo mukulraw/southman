@@ -49,7 +49,7 @@ public class StatusActivity4 extends AppCompatActivity {
 
     ProgressBar progress;
 
-    String id , pid , sta , amm;
+    String id , pid , sta , amm , ttid;
 
     TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
 
@@ -69,6 +69,7 @@ public class StatusActivity4 extends AppCompatActivity {
         pid = getIntent().getStringExtra("pid");
         sta = getIntent().getStringExtra("sta");
         amm = getIntent().getStringExtra("amount");
+        ttid = getIntent().getStringExtra("tid");
 
         status = findViewById(R.id.textView14);
         amount = findViewById(R.id.textView16);
@@ -101,6 +102,9 @@ public class StatusActivity4 extends AppCompatActivity {
 
 
         TextView ppay = dialog.findViewById(R.id.textView42);
+        TextView title = dialog.findViewById(R.id.textView44);
+
+        title.setText("#" + ttid);
 
         ppay.setText(Html.fromHtml("Please pay " + amm + " to the cashier"));
 

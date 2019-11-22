@@ -253,6 +253,7 @@ public class SubCat2 extends AppCompatActivity {
 
                 Intent intent = new Intent(SubCat2.this , Cart.class);
                 intent.putExtra("client" , client);
+                intent.putExtra("min", min);
                 startActivity(intent);
 
                 /*

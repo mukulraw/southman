@@ -249,6 +249,7 @@ public class ProductList4 extends AppCompatActivity {
 
                 Intent intent = new Intent(ProductList4.this , Cart.class);
                 intent.putExtra("client" , client);
+                intent.putExtra("min", min);
                 startActivity(intent);
 
                 /*

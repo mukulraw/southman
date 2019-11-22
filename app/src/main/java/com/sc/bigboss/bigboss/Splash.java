@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.xuexiang.xqrcode.decoding.Intents;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -109,15 +110,29 @@ public class Splash extends AppCompatActivity {
     }
 
     private void startApp() {
+
+        String userid = SharePreferenceUtils.getInstance().getString("userid");
+        String location = SharePreferenceUtils.getInstance().getString("location");
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
 
+                if (userid.length() > 0 && location.length() > 0)
+                {
+                    Intent i = new Intent(Splash.this , MainActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+                else
+                {
+                    Intent i = new Intent(Splash.this , Sliders.class);
+                    startActivity(i);
+                    finish();
+                }
 
-                Intent i = new Intent(Splash.this , Sliders.class);
-                startActivity(i);
-                finish();
+
 
             }
         } , 1500);

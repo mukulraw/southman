@@ -45,7 +45,7 @@ public class Cart extends AppCompatActivity {
     private Toolbar toolbar;
     ProgressBar bar;
     String base;
-    TextView btotal, bproceed, clear;
+    TextView btotal, bproceed, clear , minimum;
 
     int amm = 0;
 
@@ -61,6 +61,8 @@ public class Cart extends AppCompatActivity {
 
     String client, txn;
 
+    float min;
+
     private static final int TEZ_REQUEST_CODE = 123;
 
     private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
@@ -71,6 +73,7 @@ public class Cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        min = getIntent().getFloatExtra("min" , 0);
         client = getIntent().getStringExtra("client");
 
         list = new ArrayList<>();
@@ -82,6 +85,7 @@ public class Cart extends AppCompatActivity {
         bproceed = findViewById(R.id.textView10);
         grid = findViewById(R.id.grid);
         clear = findViewById(R.id.textView12);
+        minimum = findViewById(R.id.textView45);
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -99,6 +103,15 @@ public class Cart extends AppCompatActivity {
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
 
+        if (min > 0)
+        {
+            minimum.setText("Minimum bill amount is \u20B9 " + (min + 1));
+            minimum.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            minimum.setVisibility(View.GONE);
+        }
 
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,13 +161,15 @@ public class Cart extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                txn = String.valueOf(System.currentTimeMillis());
-                Intent intent = new Intent(Cart.this, StatusActivity.class);
-                intent.putExtra("client", client);
-                intent.putExtra("amount", String.valueOf(amm));
-                intent.putExtra("txn", txn);
-                intent.putExtra("status", "success");
-                startActivity(intent);
+                if (amm > min)
+                {
+                    txn = String.valueOf(System.currentTimeMillis());
+                    Intent intent = new Intent(Cart.this, StatusActivity.class);
+                    intent.putExtra("client", client);
+                    intent.putExtra("amount", String.valueOf(amm));
+                    intent.putExtra("txn", txn);
+                    intent.putExtra("status", "success");
+                    startActivity(intent);
 
 
                 /*try {
@@ -181,6 +196,13 @@ public class Cart extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(Cart.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
                 }*/
+                }
+                else
+                {
+                    Toast.makeText(Cart.this, "Minimum bill amount is \u20B9 " + (min + 1), Toast.LENGTH_SHORT).show();
+                }
+
+
 
 
 
