@@ -375,7 +375,7 @@ public class History extends AppCompatActivity {
                 holder.status.setText(item.getCreated());
 
 
-                holder.type.setText(item.getTxn());
+                holder.type.setText("#" + item.getTxn());
                 holder.code.setText("Paid \u20B9 " + item.getAmount() + " to " + item.getClient());
                 holder.type.setTextColor(Color.parseColor("#009688"));
 
@@ -606,21 +606,6 @@ public class History extends AppCompatActivity {
                 }
             };
 
-            LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(singleReceiver,
-                    new IntentFilter("count"));
-
-            return view;
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-
-            Date c = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = df.format(c);
-
-
             progress.setVisibility(View.VISIBLE);
 
             Bean b = (Bean) Objects.requireNonNull(getActivity()).getApplicationContext();
@@ -661,7 +646,13 @@ public class History extends AppCompatActivity {
                 }
             });
 
+            LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(singleReceiver,
+                    new IntentFilter("count"));
+
+            return view;
         }
+
+
 
         BroadcastReceiver singleReceiver;
 
@@ -698,7 +689,7 @@ public class History extends AppCompatActivity {
                 holder.status.setText(item.getCreated());
 
 
-                holder.type.setText(item.getTxn());
+                holder.type.setText("#" + item.getTxn());
                 holder.code.setText("Paid \u20B9 " + item.getAmount() + " to " + item.getClient());
                 holder.type.setTextColor(Color.parseColor("#009688"));
 
@@ -709,9 +700,13 @@ public class History extends AppCompatActivity {
                 {
                     holder.type.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_google_pay_mark_800_gray , 0 , 0 , 0);
                 }
-                else
+                else if (item.getMode().equals("CASH"))
                 {
                     holder.type.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_money2 , 0 , 0 , 0);
+                }
+                else
+                {
+                    holder.type.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_free , 0 , 0 , 0);
                 }
 
 

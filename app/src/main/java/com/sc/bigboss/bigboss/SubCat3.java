@@ -448,7 +448,7 @@ public class SubCat3 extends AppCompatActivity {
 
                             dialog.dismiss();
 
-                            Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
+                            Intent intent = new Intent(SubCat3.this, StatusActivity6.class);
                             intent.putExtra("id", oid);
                             intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");

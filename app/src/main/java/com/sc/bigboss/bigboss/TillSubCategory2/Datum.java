@@ -30,6 +30,9 @@ public class Datum {
     @SerializedName("client_id")
     @Expose
     private String client_id;
+    @SerializedName("banner")
+    @Expose
+    private String banner;
 
     public String getId() {
         return id;
@@ -95,4 +98,11 @@ public class Datum {
         this.client_id = client_id;
     }
 
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
 }

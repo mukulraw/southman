@@ -400,6 +400,15 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/freePay.php")
+    Call<onlinePayBean> freePay(
+            @Part("id") String id,
+            @Part("pid") String pid,
+            @Part("user_id") String user_id
+    );
+
+
+    @Multipart
     @POST("southman/api/cashPay.php")
     Call<onlinePayBean> cashPay(
             @Part("id") String id,

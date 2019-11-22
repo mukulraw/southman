@@ -296,7 +296,7 @@ public class MeansCategory extends AppCompatActivity {
                         i1.putExtra("text", item.getSubcatName());
                         i1.putExtra("catname", catName);
                         i1.putExtra("client", item.getClient_id());
-                        i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item.getImageUrl());
+                        i1.putExtra("banner", base + "southman/admin2/upload/sub_cat/" + item.getBanner());
                         context.startActivity(i1);
                         break;
                     }
