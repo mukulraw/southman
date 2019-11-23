@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scratch below"
+            android:text="whoopee!"
             android:gravity="center"
             android:textColor="#ffffff"
             android:padding="20dp"
