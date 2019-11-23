@@ -122,6 +122,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
+    <RelativeLayout
+        android:id="@+id/textView47"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button3">
+
+        <Button
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="18dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="8dp"
+            android:text="RATE THIS TRANSACTION"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
@@ -137,8 +165,8 @@
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView47" />
     <TextView
         android:id="@+id/textView32"
         android:layout_width="0dp"
@@ -207,30 +235,4 @@
         app:layout_constraintStart_toEndOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-    <RelativeLayout
-        android:id="@+id/textView47"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView34" >
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RATE THIS TRANSACTION"
-            android:background="@drawable/round"
-            android:id="@+id/rate"
-            android:minHeight="0dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textColor="#ffffff"
-            android:minWidth="0dp"
-            android:paddingStart="18dp"
-            android:paddingEnd="18dp"
-            />
-
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
