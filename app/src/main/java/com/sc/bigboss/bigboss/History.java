@@ -18,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -380,7 +381,13 @@ public class History extends AppCompatActivity {
                 holder.type.setTextColor(Color.parseColor("#009688"));
 
                 holder.date.setVisibility(View.GONE);
-                //holder.price.setVisibility(View.VISIBLE);
+                try {
+                    holder.price.setRating(Float.parseFloat(item.getRating()));
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
 
 
 
@@ -411,7 +418,7 @@ public class History extends AppCompatActivity {
                 final TextView date;
                 final TextView type;
                 final TextView status;
-                final TextView price;
+                final RatingBar price;
                 final TextView paid;
 
                 ViewHolder(@NonNull View itemView) {
@@ -694,6 +701,14 @@ public class History extends AppCompatActivity {
                 holder.type.setTextColor(Color.parseColor("#009688"));
 
                 holder.date.setVisibility(View.GONE);
+                try {
+                    holder.price.setRating(Float.parseFloat(item.getRating()));
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                holder.date.setVisibility(View.GONE);
                 //holder.price.setVisibility(View.VISIBLE);
 
                 if (item.getMode().equals("GPAY"))
@@ -735,7 +750,7 @@ public class History extends AppCompatActivity {
                 final TextView date;
                 final TextView type;
                 final TextView status;
-                final TextView price;
+                final RatingBar price;
                 final TextView paid;
 
                 ViewHolder(@NonNull View itemView) {

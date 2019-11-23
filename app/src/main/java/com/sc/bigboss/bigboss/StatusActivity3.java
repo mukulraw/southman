@@ -3,6 +3,7 @@ package com.sc.bigboss.bigboss;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,16 +12,21 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.gPayPOJO.gPayBean;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.tarek360.instacapture.Instacapture;
 import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
 
@@ -42,12 +48,15 @@ public class StatusActivity3 extends AppCompatActivity {
 
     ProgressBar progress;
 
-    String id , pid , sta , amm;
+    String id , pid , sta , amm , txn;
 
     TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
 
     String oid;
     ImageView rewars;
+
+    RelativeLayout rateLayout;
+    Button rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +88,9 @@ public class StatusActivity3 extends AppCompatActivity {
         scratchcard = findViewById(R.id.scratch_card);
         bill = findViewById(R.id.bill);
         balance = findViewById(R.id.balance);
+
+        rateLayout = findViewById(R.id.textView47);
+        rate = findViewById(R.id.rate);
 
         Glide.with(this).load(R.drawable.giphy).into(rewars);
 
@@ -133,6 +145,7 @@ public class StatusActivity3 extends AppCompatActivity {
                     date.setText(response.body().getData().getCreated());
                     back.setVisibility(View.VISIBLE);
                     paid.setVisibility(View.VISIBLE);
+                    rateLayout.setVisibility(View.VISIBLE);
                     status.setVisibility(View.VISIBLE);
                     amount.setVisibility(View.VISIBLE);
                     tag.setVisibility(View.VISIBLE);
@@ -160,6 +173,8 @@ public class StatusActivity3 extends AppCompatActivity {
                         paid.setText("Paid via");
                         gpay.setVisibility(View.VISIBLE);
                     }
+
+                    txn = item.getTxn();
 
                     tid1.setText("TXN ID - " + item.getTxn());
                     status1.setText(item.getStatus());
@@ -216,6 +231,86 @@ public class StatusActivity3 extends AppCompatActivity {
             }
         });
 
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Dialog dialog = new Dialog(StatusActivity3.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.rate_dialog);
+                dialog.show();
+
+                TextView titll = dialog.findViewById(R.id.textView48);
+                RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+                Button submit = dialog.findViewById(R.id.button12);
+                Button cancel = dialog.findViewById(R.id.button13);
+
+                titll.setText("Order #" + txn);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        float rr = ratingBar.getRating();
+
+                        if (rr > 0)
+                        {
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getApplicationContext();
+
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                            Call<scratchCardBean> call = cr.rate2(oid , String.valueOf(rr));
+
+                            call.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                    dialog.dismiss();
+                                    Toast.makeText(StatusActivity3.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    finish();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+                                }
+                            });
+
+
+                        }
+                        else
+                        {
+                            Toast.makeText(StatusActivity3.this, "Please add a rating", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
+            }
+        });
 
         order.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -163,16 +163,16 @@ public class Cart extends AppCompatActivity {
 
                 if (amm > min)
                 {
-                    txn = String.valueOf(System.currentTimeMillis());
+                    /*txn = String.valueOf(System.currentTimeMillis());
                     Intent intent = new Intent(Cart.this, StatusActivity.class);
                     intent.putExtra("client", client);
                     intent.putExtra("amount", String.valueOf(amm));
                     intent.putExtra("txn", txn);
                     intent.putExtra("status", "success");
-                    startActivity(intent);
+                    startActivity(intent);*/
 
 
-                /*try {
+                try {
 
                     txn = String.valueOf(System.currentTimeMillis());
 
@@ -195,7 +195,7 @@ public class Cart extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(Cart.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
-                }*/
+                }
                 }
                 else
                 {

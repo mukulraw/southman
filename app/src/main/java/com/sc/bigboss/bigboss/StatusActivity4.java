@@ -20,12 +20,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sc.bigboss.bigboss.onlinePayPOJO.Data;
 import com.sc.bigboss.bigboss.onlinePayPOJO.onlinePayBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.tarek360.instacapture.Instacapture;
 import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
 
@@ -49,7 +52,7 @@ public class StatusActivity4 extends AppCompatActivity {
 
     ProgressBar progress;
 
-    String id , pid , sta , amm , ttid;
+    String id , pid , sta , amm , ttid , txn;
 
     TextView tid1 , status1 , cashdiscount , scratchcard , bill , balance;
 
@@ -57,6 +60,9 @@ public class StatusActivity4 extends AppCompatActivity {
 
     Dialog dialog;
     ImageView rewars;
+
+    RelativeLayout rateLayout;
+    Button rate;
 
     private BroadcastReceiver singleReceiver;
 
@@ -91,6 +97,9 @@ public class StatusActivity4 extends AppCompatActivity {
         scratchcard = findViewById(R.id.scratch_card);
         bill = findViewById(R.id.bill);
         balance = findViewById(R.id.balance);
+
+        rateLayout = findViewById(R.id.textView47);
+        rate = findViewById(R.id.rate);
 
         Glide.with(this).load(R.drawable.giphy).into(rewars);
 
@@ -227,6 +236,7 @@ public class StatusActivity4 extends AppCompatActivity {
                                 date.setText(response.body().getData().getCreated());
                                 back.setVisibility(View.VISIBLE);
                                 paid.setVisibility(View.VISIBLE);
+                                rateLayout.setVisibility(View.VISIBLE);
                                 status.setVisibility(View.VISIBLE);
                                 amount.setVisibility(View.VISIBLE);
                                 tag.setVisibility(View.VISIBLE);
@@ -241,6 +251,8 @@ public class StatusActivity4 extends AppCompatActivity {
                                 float tb = Float.parseFloat(item.getAmount());
 
                                 float nb = tb - (ca + sc);
+
+                                txn = item.getTxn();
 
                                 tid1.setText("TXN ID - " + item.getTxn());
                                 status1.setText(item.getStatus());
@@ -276,6 +288,87 @@ public class StatusActivity4 extends AppCompatActivity {
 
             }
         };
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Dialog dialog = new Dialog(StatusActivity4.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.rate_dialog);
+                dialog.show();
+
+                TextView titll = dialog.findViewById(R.id.textView48);
+                RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+                Button submit = dialog.findViewById(R.id.button12);
+                Button cancel = dialog.findViewById(R.id.button13);
+
+                titll.setText("Order #" + txn);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        float rr = ratingBar.getRating();
+
+                        if (rr > 0)
+                        {
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getApplicationContext();
+
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                            Call<scratchCardBean> call = cr.rate2(oid , String.valueOf(rr));
+
+                            call.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                    dialog.dismiss();
+                                    Toast.makeText(StatusActivity4.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    finish();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+                                }
+                            });
+
+
+                        }
+                        else
+                        {
+                            Toast.makeText(StatusActivity4.this, "Please add a rating", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
+            }
+        });
 
         LocalBroadcastManager.getInstance(this).registerReceiver(singleReceiver,
                 new IntentFilter("count"));

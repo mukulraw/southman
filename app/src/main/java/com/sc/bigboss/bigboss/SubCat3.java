@@ -398,7 +398,7 @@ public class SubCat3 extends AppCompatActivity {
                                         .appendQueryParameter("pn", "South Man")
                                         .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
                                         .appendQueryParameter("tr", ttiidd)
-                                        .appendQueryParameter("tn", "Redeem Store Order")
+                                        .appendQueryParameter("tn", "Payment Store Order")
                                         .appendQueryParameter("am", String.valueOf(tbill))
                                         .appendQueryParameter("cu", "INR")
                                         .appendQueryParameter("url", "https://southman.in")

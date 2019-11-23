@@ -437,6 +437,20 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/rate.php")
+    Call<scratchCardBean> rate(
+            @Part("id") String id,
+            @Part("rating") String rating
+    );
+
+    @Multipart
+    @POST("southman/api/rate2.php")
+    Call<scratchCardBean> rate2(
+            @Part("id") String id,
+            @Part("rating") String rating
+    );
+
+    @Multipart
     @POST("southman/api/getOrderHistory2.php")
     Call<benefits3Bean> getOrderHistory2(
             @Part("order_id") String order_id

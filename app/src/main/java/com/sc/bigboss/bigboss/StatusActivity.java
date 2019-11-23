@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,10 +11,13 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStructure;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +45,9 @@ public class StatusActivity extends AppCompatActivity {
 
     String amm , cli , sta , txn;
 
+    RelativeLayout rateLayout;
+    Button rate;
+
     String oid;
 
     @Override
@@ -65,6 +72,8 @@ public class StatusActivity extends AppCompatActivity {
         progress = findViewById(R.id.progressBar5);
         tid = findViewById(R.id.textView34);
         gpay = findViewById(R.id.textView35);
+        rateLayout = findViewById(R.id.textView47);
+        rate = findViewById(R.id.rate);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +117,7 @@ public class StatusActivity extends AppCompatActivity {
                     amount.setCompoundDrawablesWithIntrinsicBounds(null , getResources().getDrawable(R.drawable.ic_checked) , null , null);
                     client_name.setText(response.body().getData().getClient());
                     client_name.setVisibility(View.VISIBLE);
+                    rateLayout.setVisibility(View.VISIBLE);
                     date.setText(response.body().getData().getCreated());
                     back.setVisibility(View.VISIBLE);
                     paid.setVisibility(View.VISIBLE);
@@ -153,6 +163,87 @@ public class StatusActivity extends AppCompatActivity {
             }
         });
 
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Dialog dialog = new Dialog(StatusActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.rate_dialog);
+                dialog.show();
+
+                TextView titll = dialog.findViewById(R.id.textView48);
+                RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+                Button submit = dialog.findViewById(R.id.button12);
+                Button cancel = dialog.findViewById(R.id.button13);
+
+                titll.setText("Order #" + txn);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        float rr = ratingBar.getRating();
+
+                        if (rr > 0)
+                        {
+
+
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) getApplicationContext();
+
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                            Call<scratchCardBean> call = cr.rate(oid , String.valueOf(rr));
+
+                            call.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                    dialog.dismiss();
+                                    Toast.makeText(StatusActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    finish();
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+
+                                }
+                            });
+
+
+                        }
+                        else
+                        {
+                            Toast.makeText(StatusActivity.this, "Please add a rating", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+
+            }
+        });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
