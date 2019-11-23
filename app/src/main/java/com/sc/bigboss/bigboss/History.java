@@ -85,7 +85,7 @@ public class History extends AppCompatActivity {
 
 
         tabs.addTab(tabs.newTab().setText("VOUCHER STORE"));
-        tabs.addTab(tabs.newTab().setText("REDEEM STORE"));
+        tabs.addTab(tabs.newTab().setText("PAYMENT STORE"));
 
         PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
 
@@ -94,7 +94,7 @@ public class History extends AppCompatActivity {
         tabs.setupWithViewPager(grid);
 
         Objects.requireNonNull(tabs.getTabAt(0)).setText("VOUCHER STORE");
-        Objects.requireNonNull(tabs.getTabAt(1)).setText("REDEEM STORE");
+        Objects.requireNonNull(tabs.getTabAt(1)).setText("PAYMENT STORE");
 
         //grid.setOffscreenPageLimit(1);
 
