@@ -50,6 +50,7 @@
         android:id="@+id/amount"
         android:inputType="number"
         android:digits="0123456789"
+        android:maxLength="4"
         android:layout_marginTop="5dp"
         android:background="@drawable/background_color"
         android:padding="10dp"

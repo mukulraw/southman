@@ -370,6 +370,8 @@ public class History extends AppCompatActivity {
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int i2) {
 
+                holder.setIsRecyclable(false);
+
                 Datum item = list.get(i2);
 
 
@@ -689,6 +691,8 @@ public class History extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
+
+                holder.setIsRecyclable(false);
 
                 Datum item = list.get(i);
 
