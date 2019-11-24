@@ -381,14 +381,14 @@ public class SubCat3 extends AppCompatActivity {
 
                             dialog.dismiss();
 
-                            /*Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
+                            Intent intent = new Intent(SubCat3.this, StatusActivity3.class);
                             intent.putExtra("id", oid);
                             intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
-                            startActivity(intent);*/
+                            startActivity(intent);
 
-                            try {
+                            /*try {
 
 
                                 Uri uri = new Uri.Builder()
@@ -410,7 +410,7 @@ public class SubCat3 extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(SubCat3.this, "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
-                            }
+                            }*/
 
 
                         }

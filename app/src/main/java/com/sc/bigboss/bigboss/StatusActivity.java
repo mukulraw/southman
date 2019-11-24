@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewStructure;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -179,6 +180,7 @@ public class StatusActivity extends AppCompatActivity {
                 RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
                 Button submit = dialog.findViewById(R.id.button12);
                 Button cancel = dialog.findViewById(R.id.button13);
+                EditText feedback = dialog.findViewById(R.id.editText3);
 
                 titll.setText("Order #" + txn);
 
@@ -212,7 +214,7 @@ public class StatusActivity extends AppCompatActivity {
 
                             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                            Call<scratchCardBean> call = cr.rate(oid , String.valueOf(rr));
+                            Call<scratchCardBean> call = cr.rate(oid , String.valueOf(rr) , SharePreferenceUtils.getInstance().getString("userid") , feedback.getText().toString());
 
                             call.enqueue(new Callback<scratchCardBean>() {
                                 @Override

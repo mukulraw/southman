@@ -47,7 +47,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="SUBMIT"
         android:background="@drawable/background_color"
         android:minWidth="0dp"
         android:minHeight="0dp"
@@ -55,17 +54,16 @@
         android:paddingTop="8dp"
         android:paddingEnd="18dp"
         android:paddingBottom="8dp"
+        android:text="SUBMIT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <Button
         android:id="@+id/button13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="CANCEL"
         android:background="@drawable/whitebutton"
         android:minWidth="0dp"
         android:minHeight="0dp"
@@ -73,7 +71,25 @@
         android:paddingTop="8dp"
         android:paddingEnd="18dp"
         android:paddingBottom="8dp"
+        android:text="CANCEL"
         app:layout_constraintBottom_toBottomOf="@+id/button12"
         app:layout_constraintEnd_toStartOf="@+id/button12"
         app:layout_constraintTop_toTopOf="@+id/button12" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:lines="3"
+        android:background="@drawable/background_color3"
+        android:padding="10dp"
+        android:hint="enter your feedback here"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
