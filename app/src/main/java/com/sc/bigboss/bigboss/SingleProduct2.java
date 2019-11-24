@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,7 +10,10 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -80,7 +84,6 @@ public class SingleProduct2 extends AppCompatActivity {
     private ImageView perks2;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +118,7 @@ public class SingleProduct2 extends AppCompatActivity {
 
         perks2.setOnClickListener(view -> {
 
-            Intent intent = new Intent(SingleProduct2.this , Perks.class);
+            Intent intent = new Intent(SingleProduct2.this, Perks.class);
             startActivity(intent);
         });
 
@@ -192,12 +195,9 @@ public class SingleProduct2 extends AppCompatActivity {
                 size.setText(response.body().getData().getSize());
                 cod.setText(response.body().getData().getProductCode());
 
-                if (response.body().getData().getDiscountPrice() != null)
-                {
+                if (response.body().getData().getDiscountPrice() != null) {
                     price.setText(Html.fromHtml("\u20B9" + response.body().getData().getDiscountPrice() + "  <strike>\u20B9" + response.body().getData().getPrice() + "</strike>"));
-                }
-                else
-                {
+                } else {
                     price.setText("\u20B9" + response.body().getData().getPrice());
                 }
 
@@ -240,13 +240,11 @@ public class SingleProduct2 extends AppCompatActivity {
                 details.setText(Html.fromHtml(response.body().getData().getSubTitle()).toString().trim());
 
 
-
                 ViewAdapter adapter = new ViewAdapter(getSupportFragmentManager(), response.body().getData().getThumb());
 
                 imageView.setAdapter(adapter);
 
                 indicator.setViewPager(imageView);
-
 
 
                 bar.setVisibility(View.GONE);
@@ -367,6 +365,18 @@ public class SingleProduct2 extends AppCompatActivity {
                 try {
 
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
+                    }
                     startActivity(intent);
                     dialog.dismiss();
 

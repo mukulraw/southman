@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +12,10 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -116,7 +120,7 @@ public class SingleProduct extends AppCompatActivity {
 
         perks2.setOnClickListener(view -> {
 
-            Intent intent = new Intent(SingleProduct.this , Perks.class);
+            Intent intent = new Intent(SingleProduct.this, Perks.class);
             startActivity(intent);
         });
 
@@ -207,7 +211,7 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
 /*                if (response.body().getProductInfo().get(0).getDiscountPrice() != null && !catName.equals("shop by shop"))
                 {*/
-                    price.setText(Html.fromHtml("\u20B9" + response.body().getProductInfo().get(0).getDiscountPrice() + "  <strike>\u20B9" + response.body().getProductInfo().get(0).getPrice() + "</strike>"));
+                price.setText(Html.fromHtml("\u20B9" + response.body().getProductInfo().get(0).getDiscountPrice() + "  <strike>\u20B9" + response.body().getProductInfo().get(0).getPrice() + "</strike>"));
                /* }
                 else
                 {
@@ -217,9 +221,7 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
                 //price.setText("\u20B9" + response.body().getProductInfo().get(0).getPrice());
 
 
-
-
-                    negotitle.setVisibility(View.GONE);
+                negotitle.setVisibility(View.GONE);
 
 
                 if (response.body().getProductInfo().get(0).getWhatsappOrderNow().equals("yes")) {
@@ -232,27 +234,26 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
                 co = String.valueOf(response.body().getProductInfo().get(0).getProductCode());
 
-                Log.d("ddddd" , response.body().getProductInfo().get(0).getProductDetail());
+                Log.d("ddddd", response.body().getProductInfo().get(0).getProductDetail());
 
                 String de = response.body().getProductInfo().get(0).getProductDetail();
 
-                de = de.replace("\t" , "");
-                de = de.replace("\n" , "");
-                de = de.replace("<p>" , "");
-                de = de.replace("</p>" , "<br>");
+                de = de.replace("\t", "");
+                de = de.replace("\n", "");
+                de = de.replace("<p>", "");
+                de = de.replace("</p>", "<br>");
 
                 StringBuilder sb = new StringBuilder(de);
 
-                sb.delete(de.length() - 4 , de.length());
+                sb.delete(de.length() - 4, de.length());
 
                 de = sb.toString();
 
-                Log.d("ddddd" , de);
+                Log.d("ddddd", de);
 
 
                 details.setText(Html.fromHtml(de));
                 //details.setText(Html.fromHtml(response.body().getProductInfo().get(0).getProductDetail()));
-
 
 
                 ViewAdapter adapter = new ViewAdapter(getSupportFragmentManager(), response.body().getThumb().get(0));
@@ -260,7 +261,6 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
                 imageView.setAdapter(adapter);
 
                 indicator.setViewPager(imageView);
-
 
 
                 bar.setVisibility(View.GONE);
@@ -381,6 +381,18 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
                 try {
 
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
+                    }
                     startActivity(intent);
                     dialog.dismiss();
 

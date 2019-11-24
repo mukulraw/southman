@@ -1,15 +1,20 @@
 package com.sc.bigboss.bigboss;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -104,7 +109,7 @@ public class CollerTshirt extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         catName = getIntent().getStringExtra("catname");
 
-        Log.d("catname " , catName);
+        Log.d("catname ", catName);
 
         toolbar = findViewById(R.id.toolbar);
         linear = findViewById(R.id.linear);
@@ -127,7 +132,7 @@ public class CollerTshirt extends AppCompatActivity {
 
         perks2.setOnClickListener(view -> {
 
-            Intent intent = new Intent(CollerTshirt.this , Perks.class);
+            Intent intent = new Intent(CollerTshirt.this, Perks.class);
             startActivity(intent);
         });
 
@@ -195,60 +200,51 @@ public class CollerTshirt extends AppCompatActivity {
 
             AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-            Log.d("asdasdasd" , id);
-            Log.d("asdlosad" , SharePreferenceUtils.getInstance().getString("location"));
+            Log.d("asdasdasd", id);
+            Log.d("asdlosad", SharePreferenceUtils.getInstance().getString("location"));
 
             String f;
 
-            if (catName.equals("food & drinks"))
-            {
+            if (catName.equals("food & drinks")) {
                 f = "food";
-            }
-            else
-            {
+            } else {
                 f = "asd";
             }
 
-            Call<ShopProductBean> call = cr.shopproduct(id, SharePreferenceUtils.getInstance().getString("location") , f);
+            Call<ShopProductBean> call = cr.shopproduct(id, SharePreferenceUtils.getInstance().getString("location"), f);
 
             call.enqueue(new Callback<ShopProductBean>() {
                 @Override
                 public void onResponse(Call<ShopProductBean> call, Response<ShopProductBean> response) {
 
                     assert response.body() != null;
-                    if (response.body().getProductInfo().size() > 0)
-                    {
+                    if (response.body().getProductInfo().size() > 0) {
                         list.clear();
 
                         list = response.body().getProductInfo();
 
 
-                            Log.d("ssii" , String.valueOf(list.size()));
+                        Log.d("ssii", String.valueOf(list.size()));
 
-                            if (list.size() > 0)
-                            {
-                                bottom.setVisibility(View.VISIBLE);
-                            }
-                            else
-                            {
-                                bottom.setVisibility(View.GONE);
-                            }
+                        if (list.size() > 0) {
+                            bottom.setVisibility(View.VISIBLE);
+                        } else {
+                            bottom.setVisibility(View.GONE);
+                        }
 
 
-                            grid.setLayoutManager(manager);
+                        grid.setLayoutManager(manager);
 
-                            grid.setAdapter(adapeter);
-                            adapeter.setgrid(list);
+                        grid.setAdapter(adapeter);
+                        adapeter.setgrid(list);
 
                         linear.setVisibility(View.GONE);
 
-                    }else
-                    {
+                    } else {
                         linear.setVisibility(View.VISIBLE);
                         bottom.setVisibility(View.GONE);
 
                     }
-
 
 
                     bar.setVisibility(View.GONE);
@@ -544,12 +540,9 @@ public class CollerTshirt extends AppCompatActivity {
             myViewHolder.brand.setText(item.getBrand());
             myViewHolder.size.setText(item.getSize());
 
-            if (item.getDiscountPrice() != null && !catName.equals("shop by shop"))
-            {
+            if (item.getDiscountPrice() != null && !catName.equals("shop by shop")) {
                 myViewHolder.prices.setText(Html.fromHtml("\u20B9" + item.getDiscountPrice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
-            }
-            else
-            {
+            } else {
                 myViewHolder.prices.setText("\u20B9" + item.getPrice());
             }
 
@@ -582,8 +575,8 @@ public class CollerTshirt extends AppCompatActivity {
             }
             else
             {*/
-                myViewHolder.negititle.setVisibility(View.GONE);
-                myViewHolder.negotiable.setVisibility(View.GONE);
+            myViewHolder.negititle.setVisibility(View.GONE);
+            myViewHolder.negotiable.setVisibility(View.GONE);
             /*}*/
 
 
@@ -674,7 +667,7 @@ public class CollerTshirt extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CollerAdapter2.MyViewHolder myViewHolder, int i) {
+        public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
 
             final ProductInfo item = list.get(i);
@@ -684,32 +677,28 @@ public class CollerTshirt extends AppCompatActivity {
 
             String sub = item.getSubTitle();
 
-            Log.d("sub" , sub);
+            Log.d("sub", sub);
 
-            sub = sub.replace("<p>" , "");
-            sub = sub.replace("</p>" , "<br>");
+            sub = sub.replace("<p>", "");
+            sub = sub.replace("</p>", "<br>");
 
 
             StringBuilder sb = new StringBuilder(sub);
 
-            sb.delete(sub.length() - 4 , sub.length());
+            sb.delete(sub.length() - 4, sub.length());
 
             sub = sb.toString();
 
-            Log.d("sub" , sub);
-
+            Log.d("sub", sub);
 
 
             //myViewHolder.brand.setText(Html.fromHtml(sub.replace("<p>" , "\n\n")));
             myViewHolder.brand.setText(Html.fromHtml(sub));
 
 
-            if (item.getDiscountPrice() != null)
-            {
+            if (item.getDiscountPrice() != null) {
                 myViewHolder.price.setText(Html.fromHtml("\u20B9" + item.getDiscountPrice() + "  <strike>\u20B9" + item.getPrice() + "</strike>"));
-            }
-            else
-            {
+            } else {
                 myViewHolder.price.setText("\u20B9" + item.getPrice());
             }
 
@@ -774,6 +763,18 @@ public class CollerTshirt extends AppCompatActivity {
                     try {
 
                         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:+" + ph));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    Activity#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for Activity#requestPermissions for more details.
+                                return;
+                            }
+                        }
                         startActivity(intent);
                         dialog.dismiss();
 

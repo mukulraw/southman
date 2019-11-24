@@ -346,7 +346,7 @@ public class Location extends AppCompatActivity {
                 Intent ii = new Intent(Location.this, MainActivity.class);
                 //ii.putExtra("lname", list.get(i).getName());
                 startActivity(ii);
-                finish();
+                finishAffinity();
 
 
             });

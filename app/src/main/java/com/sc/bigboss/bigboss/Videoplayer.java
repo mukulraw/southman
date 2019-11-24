@@ -1,11 +1,15 @@
 package com.sc.bigboss.bigboss;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -74,8 +78,8 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
 
         ingr = findViewById(R.id.ingredients);
 
-        des = des.replace("\n" , "");
-        des = des.replace("\t" , "");
+        des = des.replace("\n", "");
+        des = des.replace("\t", "");
 
         ingr.setText(Html.fromHtml(des));
 
@@ -136,6 +140,18 @@ public class Videoplayer extends YouTubeBaseActivity implements YouTubePlayer.On
                 try {
 
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + ph));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
+                    }
                     startActivity(intent);
                     dialog.dismiss();
 

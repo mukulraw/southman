@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.sc.bigboss.bigboss">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -24,16 +23,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StatusActivity6"></activity>
-        <activity android:name=".StatusActivity5" />
-        <activity android:name=".StatusActivity4" />
-        <activity android:name=".OrderDetails2" />
-        <activity android:name=".StatusActivity3" />
-        <activity android:name=".StatusActivity2" />
-        <activity android:name=".OrderDetails" />
-        <activity
-            android:name="me.ydcool.lib.qrmodule.activity.QrScannerActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".StatusActivity6"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StatusActivity5"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StatusActivity4"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OrderDetails2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StatusActivity3"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".StatusActivity2"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".OrderDetails"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ProductList4"
             android:screenOrientation="portrait" />
