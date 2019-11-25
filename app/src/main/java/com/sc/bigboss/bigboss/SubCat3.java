@@ -1419,10 +1419,15 @@ public class SubCat3 extends AppCompatActivity {
                     dialog.show();
 
                     TextView scratch = dialog.findViewById(R.id.scratch);
+                    TextView title = dialog.findViewById(R.id.title);
+                    TextView date = dialog.findViewById(R.id.date);
                     Button share = dialog.findViewById(R.id.share);
                     Button transfer = dialog.findViewById(R.id.transfer);
                     ProgressBar bar = dialog.findViewById(R.id.progress);
 
+
+                    title.setText(item.getText());
+                    date.setText(item.getCreated());
 
                     transfer.setOnClickListener(v127 -> transfer.setOnClickListener(v126 -> {
 

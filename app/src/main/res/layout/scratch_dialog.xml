@@ -26,19 +26,19 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_height="190dp"
         app:cardCornerRadius="5dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
     <com.cooltechworks.views.ScratchTextView
         android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_height="190dp"
         android:id="@+id/scratch"
-        android:background="@drawable/reward"
-        android:textSize="34sp"
+        android:background="@drawable/f2"
+        android:textSize="28sp"
         android:padding="10dp"
-        android:gravity="center"
+        android:gravity="center_horizontal|bottom"
         android:layout_marginBottom="20dp"
         />
 
