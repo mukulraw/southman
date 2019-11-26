@@ -31,14 +31,28 @@
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
 
-    <com.cooltechworks.views.ScratchTextView
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="190dp"
+            android:id="@+id/scratch"
+            android:background="@drawable/r2"
+            android:textSize="28sp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="20dp"
+            android:gravity="center_horizontal|bottom"
+            android:layout_marginBottom="20dp"
+            />
+
+
+    <com.anupkumarpanwar.scratchview.ScratchView
         android:layout_width="230dp"
         android:layout_height="190dp"
-        android:id="@+id/scratch"
-        android:background="@drawable/f2"
-        android:textSize="28sp"
-        android:padding="10dp"
-        android:gravity="center_horizontal|bottom"
+        android:id="@+id/scratch2"
+        app:tile_mode="REPEAT"
+        app:overlay_height="190dp"
+        app:overlay_width="230dp"
+        app:overlay_image="@drawable/f2"
         android:layout_marginBottom="20dp"
         />
 

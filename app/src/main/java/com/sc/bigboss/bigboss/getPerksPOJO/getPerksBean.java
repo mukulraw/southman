@@ -25,6 +25,7 @@ public class getPerksBean {
     @Expose
     private Client client;
 
+
     public String getStatus() {
         return status;
     }
@@ -72,4 +73,6 @@ public class getPerksBean {
     public void setClient(Client client) {
         this.client = client;
     }
+
+
 }

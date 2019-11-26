@@ -43,8 +43,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.anupkumarpanwar.scratchview.ScratchView;
 import com.bumptech.glide.Glide;
-import com.cooltechworks.views.ScratchTextView;
 import com.sc.bigboss.bigboss.createOrderPOJO.createOrderBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.Datum;
 import com.sc.bigboss.bigboss.getPerksPOJO.Order;
@@ -155,6 +155,10 @@ public class SubCat3 extends AppCompatActivity {
 
     private static final int TEZ_REQUEST_CODE = 123;
 
+    TextView lcoation;
+    String lat , lng;
+
+
     private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
 
     @Override
@@ -177,6 +181,7 @@ public class SubCat3 extends AppCompatActivity {
         confirmandpay = findViewById(R.id.ok);
         deleteorder = findViewById(R.id.cancel);
         minimum = findViewById(R.id.textView46);
+        lcoation = findViewById(R.id.textView37);
 
         banner = findViewById(R.id.banner);
 
@@ -213,7 +218,7 @@ public class SubCat3 extends AppCompatActivity {
 
 
         title.setText(getIntent().getStringExtra("text"));
-        catName = getIntent().getStringExtra("catname");
+        catName = getIntent().getStringExtra("text");
         client = getIntent().getStringExtra("client");
         bann = getIntent().getStringExtra("banner");
 
@@ -352,6 +357,28 @@ public class SubCat3 extends AppCompatActivity {
                     }
                 });
 
+
+            }
+        });
+
+
+        lcoation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String label = catName;
+                String uriBegin = "geo:" + lat + "," + lng;
+                String query = lat + "," + lng + "(" + label + ")";
+                String encodedQuery = Uri.encode(query);
+                String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                Uri uri = Uri.parse(uriString);
+
+                //String ll = "geo:" + lat + "," + lng + "(" + catName + ")";
+
+                //Uri gmmIntentUri = Uri.parse(ll);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
 
             }
         });
@@ -1246,6 +1273,16 @@ public class SubCat3 extends AppCompatActivity {
                     createOrder.setText("REQUEST ORDER");
                 }
 
+                if (response.body().getClient().getLatitude().equals("") || response.body().getClient().getLatitude() == null)
+                {
+                    lcoation.setVisibility(View.GONE);
+                }
+                else
+                {
+                    lcoation.setVisibility(View.VISIBLE);
+                    lat = response.body().getClient().getLatitude();
+                    lng = response.body().getClient().getLongitude();
+                }
 
                 if (response.body().getClient().getMinimunBill().equals("0") || response.body().getClient().getMinimunBill() == null)
                 {
@@ -1890,12 +1927,14 @@ public class SubCat3 extends AppCompatActivity {
                     dialog.setContentView(R.layout.scratch_dialog);
                     dialog.show();
 
-                    ScratchTextView scratch = dialog.findViewById(R.id.scratch);
+                    ScratchView scratch2 = dialog.findViewById(R.id.scratch2);
+
+                    TextView scratch = dialog.findViewById(R.id.scratch);
                     Button share = dialog.findViewById(R.id.share);
                     Button transfer = dialog.findViewById(R.id.transfer);
                     ProgressBar bar = dialog.findViewById(R.id.progress);
 
-                    scratch.setStrokeWidth(15);
+                    scratch2.setStrokeWidth(15);
 
                     transfer.setOnClickListener(v127 -> transfer.setOnClickListener(v126 -> {
 
@@ -2022,9 +2061,10 @@ public class SubCat3 extends AppCompatActivity {
 
                     scratch.setText("You have got \u20B9 " + item.getCashValue());
 
-                    scratch.setRevealListener(new ScratchTextView.IRevealListener() {
+
+                    scratch2.setRevealListener(new ScratchView.IRevealListener() {
                         @Override
-                        public void onRevealed(ScratchTextView tv) {
+                        public void onRevealed(ScratchView tv) {
 
 
                             bar.setVisibility(View.VISIBLE);
@@ -2064,7 +2104,7 @@ public class SubCat3 extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onRevealPercentChangedListener(ScratchTextView stv, float percent) {
+                        public void onRevealPercentChangedListener(ScratchView stv, float percent) {
 
                         }
                     });
