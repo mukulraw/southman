@@ -17,8 +17,8 @@ android {
         applicationId "com.sc.bigboss.bigboss"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 25
-        versionName "3.4"
+        versionCode 26
+        versionName "3.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         multiDexEnabled true

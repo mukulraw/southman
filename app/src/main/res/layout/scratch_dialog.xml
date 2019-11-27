@@ -52,7 +52,7 @@
         app:tile_mode="REPEAT"
         app:overlay_height="190dp"
         app:overlay_width="230dp"
-        app:overlay_image="@drawable/f2"
+        app:overlay_image="@drawable/f3"
         android:layout_marginBottom="20dp"
         />
 
