@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView perks;
     private ImageView request;
     private ImageView scan;
+    private ImageView helpline;
 
     //TextView profile, order, wishlist, setting, logout, name, edit;
 
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         reward = findViewById(R.id.reward);
         perks = findViewById(R.id.perks);
         request = findViewById(R.id.request);
+        helpline = findViewById(R.id.helpline);
 
         search = findViewById(R.id.search);
 
@@ -253,6 +255,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        helpline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.help_dialog);
+                dialog.setCancelable(true);
+                dialog.show();
+
+
+            }
+        });
 
      /*   profile.setOnClickListener(new View.OnClickListener() {
             @Override
