@@ -222,7 +222,7 @@ public class SubCat3 extends AppCompatActivity {
         client = getIntent().getStringExtra("client");
         bann = getIntent().getStringExtra("banner");
 
-        Log.d("catname", getIntent().getStringExtra("text"));
+        Log.d("catname", getIntent().getStringExtra("id"));
 
         grid = findViewById(R.id.grid);
 
@@ -1266,11 +1266,11 @@ public class SubCat3 extends AppCompatActivity {
 
                 if (ordercontrrol.equals("customer"))
                 {
-                    createOrder.setText("CREATE ORDER");
+                    createOrder.setText("ENTER FINAL BILL");
                 }
                 else
                 {
-                    createOrder.setText("REQUEST ORDER");
+                    createOrder.setText("REQUEST FINAL BILL");
                 }
 
                 if (response.body().getClient().getLatitude().equals("") || response.body().getClient().getLatitude() == null)
