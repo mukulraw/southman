@@ -542,9 +542,9 @@ public class MainActivity extends AppCompatActivity {
     class PagerAdapter extends FragmentStatePagerAdapter {
 
         final String[] titles = {
-                "Play",
+                "Shop",
                 "Videos",
-                "Shop"
+                "Play"
         };
 
         PagerAdapter(FragmentManager fm, int list) {
@@ -562,12 +562,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (i == 0) {
 
-                return new Play();
+                return new Shop();
             } else if (i == 1) {
                 return new Videos();
             } else if (i == 2) {
 
-                return new Shop();
+                return new Play();
             }
             return null;
         }
