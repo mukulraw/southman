@@ -49,7 +49,7 @@ public class Splash extends AppCompatActivity {
 
         if (hasPermissions(this, PERMISSIONS)) {
 
-            startApp();
+            //startApp();
         } else {
             ActivityCompat.requestPermissions(this, PERMISSIONS, REQUEST_CODE_ASK_PERMISSIONS);
         }
@@ -80,7 +80,7 @@ public class Splash extends AppCompatActivity {
 
                 Log.d("permmm", "2");
 
-                startApp();
+                ///startApp();
 
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||

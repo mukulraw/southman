@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/lll1"
             android:scaleType="centerCrop"
-            android:padding="30dp"
+            android:padding="50dp"
             android:contentDescription="TODO" />
 
 
@@ -29,5 +29,17 @@
         android:visibility="gone"
         android:id="@+id/progress"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="We are under maintenance, we will resume services on 19-12-2019\nThank You"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:textColor="@color/colorAccent"
+        />
 
 </RelativeLayout>
