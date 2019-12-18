@@ -400,7 +400,7 @@ interface AllApiIneterface {
     );
 
     @Multipart
-    @POST("southman/api/onlinePay.php")
+    @POST("southman/api/onlinePay2.php")
     Call<onlinePayBean> onlinePay(
             @Part("id") String id,
             @Part("pid") String pid,
