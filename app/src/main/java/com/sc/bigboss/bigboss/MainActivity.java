@@ -449,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("pageaa", String.valueOf(i));
 
 
-                if (i == 2) {
+                if (i == 0) {
 
                     Bean b = (Bean) getApplicationContext();
 
@@ -529,8 +529,8 @@ public class MainActivity extends AppCompatActivity {
 
         notification.setVisibility(View.VISIBLE);
         search.setVisibility(View.GONE);
-        reward.setVisibility(View.VISIBLE);
-        request.setVisibility(View.VISIBLE);
+        reward.setVisibility(View.GONE);
+        request.setVisibility(View.GONE);
 
         adapter = new PagerAdapter(getSupportFragmentManager(), 3);
         pager.setAdapter(adapter);

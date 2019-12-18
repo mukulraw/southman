@@ -140,7 +140,7 @@ public class OrderDetails extends AppCompatActivity {
                 else
                 {
                     type.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_card));
-                    text.setText(item.getBenefits().get(i).getClient() + " Digital Coupon Cash worth \u20B9 " + item.getBenefits().get(i).getValue() + " x " + item.getQuantity());
+                    text.setText(item.getBenefits().get(i).getClient() + " Business Vouchers Cash worth \u20B9 " + item.getBenefits().get(i).getValue() + " x " + item.getQuantity());
                 }
 
                 viewHolder.benefits.addView(view);

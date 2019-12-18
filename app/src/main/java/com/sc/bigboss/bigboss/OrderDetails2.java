@@ -123,6 +123,7 @@ public class OrderDetails2 extends AppCompatActivity {
 
                     ImageView type = view.findViewById(R.id.textView4);
                     TextView text = view.findViewById(R.id.textView6);
+                    TextView expiry = view.findViewById(R.id.textView51);
 
 
 
@@ -130,11 +131,14 @@ public class OrderDetails2 extends AppCompatActivity {
                     {
                         type.setImageDrawable(getResources().getDrawable(R.drawable.ic_money));
                         text.setText("Open Cash Rewards worth \u20B9 " + item.getValue());
+                        expiry.setVisibility(View.GONE);
                     }
                     else
                     {
                         type.setImageDrawable(getResources().getDrawable(R.drawable.ic_card));
-                        text.setText(item.getClient() + " Digital Coupon Cash worth \u20B9 " + item.getValue());
+                        text.setText(item.getClient() + " Business Vouchers Cash worth \u20B9 " + item.getValue());
+                        expiry.setVisibility(View.VISIBLE);
+                        expiry.setText("Expiry date - " + item.getExpiry());
                     }
 
                     benefits.addView(view);

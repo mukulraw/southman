@@ -19,6 +19,9 @@ public class Datum {
     @SerializedName("value")
     @Expose
     private String value;
+    @SerializedName("expiry")
+    @Expose
+    private String expiry;
     @SerializedName("created")
     @Expose
     private String created;
@@ -69,5 +72,13 @@ public class Datum {
 
     public void setCreated(String created) {
         this.created = created;
+    }
+
+    public void setExpiry(String expiry) {
+        this.expiry = expiry;
+    }
+
+    public String getExpiry() {
+        return expiry;
     }
 }

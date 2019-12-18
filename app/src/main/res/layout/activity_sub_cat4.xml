@@ -156,7 +156,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="No digital coupon found"
+                        android:text="No Business Vouchers found"
                         android:textColor="#000" />
 
 

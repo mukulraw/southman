@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F7F8FA"
     tools:context="com.sc.bigboss.bigboss.Splash">
 
     <LinearLayout
@@ -35,8 +36,8 @@
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="We are under maintenance, we will resume services on 19-12-2019\nThank You"
-        android:textSize="20sp"
+        android:text="Designed and Developed by MRTecks"
+        android:textSize="16sp"
         android:layout_marginBottom="20dp"
         android:padding="10dp"
         android:textColor="@color/colorAccent"
