@@ -28,6 +28,7 @@ import com.sc.bigboss.bigboss.prodList2POJO.prodList2Bean;
 import com.sc.bigboss.bigboss.qrPOJO.qrBean;
 import com.sc.bigboss.bigboss.registerPlayPOJO.registerPlayBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
+import com.sc.bigboss.bigboss.sharePOJO.shareBean;
 import com.sc.bigboss.bigboss.subCat3POJO.subCat3Bean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.sc.bigboss.bigboss.vHistoryPOJO.vHistoryBean;
@@ -153,6 +154,8 @@ interface AllApiIneterface {
             @Part("amount") String amount,
             @Part("txn") String txn
     );
+
+
 
     @Multipart
     @POST("southman/api/requestOrder.php")
@@ -474,6 +477,28 @@ interface AllApiIneterface {
             @Part("cash") String cash,
             @Part("scratch") String scratch,
             @Part("sid") String sid
+    );
+
+    @Multipart
+    @POST("southman/api/sharePublic.php")
+    Call<scratchCardBean> sharePublic(
+            @Part("client") String client,
+            @Part("sender_id") String sender_id,
+            @Part("type") String type,
+            @Part("scratch_id") String scratch_id
+    );
+
+    @Multipart
+    @POST("southman/api/receive.php")
+    Call<scratchCardBean> receive(
+            @Part("receiver_id") String receiver_id,
+            @Part("id") String id
+    );
+
+    @Multipart
+    @POST("southman/api/getShare.php")
+    Call<shareBean> getShare(
+            @Part("client") String client
     );
 
     @Multipart
