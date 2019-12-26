@@ -23,20 +23,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StatusActivity6"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StatusActivity5"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StatusActivity4"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OrderDetails2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StatusActivity3"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StatusActivity2"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".OrderDetails"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ShareVouchers"></activity>
+        <activity
+            android:name=".StatusActivity6"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StatusActivity5"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StatusActivity4"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderDetails2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StatusActivity3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StatusActivity2"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrderDetails"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProductList4"
             android:screenOrientation="portrait" />

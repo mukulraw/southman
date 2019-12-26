@@ -1,5 +1,6 @@
 package com.sc.bigboss.bigboss;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.sharePOJO.Datum;
 import com.sc.bigboss.bigboss.sharePOJO.shareBean;
@@ -46,6 +49,7 @@ public class share extends Fragment {
     private String id;
     List<Datum> list;
     ShareAdapter adapter;
+    FloatingActionButton fab;
 
 
     @Nullable
@@ -62,6 +66,7 @@ public class share extends Fragment {
 
         grid = view.findViewById(R.id.grid);
         progress = view.findViewById(R.id.progress);
+        fab = view.findViewById(R.id.fab);
 
         adapter = new ShareAdapter(getActivity(), list);
         manager = new GridLayoutManager(getActivity(), 1);
@@ -69,6 +74,74 @@ public class share extends Fragment {
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Dialog dialog1 = new Dialog(getActivity());
+                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog1.setCancelable(false);
+                dialog1.setContentView(R.layout.req_dialog);
+                dialog1.show();
+
+                Button shareNow = dialog1.findViewById(R.id.button7);
+                Button cancel = dialog1.findViewById(R.id.button9);
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog1.dismiss();
+
+                    }
+                });
+
+                shareNow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog1.dismiss();
+
+                        progress.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getActivity().getApplicationContext();
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Call<scratchCardBean> call = cr.req(SharePreferenceUtils.getInstance().getString("userid") , "REQUEST" , client);
+
+                        call.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                dialog1.dismiss();
+
+                                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                loadData();
+
+                                progress.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                });
+
+
+
+            }
+        });
 
         singleReceiver = new BroadcastReceiver() {
             @Override
@@ -249,7 +322,12 @@ public class share extends Fragment {
 
 
                     } else {
-                        holder.button.setText("SEND");
+
+                        Intent intent = new Intent(context , ShareVouchers.class);
+                        intent.putExtra("id" , item.getId());
+                        intent.putExtra("client" , client);
+                        startActivity(intent);
+
                     }
 
 

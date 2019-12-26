@@ -489,10 +489,26 @@ interface AllApiIneterface {
     );
 
     @Multipart
+    @POST("southman/api/send.php")
+    Call<scratchCardBean> send(
+            @Part("sender_id") String sender_id,
+            @Part("scratch_id") String scratch_id,
+            @Part("id") String id
+    );
+
+    @Multipart
     @POST("southman/api/receive.php")
     Call<scratchCardBean> receive(
             @Part("receiver_id") String receiver_id,
             @Part("id") String id
+    );
+
+    @Multipart
+    @POST("southman/api/req.php")
+    Call<scratchCardBean> req(
+            @Part("receiver_id") String receiver_id,
+            @Part("type") String type,
+            @Part("client") String client
     );
 
     @Multipart
