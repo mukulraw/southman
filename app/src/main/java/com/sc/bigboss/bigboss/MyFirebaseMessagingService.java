@@ -57,10 +57,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         object = new JSONObject(remoteMessage.getData());
 
         try {
-            handleNotification(object.getString("message") , object.getString("image"));
+            String ima = object.getString("image");
+            handleNotification(object.getString("message") , ima);
         } catch (JSONException e) {
+            try {
+                handleNotification(object.getString("message") , "");
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
+
+
 
 
         Intent registrationComplete = new Intent("count");

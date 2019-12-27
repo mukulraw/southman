@@ -268,10 +268,13 @@ public class share extends Fragment {
             if (item.getStatus().equals("0")) {
                 holder.button.setVisibility(View.VISIBLE);
 
+
                 if (item.getType().equals("SHARE")) {
                     holder.button.setText("RECEIVE");
+                    holder.button.setBackground(context.getDrawable(R.drawable.bluebutton));
                 } else {
                     holder.button.setText("SEND");
+                    holder.button.setBackground(context.getDrawable(R.drawable.background_color));
                 }
 
             } else {
