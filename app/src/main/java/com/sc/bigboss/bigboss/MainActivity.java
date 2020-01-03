@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView request;
     private ImageView scan;
     private ImageView helpline;
+    private ImageView share;
 
     //TextView profile, order, wishlist, setting, logout, name, edit;
 
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         perks = findViewById(R.id.perks);
         request = findViewById(R.id.request);
         helpline = findViewById(R.id.helpline);
+        share = findViewById(R.id.share);
 
         search = findViewById(R.id.search);
 
@@ -175,6 +178,19 @@ public class MainActivity extends AppCompatActivity {
 
             Intent i = new Intent(MainActivity.this, Search.class);
             startActivity(i);
+        });
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ShareCompat.IntentBuilder.from(MainActivity.this)
+                        .setType("text/plain")
+                        .setChooserTitle("Share with your friends...")
+                        .setText("http://play.google.com/store/apps/details?id=" + MainActivity.this.getPackageName())
+                        .startChooser();
+
+            }
         });
 
 
@@ -496,14 +512,17 @@ public class MainActivity extends AppCompatActivity {
                     search.setVisibility(View.GONE);
                     request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
+                    share.setVisibility(View.VISIBLE);
 
                 } else if (i == 1) {
                     search.setVisibility(View.GONE);
+                    share.setVisibility(View.VISIBLE);
                     request.setVisibility(View.GONE);
                     reward.setVisibility(View.GONE);
                 } else {
                     notification.setVisibility(View.VISIBLE);
                     search.setVisibility(View.GONE);
+                    share.setVisibility(View.GONE);
                     reward.setVisibility(View.VISIBLE);
                     request.setVisibility(View.VISIBLE);
 
@@ -528,6 +547,7 @@ public class MainActivity extends AppCompatActivity {
     private void ada() {
 
         notification.setVisibility(View.VISIBLE);
+        share.setVisibility(View.VISIBLE);
         search.setVisibility(View.GONE);
         reward.setVisibility(View.GONE);
         request.setVisibility(View.GONE);

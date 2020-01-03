@@ -56,6 +56,16 @@
                 android:layout_centerVertical="true">
 
                 <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="15dp"
+                    android:src="@drawable/ic_share"
+                    android:contentDescription="TODO" />
+
+
+                <ImageView
                     android:id="@+id/helpline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

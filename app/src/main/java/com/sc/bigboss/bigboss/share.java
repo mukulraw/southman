@@ -179,7 +179,7 @@ public class share extends Fragment {
 
     }
 
-    void loadData() {
+    private void loadData() {
 
 
         Bean b = (Bean) getActivity().getApplicationContext();

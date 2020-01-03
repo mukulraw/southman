@@ -57,18 +57,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         object = new JSONObject(remoteMessage.getData());
 
         try {
-            String ima = object.getString("image");
-            handleNotification(object.getString("message") , ima);
+            handleNotification(object.getString("message") , object.getString("image"));
         } catch (JSONException e) {
-            try {
-                handleNotification(object.getString("message") , "");
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
             e.printStackTrace();
         }
-
-
 
 
         Intent registrationComplete = new Intent("count");
@@ -95,13 +87,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final NotificationChannel[] mChannel = new NotificationChannel[1];
         // The id of the channel.
 
-        int importance = NotificationManager.IMPORTANCE_HIGH;
+        int importance = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            importance = NotificationManager.IMPORTANCE_HIGH;
+        }
 
         final NotificationCompat.Builder[] builder = new NotificationCompat.Builder[1];
 
         if (image.length() > 0)
         {
             ImageLoader loader = ImageLoader.getInstance();
+            int finalImportance = importance;
             loader.loadImage("https://southman.in/southman/admin2/upload/nimage/" + image, new ImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -126,7 +122,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             .setContentText(Html.fromHtml(message));
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        mChannel[0] = new NotificationChannel(idChannel, Bean.getContext().getString(R.string.app_name), importance);
+                        mChannel[0] = new NotificationChannel(idChannel, Bean.getContext().getString(R.string.app_name), finalImportance);
                         // Configure the notification channel.
                         mChannel[0].setDescription(Bean.getContext().getString(R.string.alarm_notification));
                         mChannel[0].enableLights(true);
