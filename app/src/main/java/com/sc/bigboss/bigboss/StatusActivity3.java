@@ -31,6 +31,9 @@ import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.tarek360.instacapture.Instacapture;
 import com.tarek360.instacapture.listener.SimpleScreenCapturingListener;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,9 +118,15 @@ public class StatusActivity3 extends AppCompatActivity {
 
             Bean b = (Bean) getApplicationContext();
 
+            OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                    .connectTimeout(120, TimeUnit.SECONDS)
+                    .readTimeout(120, TimeUnit.SECONDS)
+                    .writeTimeout(120, TimeUnit.SECONDS)
+                    .build();
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(b.baseurl)
+                    .client(okHttpClient)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
