@@ -97,5 +97,7 @@ dependencies {
     implementation 'com.github.xuexiangjys:XQRCode:1.0.6'
     implementation 'com.github.AnupKumarPanwar:ScratchView:1.2'
 
+    implementation 'com.shreyaspatil:EasyUpiPayment:2.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

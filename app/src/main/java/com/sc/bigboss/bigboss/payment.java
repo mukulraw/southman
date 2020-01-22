@@ -42,6 +42,9 @@ import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
+import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
+import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
+import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.io.File;
@@ -59,7 +62,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-public class payment extends Fragment {
+public class payment extends Fragment implements PaymentStatusListener {
 
     private RecyclerView grid;
 
@@ -358,7 +361,22 @@ public class payment extends Fragment {
                             try {
 
 
-                                Uri uri = new Uri.Builder()
+                                final EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
+                                        .with(getActivity())
+                                        .setPayeeVpa("southman@sbi")
+                                        .setPayeeName("South Man")
+                                        .setTransactionId(ttiidd)
+                                        .setTransactionRefId(ttiidd)
+                                        //.setPayeeMerchantCode("BCR2DN6T6WEP3JDV")
+                                        .setDescription("Payment Store Order")
+                                        .setAmount(String.valueOf(tbill))
+                                        .build();
+
+                                easyUpiPayment.startPayment();
+                                easyUpiPayment.setPaymentStatusListener(payment.this);
+
+
+                                /*Uri uri = new Uri.Builder()
                                         .scheme("upi")
                                         .authority("pay")
                                         .appendQueryParameter("pa", "southman@sbi")
@@ -373,10 +391,10 @@ public class payment extends Fragment {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(uri);
                                 intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                                startActivityForResult(intent, TEZ_REQUEST_CODE);
+                                startActivityForResult(intent, TEZ_REQUEST_CODE);*/
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Toast.makeText(getActivity(), "You don't have Google Pay app installed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "You don't have UPI app installed", Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -1340,6 +1358,49 @@ public class payment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onTransactionCompleted(TransactionDetails transactionDetails) {
+        Log.d("TransactionDetails", transactionDetails.toString());
+    }
+
+    @Override
+    public void onTransactionSuccess() {
+        Log.d("TransactionSuccess", "TransactionSuccess");
+        Intent intent = new Intent(getActivity(), StatusActivity3.class);
+        intent.putExtra("id", oid);
+        intent.putExtra("pid", client);
+        intent.putExtra("sta", "success");
+        intent.putExtra("amount", baa);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTransactionSubmitted() {
+        Log.d("onTransactionSubmitted", "onTransactionSubmitted");
+    }
+
+    @Override
+    public void onTransactionFailed() {
+        Log.d("onTransactionFailed", "onTransactionFailed");
+        Intent intent = new Intent(getActivity(), StatusActivity3.class);
+        intent.putExtra("id", oid);
+        intent.putExtra("pid", client);
+        intent.putExtra("amount", baa);
+        intent.putExtra("sta", "failure");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onTransactionCancelled() {
+        Log.d("onTransactionCancelled", "onTransactionCancelled");
+    }
+
+    @Override
+    public void onAppNotFound() {
+        Log.d("onAppNotFound", "onAppNotFound");
+        Toast.makeText(getContext(), "App Not Found", Toast.LENGTH_SHORT).show();
     }
 
     class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
