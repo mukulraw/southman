@@ -44,6 +44,7 @@ import com.sc.bigboss.bigboss.usersPOJO.usersBean;
 import com.sc.bigboss.bigboss.voucherHistoryPOJO.voucherHistoryBean;
 import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
 import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
+import com.shreyaspatil.EasyUpiPayment.model.PaymentApp;
 import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
@@ -351,6 +352,84 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                             dialog.dismiss();
 
+                            final EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
+                                    .with(getActivity())
+                                    .setPayeeVpa("southman@sbi")
+                                    .setPayeeName("South Man")
+                                    .setTransactionId(ttiidd)
+                                    .setTransactionRefId(ttiidd)
+                                    //.setPayeeMerchantCode("BCR2DN6T6WEP3JDV")
+                                    .setDescription("Payment Store Order")
+                                    .setAmount(String.valueOf(tbill))
+                                    .build();
+
+                            Dialog dialog1 = new Dialog(getActivity());
+                            dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog1.setCancelable(true);
+                            dialog1.setContentView(R.layout.upi_select_dialog);
+                            dialog1.show();
+
+                            ImageView phonepe = dialog1.findViewById(R.id.imageView2);
+                            ImageView googlepay = dialog1.findViewById(R.id.imageView5);
+                            ImageView bhim = dialog1.findViewById(R.id.imageView6);
+                            ImageView paytm = dialog1.findViewById(R.id.imageView9);
+
+
+                            phonepe.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dialog1.dismiss();
+
+                                    easyUpiPayment.setDefaultPaymentApp(PaymentApp.PHONE_PE);
+                                    easyUpiPayment.startPayment();
+                                    easyUpiPayment.setPaymentStatusListener(payment.this);
+
+                                }
+                            });
+
+                            googlepay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dialog1.dismiss();
+
+                                    easyUpiPayment.setDefaultPaymentApp(PaymentApp.GOOGLE_PAY);
+                                    easyUpiPayment.startPayment();
+                                    easyUpiPayment.setPaymentStatusListener(payment.this);
+
+                                }
+                            });
+
+
+                            bhim.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dialog1.dismiss();
+
+                                    easyUpiPayment.setDefaultPaymentApp(PaymentApp.BHIM_UPI);
+                                    easyUpiPayment.startPayment();
+                                    easyUpiPayment.setPaymentStatusListener(payment.this);
+
+                                }
+                            });
+
+
+                            paytm.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    dialog1.dismiss();
+
+                                    easyUpiPayment.setDefaultPaymentApp(PaymentApp.PAYTM);
+                                    easyUpiPayment.startPayment();
+                                    easyUpiPayment.setPaymentStatusListener(payment.this);
+
+                                }
+                            });
+
+
                             /*Intent intent = new Intent(getActivity(), StatusActivity3.class);
                             intent.putExtra("id", oid);
                             intent.putExtra("pid", client);
@@ -358,25 +437,16 @@ public class payment extends Fragment implements PaymentStatusListener {
                             intent.putExtra("amount", baa);
                             startActivity(intent);*/
 
-                            try {
+                            /*try {
 
 
-                                final EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
-                                        .with(getActivity())
-                                        .setPayeeVpa("southman@sbi")
-                                        .setPayeeName("South Man")
-                                        .setTransactionId(ttiidd)
-                                        .setTransactionRefId(ttiidd)
-                                        //.setPayeeMerchantCode("BCR2DN6T6WEP3JDV")
-                                        .setDescription("Payment Store Order")
-                                        .setAmount(String.valueOf(tbill))
-                                        .build();
+
 
                                 easyUpiPayment.startPayment();
                                 easyUpiPayment.setPaymentStatusListener(payment.this);
 
 
-                                /*Uri uri = new Uri.Builder()
+                                *//*Uri uri = new Uri.Builder()
                                         .scheme("upi")
                                         .authority("pay")
                                         .appendQueryParameter("pa", "southman@sbi")
@@ -391,11 +461,11 @@ public class payment extends Fragment implements PaymentStatusListener {
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(uri);
                                 intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                                startActivityForResult(intent, TEZ_REQUEST_CODE);*/
+                                startActivityForResult(intent, TEZ_REQUEST_CODE);*//*
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(getActivity(), "You don't have UPI app installed", Toast.LENGTH_SHORT).show();
-                            }
+                            }*/
 
 
                         }
