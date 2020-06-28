@@ -343,7 +343,7 @@ public class Location extends AppCompatActivity {
 
                 SharePreferenceUtils.getInstance().saveString("location", list.get(i).getId());
                 SharePreferenceUtils.getInstance().saveString("lname", list.get(i).getName());
-                Intent ii = new Intent(Location.this, MainActivity.class);
+                Intent ii = new Intent(Location.this, MainActivity2.class);
                 //ii.putExtra("lname", list.get(i).getName());
                 startActivity(ii);
                 finishAffinity();

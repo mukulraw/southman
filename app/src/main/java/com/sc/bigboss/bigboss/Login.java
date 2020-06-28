@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
         submit.setOnClickListener(v -> {
 
 
-            Intent i =new Intent(Login.this , MainActivity.class);
+            Intent i =new Intent(Login.this , MainActivity2.class);
             startActivity(i);
         });
 

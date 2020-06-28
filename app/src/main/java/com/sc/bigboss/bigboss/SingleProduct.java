@@ -172,7 +172,7 @@ details.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSI
 
         home.setOnClickListener(v -> {
 
-            Intent i = new Intent(SingleProduct.this, MainActivity.class);
+            Intent i = new Intent(SingleProduct.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

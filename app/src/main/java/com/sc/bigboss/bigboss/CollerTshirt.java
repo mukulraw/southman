@@ -179,7 +179,7 @@ public class CollerTshirt extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(CollerTshirt.this, MainActivity.class);
+            Intent i = new Intent(CollerTshirt.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

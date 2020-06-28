@@ -167,7 +167,7 @@ public class ProductList4 extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(ProductList4.this, MainActivity.class);
+            Intent i = new Intent(ProductList4.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

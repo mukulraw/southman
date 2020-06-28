@@ -121,7 +121,7 @@ public class Splash extends AppCompatActivity {
 
                 if (userid.length() > 0 && location.length() > 0)
                 {
-                    Intent i = new Intent(Splash.this , MainActivity.class);
+                    Intent i = new Intent(Splash.this , MainActivity2.class);
                     startActivity(i);
                     finish();
                 }

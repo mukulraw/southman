@@ -68,7 +68,7 @@ public class Till extends Fragment {
         grid = vi.findViewById(R.id.grid);
         linearLayout = vi.findViewById(R.id.linear);
 
-        manager = new GridLayoutManager(getContext() , 3);
+        manager = new GridLayoutManager(getContext(), 3);
 
         grid.setAdapter(adapter);
 
@@ -102,7 +102,7 @@ public class Till extends Fragment {
 
         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-        Call<TillBean> call = cr.till(catid , SharePreferenceUtils.getInstance().getString("location"));
+        Call<TillBean> call = cr.till(catid, SharePreferenceUtils.getInstance().getString("location"));
 
         call.enqueue(new Callback<TillBean>() {
             @Override
@@ -112,12 +112,12 @@ public class Till extends Fragment {
 
                     if (Objects.equals(Objects.requireNonNull(response.body()).getStatus(), "1")) {
 
-                        if (response.body().getData().size()>0){
+                        if (response.body().getData().size() > 0) {
 
                             linearLayout.setVisibility(View.GONE);
 
 
-                        }else {
+                        } else {
 
                             linearLayout.setVisibility(View.VISIBLE);
                         }
@@ -125,8 +125,7 @@ public class Till extends Fragment {
                         adapter.setgrid(response.body().getData());
                         linearLayout.setVisibility(View.GONE);
 
-                    }
-                    else {
+                    } else {
 
                         linearLayout.setVisibility(View.VISIBLE);
                     }
@@ -144,7 +143,6 @@ public class Till extends Fragment {
 
                 linearLayout.setVisibility(View.VISIBLE);
                 bar.setVisibility(View.GONE);
-
 
 
             }
@@ -184,21 +182,7 @@ public class Till extends Fragment {
 
             final Datum item = list.get(i);
 
-            // myViewHolder.name.setText(item.getSubcatName());
-
-/*
-            DisplayImageOptions options = new DisplayImageOptions.Builder().
-                    cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
-
-            ImageLoader loader = ImageLoader.getInstance();
-
-            loader.displayImage(base + "southman/admin2/upload/cat/" + item.getImageUrl(), myViewHolder.imageView, options);
-*/
-
-
             Glide.with(context).load(base + "southman/admin2/upload/cat/" + item.getImageUrl()).into(myViewHolder.imageView);
-
-
 
 
             myViewHolder.itemView.setOnClickListener(v -> {
@@ -220,8 +204,7 @@ public class Till extends Fragment {
 
         }
 
-        String getSpace(int position)
-        {
+        String getSpace(int position) {
             return list.get(position).getSpace();
         }
 

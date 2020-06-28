@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e9e6e6"
+    android:background="#f5f5f5"
     android:orientation="vertical">
 
 
@@ -12,10 +12,10 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
 
         <androidx.appcompat.widget.Toolbar
@@ -94,15 +94,13 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="50dp"
+            android:ellipsize="end"
+            android:maxLength="18"
             android:textColor="#000"
             android:textSize="18sp"
-            android:maxLength="18"
-            android:ellipsize="end"
             android:visibility="visible" />
-
-
 
 
     </RelativeLayout>
@@ -112,9 +110,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:tabGravity="fill"
+        android:elevation="2dp"
+        android:background="#ffffff"
+        app:tabIndicatorColor="@color/light_red"
+        app:tabIndicatorHeight="32dp"
+        app:tabIndicatorGravity="center"
+        app:tabIndicator="@drawable/accent_back_round"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#000000"
+        app:tabTextColor="#000"
+        >
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -129,9 +137,9 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/pager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/pager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

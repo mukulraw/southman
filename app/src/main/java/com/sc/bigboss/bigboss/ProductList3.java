@@ -184,7 +184,7 @@ public class ProductList3 extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(ProductList3.this, MainActivity.class);
+            Intent i = new Intent(ProductList3.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

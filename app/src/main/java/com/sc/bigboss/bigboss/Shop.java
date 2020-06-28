@@ -72,7 +72,7 @@ public class Shop extends Fragment {
 
                     for (int i = 0; i < Objects.requireNonNull(response.body()).getData().size(); i++) {
 
-                        tab.addTab(tab.newTab().setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName())));
+                        tab.addTab(tab.newTab().setText(response.body().getData().get(i).getName()));
 
                     }
 
@@ -82,7 +82,7 @@ public class Shop extends Fragment {
 
                     for (int i = 0; i < response.body().getData().size(); i++) {
 
-                        Objects.requireNonNull(tab.getTabAt(i)).setCustomView(getCustomView(inflater , response.body().getData().get(i).getCatUrl() , response.body().getData().get(i).getName()));
+                        Objects.requireNonNull(tab.getTabAt(i).setText(response.body().getData().get(i).getName()));
 
                     }
 
@@ -175,17 +175,11 @@ public class Shop extends Fragment {
 
     private View getCustomView(LayoutInflater inflater, String url, String name)
     {
-        View view = inflater.inflate(R.layout.tabs_layout , null);
+        View view = inflater.inflate(R.layout.tabs_layout2 , null);
 
         TextView tname = view.findViewById(R.id.textView3);
 
-        ImageView timage = view.findViewById(R.id.imageView);
-
         tname.setText(name);
-
-        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheOnDisk(true).cacheInMemory(true).resetViewBeforeLoading(false).build();
-        ImageLoader loader = ImageLoader.getInstance();
-        loader.displayImage(url , timage , options);
 
         return view;
     }

@@ -161,7 +161,7 @@ public class SubCat3 extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(SubCat3.this, MainActivity.class);
+            Intent i = new Intent(SubCat3.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });
@@ -244,7 +244,7 @@ public class SubCat3 extends AppCompatActivity {
 
             if (position == 0)
             {
-                payment frag = new payment();
+                paymentnew frag = new paymentnew();
                 Bundle b = new Bundle();
                 b.putString("text" , catName);
                 b.putString("client" , client);

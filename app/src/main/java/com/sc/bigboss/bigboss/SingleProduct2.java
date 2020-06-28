@@ -158,7 +158,7 @@ public class SingleProduct2 extends AppCompatActivity {
 
         home.setOnClickListener(v -> {
 
-            Intent i = new Intent(SingleProduct2.this, MainActivity.class);
+            Intent i = new Intent(SingleProduct2.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

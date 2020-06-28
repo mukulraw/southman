@@ -160,7 +160,7 @@ public class SubCat2 extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(SubCat2.this, MainActivity.class);
+            Intent i = new Intent(SubCat2.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });

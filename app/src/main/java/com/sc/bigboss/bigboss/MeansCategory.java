@@ -7,7 +7,9 @@ import android.content.IntentFilter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -152,7 +154,7 @@ public class MeansCategory extends AppCompatActivity {
         });
 
         home.setOnClickListener(v -> {
-            Intent i = new Intent(MeansCategory.this, MainActivity.class);
+            Intent i = new Intent(MeansCategory.this, MainActivity2.class);
             startActivity(i);
             finishAffinity();
         });
@@ -225,7 +227,6 @@ public class MeansCategory extends AppCompatActivity {
 
     private BroadcastReceiver singleReceiver;
     private TextView count;
-
 
 
     public class MAdapter extends RecyclerView.Adapter<MAdapter.MyViewHolder> {
