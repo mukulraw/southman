@@ -23,8 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity2"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".Summary"></activity>
+        <activity
+            android:name=".MainActivity2"
+            android:screenOrientation="portrait" />
         <activity android:name=".ShareVouchers" />
         <activity
             android:name=".StatusActivity6"

@@ -1,6 +1,7 @@
 package com.sc.bigboss.bigboss;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class paymentnew extends Fragment {
 
     RecyclerView grid;
     GridAdapter adapter;
     GridLayoutManager manager;
+    FloatingActionButton next;
 
     @Nullable
     @Override
@@ -24,6 +28,7 @@ public class paymentnew extends Fragment {
         View view = inflater.inflate(R.layout.paymentnew , container , false);
 
         grid = view.findViewById(R.id.grid);
+        next = view.findViewById(R.id.floatingActionButton2);
 
         adapter = new GridAdapter(getContext());
         manager = new GridLayoutManager(getContext() , 2);
@@ -31,6 +36,15 @@ public class paymentnew extends Fragment {
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
 
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext() , Summary.class);
+                startActivity(intent);
+
+            }
+        });
 
         return view;
     }
@@ -59,7 +73,7 @@ public class paymentnew extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 10;
+            return 2;
         }
 
         class ViewHolder extends RecyclerView.ViewHolder
