@@ -123,7 +123,7 @@ public class payment extends Fragment implements PaymentStatusListener {
     boolean orderCreated = false;
 
 
-    String baa , ordercontrrol;
+    String baa, ordercontrrol;
 
     TextView billAmount, tid, status, cashdiscount, scratchcard, bill, balance;
 
@@ -135,7 +135,7 @@ public class payment extends Fragment implements PaymentStatusListener {
     private static final int TEZ_REQUEST_CODE = 123;
 
     TextView lcoation;
-    String lat , lng;
+    String lat, lng;
 
 
     private static final String GOOGLE_TEZ_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
@@ -143,7 +143,7 @@ public class payment extends Fragment implements PaymentStatusListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.payment , container , false);
+        View view = inflater.inflate(R.layout.payment, container, false);
 
 
         cd = new ConnectionDetector(getActivity());
@@ -169,13 +169,8 @@ public class payment extends Fragment implements PaymentStatusListener {
         upload = view.findViewById(R.id.upload);
 
         createOrder = view.findViewById(R.id.create);
-        currentOrder =view. findViewById(R.id.current);
+        currentOrder = view.findViewById(R.id.current);
         hide = view.findViewById(R.id.hide);
-
-
-
-
-
 
 
         catName = getArguments().getString("text");
@@ -430,44 +425,6 @@ public class payment extends Fragment implements PaymentStatusListener {
                             });
 
 
-                            /*Intent intent = new Intent(getActivity(), StatusActivity3.class);
-                            intent.putExtra("id", oid);
-                            intent.putExtra("pid", client);
-                            intent.putExtra("sta", "success");
-                            intent.putExtra("amount", baa);
-                            startActivity(intent);*/
-
-                            /*try {
-
-
-
-
-                                easyUpiPayment.startPayment();
-                                easyUpiPayment.setPaymentStatusListener(payment.this);
-
-
-                                *//*Uri uri = new Uri.Builder()
-                                        .scheme("upi")
-                                        .authority("pay")
-                                        .appendQueryParameter("pa", "southman@sbi")
-                                        .appendQueryParameter("pn", "South Man")
-                                        .appendQueryParameter("mc", "BCR2DN6T6WEP3JDV")
-                                        .appendQueryParameter("tr", ttiidd)
-                                        .appendQueryParameter("tn", "Payment Store Order")
-                                        .appendQueryParameter("am", String.valueOf(tbill))
-                                        .appendQueryParameter("cu", "INR")
-                                        .appendQueryParameter("url", "https://southman.in")
-                                        .build();
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(uri);
-                                intent.setPackage(GOOGLE_TEZ_PACKAGE_NAME);
-                                startActivityForResult(intent, TEZ_REQUEST_CODE);*//*
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(getActivity(), "You don't have UPI app installed", Toast.LENGTH_SHORT).show();
-                            }*/
-
-
                         }
                     });
 
@@ -537,8 +494,7 @@ public class payment extends Fragment implements PaymentStatusListener {
             public void onClick(View view) {
 
 
-                if (ordercontrrol.equals("customer"))
-                {
+                if (ordercontrrol.equals("customer")) {
                     if (!SharePreferenceUtils.getInstance().getBoolean("createOrder")) {
                         Dialog dialog2 = new Dialog(getActivity());
                         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -601,8 +557,7 @@ public class payment extends Fragment implements PaymentStatusListener {
                                         if (aa.length() > 0) {
 
                                             float aaa = Float.parseFloat(aa);
-                                            if (aaa > min)
-                                            {
+                                            if (aaa > min) {
                                                 pbar.setVisibility(View.VISIBLE);
 
                                                 Bean b = (Bean) getActivity().getApplicationContext();
@@ -638,12 +593,9 @@ public class payment extends Fragment implements PaymentStatusListener {
                                                         pbar.setVisibility(View.GONE);
                                                     }
                                                 });
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                                             }
-
 
 
                                         } else {
@@ -694,8 +646,7 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                                     float aaa = Float.parseFloat(aa);
 
-                                    if (aaa > min)
-                                    {
+                                    if (aaa > min) {
                                         pbar.setVisibility(View.VISIBLE);
 
                                         Bean b = (Bean) getActivity().getApplicationContext();
@@ -732,12 +683,9 @@ public class payment extends Fragment implements PaymentStatusListener {
                                             }
                                         });
 
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         Toast.makeText(getActivity(), "Please enter a valid amount", Toast.LENGTH_SHORT).show();
                                     }
-
 
 
                                 } else {
@@ -749,9 +697,7 @@ public class payment extends Fragment implements PaymentStatusListener {
                         });
 
                     }
-                }
-                else
-                {
+                } else {
 
                     if (!SharePreferenceUtils.getInstance().getBoolean("createOrder2")) {
                         Dialog dialog2 = new Dialog(getActivity());
@@ -864,8 +810,6 @@ public class payment extends Fragment implements PaymentStatusListener {
                     }
 
                 }
-
-
 
 
             }
@@ -1216,8 +1160,6 @@ public class payment extends Fragment implements PaymentStatusListener {
         });
 
 
-
-
         singleReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -1292,42 +1234,30 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                 ordercontrrol = response.body().getClient().getPercentage();
 
-                if (ordercontrrol.equals("customer"))
-                {
+                if (ordercontrrol.equals("customer")) {
                     createOrder.setText("ENTER FINAL BILL");
-                }
-                else
-                {
+                } else {
                     createOrder.setText("REQUEST FINAL BILL");
                 }
 
-                if (response.body().getClient().getLatitude().equals("") || response.body().getClient().getLatitude() == null)
-                {
+                if (response.body().getClient().getLatitude().equals("") || response.body().getClient().getLatitude() == null) {
                     lcoation.setVisibility(View.GONE);
-                }
-                else
-                {
+                } else {
                     lcoation.setVisibility(View.VISIBLE);
                     lat = response.body().getClient().getLatitude();
                     lng = response.body().getClient().getLongitude();
                 }
 
-                if (response.body().getClient().getMinimunBill().equals("0") || response.body().getClient().getMinimunBill() == null)
-                {
+                if (response.body().getClient().getMinimunBill().equals("0") || response.body().getClient().getMinimunBill() == null) {
                     min = 0;
-                }
-                else
-                {
+                } else {
                     min = Float.parseFloat(response.body().getClient().getMinimunBill());
                 }
 
-                if (min > 0)
-                {
+                if (min > 0) {
                     minimum.setText("Minimum bill amount is \u20B9 " + (min + 1));
                     minimum.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     minimum.setVisibility(View.GONE);
                 }
 
@@ -1356,8 +1286,8 @@ public class payment extends Fragment implements PaymentStatusListener {
                     ttiidd = item.getTxn();
 
 
-                    float ca = Float.parseFloat(item.getCash());
-                    float sc = Float.parseFloat(item.getScratch());
+                    float ca = Float.parseFloat(item.getRed());
+                    float sc = Float.parseFloat(item.getBlue());
                     float tb = Float.parseFloat(item.getAmount());
 
                     float nb = tb - (ca + sc);
@@ -1376,8 +1306,8 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                     tid.setText("TXN ID - " + item.getTxn());
                     status.setText(item.getStatus());
-                    cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
-                    scratchcard.setText("Scratch Discount - \u20B9 " + item.getScratch());
+                    cashdiscount.setText("Cash Discount - \u20B9 " + item.getRed());
+                    scratchcard.setText("Scratch Discount - \u20B9 " + item.getBlue());
                     bill.setText("Total Bill - \u20B9 " + item.getAmount());
                     balance.setText("Balance Pay - \u20B9 " + String.valueOf(nb));
 
@@ -1424,8 +1354,6 @@ public class payment extends Fragment implements PaymentStatusListener {
         super.onResume();
 
         loadPerks();
-
-
 
 
     }
@@ -1577,7 +1505,7 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                                     AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                                    Call<scratchCardBean> call = cr.sharePublic(client , SharePreferenceUtils.getInstance().getString("userid"), "SHARE", item.getId());
+                                    Call<scratchCardBean> call = cr.sharePublic(client, SharePreferenceUtils.getInstance().getString("userid"), "SHARE", item.getId());
 
                                     call.enqueue(new Callback<scratchCardBean>() {
                                         @Override
@@ -2118,7 +2046,7 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                                     AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                                    Call<scratchCardBean> call = cr.sharePublic(client , SharePreferenceUtils.getInstance().getString("userid"), "SHARE", item.getId());
+                                    Call<scratchCardBean> call = cr.sharePublic(client, SharePreferenceUtils.getInstance().getString("userid"), "SHARE", item.getId());
 
                                     call.enqueue(new Callback<scratchCardBean>() {
                                         @Override
@@ -2651,9 +2579,6 @@ public class payment extends Fragment implements PaymentStatusListener {
 
                     });
                 }
-
-
-
 
 
             });

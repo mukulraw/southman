@@ -16,12 +16,12 @@ public class Order {
     @SerializedName("client")
     @Expose
     private String client;
-    @SerializedName("cash")
+    @SerializedName("red")
     @Expose
-    private String cash;
-    @SerializedName("scratch")
+    private String red;
+    @SerializedName("blue")
     @Expose
-    private String scratch;
+    private String blue;
     @SerializedName("mode")
     @Expose
     private String mode;
@@ -64,20 +64,20 @@ public class Order {
         this.client = client;
     }
 
-    public String getCash() {
-        return cash;
+    public String getBlue() {
+        return blue;
     }
 
-    public void setCash(String cash) {
-        this.cash = cash;
+    public String getRed() {
+        return red;
     }
 
-    public String getScratch() {
-        return scratch;
+    public void setBlue(String blue) {
+        this.blue = blue;
     }
 
-    public void setScratch(String scratch) {
-        this.scratch = scratch;
+    public void setRed(String red) {
+        this.red = red;
     }
 
     public String getMode() {
