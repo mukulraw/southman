@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sc.bigboss.bigboss.createOrderPOJO.createOrderBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.Order;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
+import com.xuexiang.xqrcode.decoding.Intents;
 
 import java.util.Objects;
 
@@ -108,6 +109,12 @@ public class paymentnew extends Fragment {
                                 .build();
 
                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+                        Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
+                        Log.d("client" , client);
+                        Log.d("amount" , String.valueOf(aa));
+                        Log.d("txn" , String.valueOf(System.currentTimeMillis()));
+
 
                         Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, String.valueOf(aa), String.valueOf(System.currentTimeMillis()));
                         call.enqueue(new Callback<createOrderBean>() {

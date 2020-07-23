@@ -13,12 +13,12 @@ public class Data {
     @SerializedName("amount")
     @Expose
     private String amount;
-    @SerializedName("cash")
+    @SerializedName("red")
     @Expose
-    private String cash;
-    @SerializedName("scratch")
+    private String red;
+    @SerializedName("blue")
     @Expose
-    private String scratch;
+    private String blue;
     @SerializedName("mode")
     @Expose
     private String mode;
@@ -56,20 +56,20 @@ public class Data {
         this.amount = amount;
     }
 
-    public String getCash() {
-        return cash;
+    public String getBlue() {
+        return blue;
     }
 
-    public void setCash(String cash) {
-        this.cash = cash;
+    public String getRed() {
+        return red;
     }
 
-    public String getScratch() {
-        return scratch;
+    public void setBlue(String blue) {
+        this.blue = blue;
     }
 
-    public void setScratch(String scratch) {
-        this.scratch = scratch;
+    public void setRed(String red) {
+        this.red = red;
     }
 
     public String getMode() {

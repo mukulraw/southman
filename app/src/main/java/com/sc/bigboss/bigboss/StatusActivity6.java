@@ -154,8 +154,8 @@ public class StatusActivity6 extends AppCompatActivity {
                     tid.setVisibility(View.VISIBLE);
                     gpay.setVisibility(View.VISIBLE);
 
-                    float ca = Float.parseFloat(item.getCash());
-                    float sc = Float.parseFloat(item.getScratch());
+                    float ca = Float.parseFloat(item.getRed());
+                    float sc = Float.parseFloat(item.getBlue());
                     float tb = Float.parseFloat(item.getAmount());
 
                     float nb = tb - (ca + sc);
@@ -177,8 +177,8 @@ public class StatusActivity6 extends AppCompatActivity {
 
                     tid1.setText("TXN ID - " + item.getTxn());
                     status1.setText(item.getStatus());
-                    cashdiscount.setText("Cash Discount - \u20B9 " + item.getCash());
-                    scratchcard.setText("Scratch Discount - \u20B9 " + item.getScratch());
+                    cashdiscount.setText("Cash Discount - \u20B9 " + item.getRed());
+                    scratchcard.setText("Scratch Discount - \u20B9 " + item.getBlue());
                     bill.setText("Total Bill - \u20B9 " + item.getAmount());
                     balance.setText("Balance Pay - \u20B9 " + String.valueOf(nb));
 

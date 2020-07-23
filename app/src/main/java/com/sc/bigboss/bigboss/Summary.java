@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.getPerksPOJO.Order;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
+import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
 import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
 import com.shreyaspatil.EasyUpiPayment.model.PaymentApp;
@@ -45,7 +46,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
     RecyclerView grid;
     GridAdapter adapter;
     GridLayoutManager manager;
-    TextView restaurantName , txn , totalBill , redVoucher , blueVoucher , balancePay , status;
+    TextView restaurantName, txn, totalBill, redVoucher, blueVoucher, balancePay, status;
 
     ProgressBar progress;
 
@@ -54,7 +55,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
     String oid, ttiidd, tbill;
 
-    Button pay;
+    Button pay, delete;
     String baa;
 
     @Override
@@ -75,6 +76,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
         status = findViewById(R.id.textView80);
         progress = findViewById(R.id.progressBar9);
         pay = findViewById(R.id.button6);
+        delete = findViewById(R.id.button14);
 
         setSupportActionBar(toolbar);
 
@@ -85,7 +87,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
         toolbar.setNavigationOnClickListener(v -> finish());
 
         adapter = new GridAdapter(Summary.this);
-        manager = new GridLayoutManager(Summary.this , 1);
+        manager = new GridLayoutManager(Summary.this, 1);
 
         grid.setAdapter(adapter);
         grid.setLayoutManager(manager);
@@ -112,7 +114,16 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                         @Override
                         public void onClick(View view) {
 
-                            dialog.dismiss();
+                            Log.d("TransactionSuccess", "TransactionSuccess");
+                            Intent intent = new Intent(Summary.this, Checkout.class);
+                            intent.putExtra("id", oid);
+                            intent.putExtra("pid", client);
+                            intent.putExtra("sta", "success");
+                            intent.putExtra("amount", baa);
+                            startActivity(intent);
+                            finish();
+
+                            /*dialog.dismiss();
 
                             final EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
                                     .with(Summary.this)
@@ -189,7 +200,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                                     easyUpiPayment.setPaymentStatusListener(Summary.this);
 
                                 }
-                            });
+                            });*/
 
 
                         }
@@ -255,6 +266,78 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
             }
         });
 
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Dialog dialog = new Dialog(Summary.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.delete_dialog);
+                dialog.show();
+
+
+                Button ok = dialog.findViewById(R.id.button2);
+                Button cancel = dialog.findViewById(R.id.button4);
+
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+
+                    }
+                });
+
+                ok.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        progress.setVisibility(View.VISIBLE);
+
+                        Bean b = (Bean) getApplicationContext();
+
+
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl(b.baseurl)
+                                .addConverterFactory(ScalarsConverterFactory.create())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
+
+                        AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                        Call<scratchCardBean> call = cr.cancelOrder(oid);
+
+                        call.enqueue(new Callback<scratchCardBean>() {
+                            @Override
+                            public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                Toast.makeText(Summary.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                dialog.dismiss();
+
+                                progress.setVisibility(View.GONE);
+
+                                //loadPerks();
+
+                                finish();
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                progress.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }
+                });
+
+            }
+        });
+
     }
 
     @Override
@@ -300,12 +383,10 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
         Toast.makeText(Summary.this, "App Not Found", Toast.LENGTH_SHORT).show();
     }
 
-    class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder>
-    {
+    class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         Context context;
 
-        public GridAdapter(Context context)
-        {
+        public GridAdapter(Context context) {
             this.context = context;
         }
 
@@ -313,7 +394,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.redeem_rewards_list_model , parent , false);
+            View view = inflater.inflate(R.layout.redeem_rewards_list_model, parent, false);
             return new ViewHolder(view);
         }
 
@@ -327,8 +408,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
             return 10;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder
-        {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -395,7 +475,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
                     tbill = String.valueOf(nb);
 
-                    baa = "\u20B9 " + String.valueOf(nb) + " <strike>\u20B9 " + item.getAmount() + "</strike>";
+                    baa = "<font color='#2D9A3A'>\u20B9 " + nb + "</font>  <font color='#FF8370'><strike>\u20B9 " + item.getAmount() + "</strike></font>";
 
                     balancePay.setText("₹ " + tbill);
                     pay.setText("PAY ₹ " + tbill);
