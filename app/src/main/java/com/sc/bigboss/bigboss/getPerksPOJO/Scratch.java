@@ -34,7 +34,9 @@ public class Scratch {
     @SerializedName("scratch")
     @Expose
     private String scratch;
-
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     public String getId() {
         return id;
@@ -114,5 +116,13 @@ public class Scratch {
 
     public void setScratch(String scratch) {
         this.scratch = scratch;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

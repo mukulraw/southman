@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.provider.Telephony;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,9 +29,12 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sc.bigboss.bigboss.createOrderPOJO.createOrderBean;
 import com.sc.bigboss.bigboss.getPerksPOJO.Order;
+import com.sc.bigboss.bigboss.getPerksPOJO.Scratch;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.xuexiang.xqrcode.decoding.Intents;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -55,15 +61,19 @@ public class paymentnew extends Fragment {
     Button location;
     ImageView banner;
 
-    String lat , lng;
+    String lat, lng;
     boolean orderCreated = false;
 
     String oid, ttiidd, tbill;
+
+    List<Scratch> list;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.paymentnew, container, false);
+
+        list = new ArrayList<>();
 
         catName = getArguments().getString("text");
         client = getArguments().getString("client");
@@ -79,7 +89,7 @@ public class paymentnew extends Fragment {
         location = view.findViewById(R.id.button5);
         banner = view.findViewById(R.id.imageView16);
 
-        adapter = new GridAdapter(getContext());
+        adapter = new GridAdapter(getContext(), list);
         manager = new GridLayoutManager(getContext(), 2);
 
         grid.setAdapter(adapter);
@@ -110,10 +120,10 @@ public class paymentnew extends Fragment {
 
                         AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
 
-                        Log.d("userid" , SharePreferenceUtils.getInstance().getString("userid"));
-                        Log.d("client" , client);
-                        Log.d("amount" , String.valueOf(aa));
-                        Log.d("txn" , String.valueOf(System.currentTimeMillis()));
+                        Log.d("userid", SharePreferenceUtils.getInstance().getString("userid"));
+                        Log.d("client", client);
+                        Log.d("amount", String.valueOf(aa));
+                        Log.d("txn", String.valueOf(System.currentTimeMillis()));
 
 
                         Call<createOrderBean> call = cr.createOrder(SharePreferenceUtils.getInstance().getString("userid"), client, String.valueOf(aa), String.valueOf(System.currentTimeMillis()));
@@ -123,6 +133,7 @@ public class paymentnew extends Fragment {
 
                                 if (response.body().getStatus().equals("1")) {
                                     orderCreated = true;
+                                    amount.setText("");
                                     onResume();
                                 }
 
@@ -156,9 +167,16 @@ public class paymentnew extends Fragment {
 
     class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         Context context;
+        List<Scratch> list = new ArrayList<>();
 
-        public GridAdapter(Context context) {
+        public GridAdapter(Context context, List<Scratch> list) {
             this.context = context;
+            this.list = list;
+        }
+
+        void setData(List<Scratch> list) {
+            this.list = list;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -171,18 +189,43 @@ public class paymentnew extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            holder.setIsRecyclable(false);
+
+            Scratch item = list.get(position);
+
+            holder.amount.setText("₹ " + item.getCashValue());
+            holder.expiry.setText("Expired on " + item.getExpiry());
+
+            if (item.getType().equals("red"))
+            {
+                holder.card.setCardBackgroundColor(context.getResources().getColor(R.color.light_red));
+                holder.reward.setBackground(context.getResources().getDrawable(R.drawable.red));
+            }
+            else
+            {
+                holder.card.setCardBackgroundColor(context.getResources().getColor(R.color.light_blue));
+                holder.reward.setBackground(context.getResources().getDrawable(R.drawable.blue));
+            }
 
         }
 
         @Override
         public int getItemCount() {
-            return 2;
+            return list.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
+            CardView card;
+            ImageView reward;
+            TextView amount , expiry;
+
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
+                card = itemView.findViewById(R.id.card);
+                reward = itemView.findViewById(R.id.imageView17);
+                amount = itemView.findViewById(R.id.textView61);
+                expiry = itemView.findViewById(R.id.textView62);
             }
         }
     }
@@ -247,6 +290,7 @@ public class paymentnew extends Fragment {
                     }
                 });
 
+                adapter.setData(response.body().getScratch());
 
                 if (response.body().getOrder().getId() != null) {
                     orderCreated = true;
@@ -266,7 +310,7 @@ public class paymentnew extends Fragment {
                     tbill = String.valueOf(nb);
 
                     Intent intent = new Intent(getContext(), Summary.class);
-                    intent.putExtra("client" , client);
+                    intent.putExtra("client", client);
                     startActivity(intent);
 
                 } else {

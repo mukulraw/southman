@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:text="designed and developed by MRTecks"
         android:textSize="18sp"
