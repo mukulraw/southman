@@ -3,6 +3,8 @@ package com.sc.bigboss.bigboss.onlinePayPOJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class onlinePayBean {
     @SerializedName("status")
     @Expose
@@ -13,6 +15,9 @@ public class onlinePayBean {
     @SerializedName("data")
     @Expose
     private Data data;
+    @SerializedName("scratch")
+    @Expose
+    private List<Scratch> scratch = null;
 
     public String getStatus() {
         return status;
@@ -37,4 +42,13 @@ public class onlinePayBean {
     public void setData(Data data) {
         this.data = data;
     }
+
+    public List<Scratch> getScratch() {
+        return scratch;
+    }
+
+    public void setScratch(List<Scratch> scratch) {
+        this.scratch = scratch;
+    }
+
 }
