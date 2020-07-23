@@ -19,6 +19,9 @@ public class Client {
     @SerializedName("longitude")
     @Expose
     private String longitude;
+    @SerializedName("asset")
+    @Expose
+    private String asset;
 
     public String getId() {
         return id;
@@ -58,5 +61,13 @@ public class Client {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
+    }
+
+    public String getAsset() {
+        return asset;
+    }
+
+    public void setAsset(String asset) {
+        this.asset = asset;
     }
 }

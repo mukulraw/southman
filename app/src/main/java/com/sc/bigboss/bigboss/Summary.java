@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sc.bigboss.bigboss.getPerksPOJO.Order;
+import com.sc.bigboss.bigboss.getPerksPOJO.Scratch;
 import com.sc.bigboss.bigboss.getPerksPOJO.getPerksBean;
 import com.sc.bigboss.bigboss.scratchCardPOJO.scratchCardBean;
 import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
@@ -31,6 +33,8 @@ import com.shreyaspatil.EasyUpiPayment.listener.PaymentStatusListener;
 import com.shreyaspatil.EasyUpiPayment.model.PaymentApp;
 import com.shreyaspatil.EasyUpiPayment.model.TransactionDetails;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -53,15 +57,18 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
     String client;
     boolean orderCreated = false;
 
-    String oid, ttiidd, tbill;
+    String oid, ttiidd, tbill , asset;
 
     Button pay, delete;
     String baa;
+    List<Scratch> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
+
+        list = new ArrayList<>();
 
         client = getIntent().getStringExtra("client");
 
@@ -86,7 +93,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        adapter = new GridAdapter(Summary.this);
+        adapter = new GridAdapter(Summary.this, list);
         manager = new GridLayoutManager(Summary.this, 1);
 
         grid.setAdapter(adapter);
@@ -385,9 +392,16 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
     class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         Context context;
+        List<Scratch> list = new ArrayList<>();
 
-        public GridAdapter(Context context) {
+        public GridAdapter(Context context, List<Scratch> list) {
             this.context = context;
+            this.list = list;
+        }
+
+        void setData(List<Scratch> list) {
+            this.list = list;
+            notifyDataSetChanged();
         }
 
         @NonNull
@@ -400,18 +414,95 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            holder.setIsRecyclable(false);
+
+            Scratch item = list.get(position);
+
+            holder.value.setText("₹ " + item.getCashValue());
+            holder.expiry.setText("Expires on " + item.getExpiry());
+
+            float bp = Float.parseFloat(tbill);
+            float cv = Float.parseFloat(item.getCashValue());
+
+            float uv = 0;
+
+            if (item.getType().equals("red"))
+            {
+                holder.title.setText("Red Voucher");
+                holder.title.setTextColor(Color.parseColor("#FF8370"));
+                holder.reward.setBackground(context.getResources().getDrawable(R.drawable.red));
+
+                if (bp > 0)
+                {
+                    if (bp >= cv)
+                    {
+                        uv = cv;
+                    }
+                    else
+                    {
+                        uv = bp - cv;
+                    }
+                }
+                else
+                {
+                    uv = 0;
+                }
+
+            }
+            else
+            {
+
+                if (bp > 0)
+                {
+                    if (bp >= cv)
+                    {
+                        uv = cv;
+                    }
+                    else
+                    {
+                        uv = bp - cv;
+                    }
+                }
+                else
+                {
+                    uv = 0;
+                }
+
+                holder.title.setText("Blue Voucher");
+                holder.title.setTextColor(Color.parseColor("#0087A2"));
+                holder.reward.setBackground(context.getResources().getDrawable(R.drawable.blue));
+            }
+
+            //tbill
+
+            holder.usable.setText("₹ " + uv);
+            holder.use.setText("USE ₹ " + uv);
+
+
 
         }
 
         @Override
         public int getItemCount() {
-            return 10;
+            return list.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
 
+            ImageView reward;
+            TextView title , expiry , value , usable;
+            Button use;
+
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
+
+                reward = itemView.findViewById(R.id.imageView18);
+                title = itemView.findViewById(R.id.textView81);
+                expiry = itemView.findViewById(R.id.textView86);
+                value = itemView.findViewById(R.id.textView84);
+                usable = itemView.findViewById(R.id.textView85);
+                use = itemView.findViewById(R.id.button15);
+
             }
         }
     }
@@ -490,6 +581,9 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                     tbill = "0";
                 }
 
+                adapter.setData(response.body().getScratch());
+
+                asset = response.body().getClient().getAsset();
 
                 progress.setVisibility(View.GONE);
 

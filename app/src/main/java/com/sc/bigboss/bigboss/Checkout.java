@@ -239,7 +239,7 @@ public class Checkout extends AppCompatActivity {
             expiry = view.findViewById(R.id.textView62);
 
             amount.setText("₹ " + item.getCashValue());
-            expiry.setText("Expired on " + item.getExpiry());
+            expiry.setText("Expires on " + item.getExpiry());
 
             if (item.getType().equals("red")) {
                 try {
