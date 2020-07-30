@@ -219,14 +219,14 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
                             dialog.dismiss();
 
-                            Intent intent = new Intent(Summary.this, StatusActivity4.class);
+                            Log.d("TransactionSuccess", "TransactionSuccess");
+                            Intent intent = new Intent(Summary.this, Checkout2.class);
                             intent.putExtra("id", oid);
                             intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
-                            intent.putExtra("tid", ttiidd);
                             startActivity(intent);
-
+                            Summary.this.finish();
 
                         }
                     });
@@ -248,12 +248,14 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
                             dialog.dismiss();
 
-                            Intent intent = new Intent(Summary.this, StatusActivity6.class);
+                            Log.d("TransactionSuccess", "TransactionSuccess");
+                            Intent intent = new Intent(Summary.this, Checkout2.class);
                             intent.putExtra("id", oid);
                             intent.putExtra("pid", client);
                             intent.putExtra("sta", "success");
                             intent.putExtra("amount", baa);
                             startActivity(intent);
+                            Summary.this.finish();
 
                         }
                     });

@@ -13,7 +13,7 @@ public class Scratch {
     private String deviceId;
     @SerializedName("cash_value")
     @Expose
-    private Integer cashValue;
+    private String cashValue;
     @SerializedName("text")
     @Expose
     private String text;
@@ -55,11 +55,11 @@ public class Scratch {
         this.deviceId = deviceId;
     }
 
-    public Integer getCashValue() {
+    public String getCashValue() {
         return cashValue;
     }
 
-    public void setCashValue(Integer cashValue) {
+    public void setCashValue(String cashValue) {
         this.cashValue = cashValue;
     }
 
