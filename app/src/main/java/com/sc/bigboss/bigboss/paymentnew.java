@@ -267,7 +267,7 @@ public class paymentnew extends Fragment {
                 lat = response.body().getClient().getLatitude();
                 lng = response.body().getClient().getLongitude();
 
-                location.setText(response.body().getClient().getId());
+                location.setText("GET LOCATION");
 
                 location.setOnClickListener(new View.OnClickListener() {
                     @Override

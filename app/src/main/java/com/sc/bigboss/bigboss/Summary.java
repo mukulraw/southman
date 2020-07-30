@@ -423,6 +423,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
             float bp = Float.parseFloat(tbill);
             float cv = Float.parseFloat(item.getCashValue());
+            float as = Float.parseFloat(asset);
 
             float uv = 0;
 
@@ -437,10 +438,30 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                     if (bp >= cv)
                     {
                         uv = cv;
+
+                        if (as >=  uv)
+                        {
+                            uv = uv;
+                        }
+                        else
+                        {
+                            uv = uv - as;
+                        }
+
                     }
                     else
                     {
                         uv = bp - cv;
+
+                        if (as >=  uv)
+                        {
+                            uv = uv;
+                        }
+                        else
+                        {
+                            uv = uv - as;
+                        }
+
                     }
                 }
                 else
@@ -584,6 +605,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                 adapter.setData(response.body().getScratch());
 
                 asset = response.body().getClient().getAsset();
+                Log.d("asset" , asset);
 
                 progress.setVisibility(View.GONE);
 

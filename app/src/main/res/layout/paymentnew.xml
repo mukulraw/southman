@@ -47,7 +47,7 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
-                android:text="F - 43, Laxmi Park, Nangloi, Delhi - 110041"
+                android:text="GET LOCATION"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView16" />
