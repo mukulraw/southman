@@ -474,8 +474,8 @@ interface AllApiIneterface {
     @POST("southman/api/updateOrder2.php")
     Call<scratchCardBean> updateOrder2(
             @Part("id") String id,
-            @Part("cash") String cash,
-            @Part("scratch") String scratch,
+            @Part("red") String red,
+            @Part("blue") String blue,
             @Part("sid") String sid
     );
 

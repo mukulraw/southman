@@ -57,7 +57,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
     String client;
     boolean orderCreated = false;
 
-    String oid, ttiidd, tbill , asset;
+    String oid, ttiidd, tbill, asset;
 
     Button pay, delete;
     String baa;
@@ -427,65 +427,44 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
 
             float uv = 0;
 
-            if (item.getType().equals("red"))
-            {
+            if (item.getType().equals("red")) {
                 holder.title.setText("Red Voucher");
                 holder.title.setTextColor(Color.parseColor("#FF8370"));
                 holder.reward.setBackground(context.getResources().getDrawable(R.drawable.red));
 
-                if (bp > 0)
-                {
-                    if (bp >= cv)
-                    {
+                if (bp > 0) {
+                    if (bp >= cv) {
                         uv = cv;
 
-                        if (as >=  uv)
-                        {
+                        if (as >= uv) {
                             uv = uv;
+                        } else {
+                            uv = uv - as;
                         }
-                        else
-                        {
+
+                    } else {
+                        uv = bp;
+
+                        if (as >= uv) {
+                            uv = uv;
+                        } else {
                             uv = uv - as;
                         }
 
                     }
-                    else
-                    {
-                        uv = bp - cv;
-
-                        if (as >=  uv)
-                        {
-                            uv = uv;
-                        }
-                        else
-                        {
-                            uv = uv - as;
-                        }
-
-                    }
-                }
-                else
-                {
+                } else {
                     uv = 0;
                 }
 
-            }
-            else
-            {
+            } else {
 
-                if (bp > 0)
-                {
-                    if (bp >= cv)
-                    {
+                if (bp > 0) {
+                    if (bp >= cv) {
                         uv = cv;
+                    } else {
+                        uv = bp;
                     }
-                    else
-                    {
-                        uv = bp - cv;
-                    }
-                }
-                else
-                {
+                } else {
                     uv = 0;
                 }
 
@@ -500,6 +479,91 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
             holder.use.setText("USE ₹ " + uv);
 
 
+            float finalUv = uv;
+            holder.use.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (finalUv > 0) {
+                        if (item.getType().equals("red")) {
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) context.getApplicationContext();
+
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            Call<scratchCardBean> call = cr.updateOrder2(oid, "0", String.valueOf(finalUv), item.getId());
+
+                            call.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    onResume();
+
+                                    progress.setVisibility(View.GONE);
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
+
+                        } else {
+                            progress.setVisibility(View.VISIBLE);
+
+                            Bean b = (Bean) context.getApplicationContext();
+
+
+                            Retrofit retrofit = new Retrofit.Builder()
+                                    .baseUrl(b.baseurl)
+                                    .addConverterFactory(ScalarsConverterFactory.create())
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .build();
+
+                            AllApiIneterface cr = retrofit.create(AllApiIneterface.class);
+
+
+                            Call<scratchCardBean> call = cr.updateOrder2(oid, "0", String.valueOf(finalUv), item.getId());
+
+                            call.enqueue(new Callback<scratchCardBean>() {
+                                @Override
+                                public void onResponse(Call<scratchCardBean> call, Response<scratchCardBean> response) {
+
+                                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    onResume();
+
+                                    progress.setVisibility(View.GONE);
+
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<scratchCardBean> call, Throwable t) {
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
+
+                        }
+                    }
+
+
+                }
+            });
+
 
         }
 
@@ -511,7 +575,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
         class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView reward;
-            TextView title , expiry , value , usable;
+            TextView title, expiry, value, usable;
             Button use;
 
             public ViewHolder(@NonNull View itemView) {
@@ -605,7 +669,7 @@ public class Summary extends AppCompatActivity implements PaymentStatusListener 
                 adapter.setData(response.body().getScratch());
 
                 asset = response.body().getClient().getAsset();
-                Log.d("asset" , asset);
+                Log.d("asset", asset);
 
                 progress.setVisibility(View.GONE);
 
