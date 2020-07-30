@@ -479,6 +479,7 @@ interface AllApiIneterface {
             @Part("sid") String sid
     );
 
+
     @Multipart
     @POST("southman/api/sharePublic.php")
     Call<scratchCardBean> sharePublic(
