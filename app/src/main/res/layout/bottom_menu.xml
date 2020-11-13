@@ -48,7 +48,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_play_button" />
+                app:srcCompat="@drawable/ic_man" />
 
             <ImageView
                 android:id="@+id/imageView12"
@@ -98,7 +98,7 @@
                 android:paddingBottom="4dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="16dp"
-                android:text="VIDEOS"
+                android:text="MATCH"
                 android:gravity="center"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"

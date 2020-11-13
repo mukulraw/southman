@@ -1,6 +1,7 @@
 package com.sc.bigboss.bigboss;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,8 @@ public class Shop extends Fragment {
                 MeansWear till = new MeansWear();
 
                 Bundle b = new Bundle();
+
+                Log.d("adasasdasads" , list.get(i).getId());
 
                 b.putString("Catid" , list.get(i).getId());
                 b.putString("type" , "women");

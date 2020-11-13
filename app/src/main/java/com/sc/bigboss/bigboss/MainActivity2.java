@@ -166,8 +166,20 @@ public class MainActivity2 extends AppCompatActivity {
             }
 
             FragmentTransaction ft = fm.beginTransaction();
-            Videos frag1 = new Videos();
-            ft.replace(R.id.replace , frag1);
+            //Videos frag1 = new Videos();
+
+
+            MeansWear2 till = new MeansWear2();
+
+            Bundle b = new Bundle();
+
+            b.putString("Catid" , "6");
+            b.putString("type" , "women");
+
+            till.setArguments(b);
+
+
+            ft.replace(R.id.replace , till);
             //ft.addToBackStack(null);
             ft.commit();
 
